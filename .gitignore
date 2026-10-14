@@ -1,0 +1,32 @@
+# Caché e información local de Godot.
+.godot/
+.godot-home/
+.godot-logs/
+.godot-download/
+.godot-executable
+.godot-mono/
+.import/
+export_credentials.cfg
+
+# Exportaciones y archivos generados.
+builds/
+android/build/
+android/.gradle/
+*.tmp
+*.log
+
+# Ajustes locales y credenciales.
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+
+# Editor y sistema operativo.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

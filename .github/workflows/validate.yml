@@ -1,0 +1,48 @@
+name: Validar proyecto Godot
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Obtener el repositorio
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Descargar y comprobar Godot
+        shell: bash
+        run: |
+          set -euo pipefail
+          godot_version="$(tr -d '\r\n' < .godot-version)"
+          [[ "$godot_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          archive="Godot_v${godot_version}-stable_linux.x86_64.zip"
+          mkdir -p .godot-download
+          curl --fail --location --silent --show-error --retry 3 \
+            "https://downloads.godotengine.org/?version=${godot_version}&flavor=stable&slug=linux.x86_64.zip" \
+            --output ".godot-download/${archive}"
+          (cd .godot-download && sha512sum --check ../tools/godot-linux-x86_64.sha512)
+          unzip -q ".godot-download/${archive}" -d .godot-download
+          executable="${GITHUB_WORKSPACE}/.godot-download/Godot_v${godot_version}-stable_linux.x86_64"
+          chmod +x "$executable"
+          printf '%s\n' "GODOT_BIN=$executable" >> "$GITHUB_ENV"
+
+      - name: Importar y comprobar el arranque
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .godot-logs
+          "$GODOT_BIN" --version
+          "$GODOT_BIN" --headless --path . --editor --import --quit 2>&1 | tee .godot-logs/import.log
+          "$GODOT_BIN" --headless --path . --quit-after 3 2>&1 | tee .godot-logs/startup.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/*.log; then
+            exit 1
+          fi
