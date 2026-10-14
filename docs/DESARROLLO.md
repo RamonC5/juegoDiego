@@ -59,6 +59,8 @@ godot --headless --path . --export-debug Android builds/android/salto-heroes.apk
 
 El perfil usa las plantillas APK precompiladas, sin Gradle. Los campos de SDK mínimo y objetivo quedan vacíos para utilizar los valores de dichas plantillas. Las versiones de Android y GPU admitidas deben comprobarse con las plantillas y dispositivos elegidos.
 
+El proyecto activa la importación ETC2/ASTC requerida por Android y S3TC/BPTC para Windows. Estas opciones están en `Rendering → Textures → VRAM Compression` dentro de los ajustes del proyecto.
+
 La distribución por Google Play necesitará una configuración posterior de Gradle, exportación AAB, firma de publicación y los requisitos vigentes de la tienda. Esta base no publica ninguna aplicación.
 
 ## Convenciones

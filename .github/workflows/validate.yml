@@ -181,4 +181,5 @@ jobs:
           name: android-build-logs-${{ github.run_number }}-${{ github.run_attempt }}
           path: .godot-logs/
           if-no-files-found: ignore
+          include-hidden-files: true
           retention-days: 7
