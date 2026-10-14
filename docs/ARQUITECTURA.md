@@ -85,6 +85,27 @@ El progreso se guardará bajo `user://` con una versión de esquema, escritura a
 - Objetivo de 60 FPS a validar en dispositivos reales; física configurada a 60 pasos por segundo. Es un objetivo, no una medición de esta base vacía.
 - Texturas con filtrado lineal como base para recursos 2D de alta resolución. La selección final de compresión, atlas y tamaños se medirá al incorporar arte.
 
+## Skill de creación de personajes
+
+Utilizar el skill del repositorio [`generar-personajes-salto-heroes`](../.agents/skills/generar-personajes-salto-heroes/SKILL.md) para los futuros protagonistas, enemigos y jefes. Invocarlo como `$generar-personajes-salto-heroes`; `AGENTS.md` también dirige las tareas de personajes a este flujo.
+
+| Elemento | Configuración |
+| --- | --- |
+| Ubicación | `.agents/skills/generar-personajes-salto-heroes/` |
+| Base | Flujo `imagegen` de OpenAI; procedencia y referencia de versión en `references/fuentes.md` |
+| Requisitos | Matriz de requisitos confirmados, criterios derivados y decisiones pendientes en `references/requisitos.md` |
+| Generación | Herramienta integrada `image_gen`, referencias visuales coherentes y transparencia real para sprites |
+| Entrega | PNG RGBA, acciones por rol, ficha de identidad, prompts y metadatos; contrato en `references/produccion-godot.md` |
+| Verificación | Comprobador de PNG de solo lectura y revisión visual de continuidad, raíz y legibilidad |
+| Dependencias de autoría | Herramienta de imágenes disponible; Python y Pillow para el comprobador local |
+| Dependencias del juego | Ninguna añadida por el skill |
+
+El skill conserva los requisitos de escenas 2D, acabado pulido sin apariencia de dibujo plano, Android y Windows, ocho mundos y niveles rejugables. Incluye poses para el pisotón de enemigos y para recoger/lanzar objetos contra jefes. La descripción exacta de la «opción A» sigue pendiente de incorporar; las decisiones nuevas se registrarán como propuestas.
+
+Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignore`, de los PNG finales bajo `game/assets/textures/characters/`. Los perfiles de exportación excluyen `art/`, `.agents/` y `AGENTS.md`. El skill es una herramienta de producción fuera de la ejecución del juego; no genera personajes en tiempo de juego.
+
+Esta entrega añade el skill y su documentación. La escena principal continúa vacía; las imágenes, animaciones y escenas de personaje se crearán solo cuando se encargue ese contenido.
+
 ## Capas de colisión reservadas
 
 | Capa | Nombre | Uso futuro |

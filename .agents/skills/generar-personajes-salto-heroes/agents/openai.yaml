@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personajes de Salto Heroes"
+  short_description: "Generar personajes y sprites 2D para Salto Heroes"
+  default_prompt: "Usa $generar-personajes-salto-heroes para diseñar un personaje original de Salto Heroes y preparar sus sprites 2D para Godot, respetando los requisitos del proyecto."

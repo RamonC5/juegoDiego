@@ -1,0 +1,39 @@
+schema_version: 1
+project: "Salto Heroes"
+character_id: null
+role: null # player, enemy, boss
+request_scope: null # specification, concept, sprites, integration
+world_ids: [] # Vacío si es compartido o todavía no está asignado.
+design_status: "proposed"
+confirmed_user_requirements: []
+proposed_design_choices: []
+identity:
+  display_name: null
+  concept: null
+  silhouette: null
+  proportions: null
+  palette: []
+  materials: []
+  clothing_and_accessories: []
+visual_direction:
+  medium: "raster_2d_hd"
+  view: "side"
+  facing: "right"
+  finish: "texturas legibles y sombreado suave, sin aspecto de dibujo plano"
+  option_a_reference: null # No inventar la especificación de la opción A.
+  canonical_reference_paths: []
+  lighting: null
+proposed_technical_defaults:
+  frame_size: [256, 256]
+  pivot_px: [128, 224]
+  padding_px: 4
+  max_sheet_size: [2048, 2048]
+  format: "PNG_RGBA"
+  transparent_background: true
+animations_requested: [] # Nombre, fotogramas, FPS, bucle, acción y marcadores.
+gameplay_readability:
+  stomp_response: null
+  thrown_object_response: null
+  grab_and_release_pose: null
+  non_color_cues: []
+open_questions: []

@@ -40,6 +40,7 @@ La versión del motor está fijada en [`.godot-version`](.godot-version).
 | `game/data/worlds/world_01/` a `world_08/` | Reserva vacía de los ocho mundos |
 | `game/assets/` | Texturas, audio y fuentes futuros |
 | `game/localization/` | Traducciones futuras |
+| `.agents/skills/generar-personajes-salto-heroes/` | Skill para el futuro diseño y producción de personajes 2D |
 | `docs/` | Arquitectura y guía de desarrollo |
 | `tools/` | Verificación de la descarga del motor usada por CI |
 
@@ -58,5 +59,6 @@ GitHub Actions ejecuta estas comprobaciones con la versión fijada del motor. Co
 
 - [Arquitectura y contratos para el desarrollo](docs/ARQUITECTURA.md).
 - [Entorno, controles y exportación](docs/DESARROLLO.md).
+- [Skill para generar personajes de Salto Heroes](.agents/skills/generar-personajes-salto-heroes/SKILL.md), basado en el flujo `imagegen` de OpenAI y adaptado a los requisitos del juego. Invocación: `$generar-personajes-salto-heroes`.
 
 `export_presets.cfg` incluye los perfiles **Windows** y **Android**. Para exportar hay que instalar las plantillas de Godot y, en Android, configurar también Java y el SDK. Esta entrega no incluye ejecutables, firmas ni claves.
