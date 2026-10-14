@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-La única escena creada es `game/boot/main.tscn`, con un `Node2D` vacío. No hay scripts de juego, autoloads, personajes, niveles, datos de progreso, menús ni recursos audiovisuales. Los apartados de diseño siguientes establecen contratos para futuras implementaciones; no describen funciones ya disponibles.
+La única escena creada es `game/boot/main.tscn`, con un `Node2D` vacío. No hay scripts de juego, autoloads, personajes, niveles, datos de progreso, menús ni recursos audiovisuales de juego. La aplicación solo incluye un icono provisional SH para la exportación Android. Los apartados de diseño siguientes establecen contratos para futuras implementaciones; no describen funciones ya disponibles.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 

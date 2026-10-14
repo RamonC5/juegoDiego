@@ -6,6 +6,7 @@ config_version=5
 [application]
 
 config/name="Salto Heroes"
+config/icon="res://game/assets/icon.svg"
 config/description="Juego de plataformas 2D para Android y Windows. Base del proyecto Juego Diego."
 config/version="0.0.0"
 run/main_scene="res://game/boot/main.tscn"

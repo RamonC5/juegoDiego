@@ -6,6 +6,8 @@ Base de un juego de plataformas **2D** para **Android y Windows**, con ocho mund
 
 Proyecto vacío: configuración del motor, una escena de arranque con un único `Node2D`, carpetas de trabajo y documentación técnica. Ejecutarlo abre una pantalla vacía. Las carpetas se conservan en Git mediante archivos `.gitkeep` sin contenido.
 
+La aplicación incluye un icono provisional con las iniciales SH para permitir la exportación Android; la escena de juego sigue vacía.
+
 Los personajes, enemigos, jefes, niveles, menús, controles táctiles, arte, audio y sistemas de guardado se implementarán en entregas posteriores.
 
 ## Arquitectura elegida

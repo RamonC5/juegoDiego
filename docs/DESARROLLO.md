@@ -61,6 +61,8 @@ El perfil usa las plantillas APK precompiladas, sin Gradle. Los campos de SDK m�
 
 El proyecto activa la importación ETC2/ASTC requerida por Android y S3TC/BPTC para Windows. Estas opciones están en `Rendering → Textures → VRAM Compression` dentro de los ajustes del proyecto.
 
+`game/assets/icon.svg` proporciona un icono provisional con las iniciales SH para la aplicación. Se registra en `Application → Config → Icon` para que Godot exporte el APK sin errores de metadatos; no forma parte de la escena de juego.
+
 La distribución por Google Play necesitará una configuración posterior de Gradle, exportación AAB, firma de publicación y los requisitos vigentes de la tienda. Esta base no publica ninguna aplicación.
 
 ## Convenciones
