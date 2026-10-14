@@ -21,7 +21,7 @@ Se conserva la elección artística «opción A» del plan previo, sin redefinir
 | Persistencia futura | JSON versionado bajo `user://` | Guardado local independiente de los recursos del juego |
 | Servicios externos | Ninguno | La base se ejecuta sin servidor, cuentas ni dependencias adicionales |
 
-La versión del motor se fija en `.godot-version`. Editor, plantillas de exportación y CI deben usar la misma versión. Una actualización debe comprobar importación, arranque y exportaciones antes de sustituir la versión fijada y su checksum.
+La versión del motor se fija en `.godot-version`. Editor, plantillas de exportación y CI deben usar la misma versión. Una actualización debe comprobar importación, arranque y exportaciones antes de sustituir la versión fijada y los checksums del editor y de las plantillas de exportación.
 
 ## Módulos y responsabilidades
 
@@ -125,6 +125,14 @@ Solo están definidos los nombres. Cada escena futura deberá declarar sus capas
 Las acciones iniciales incluyen teclado y mando. Al crear la interfaz se añadirán navegación con foco visible, textos escalables y legibles, controles reasignables y botones táctiles ajustables. Las señales relevantes combinarán forma, texto o sonido para evitar depender únicamente del color. Se preverán opciones para reducir sacudidas y destellos, además de pausa accesible y volúmenes separados.
 
 Estas opciones requieren implementación y pruebas de uso; no están disponibles en la escena vacía.
+
+## Compilación continua para Android
+
+El workflow `.github/workflows/validate.yml` valida el proyecto y genera automáticamente un APK de pruebas firmado para Android ARM64 en cada envío y pull request. Usa la versión fijada del editor y sus plantillas oficiales, verifica ambas descargas y configura Java 17 y el SDK Android en el runner.
+
+La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
+
+El flujo no añade sistemas de juego. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 

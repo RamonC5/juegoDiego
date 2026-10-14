@@ -72,6 +72,42 @@ La distribución por Google Play necesitará una configuración posterior de Gra
 
 ## Integración continua
 
-`.github/workflows/validate.yml` se ejecuta en cada envío y pull request. Descarga el motor oficial fijado, comprueba su SHA-512, importa el proyecto y ejecuta la escena vacía. Falla si cualquiera de las órdenes devuelve error o si Godot registra un error de análisis o de ejecución.
+`.github/workflows/validate.yml` (**Validar y generar APK Android**) se ejecuta en cada envío, pull request y ejecución manual con **Run workflow**. Necesita permiso de lectura del repositorio y publica el resultado como un artefacto de la ejecución.
 
-El workflow solo necesita permiso de lectura del repositorio. No exporta APK ni EXE, no utiliza credenciales y no despliega. La validación de cada plataforma se completará en el entorno de exportación y en dispositivos reales.
+El flujo realiza estas operaciones:
+
+1. Prepara Java 17 y el SDK Android de la imagen `ubuntu-24.04`, instalando Platform Tools, Build Tools 35.0.1 y la plataforma Android 35.
+2. Descarga Godot con la versión de `.godot-version` y comprueba el SHA-512 registrado en `tools/godot-linux-x86_64.sha512`.
+3. Descarga las plantillas de esa misma versión, comprueba `tools/godot-export-templates.sha256` e instala las plantillas APK Android. El checksum procede del campo `digest` de la [publicación oficial de Godot 4.7.2](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable).
+4. Recupera o crea una clave de depuración fuera del repositorio y configura las rutas de Java, SDK y firma en un directorio temporal mediante `tools/ci/configure_android.py`.
+5. Importa el proyecto, comprueba su arranque y exporta con `--headless --export-debug Android`. Falla ante errores de Godot.
+6. Verifica el APK con `apksigner`, comprueba el paquete `com.ramonc5.saltoheroes` y la biblioteca ARM64, y calcula el SHA-256 del archivo.
+7. Publica el APK, su checksum y los metadatos de compilación durante 30 días. Si falla la compilación, conserva los registros disponibles durante 7 días.
+
+Se usan las plantillas APK precompiladas, sin compilar código nativo ni ejecutar Gradle; este flujo no necesita descargar NDK ni CMake. Las acciones de GitHub están fijadas por SHA. Una compilación nueva en la misma referencia cancela la anterior si todavía está en curso.
+
+### Descargar el resultado
+
+Abre [el workflow del repositorio](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml), selecciona una ejecución verde y descarga **Artifacts → salto-heroes-android-<número>**. Debes iniciar sesión en GitHub con acceso al repositorio privado. Descomprime el ZIP y abre `salto-heroes.apk` en el móvil. Android puede pedir que habilites la instalación desde el navegador o gestor de archivos utilizado.
+
+El resumen de cada ejecución también enlaza directamente al artefacto. La descarga incluye:
+
+| Archivo | Uso |
+| --- | --- |
+| `salto-heroes.apk` | Instalador Android ARM64 de pruebas |
+| `salto-heroes.apk.sha256` | Comprobación de integridad del APK |
+| `build-info.json` | Versión de Godot, versión Android, commit y ejecución de origen |
+
+El código de versión del APK es `1000 + GITHUB_RUN_NUMBER` y el nombre es `0.0.0-ci.<número>`. Solo se modifica la copia del perfil dentro del runner; la versión del proyecto en Git conserva `0.0.0`. Una repetición de la misma ejecución conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
+
+### Firma de pruebas y actualizaciones
+
+No hace falta configurar secretos para generar e instalar estos APK. Se usa una clave de depuración con alias `androiddebugkey` y la contraseña estándar de pruebas `android`. Se genera en el runner y se conserva mediante la caché `salto-heroes-android-debug-keystore-v1`; nunca se añade al repositorio ni al artefacto de descarga. Esta clave sirve únicamente para builds de desarrollo.
+
+La caché permite reutilizar la firma en ejecuciones posteriores cuando está disponible. No es un almacén permanente: si GitHub elimina la caché o una rama no puede recuperarla, se genera otra clave. Android no permite actualizar una aplicación con otra firma; en ese caso será necesario desinstalar la versión anterior antes de instalar la nueva, lo que puede borrar el progreso local. Para distribución estable se configurará una clave permanente respaldada y almacenada como secreto.
+
+El APK actual abre la escena vacía. La CI verifica importación, arranque, exportación y firma; el funcionamiento gráfico, los controles y el rendimiento deben comprobarse en móviles reales.
+
+### Actualizar Godot
+
+Al cambiar `.godot-version`, actualiza el checksum del editor y el de las plantillas, manteniendo los nombres de archivo correspondientes. Revisa también las herramientas SDK requeridas por la versión nueva y el nombre del archivo de ajustes del editor generado por `tools/ci/configure_android.py`. Confirma la compilación y la instalación antes de dar la actualización por terminada.

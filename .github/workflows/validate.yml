@@ -1,4 +1,4 @@
-name: Validar proyecto Godot
+name: Validar y generar APK Android
 
 on:
   push:
@@ -8,15 +8,50 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
+    name: Validar proyecto y compilar APK
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 30
+    env:
+      ANDROID_BUILD_TOOLS_VERSION: "35.0.1"
+      GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+      GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
     steps:
       - name: Obtener el repositorio
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
+
+      - name: Preparar los directorios temporales
+        shell: bash
+        run: |
+          printf '%s\n' \
+            "XDG_CONFIG_HOME=$RUNNER_TEMP/godot-config" \
+            "XDG_DATA_HOME=$RUNNER_TEMP/godot-data" \
+            "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=$RUNNER_TEMP/android-signing/debug.keystore" \
+            >> "$GITHUB_ENV"
+
+      - name: Preparar Java 17
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Preparar las herramientas Android
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" \
+            "platform-tools" \
+            "build-tools;$ANDROID_BUILD_TOOLS_VERSION" \
+            "platforms;android-35"
 
       - name: Descargar y comprobar Godot
         shell: bash
@@ -34,6 +69,47 @@ jobs:
           executable="${GITHUB_WORKSPACE}/.godot-download/Godot_v${godot_version}-stable_linux.x86_64"
           chmod +x "$executable"
           printf '%s\n' "GODOT_BIN=$executable" >> "$GITHUB_ENV"
+          printf '%s\n' "GODOT_VERSION=$godot_version" >> "$GITHUB_ENV"
+
+      - name: Instalar las plantillas Android de la misma versión
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          curl --fail --location --silent --show-error --retry 3 \
+            "https://downloads.godotengine.org/?version=${GODOT_VERSION}&flavor=stable&slug=export_templates.tpz" \
+            --output ".godot-download/${archive}"
+          (cd .godot-download && sha256sum --check ../tools/godot-export-templates.sha256)
+          unzip -q ".godot-download/${archive}" \
+            templates/android_debug.apk templates/android_release.apk templates/version.txt \
+            -d .godot-download
+          templates_dir="$XDG_DATA_HOME/godot/export_templates/${GODOT_VERSION}.stable"
+          mkdir -p "$templates_dir"
+          test "$(tr -d '\r\n' < .godot-download/templates/version.txt)" = "${GODOT_VERSION}.stable"
+          cp .godot-download/templates/android_debug.apk \
+            .godot-download/templates/android_release.apk "$templates_dir/"
+
+      - name: Recuperar la firma de pruebas
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ${{ env.GODOT_ANDROID_KEYSTORE_DEBUG_PATH }}
+          key: salto-heroes-android-debug-keystore-v1
+
+      - name: Preparar la firma de pruebas y la exportación
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH" ]]; then
+            mkdir -p "$(dirname "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH")"
+            keytool -genkeypair -noprompt -storetype JKS \
+              -keystore "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH" \
+              -storepass "$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
+              -keypass "$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
+              -alias "$GODOT_ANDROID_KEYSTORE_DEBUG_USER" \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=Salto Heroes Debug,O=Juego Diego,C=ES"
+          fi
+          python3 tools/ci/configure_android.py
 
       - name: Importar y comprobar el arranque
         shell: bash
@@ -46,3 +122,63 @@ jobs:
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/*.log; then
             exit 1
           fi
+
+      - name: Exportar el APK instalable
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --path . --export-debug Android \
+            "$GITHUB_WORKSPACE/builds/android/salto-heroes.apk" \
+            2>&1 | tee .godot-logs/export-android.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/export-android.log; then
+            exit 1
+          fi
+          test -s builds/android/salto-heroes.apk
+
+      - name: Comprobar la firma y el paquete Android
+        shell: bash
+        run: |
+          set -euo pipefail
+          build_tools="$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
+          "$build_tools/apksigner" verify --verbose --print-certs \
+            builds/android/salto-heroes.apk | tee .godot-logs/apk-signature.log
+          "$build_tools/aapt" dump badging builds/android/salto-heroes.apk \
+            > .godot-logs/apk-package.log
+          grep -q "package: name='com.ramonc5.saltoheroes'" .godot-logs/apk-package.log
+          grep -q "native-code: 'arm64-v8a'" .godot-logs/apk-package.log
+          (cd builds/android && sha256sum salto-heroes.apk > salto-heroes.apk.sha256)
+
+      - name: Guardar el APK para descargar
+        id: apk
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: salto-heroes-android-${{ github.run_number }}
+          path: |
+            builds/android/salto-heroes.apk
+            builds/android/salto-heroes.apk.sha256
+            builds/android/build-info.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Mostrar la descarga y las instrucciones
+        env:
+          APK_ARTIFACT_URL: ${{ steps.apk.outputs.artifact-url }}
+        shell: bash
+        run: |
+          {
+            printf '## APK Android generado\n\n'
+            printf '[Descargar el APK de Salto Heroes](%s)\n\n' "$APK_ARTIFACT_URL"
+            printf 'Descomprime el ZIP y abre salto-heroes.apk en un móvil Android ARM64.\n\n'
+            printf 'Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.\n\n'
+            printf 'Versión de pruebas: la escena actual está vacía. El artefacto se conserva durante 30 días.\n'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Conservar los registros si falla la compilación
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: android-build-logs-${{ github.run_number }}-${{ github.run_attempt }}
+          path: .godot-logs/
+          if-no-files-found: ignore
+          retention-days: 7

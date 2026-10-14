@@ -53,7 +53,18 @@ godot --headless --path . --editor --import --quit
 godot --headless --path . --quit-after 3
 ```
 
-GitHub Actions ejecuta estas comprobaciones con la versión fijada del motor. Comprueban la importación y el arranque de la base, no la jugabilidad ni la exportación a dispositivos.
+GitHub Actions ejecuta estas comprobaciones con la versión fijada del motor y, si pasan, exporta un APK de pruebas firmado para Android ARM64. También comprueba su firma y el identificador del paquete. La jugabilidad y el funcionamiento en móviles reales requieren pruebas en el dispositivo.
+
+## Descargar e instalar el APK en el móvil
+
+1. Abre [Actions → Validar y generar APK Android](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml) y selecciona una ejecución terminada en verde. Debes tener acceso al repositorio e iniciar sesión en GitHub.
+2. En **Artifacts**, descarga `salto-heroes-android-<número de ejecución>` y descomprime el ZIP.
+3. Copia o descarga `salto-heroes.apk` en un móvil Android ARM64 y ábrelo.
+4. Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.
+
+Cada envío a Git y cada pull request genera automáticamente un APK nuevo. Puedes solicitar otra compilación con **Run workflow**, sin modificar archivos. Los APK se conservan durante **30 días** e incluyen su checksum SHA-256 y `build-info.json` con la versión y el commit.
+
+El APK contiene la escena vacía actual. Se firma con una clave de depuración que la CI conserva en caché; consulta [la guía de CI](docs/DESARROLLO.md#integración-continua) si Android rechaza una actualización por cambio de firma.
 
 ## Documentación
 
@@ -61,4 +72,4 @@ GitHub Actions ejecuta estas comprobaciones con la versión fijada del motor. Co
 - [Entorno, controles y exportación](docs/DESARROLLO.md).
 - [Skill para generar personajes de Salto Heroes](.agents/skills/generar-personajes-salto-heroes/SKILL.md), basado en el flujo `imagegen` de OpenAI y adaptado a los requisitos del juego. Invocación: `$generar-personajes-salto-heroes`.
 
-`export_presets.cfg` incluye los perfiles **Windows** y **Android**. Para exportar hay que instalar las plantillas de Godot y, en Android, configurar también Java y el SDK. Esta entrega no incluye ejecutables, firmas ni claves.
+`export_presets.cfg` incluye los perfiles **Windows** y **Android**. Para exportar hay que instalar las plantillas de Godot y, en Android, configurar también Java y el SDK. Los APK generados se descargan desde Actions; los binarios y las claves no se guardan en Git.
