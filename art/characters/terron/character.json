@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "character_id": "terron",
+  "display_name": "Terrón",
+  "role": "enemy",
+  "world_ids": [],
+  "design_status": "proposed",
+  "design_version": 2,
+  "visual_reference": {
+    "path": "art/characters/terron/concept_v002.png",
+    "preserved_decisions": [
+      "Silueta baja y ancha",
+      "Tierra ocre y musgo corto",
+      "Ojo claro visible de perfil hacia la derecha",
+      "Dos pies de raíz",
+      "Lomo amplio sin pinchos"
+    ],
+    "option_a_reference": null
+  },
+  "frame_size": [
+    1254,
+    1254
+  ],
+  "pivot_px": null,
+  "display_scale": null,
+  "animations": [],
+  "production_plan": {
+    "status": "pending",
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "actions": [
+      {
+        "name": "patrol",
+        "frames": 6,
+        "fps": 10,
+        "loop": true
+      },
+      {
+        "name": "stomped",
+        "frames": 3,
+        "fps": 12,
+        "loop": false
+      },
+      {
+        "name": "defeated",
+        "frames": 1,
+        "fps": null,
+        "loop": false
+      }
+    ],
+    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+  },
+  "generation": {
+    "tool": "image_gen",
+    "mode": "built_in",
+    "prompts_path": "art/characters/terron/prompts.md",
+    "transparent_background_requested": true,
+    "input_references": [],
+    "correction_references": [
+      "art/characters/terron/sources/concept_v001.png"
+    ],
+    "selected_output": "art/characters/terron/concept_v002.png",
+    "generated_on": "2026-10-15"
+  },
+  "validation": {
+    "technical_report": "art/characters/terron/qa-technical.json",
+    "technical_passed": true,
+    "visual_review": "art/characters/terron/qa.md",
+    "visual_review_passed": true,
+    "source_bytes": 1273969,
+    "sha256": "a430fac5ff12625a6d6a4e4bc0348f8cfdeb179105da22abcd4c1c0427e253ee",
+    "pending": [
+      "Selección visual del usuario",
+      "Referencia completa de opción A",
+      "Celdas, pivote y animaciones",
+      "Importación e integración Godot",
+      "Pruebas Android y Windows"
+    ]
+  },
+  "integration_status": "concept_only"
+}
+

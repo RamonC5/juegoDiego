@@ -10,9 +10,10 @@ description: Diseñar, generar, editar y verificar personajes originales y sprit
 1. Localizar la raíz del proyecto: desde esta carpeta, subir tres directorios. Leer `docs/ARQUITECTURA.md`, `project.godot` y [los requisitos](references/requisitos.md).
 2. Distinguir el trabajo solicitado: mantener el skill, preparar una especificación, generar un concepto, producir sprites o integrar recursos. Para tareas de skill, arquitectura o especificación, no generar imágenes ni añadir contenido al juego.
 3. Leer [el contrato de producción](references/produccion-godot.md) para sprites, animaciones o integración; consultar [procedencia y alcance de la base](references/fuentes.md) al mantener el skill.
-4. Completar [la plantilla de encargo](assets/brief.template.yaml) con los datos del usuario. Reutilizar la ficha y las referencias existentes si se modifica un personaje. Separar requisitos confirmados de propuestas.
-5. Mantener ocho mundos y niveles rejugables como contexto; crear únicamente los personajes y acciones pedidos. No inventar ocho protagonistas, temáticas de mundos ni plantillas completas de enemigos.
-6. Si falta la definición visual de «opción A», conservar las restricciones conocidas y marcar la propuesta como provisional. Pedir únicamente un dato que impida cumplir el encargo; no convertir preferencias pendientes en decisiones definitivas.
+4. Consultar `docs/PERSONAJES.md` y `art/characters/<character_id>/` antes de crear otro personaje para reutilizar identificadores, fichas e imágenes existentes. Aplicar [el registro de personajes](references/registro-personajes.md).
+5. Completar [la plantilla de encargo](assets/brief.template.yaml) con los datos del usuario. Reutilizar la ficha y las referencias existentes si se modifica un personaje. Separar requisitos confirmados de propuestas.
+6. Mantener ocho mundos y niveles rejugables como contexto; crear únicamente los personajes y acciones pedidos. No inventar ocho protagonistas, temáticas de mundos ni plantillas completas de enemigos.
+7. Si falta la definición visual de «opción A», conservar las restricciones conocidas y marcar la propuesta como provisional. Pedir únicamente un dato que impida cumplir el encargo; no convertir preferencias pendientes en decisiones definitivas.
 
 ## Fijar la identidad visual
 
@@ -52,4 +53,7 @@ description: Diseñar, generar, editar y verificar personajes originales y sprit
 3. Si se piden únicamente conceptos, devolver las imágenes y su ficha. No integrarlas en el proyecto. Para recursos destinados al juego, copiar únicamente los finales a `game/assets/textures/characters/<id>/`; conservar encargos, prompts y evidencias en `art/characters/<id>/` con `art/.gdignore`. No dejar rutas de ejecución apuntando a archivos temporales o de otra conversación.
 4. Registrar `character.json` según el contrato de producción, con dimensiones y resultados reales. No declarar un recurso listo si quedan controles obligatorios pendientes. No sobrescribir versiones existentes salvo petición expresa.
 5. Crear o modificar `SpriteFrames`, escenas y referencias de juego únicamente si el encargo incluye integración. Mantener colisiones y reglas de daño separadas del dibujo; no generar implementaciones de combate por inferirlas del arte.
-6. Informar del resultado, archivos creados, prompts utilizados y limitaciones. Distinguir concepto, sprite verificado e integración comprobada. Para una petición de solo skill o arquitectura, mantener vacía la escena de arranque.
+6. Actualizar el catálogo vivo `docs/PERSONAJES.md` con una entrada por personaje y enlazar la ficha `art/characters/<character_id>/ficha.md` y su PNG real mediante texto alternativo descriptivo. Conservar imagen, encargo, prompts, metadatos y resultados de revisión en la carpeta del personaje, incluso para conceptos. Aplicar [el registro de personajes](references/registro-personajes.md); no sustituir el PNG por una descripción o una ruta temporal.
+7. Si el usuario pide subir el resultado a Git, incluir catálogo, ficha, imágenes y cambios del skill en un commit; verificar después los archivos remotos y devolver el enlace al commit. Distinguir preparación local y subida confirmada.
+8. Informar del resultado, archivos creados, prompts utilizados y limitaciones. Distinguir concepto, sprite verificado e integración comprobada. Para una petición de solo skill o arquitectura, mantener vacía la escena de arranque.
+

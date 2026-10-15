@@ -8,7 +8,9 @@ Proyecto vacío: configuración del motor, una escena de arranque con un único 
 
 La aplicación incluye un icono provisional con las iniciales SH para permitir la exportación Android; la escena de juego sigue vacía.
 
-Los personajes, enemigos, jefes, niveles, menús, controles táctiles, arte, audio y sistemas de guardado se implementarán en entregas posteriores.
+El primer enemigo normal, **Terrón**, ya cuenta con [ficha e imagen de concepto](art/characters/terron/ficha.md) en el [catálogo de personajes](docs/PERSONAJES.md). Es una propuesta visual 2D; su animación y su integración jugable quedan pendientes. El material de autoría está en `art/`, excluido de la importación y de los APK.
+
+Los personajes jugables, enemigos, jefes, niveles, menús, controles táctiles, recursos de ejecución, audio y sistemas de guardado se implementarán en entregas posteriores.
 
 ## Arquitectura elegida
 
@@ -40,6 +42,7 @@ La versión del motor está fijada en [`.godot-version`](.godot-version).
 | `game/features/` | Jugador, enemigos, jefes, objetos, niveles y mapa de mundos |
 | `game/ui/` | Menús, HUD y futuros controles táctiles |
 | `game/data/worlds/world_01/` a `world_08/` | Reserva vacía de los ocho mundos |
+| `art/characters/` | Fichas, conceptos PNG, encargos, prompts y revisión de personajes |
 | `game/assets/` | Texturas, audio y fuentes futuros |
 | `game/localization/` | Traducciones futuras |
 | `.agents/skills/generar-personajes-salto-heroes/` | Skill para el futuro diseño y producción de personajes 2D |
@@ -72,6 +75,8 @@ El APK contiene la escena vacía actual. Se firma con una clave de depuración q
 
 - [Arquitectura y contratos para el desarrollo](docs/ARQUITECTURA.md).
 - [Entorno, controles y exportación](docs/DESARROLLO.md).
+- [Catálogo de personajes: ficha e imagen de cada diseño](docs/PERSONAJES.md).
 - [Skill para generar personajes de Salto Heroes](.agents/skills/generar-personajes-salto-heroes/SKILL.md), basado en el flujo `imagegen` de OpenAI y adaptado a los requisitos del juego. Invocación: `$generar-personajes-salto-heroes`.
 
 `export_presets.cfg` incluye los perfiles **Windows** y **Android**. Para exportar hay que instalar las plantillas de Godot y, en Android, configurar también Java y el SDK. Los APK generados se descargan desde Actions; los binarios y las claves no se guardan en Git.
+

@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-La única escena creada es `game/boot/main.tscn`, con un `Node2D` vacío. No hay scripts de juego, autoloads, personajes, niveles, datos de progreso, menús ni recursos audiovisuales de juego. La aplicación solo incluye un icono provisional SH para la exportación Android. Los apartados de diseño siguientes establecen contratos para futuras implementaciones; no describen funciones ya disponibles.
+La única escena creada es `game/boot/main.tscn`, con un `Node2D` vacío. No hay scripts de juego, autoloads, personajes integrados, niveles, datos de progreso, menús ni recursos audiovisuales de juego. La aplicación solo incluye un icono provisional SH para la exportación Android. Los apartados de diseño siguientes establecen contratos para futuras implementaciones; no describen funciones ya disponibles.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -104,7 +104,9 @@ El skill conserva los requisitos de escenas 2D, acabado pulido sin apariencia de
 
 Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignore`, de los PNG finales bajo `game/assets/textures/characters/`. Los perfiles de exportación excluyen `art/`, `.agents/` y `AGENTS.md`. El skill es una herramienta de producción fuera de la ejecución del juego; no genera personajes en tiempo de juego.
 
-Esta entrega añade el skill y su documentación. La escena principal continúa vacía; las imágenes, animaciones y escenas de personaje se crearán solo cuando se encargue ese contenido.
+El [catálogo de personajes](PERSONAJES.md) registra las fichas y las imágenes de cada diseño. La primera entrada es **Terrón**, enemigo normal con concepto raster 2D propuesto y PNG transparente verificado en `art/characters/terron/`. Los prompts, metadatos y resultados de revisión permanecen junto a la ficha. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
+
+La escena principal continúa vacía. El concepto de Terrón es material de autoría; sus animaciones, recursos de ejecución y escena de enemigo quedan pendientes de una tarea de producción e integración.
 
 ## Capas de colisión reservadas
 
@@ -140,3 +142,4 @@ El flujo no añade sistemas de juego. La firma estable de distribución y las pr
 - [Comparación oficial de renderizadores](https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html).
 - [Exportar a Android](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 - [Exportar a Windows](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_windows.html).
+
