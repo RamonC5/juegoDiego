@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "project": "Salto Heroes",
+  "character_id": "plumin",
+  "role": "enemy",
+  "request_scope": "concept",
+  "world_ids": [],
+  "design_status": "proposed",
+  "confirmed_user_requirements": [
+    "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
+    "Juego de plataformas 2D para Android y Windows.",
+    "Enemigos normales eliminables por pisotón.",
+    "Acabado pulido, ocho mundos y niveles rejugables."
+  ],
+  "proposed_design_choices": [
+    "Nombre Plumín; ave terrestre redondeada.",
+    "Alterna dos pasos cortos con un pequeño salto; ritmo y altura pendientes de ajustar.",
+    "Cuerpo de pera compacto, cabeza redondeada y dos pies anchos."
+  ],
+  "identity": {
+    "display_name": "Plumín",
+    "concept": "Ave terrestre redondeada",
+    "silhouette": "Cuerpo de pera compacto, cabeza redondeada y dos pies anchos.",
+    "proportions": "Pera compacta con pico corto",
+    "palette": [
+      "azul pizarra",
+      "marfil cálido",
+      "naranja apagado"
+    ],
+    "materials": [
+      "plumas cortas y densas",
+      "pico mate",
+      "patas lisas"
+    ],
+    "clothing_and_accessories": []
+  },
+  "visual_direction": {
+    "medium": "raster_2d_hd",
+    "view": "side",
+    "facing": "right",
+    "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
+    "option_a_reference": null,
+    "style_reference_paths": [
+      "art/characters/terron/concept_v002.png"
+    ],
+    "canonical_reference_paths": [
+      "art/characters/plumin/concept_v002.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda."
+  },
+  "proposed_technical_defaults": {
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "padding_px": 4,
+    "max_sheet_size": [
+      2048,
+      2048
+    ],
+    "format": "PNG_RGBA",
+    "transparent_background": true
+  },
+  "animations_requested": [],
+  "gameplay_readability": {
+    "stomp_response": "Se encoge, pliega las alas y baja la cabeza como señal de derrota.",
+    "thrown_object_response": null,
+    "grab_and_release_pose": null,
+    "non_color_cues": [
+      "Cabeza redondeada sin cresta",
+      "Pico que marca la dirección",
+      "Alas plegadas y pies anchos"
+    ]
+  },
+  "open_questions": [
+    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
+    "Producción de animaciones e integración Godot.",
+    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
+  ]
+}

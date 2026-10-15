@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "project": "Salto Heroes",
+  "character_id": "vainete",
+  "role": "enemy",
+  "request_scope": "concept",
+  "world_ids": [],
+  "design_status": "proposed",
+  "confirmed_user_requirements": [
+    "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
+    "Juego de plataformas 2D para Android y Windows.",
+    "Enemigos normales eliminables por pisotón.",
+    "Acabado pulido, ocho mundos y niveles rejugables."
+  ],
+  "proposed_design_choices": [
+    "Nombre Vainete; criatura de vaina vegetal.",
+    "Patrulla constante de seis apoyos, con una pausa breve antes de cambiar de dirección.",
+    "Vaina horizontal con tres abultamientos suaves y patas cortas de raíz."
+  ],
+  "identity": {
+    "display_name": "Vainete",
+    "concept": "Criatura de vaina vegetal",
+    "silhouette": "Vaina horizontal con tres abultamientos suaves y patas cortas de raíz.",
+    "proportions": "Vaina horizontal de tres abultamientos",
+    "palette": [
+      "verde salvia",
+      "verde oliva suave",
+      "ocre claro",
+      "marfil"
+    ],
+    "materials": [
+      "piel vegetal satinada",
+      "fibras longitudinales finas",
+      "raíces cortas"
+    ],
+    "clothing_and_accessories": []
+  },
+  "visual_direction": {
+    "medium": "raster_2d_hd",
+    "view": "side",
+    "facing": "right",
+    "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
+    "option_a_reference": null,
+    "style_reference_paths": [
+      "art/characters/terron/concept_v002.png"
+    ],
+    "canonical_reference_paths": [
+      "art/characters/vainete/concept_v001.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda."
+  },
+  "proposed_technical_defaults": {
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "padding_px": 4,
+    "max_sheet_size": [
+      2048,
+      2048
+    ],
+    "format": "PNG_RGBA",
+    "transparent_background": true
+  },
+  "animations_requested": [],
+  "gameplay_readability": {
+    "stomp_response": "Los tres segmentos se comprimen juntos para comunicar una única derrota.",
+    "thrown_object_response": null,
+    "grab_and_release_pose": null,
+    "non_color_cues": [
+      "Tres volúmenes unidos y redondeados",
+      "Dorso despejado",
+      "Apoyos pequeños separados del cuerpo"
+    ]
+  },
+  "open_questions": [
+    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
+    "Producción de animaciones e integración Godot.",
+    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
+  ]
+}

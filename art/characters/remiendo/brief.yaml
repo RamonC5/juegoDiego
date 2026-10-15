@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "project": "Salto Heroes",
+  "character_id": "remiendo",
+  "role": "enemy",
+  "request_scope": "concept",
+  "world_ids": [],
+  "design_status": "proposed",
+  "confirmed_user_requirements": [
+    "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
+    "Juego de plataformas 2D para Android y Windows.",
+    "Enemigos normales eliminables por pisotón.",
+    "Acabado pulido, ocho mundos y niveles rejugables."
+  ],
+  "proposed_design_choices": [
+    "Nombre Remiendo; criatura de tela acolchada.",
+    "Da pasos rápidos durante una distancia corta y se detiene de forma visible antes de repetir.",
+    "Trapecio blando de hombros redondeados, parte superior baja y dos pies planos de tela."
+  ],
+  "identity": {
+    "display_name": "Remiendo",
+    "concept": "Criatura de tela acolchada",
+    "silhouette": "Trapecio blando de hombros redondeados, parte superior baja y dos pies planos de tela.",
+    "proportions": "Trapecio acolchado con base ancha",
+    "palette": [
+      "lino crema",
+      "azul verdoso apagado",
+      "marrón grisáceo",
+      "marfil"
+    ],
+    "materials": [
+      "lona tejida densa",
+      "parche de tela",
+      "costuras gruesas"
+    ],
+    "clothing_and_accessories": []
+  },
+  "visual_direction": {
+    "medium": "raster_2d_hd",
+    "view": "side",
+    "facing": "right",
+    "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
+    "option_a_reference": null,
+    "style_reference_paths": [
+      "art/characters/terron/concept_v002.png"
+    ],
+    "canonical_reference_paths": [
+      "art/characters/remiendo/concept_v003.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda."
+  },
+  "proposed_technical_defaults": {
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "padding_px": 4,
+    "max_sheet_size": [
+      2048,
+      2048
+    ],
+    "format": "PNG_RGBA",
+    "transparent_background": true
+  },
+  "animations_requested": [],
+  "gameplay_readability": {
+    "stomp_response": "La tela se pliega y el volumen se aplasta de forma clara, sin violencia gráfica.",
+    "thrown_object_response": null,
+    "grab_and_release_pose": null,
+    "non_color_cues": [
+      "Costura superior plegada y sin nudos",
+      "Volumen blando",
+      "Parche lateral y dos pies planos"
+    ]
+  },
+  "open_questions": [
+    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
+    "Producción de animaciones e integración Godot.",
+    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
+  ]
+}

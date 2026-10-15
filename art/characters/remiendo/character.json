@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "character_id": "remiendo",
+  "display_name": "Remiendo",
+  "role": "enemy",
+  "world_ids": [],
+  "design_status": "proposed",
+  "design_version": 3,
+  "visual_reference": {
+    "path": "art/characters/remiendo/concept_v003.png",
+    "style_reference": "art/characters/terron/concept_v002.png",
+    "preserved_decisions": [
+      "Costura superior plegada y sin nudos",
+      "Volumen blando",
+      "Parche lateral y dos pies planos"
+    ],
+    "option_a_reference": null
+  },
+  "frame_size": [
+    1254,
+    1254
+  ],
+  "pivot_px": null,
+  "display_scale": null,
+  "animations": [],
+  "production_plan": {
+    "status": "pending",
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "actions": [
+      {
+        "name": "patrol",
+        "frames": 6,
+        "fps": 10,
+        "loop": true
+      },
+      {
+        "name": "stomped",
+        "frames": 3,
+        "fps": 12,
+        "loop": false
+      },
+      {
+        "name": "defeated",
+        "frames": 1,
+        "fps": null,
+        "loop": false
+      }
+    ],
+    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+  },
+  "generation": {
+    "tool": "image_gen",
+    "mode": "built_in",
+    "prompts_path": "art/characters/remiendo/prompts.md",
+    "transparent_background_requested": true,
+    "input_references": [
+      "art/characters/terron/concept_v002.png"
+    ],
+    "correction_references": [
+      "art/characters/remiendo/sources/concept_v001.png",
+      "art/characters/remiendo/sources/concept_v002.png"
+    ],
+    "selected_output": "art/characters/remiendo/concept_v003.png",
+    "generated_on": "2026-10-15"
+  },
+  "validation": {
+    "technical_report": "art/characters/remiendo/qa-technical.json",
+    "technical_passed": false,
+    "concept_visual_review_passed": true,
+    "production_ready": false,
+    "visual_review": "art/characters/remiendo/qa.md",
+    "source_bytes": 1108744,
+    "sha256": "7d6c15e66e79573f384befd85e667ef195a63093577a0773f8d84105279a6707",
+    "pending": [
+      "Limpiar alfa residual y preparar el margen de producción antes de crear sprites",
+      "Selección visual del usuario",
+      "Referencia completa de opción A",
+      "Celdas, pivote y animaciones",
+      "Importación e integración Godot",
+      "Pruebas Android y Windows"
+    ]
+  },
+  "integration_status": "concept_only"
+}

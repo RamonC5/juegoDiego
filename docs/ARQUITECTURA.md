@@ -104,9 +104,9 @@ El skill conserva los requisitos de escenas 2D, acabado pulido sin apariencia de
 
 Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignore`, de los PNG finales bajo `game/assets/textures/characters/`. Los perfiles de exportación excluyen `art/`, `.agents/` y `AGENTS.md`. El skill es una herramienta de producción fuera de la ejecución del juego; no genera personajes en tiempo de juego.
 
-El [catálogo de personajes](PERSONAJES.md) registra las fichas y las imágenes de cada diseño. La primera entrada es **Terrón**, enemigo normal con concepto raster 2D propuesto y PNG transparente verificado en `art/characters/terron/`. Los prompts, metadatos y resultados de revisión permanecen junto a la ficha. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
+El [catálogo de personajes](PERSONAJES.md) registra seis enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
 
-La escena principal continúa vacía. El concepto de Terrón es material de autoría; sus animaciones, recursos de ejecución y escena de enemigo quedan pendientes de una tarea de producción e integración.
+La escena principal continúa vacía. Los seis conceptos son material de autoría; sus animaciones, recursos de ejecución y escenas de enemigo quedan pendientes de una tarea de producción e integración.
 
 ## Capas de colisión reservadas
 

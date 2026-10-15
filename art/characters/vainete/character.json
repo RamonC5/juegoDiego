@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "character_id": "vainete",
+  "display_name": "Vainete",
+  "role": "enemy",
+  "world_ids": [],
+  "design_status": "proposed",
+  "design_version": 1,
+  "visual_reference": {
+    "path": "art/characters/vainete/concept_v001.png",
+    "style_reference": "art/characters/terron/concept_v002.png",
+    "preserved_decisions": [
+      "Tres volúmenes unidos y redondeados",
+      "Dorso despejado",
+      "Apoyos pequeños separados del cuerpo"
+    ],
+    "option_a_reference": null
+  },
+  "frame_size": [
+    1254,
+    1254
+  ],
+  "pivot_px": null,
+  "display_scale": null,
+  "animations": [],
+  "production_plan": {
+    "status": "pending",
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "actions": [
+      {
+        "name": "patrol",
+        "frames": 6,
+        "fps": 10,
+        "loop": true
+      },
+      {
+        "name": "stomped",
+        "frames": 3,
+        "fps": 12,
+        "loop": false
+      },
+      {
+        "name": "defeated",
+        "frames": 1,
+        "fps": null,
+        "loop": false
+      }
+    ],
+    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+  },
+  "generation": {
+    "tool": "image_gen",
+    "mode": "built_in",
+    "prompts_path": "art/characters/vainete/prompts.md",
+    "transparent_background_requested": true,
+    "input_references": [
+      "art/characters/terron/concept_v002.png"
+    ],
+    "correction_references": [],
+    "selected_output": "art/characters/vainete/concept_v001.png",
+    "generated_on": "2026-10-15"
+  },
+  "validation": {
+    "technical_report": "art/characters/vainete/qa-technical.json",
+    "technical_passed": true,
+    "concept_visual_review_passed": true,
+    "production_ready": false,
+    "visual_review": "art/characters/vainete/qa.md",
+    "source_bytes": 1032011,
+    "sha256": "c2f53203a1876ffe73993a6118b5e1b53fc45c150eb26d4c117f54ac2f3d6ecd",
+    "pending": [
+      "Selección visual del usuario",
+      "Referencia completa de opción A",
+      "Celdas, pivote y animaciones",
+      "Importación e integración Godot",
+      "Pruebas Android y Windows"
+    ]
+  },
+  "integration_status": "concept_only"
+}

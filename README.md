@@ -8,7 +8,7 @@ Proyecto vacío: configuración del motor, una escena de arranque con un único 
 
 La aplicación incluye un icono provisional con las iniciales SH para permitir la exportación Android; la escena de juego sigue vacía.
 
-El primer enemigo normal, **Terrón**, ya cuenta con [ficha e imagen de concepto](art/characters/terron/ficha.md) en el [catálogo de personajes](docs/PERSONAJES.md). Es una propuesta visual 2D; su animación y su integración jugable quedan pendientes. El material de autoría está en `art/`, excluido de la importación y de los APK.
+El [catálogo de personajes](docs/PERSONAJES.md) reúne **seis enemigos normales** con ficha e imagen: Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo. Son propuestas visuales 2D; sus animaciones y su integración jugable quedan pendientes. El material de autoría está en `art/`, excluido de la importación y de los APK.
 
 Los personajes jugables, enemigos, jefes, niveles, menús, controles táctiles, recursos de ejecución, audio y sistemas de guardado se implementarán en entregas posteriores.
 

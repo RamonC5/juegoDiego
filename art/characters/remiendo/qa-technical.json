@@ -1,0 +1,33 @@
+{
+  "path": "art/characters/remiendo/concept_v003.png",
+  "ok": false,
+  "errors": [
+    "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "alpha_bounds": [
+        0,
+        95,
+        1210,
+        1140
+      ],
+      "minimum_padding": 0
+    }
+  ],
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "grid": [
+    1,
+    1
+  ],
+  "frame_size": [
+    1254,
+    1254
+  ],
+  "active_frames": 1
+}
