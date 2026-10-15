@@ -1,58 +1,48 @@
-# Terrón · primer enemigo normal de Salto Heroes
+# Terrón · personalidad e identidad visual
 
-**Identificador:** `terron` · **Versión visual:** 002 · **Estado:** propuesta de concepto · **Fecha:** 15 de octubre de 2026.
+**ID:** `terron` · **Revisión visual:** 003 · **Rol:** enemigo normal eliminable por pisotón.
 
-![Terrón de perfil hacia la derecha, con cuerpo ocre de tierra, lomo de musgo verde, un ojo claro y dos pies de raíz.](concept_v002.png)
+**Concepto base:** valorado positivamente por el usuario. **Nueva versión visual:** propuesta, pendiente de su valoración. Fecha: 15 de octubre de 2026.
 
-## Función en el juego
+![Terrón dormilón: bloque bajo y asimétrico de tierra y musgo, ojo pequeño entrecerrado y dos apoyos planos.](concept_v003.png)
 
-Primer diseño de enemigo normal eliminable saltando encima, conforme a la regla confirmada del proyecto. La propuesta de comportamiento es una patrulla terrestre sencilla, adecuada para presentar el pisotón. Al recibir un pisotón válido, se prevé una compresión visible del cuerpo y la derrota.
+## Personalidad
 
-El contacto lateral, la velocidad, el rebote del jugador, las colisiones y el tiempo de desaparición se decidirán al implementar la mecánica. Los sensores de daño y pisotón serán independientes del dibujo.
+**Dormilón, pesado, testarudo.** El que tarda en arrancar y después sigue a lo suyo.
 
-## Identidad visual propuesta
-
-| Rasgo | Diseño |
+| Rasgo propio | Diseño de esta revisión |
 | --- | --- |
-| Silueta | Baja, ancha y redondeada, con la cara orientada hacia delante |
-| Cuerpo | Tierra ocre con grano fino y grietas anchas de bordes suaves |
-| Parte superior | Cojín continuo de musgo blando, despejado de pinchos y objetos |
-| Rostro | Un ojo claro visible de perfil, pupila oscura y expresión decidida |
-| Apoyos | Dos pies cortos de raíz, reconocibles como formas separadas |
-| Accesorios | Ninguno |
-| Vista | Lateral hacia la derecha; personaje completo |
-| Luz | Suave desde arriba a la izquierda |
-| Acabado | Imagen raster 2D HD con textura y sombreado suave incorporados |
+| Silueta y proporciones | Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida. |
+| Rostro | Ojo ámbar entrecerrado, casi sin blanco, y boca encogida bajo una mejilla pesada. |
+| Postura clave | Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo. |
+| Gesto característico propuesto | Parpadeo lento, pausa larga y arranque pesado con un pequeño cabeceo. |
+| Concepto y materiales conservados | cuerpo de tierra ocre, lomo de musgo, dos apoyos de raíz |
 
-La zona pisable se comunica mediante su forma amplia y blanda, además del color. El ojo y los pies ayudan a reconocer dirección y postura a tamaño pequeño. El concepto mantiene una identidad propia sin reutilizar personajes ni imágenes de otros juegos.
+La diferencia de identidad se apoya en forma, cara y postura; el acabado y la iluminación siguen perteneciendo al mismo juego. La [versión anterior](concept_v002.png) se conserva.
 
-## Relación con los requisitos
+## Comportamiento propuesto
 
-- **2D:** la entrega es un PNG raster; no requiere modelos ni escenas 3D.
-- **Android y Windows:** la identidad visual se comparte; la lectura reducida se ha revisado en una vista estática, sin prueba todavía en dispositivos.
-- **Ocho mundos y rejugabilidad:** no se asigna una temática o mundo nuevo. El ID `terron` podrá reutilizarse al definir niveles.
-- **Pisotón:** lomo ancho sin elementos punzantes; se prevé una reacción de compresión para comunicar la derrota.
-- **Dirección artística:** texturas legibles y sombreado suave, evitando aspecto de boceto o cómic. El detalle de «opción A» no está disponible; la propuesta deberá contrastarse con esa referencia cuando se incorpore.
+**Desplazamiento:** Avanza despacio, se detiene como si se quedara dormido y reanuda con dos pasos pesados.
 
-## Imagen entregada y producción pendiente
+**Pisotón:** El lomo baja y el cuerpo se asienta de golpe; el musgo se sacude sin pinchos ni destellos.
 
-El archivo [`concept_v002.png`](concept_v002.png) tiene **1254 × 1254 px**, formato **PNG RGBA**, transparencia real y un margen mínimo medido de **16 px**. Es una referencia visual, no una hoja de animación ni un sprite de producción en celdas de 256 × 256.
+Estos gestos y patrones aún no son animaciones ni comportamiento ejecutable. Velocidad, tiempos, contacto lateral y rebote del jugador se ajustarán al implementar las mecánicas. Los sensores y colisiones serán independientes de la imagen.
 
-| Acción futura | Propuesta de producción | Estado |
-| --- | --- | --- |
-| `patrol` | 6 fotogramas, 10 FPS, bucle | Pendiente |
-| `stomped` | 3 fotogramas, 12 FPS, sin bucle; compresión legible | Pendiente |
-| `defeated` | 1 pose final, sin bucle | Pendiente |
+## Requisitos y estado técnico
 
-Para producir sprites se propone celda de 256 × 256 y raíz [128, 224], pendientes de verificar con las poses reales. Todavía no existen `SpriteFrames`, escena, colisiones ni código de combate de Terrón.
+Se mantienen 2D, Android y Windows, ocho mundos, niveles rejugables y enemigos normales eliminables por pisotón. El personaje no tiene un mundo asignado; su identificador se conserva para reutilizarlo y mantener la rejugabilidad. La descripción completa de «opción A» sigue pendiente de incorporarse.
 
-## Archivos del personaje
+[concept_v003.png](concept_v003.png) es un PNG RGBA de **1254 × 1254 px** con fondo transparente y margen mínimo medido de **0 px**. Se entrega como concepto estático, con vista lateral orientada a la derecha.
 
-- [Encargo y decisiones propuestas](brief.yaml).
-- [Prompts exactos de generación y corrección](prompts.md).
-- [Metadatos del personaje](character.json).
-- [Informe técnico del PNG](qa-technical.json) y [revisión visual](qa.md).
-- [Primera generación usada como referencia de corrección](sources/concept_v001.png).
+La revisión técnica conserva un aviso de alfa residual hasta el borde; su limpieza y el margen se resolverán al preparar los sprites.
 
-Volver al [catálogo de personajes](../../../docs/PERSONAJES.md).
+Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 × 256, con raíz [128, 224] por verificar. La preparación de sprites, las animaciones, `SpriteFrames`, la escena de enemigo y la integración jugable quedan pendientes.
 
+## Archivos
+
+- [Encargo y decisiones](brief.yaml).
+- [Prompts exactos y versiones](prompts.md).
+- [Metadatos y estado de producción](character.json).
+- [Revisión visual](qa.md) e [informe técnico](qa-technical.json).
+
+Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).

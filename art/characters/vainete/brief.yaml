@@ -10,18 +10,22 @@
     "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
     "Juego de plataformas 2D para Android y Windows.",
     "Enemigos normales eliminables por pisotón.",
-    "Acabado pulido, ocho mundos y niveles rejugables."
+    "Acabado pulido, ocho mundos y niveles rejugables.",
+    "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos."
   ],
   "proposed_design_choices": [
-    "Nombre Vainete; criatura de vaina vegetal.",
-    "Patrulla constante de seis apoyos, con una pausa breve antes de cambiar de dirección.",
-    "Vaina horizontal con tres abultamientos suaves y patas cortas de raíz."
+    "disciplinado",
+    "orgulloso",
+    "meticuloso",
+    "Vaina muy alargada de tres volúmenes suaves y seis raíces finas.",
+    "Ojo verde pequeño y almendrado, y dos fibras vegetales caídas como bigote.",
+    "Cuerpo horizontal recto; una raíz delantera levantada en un paso medido."
   ],
   "identity": {
     "display_name": "Vainete",
-    "concept": "Criatura de vaina vegetal",
-    "silhouette": "Vaina horizontal con tres abultamientos suaves y patas cortas de raíz.",
-    "proportions": "Vaina horizontal de tres abultamientos",
+    "concept": "Vaina vegetal de tres volúmenes",
+    "silhouette": "Vaina muy alargada de tres volúmenes suaves y seis raíces finas.",
+    "proportions": "Vaina muy alargada de tres volúmenes suaves y seis raíces finas.",
     "palette": [
       "verde salvia",
       "verde oliva suave",
@@ -31,9 +35,12 @@
     "materials": [
       "piel vegetal satinada",
       "fibras longitudinales finas",
-      "raíces cortas"
+      "raíces cortas",
+      "fibras vegetales blandas del bigote"
     ],
-    "clothing_and_accessories": []
+    "clothing_and_accessories": [],
+    "expression": "Ojo verde pequeño y almendrado, y dos fibras vegetales caídas como bigote.",
+    "signature_pose": "Cuerpo horizontal recto; una raíz delantera levantada en un paso medido."
   },
   "visual_direction": {
     "medium": "raster_2d_hd",
@@ -42,12 +49,13 @@
     "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
     "option_a_reference": null,
     "style_reference_paths": [
-      "art/characters/terron/concept_v002.png"
-    ],
-    "canonical_reference_paths": [
       "art/characters/vainete/concept_v001.png"
     ],
-    "lighting": "Luz suave desde arriba a la izquierda."
+    "canonical_reference_paths": [
+      "art/characters/vainete/concept_v002.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda.",
+    "reference_scope": "Concepto y materiales previos de este personaje; se revisan cara, proporciones y gesto."
   },
   "proposed_technical_defaults": {
     "frame_size": [
@@ -68,18 +76,35 @@
   },
   "animations_requested": [],
   "gameplay_readability": {
-    "stomp_response": "Los tres segmentos se comprimen juntos para comunicar una única derrota.",
+    "stomp_response": "Los tres volúmenes se comprimen juntos y las raíces se repliegan.",
     "thrown_object_response": null,
     "grab_and_release_pose": null,
     "non_color_cues": [
-      "Tres volúmenes unidos y redondeados",
-      "Dorso despejado",
-      "Apoyos pequeños separados del cuerpo"
+      "Vaina muy alargada de tres volúmenes suaves y seis raíces finas.",
+      "Cuerpo horizontal recto; una raíz delantera levantada en un paso medido.",
+      "Se detiene, endereza el cuerpo y reanuda la marcha con un paso exacto."
     ]
   },
   "open_questions": [
-    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
-    "Producción de animaciones e integración Godot.",
-    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
-  ]
+    "Valorar la nueva personalidad visual; el concepto de criatura ya gustó al usuario.",
+    "Incorporar la especificación completa de la opción A.",
+    "Producir sprites, animaciones y comportamiento en una tarea de integración."
+  ],
+  "revision_scope": "personality",
+  "user_feedback": "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos.",
+  "concept_status": "user_selected",
+  "personality": {
+    "traits": [
+      "disciplinado",
+      "orgulloso",
+      "meticuloso"
+    ],
+    "tagline": "Marca el paso aunque nadie lo esté siguiendo.",
+    "silhouette": "Vaina muy alargada de tres volúmenes suaves y seis raíces finas.",
+    "face": "Ojo verde pequeño y almendrado, y dos fibras vegetales caídas como bigote.",
+    "acting_pose": "Cuerpo horizontal recto; una raíz delantera levantada en un paso medido.",
+    "signature_gesture": "Se detiene, endereza el cuerpo y reanuda la marcha con un paso exacto.",
+    "proposed_movement": "Marcha a ritmo regular, hace una pausa firme al final del recorrido y gira con precisión.",
+    "proposed_stomp_response": "Los tres volúmenes se comprimen juntos y las raíces se repliegan."
+  }
 }

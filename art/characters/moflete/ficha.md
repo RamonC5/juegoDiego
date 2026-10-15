@@ -1,62 +1,48 @@
-# Moflete · enemigo normal de Salto Heroes
+# Moflete · personalidad e identidad visual
 
-**Identificador:** `moflete` · **Versión visual:** 003 · **Estado:** propuesta de concepto · **Fecha:** 15 de octubre de 2026.
+**ID:** `moflete` · **Revisión visual:** 004 · **Rol:** enemigo normal eliminable por pisotón.
 
-![Moflete de perfil hacia la derecha: cuerpo bajo de pelaje cobrizo, mejilla crema, orejas laterales redondeadas y pies cortos.](concept_v003.png)
+**Concepto base:** valorado positivamente por el usuario. **Nueva versión visual:** propuesta, pendiente de su valoración. Fecha: 15 de octubre de 2026.
 
-## Identidad visual propuesta
+![Moflete curioso: roedor cobrizo de cuerpo erguido y estrecho, grandes mejillas crema, ojo pequeño y patas en puntillas.](concept_v004.png)
 
-| Rasgo | Diseño |
+## Personalidad
+
+**Curioso, glotón, inquieto.** Primero olfatea; después descubre que iba demasiado deprisa.
+
+| Rasgo propio | Diseño de esta revisión |
 | --- | --- |
-| Concepto | Criatura de pelaje compacto |
-| Silueta | Óvalo corto y abombado, hocico redondeado y dos orejas pequeñas pegadas a los lados. |
-| Materiales | pelaje corto y denso, almohadillas mates |
-| Paleta | cobre rojizo, crema, marrón oscuro |
-| Vista | Lateral hacia la derecha; personaje completo |
-| Luz | Suave desde arriba a la izquierda |
-| Acabado | Raster 2D HD, texturas legibles y sombreado suave incorporado |
-| Referencia de acabado | [Terrón](../terron/ficha.md), conservando una identidad diferente |
+| Silueta y proporciones | Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada. |
+| Rostro | Ojo oscuro redondo sin blanco, nariz pequeña y boca abierta de sorpresa. |
+| Postura clave | Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas. |
+| Gesto característico propuesto | Olfatea con rapidez, hincha una mejilla y junta las manos antes de dar un paso. |
+| Concepto y materiales conservados | pelaje cobrizo, mejillas y vientre crema, cola de roedor |
 
-Nombre, especie, materiales, aspecto y patrón de movimiento son propuestas originales.
+La diferencia de identidad se apoya en forma, cara y postura; el acabado y la iluminación siguen perteneciendo al mismo juego. La [versión anterior](concept_v003.png) se conserva.
 
-## Función y comportamiento propuestos
+## Comportamiento propuesto
 
-Enemigo normal eliminable mediante un pisotón válido, de acuerdo con la regla confirmada del proyecto.
+**Desplazamiento:** Da varios pasos rápidos, frena para olfatear y gira con una pequeña vacilación.
 
-**Movimiento:** Patrulla con pasos cortos y pausas de olfateo.
+**Pisotón:** Las mejillas se desinflan, el cuerpo se encoge y las orejas laterales bajan.
 
-**Reacción al pisotón:** El cuerpo se comprime y el hocico baja al recibir el pisotón.
+Estos gestos y patrones aún no son animaciones ni comportamiento ejecutable. Velocidad, tiempos, contacto lateral y rebote del jugador se ajustarán al implementar las mecánicas. Los sensores y colisiones serán independientes de la imagen.
 
-Los valores de velocidad, recorrido, contacto lateral, rebote del jugador y tiempos de derrota se decidirán durante la implementación. La detección del pisotón y las colisiones serán independientes del dibujo.
+## Requisitos y estado técnico
 
-## Lectura y requisitos
+Se mantienen 2D, Android y Windows, ocho mundos, niveles rejugables y enemigos normales eliminables por pisotón. El personaje no tiene un mundo asignado; su identificador se conserva para reutilizarlo y mantener la rejugabilidad. La descripción completa de «opción A» sigue pendiente de incorporarse.
 
-- Lomo redondeado y despejado.
-- Hocico que indica la dirección.
-- Orejas plegadas fuera de la zona superior.
+[concept_v004.png](concept_v004.png) es un PNG RGBA de **1254 × 1254 px** con fondo transparente y margen mínimo medido de **0 px**. Se entrega como concepto estático, con vista lateral orientada a la derecha.
 
-La forma y la postura complementan al color para reconocer la zona pisable y la dirección. Se ha revisado su lectura estática a tamaño reducido y sobre fondos claros y oscuros.
+La revisión técnica conserva un aviso de alfa residual hasta el borde; su limpieza y el margen se resolverán al preparar los sprites.
 
-La entrega usa una imagen 2D compartible entre Android y Windows. No se asignan mundos ni temáticas: el ID estable podrá reutilizarse al definir los ocho mundos y sus niveles rejugables. La especificación completa de «opción A» sigue pendiente de incorporarse; este concepto conserva los requisitos visuales conocidos sin redefinir esa elección.
+Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 × 256, con raíz [128, 224] por verificar. La preparación de sprites, las animaciones, `SpriteFrames`, la escena de enemigo y la integración jugable quedan pendientes.
 
-## Archivo entregado y producción pendiente
-
-[concept_v003.png](concept_v003.png) es un **PNG RGBA de 1254 × 1254 px**, con transparencia real y margen mínimo medido de **33 px**. Es una imagen de concepto, no una hoja de animación.
-
-
-| Acción futura | Propuesta | Estado |
-| --- | --- | --- |
-| `patrol` | 6 fotogramas, 10 FPS, bucle | Pendiente |
-| `stomped` | 3 fotogramas, 12 FPS, sin bucle | Pendiente |
-| `defeated` | 1 pose final, sin bucle | Pendiente |
-
-Se propone celda de 256 × 256 y raíz [128, 224], pendientes de verificar con las poses reales. La animación, los recursos `SpriteFrames`, la escena y el comportamiento en Godot quedan pendientes.
-
-## Archivos del personaje
+## Archivos
 
 - [Encargo y decisiones](brief.yaml).
-- [Prompts exactos y referencias](prompts.md).
+- [Prompts exactos y versiones](prompts.md).
 - [Metadatos y estado de producción](character.json).
-- [Informe técnico](qa-technical.json) y [revisión visual](qa.md).
+- [Revisión visual](qa.md) e [informe técnico](qa-technical.json).
 
-Volver al [catálogo de personajes](../../../docs/PERSONAJES.md).
+Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).

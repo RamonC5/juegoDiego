@@ -5,14 +5,20 @@
   "role": "enemy",
   "world_ids": [],
   "design_status": "proposed",
-  "design_version": 1,
+  "design_version": 2,
   "visual_reference": {
-    "path": "art/characters/vainete/concept_v001.png",
-    "style_reference": "art/characters/terron/concept_v002.png",
+    "path": "art/characters/vainete/concept_v002.png",
+    "previous_version": "art/characters/vainete/concept_v001.png",
     "preserved_decisions": [
-      "Tres volúmenes unidos y redondeados",
-      "Dorso despejado",
-      "Apoyos pequeños separados del cuerpo"
+      "vaina verde de tres volúmenes",
+      "piel vegetal",
+      "apoyos de raíz"
+    ],
+    "changed_decisions": [
+      "silueta",
+      "rostro",
+      "proporciones",
+      "postura"
     ],
     "option_a_reference": null
   },
@@ -33,27 +39,25 @@
       128,
       224
     ],
-    "actions": [
+    "planned_actions": [
       {
         "name": "patrol",
-        "frames": 6,
-        "fps": 10,
-        "loop": true
+        "intent": "Marcha a ritmo regular, hace una pausa firme al final del recorrido y gira con precisión."
+      },
+      {
+        "name": "idle",
+        "intent": "Se detiene, endereza el cuerpo y reanuda la marcha con un paso exacto."
       },
       {
         "name": "stomped",
-        "frames": 3,
-        "fps": 12,
-        "loop": false
+        "intent": "Los tres volúmenes se comprimen juntos y las raíces se repliegan."
       },
       {
         "name": "defeated",
-        "frames": 1,
-        "fps": null,
-        "loop": false
+        "intent": "Pose final coherente con la compresión y la personalidad del personaje."
       }
     ],
-    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+    "note": "Propuestas de actuación; tiempos, número de fotogramas y ritmo se decidirán al producir animación."
   },
   "generation": {
     "tool": "image_gen",
@@ -61,27 +65,56 @@
     "prompts_path": "art/characters/vainete/prompts.md",
     "transparent_background_requested": true,
     "input_references": [
-      "art/characters/terron/concept_v002.png"
+      "art/characters/vainete/concept_v001.png"
     ],
-    "correction_references": [],
-    "selected_output": "art/characters/vainete/concept_v001.png",
-    "generated_on": "2026-10-15"
+    "selected_output": "art/characters/vainete/concept_v002.png",
+    "generated_on": "2026-10-15",
+    "scope": "personality_revision"
   },
   "validation": {
     "technical_report": "art/characters/vainete/qa-technical.json",
-    "technical_passed": true,
+    "technical_passed": false,
     "concept_visual_review_passed": true,
+    "cast_comparison_passed": true,
     "production_ready": false,
     "visual_review": "art/characters/vainete/qa.md",
-    "source_bytes": 1032011,
-    "sha256": "c2f53203a1876ffe73993a6118b5e1b53fc45c150eb26d4c117f54ac2f3d6ecd",
+    "source_bytes": 889739,
+    "sha256": "e93e51b7b2d90794f79c74d227e497aa3ed0a128c16b66bcaf8a4aae0095452c",
     "pending": [
-      "Selección visual del usuario",
+      "Limpiar alfa residual y preparar el margen de producción antes de crear sprites",
+      "Selección visual de esta revisión por el usuario",
       "Referencia completa de opción A",
       "Celdas, pivote y animaciones",
       "Importación e integración Godot",
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only"
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 1,
+      "path": "art/characters/vainete/concept_v001.png",
+      "source_commit": "cbe894e83e3781b47f8eae8cf0d68b6623a7b2d9",
+      "scope": "previous_concept_image"
+    }
+  ],
+  "concept_selection": {
+    "status": "user_selected",
+    "scope": "underlying_creature_concept",
+    "evidence": "El usuario indicó «los conceptos me gustan» el 15 de octubre de 2026; pidió revisar la personalidad visual."
+  },
+  "personality": {
+    "traits": [
+      "disciplinado",
+      "orgulloso",
+      "meticuloso"
+    ],
+    "tagline": "Marca el paso aunque nadie lo esté siguiendo.",
+    "silhouette": "Vaina muy alargada de tres volúmenes suaves y seis raíces finas.",
+    "face": "Ojo verde pequeño y almendrado, y dos fibras vegetales caídas como bigote.",
+    "acting_pose": "Cuerpo horizontal recto; una raíz delantera levantada en un paso medido.",
+    "signature_gesture": "Se detiene, endereza el cuerpo y reanuda la marcha con un paso exacto.",
+    "proposed_movement": "Marcha a ritmo regular, hace una pausa firme al final del recorrido y gira con precisión.",
+    "proposed_stomp_response": "Los tres volúmenes se comprimen juntos y las raíces se repliegan."
+  }
 }

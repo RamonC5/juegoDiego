@@ -1,62 +1,48 @@
-# Vainete · enemigo normal de Salto Heroes
+# Vainete · personalidad e identidad visual
 
-**Identificador:** `vainete` · **Versión visual:** 001 · **Estado:** propuesta de concepto · **Fecha:** 15 de octubre de 2026.
+**ID:** `vainete` · **Revisión visual:** 002 · **Rol:** enemigo normal eliminable por pisotón.
 
-![Vainete de perfil hacia la derecha: vaina verde alargada con tres abultamientos redondeados, un ojo claro y tres pies de raíz visibles.](concept_v001.png)
+**Concepto base:** valorado positivamente por el usuario. **Nueva versión visual:** propuesta, pendiente de su valoración. Fecha: 15 de octubre de 2026.
 
-## Identidad visual propuesta
+![Vainete disciplinado: vaina verde larga de tres segmentos, raíces finas, bigote vegetal caído y una pata delantera levantada.](concept_v002.png)
 
-| Rasgo | Diseño |
+## Personalidad
+
+**Disciplinado, orgulloso, meticuloso.** Marca el paso aunque nadie lo esté siguiendo.
+
+| Rasgo propio | Diseño de esta revisión |
 | --- | --- |
-| Concepto | Criatura de vaina vegetal |
-| Silueta | Vaina horizontal con tres abultamientos suaves y patas cortas de raíz. |
-| Materiales | piel vegetal satinada, fibras longitudinales finas, raíces cortas |
-| Paleta | verde salvia, verde oliva suave, ocre claro, marfil |
-| Vista | Lateral hacia la derecha; personaje completo |
-| Luz | Suave desde arriba a la izquierda |
-| Acabado | Raster 2D HD, texturas legibles y sombreado suave incorporado |
-| Referencia de acabado | [Terrón](../terron/ficha.md), conservando una identidad diferente |
+| Silueta y proporciones | Vaina muy alargada de tres volúmenes suaves y seis raíces finas. |
+| Rostro | Ojo verde pequeño y almendrado, y dos fibras vegetales caídas como bigote. |
+| Postura clave | Cuerpo horizontal recto; una raíz delantera levantada en un paso medido. |
+| Gesto característico propuesto | Se detiene, endereza el cuerpo y reanuda la marcha con un paso exacto. |
+| Concepto y materiales conservados | vaina verde de tres volúmenes, piel vegetal, apoyos de raíz |
 
-Nombre, especie, materiales, aspecto y patrón de movimiento son propuestas originales.
+La diferencia de identidad se apoya en forma, cara y postura; el acabado y la iluminación siguen perteneciendo al mismo juego. La [versión anterior](concept_v001.png) se conserva.
 
-## Función y comportamiento propuestos
+## Comportamiento propuesto
 
-Enemigo normal eliminable mediante un pisotón válido, de acuerdo con la regla confirmada del proyecto.
+**Desplazamiento:** Marcha a ritmo regular, hace una pausa firme al final del recorrido y gira con precisión.
 
-**Movimiento:** Patrulla constante de seis apoyos, con una pausa breve antes de cambiar de dirección.
+**Pisotón:** Los tres volúmenes se comprimen juntos y las raíces se repliegan.
 
-**Reacción al pisotón:** Los tres segmentos se comprimen juntos para comunicar una única derrota.
+Estos gestos y patrones aún no son animaciones ni comportamiento ejecutable. Velocidad, tiempos, contacto lateral y rebote del jugador se ajustarán al implementar las mecánicas. Los sensores y colisiones serán independientes de la imagen.
 
-Los valores de velocidad, recorrido, contacto lateral, rebote del jugador y tiempos de derrota se decidirán durante la implementación. La detección del pisotón y las colisiones serán independientes del dibujo.
+## Requisitos y estado técnico
 
-## Lectura y requisitos
+Se mantienen 2D, Android y Windows, ocho mundos, niveles rejugables y enemigos normales eliminables por pisotón. El personaje no tiene un mundo asignado; su identificador se conserva para reutilizarlo y mantener la rejugabilidad. La descripción completa de «opción A» sigue pendiente de incorporarse.
 
-- Tres volúmenes unidos y redondeados.
-- Dorso despejado.
-- Apoyos pequeños separados del cuerpo.
+[concept_v002.png](concept_v002.png) es un PNG RGBA de **1254 × 1254 px** con fondo transparente y margen mínimo medido de **0 px**. Se entrega como concepto estático, con vista lateral orientada a la derecha.
 
-La forma y la postura complementan al color para reconocer la zona pisable y la dirección. Se ha revisado su lectura estática a tamaño reducido y sobre fondos claros y oscuros.
+La revisión técnica conserva un aviso de alfa residual hasta el borde; su limpieza y el margen se resolverán al preparar los sprites.
 
-La entrega usa una imagen 2D compartible entre Android y Windows. No se asignan mundos ni temáticas: el ID estable podrá reutilizarse al definir los ocho mundos y sus niveles rejugables. La especificación completa de «opción A» sigue pendiente de incorporarse; este concepto conserva los requisitos visuales conocidos sin redefinir esa elección.
+Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 × 256, con raíz [128, 224] por verificar. La preparación de sprites, las animaciones, `SpriteFrames`, la escena de enemigo y la integración jugable quedan pendientes.
 
-## Archivo entregado y producción pendiente
-
-[concept_v001.png](concept_v001.png) es un **PNG RGBA de 1254 × 1254 px**, con transparencia real y margen mínimo medido de **17 px**. Es una imagen de concepto, no una hoja de animación.
-
-
-| Acción futura | Propuesta | Estado |
-| --- | --- | --- |
-| `patrol` | 6 fotogramas, 10 FPS, bucle | Pendiente |
-| `stomped` | 3 fotogramas, 12 FPS, sin bucle | Pendiente |
-| `defeated` | 1 pose final, sin bucle | Pendiente |
-
-Se propone celda de 256 × 256 y raíz [128, 224], pendientes de verificar con las poses reales. La animación, los recursos `SpriteFrames`, la escena y el comportamiento en Godot quedan pendientes.
-
-## Archivos del personaje
+## Archivos
 
 - [Encargo y decisiones](brief.yaml).
-- [Prompts exactos y referencias](prompts.md).
+- [Prompts exactos y versiones](prompts.md).
 - [Metadatos y estado de producción](character.json).
-- [Informe técnico](qa-technical.json) y [revisión visual](qa.md).
+- [Revisión visual](qa.md) e [informe técnico](qa-technical.json).
 
-Volver al [catálogo de personajes](../../../docs/PERSONAJES.md).
+Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).

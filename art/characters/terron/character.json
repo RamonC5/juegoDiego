@@ -5,15 +5,20 @@
   "role": "enemy",
   "world_ids": [],
   "design_status": "proposed",
-  "design_version": 2,
+  "design_version": 3,
   "visual_reference": {
-    "path": "art/characters/terron/concept_v002.png",
+    "path": "art/characters/terron/concept_v003.png",
+    "previous_version": "art/characters/terron/concept_v002.png",
     "preserved_decisions": [
-      "Silueta baja y ancha",
-      "Tierra ocre y musgo corto",
-      "Ojo claro visible de perfil hacia la derecha",
-      "Dos pies de raíz",
-      "Lomo amplio sin pinchos"
+      "cuerpo de tierra ocre",
+      "lomo de musgo",
+      "dos apoyos de raíz"
+    ],
+    "changed_decisions": [
+      "silueta",
+      "rostro",
+      "proporciones",
+      "postura"
     ],
     "option_a_reference": null
   },
@@ -34,55 +39,82 @@
       128,
       224
     ],
-    "actions": [
+    "planned_actions": [
       {
         "name": "patrol",
-        "frames": 6,
-        "fps": 10,
-        "loop": true
+        "intent": "Avanza despacio, se detiene como si se quedara dormido y reanuda con dos pasos pesados."
+      },
+      {
+        "name": "idle",
+        "intent": "Parpadeo lento, pausa larga y arranque pesado con un pequeño cabeceo."
       },
       {
         "name": "stomped",
-        "frames": 3,
-        "fps": 12,
-        "loop": false
+        "intent": "El lomo baja y el cuerpo se asienta de golpe; el musgo se sacude sin pinchos ni destellos."
       },
       {
         "name": "defeated",
-        "frames": 1,
-        "fps": null,
-        "loop": false
+        "intent": "Pose final coherente con la compresión y la personalidad del personaje."
       }
     ],
-    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+    "note": "Propuestas de actuación; tiempos, número de fotogramas y ritmo se decidirán al producir animación."
   },
   "generation": {
     "tool": "image_gen",
     "mode": "built_in",
     "prompts_path": "art/characters/terron/prompts.md",
     "transparent_background_requested": true,
-    "input_references": [],
-    "correction_references": [
-      "art/characters/terron/sources/concept_v001.png"
+    "input_references": [
+      "art/characters/terron/concept_v002.png"
     ],
-    "selected_output": "art/characters/terron/concept_v002.png",
-    "generated_on": "2026-10-15"
+    "selected_output": "art/characters/terron/concept_v003.png",
+    "generated_on": "2026-10-15",
+    "scope": "personality_revision"
   },
   "validation": {
     "technical_report": "art/characters/terron/qa-technical.json",
-    "technical_passed": true,
+    "technical_passed": false,
+    "concept_visual_review_passed": true,
+    "cast_comparison_passed": true,
+    "production_ready": false,
     "visual_review": "art/characters/terron/qa.md",
-    "visual_review_passed": true,
-    "source_bytes": 1273969,
-    "sha256": "a430fac5ff12625a6d6a4e4bc0348f8cfdeb179105da22abcd4c1c0427e253ee",
+    "source_bytes": 1335435,
+    "sha256": "5f0048b4fcde3bd9c69635fd43775dd422ec66ce1d982b3a4d0614b761b87b72",
     "pending": [
-      "Selección visual del usuario",
+      "Limpiar alfa residual y preparar el margen de producción antes de crear sprites",
+      "Selección visual de esta revisión por el usuario",
       "Referencia completa de opción A",
       "Celdas, pivote y animaciones",
       "Importación e integración Godot",
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only"
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 2,
+      "path": "art/characters/terron/concept_v002.png",
+      "source_commit": "cbe894e83e3781b47f8eae8cf0d68b6623a7b2d9",
+      "scope": "previous_concept_image"
+    }
+  ],
+  "concept_selection": {
+    "status": "user_selected",
+    "scope": "underlying_creature_concept",
+    "evidence": "El usuario indicó «los conceptos me gustan» el 15 de octubre de 2026; pidió revisar la personalidad visual."
+  },
+  "personality": {
+    "traits": [
+      "dormilón",
+      "pesado",
+      "testarudo"
+    ],
+    "tagline": "El que tarda en arrancar y después sigue a lo suyo.",
+    "silhouette": "Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida.",
+    "face": "Ojo ámbar entrecerrado, casi sin blanco, y boca encogida bajo una mejilla pesada.",
+    "acting_pose": "Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo.",
+    "signature_gesture": "Parpadeo lento, pausa larga y arranque pesado con un pequeño cabeceo.",
+    "proposed_movement": "Avanza despacio, se detiene como si se quedara dormido y reanuda con dos pasos pesados.",
+    "proposed_stomp_response": "El lomo baja y el cuerpo se asienta de golpe; el musgo se sacude sin pinchos ni destellos."
+  }
 }
-

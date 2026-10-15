@@ -10,18 +10,22 @@
     "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
     "Juego de plataformas 2D para Android y Windows.",
     "Enemigos normales eliminables por pisotón.",
-    "Acabado pulido, ocho mundos y niveles rejugables."
+    "Acabado pulido, ocho mundos y niveles rejugables.",
+    "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos."
   ],
   "proposed_design_choices": [
-    "Nombre Moflete; criatura de pelaje compacto.",
-    "Patrulla con pasos cortos y pausas de olfateo.",
-    "Óvalo corto y abombado, hocico redondeado y dos orejas pequeñas pegadas a los lados."
+    "curioso",
+    "glotón",
+    "inquieto",
+    "Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada.",
+    "Ojo oscuro redondo sin blanco, nariz pequeña y boca abierta de sorpresa.",
+    "Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas."
   ],
   "identity": {
     "display_name": "Moflete",
-    "concept": "Criatura de pelaje compacto",
-    "silhouette": "Óvalo corto y abombado, hocico redondeado y dos orejas pequeñas pegadas a los lados.",
-    "proportions": "Óvalo compacto y hocico ancho",
+    "concept": "Roedor cobrizo",
+    "silhouette": "Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada.",
+    "proportions": "Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada.",
     "palette": [
       "cobre rojizo",
       "crema",
@@ -31,7 +35,9 @@
       "pelaje corto y denso",
       "almohadillas mates"
     ],
-    "clothing_and_accessories": []
+    "clothing_and_accessories": [],
+    "expression": "Ojo oscuro redondo sin blanco, nariz pequeña y boca abierta de sorpresa.",
+    "signature_pose": "Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas."
   },
   "visual_direction": {
     "medium": "raster_2d_hd",
@@ -40,12 +46,13 @@
     "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
     "option_a_reference": null,
     "style_reference_paths": [
-      "art/characters/terron/concept_v002.png"
-    ],
-    "canonical_reference_paths": [
       "art/characters/moflete/concept_v003.png"
     ],
-    "lighting": "Luz suave desde arriba a la izquierda."
+    "canonical_reference_paths": [
+      "art/characters/moflete/concept_v004.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda.",
+    "reference_scope": "Concepto y materiales previos de este personaje; se revisan cara, proporciones y gesto."
   },
   "proposed_technical_defaults": {
     "frame_size": [
@@ -66,18 +73,35 @@
   },
   "animations_requested": [],
   "gameplay_readability": {
-    "stomp_response": "El cuerpo se comprime y el hocico baja al recibir el pisotón.",
+    "stomp_response": "Las mejillas se desinflan, el cuerpo se encoge y las orejas laterales bajan.",
     "thrown_object_response": null,
     "grab_and_release_pose": null,
     "non_color_cues": [
-      "Lomo redondeado y despejado",
-      "Hocico que indica la dirección",
-      "Orejas plegadas fuera de la zona superior"
+      "Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada.",
+      "Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas.",
+      "Olfatea con rapidez, hincha una mejilla y junta las manos antes de dar un paso."
     ]
   },
   "open_questions": [
-    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
-    "Producción de animaciones e integración Godot.",
-    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
-  ]
+    "Valorar la nueva personalidad visual; el concepto de criatura ya gustó al usuario.",
+    "Incorporar la especificación completa de la opción A.",
+    "Producir sprites, animaciones y comportamiento en una tarea de integración."
+  ],
+  "revision_scope": "personality",
+  "user_feedback": "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos.",
+  "concept_status": "user_selected",
+  "personality": {
+    "traits": [
+      "curioso",
+      "glotón",
+      "inquieto"
+    ],
+    "tagline": "Primero olfatea; después descubre que iba demasiado deprisa.",
+    "silhouette": "Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada.",
+    "face": "Ojo oscuro redondo sin blanco, nariz pequeña y boca abierta de sorpresa.",
+    "acting_pose": "Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas.",
+    "signature_gesture": "Olfatea con rapidez, hincha una mejilla y junta las manos antes de dar un paso.",
+    "proposed_movement": "Da varios pasos rápidos, frena para olfatear y gira con una pequeña vacilación.",
+    "proposed_stomp_response": "Las mejillas se desinflan, el cuerpo se encoge y las orejas laterales bajan."
+  }
 }

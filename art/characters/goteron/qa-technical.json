@@ -1,17 +1,17 @@
 {
-  "path": "art/characters/goteron/concept_v003.png",
+  "path": "art/characters/goteron/concept_v004.png",
   "ok": true,
   "errors": [],
   "frames": [
     {
       "index": 0,
       "alpha_bounds": [
-        82,
-        142,
-        1232,
-        1188
+        41,
+        101,
+        1236,
+        1236
       ],
-      "minimum_padding": 22
+      "minimum_padding": 18
     }
   ],
   "size": [

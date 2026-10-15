@@ -1,51 +1,111 @@
-schema_version: 1
-project: "Salto Heroes"
-character_id: "terron"
-role: "enemy"
-request_scope: "concept"
-world_ids: []
-design_status: "proposed"
-confirmed_user_requirements:
-  - "Primer enemigo normal, eliminable por pisotón."
-  - "Juego de plataformas 2D para Android y Windows."
-  - "Acabado pulido, con texturas y sombreado suave; sin apariencia de dibujo plano."
-  - "Ocho mundos y niveles rejugables."
-  - "Guardar ficha e imagen, actualizar el catálogo y subir a Git."
-proposed_design_choices:
-  - "Nombre Terrón; criatura compacta de tierra y musgo."
-  - "Patrulla terrestre sencilla."
-  - "Lomo amplio sin pinchos y dos pies de raíz."
-identity:
-  display_name: "Terrón"
-  concept: "Criatura baja de tierra ocre con un cojín de musgo y pies de raíz."
-  silhouette: "Baja, ancha y redondeada; cara orientada hacia delante."
-  proportions: "Cuerpo ancho y apoyos cortos."
-  palette: ["ocre terroso", "marrón oscuro", "verde musgo", "marfil", "casi negro"]
-  materials: ["tierra de grano fino", "musgo corto", "raíces"]
-  clothing_and_accessories: []
-visual_direction:
-  medium: "raster_2d_hd"
-  view: "side"
-  facing: "right"
-  finish: "Texturas legibles y sombreado suave incorporado en la imagen 2D."
-  option_a_reference: null
-  canonical_reference_paths: ["art/characters/terron/concept_v002.png"]
-  lighting: "Luz suave desde arriba a la izquierda."
-proposed_technical_defaults:
-  frame_size: [256, 256]
-  pivot_px: [128, 224]
-  padding_px: 4
-  max_sheet_size: [2048, 2048]
-  format: "PNG_RGBA"
-  transparent_background: true
-animations_requested: []
-gameplay_readability:
-  stomp_response: "Propuesta futura: compresión del cuerpo y derrota."
-  thrown_object_response: null
-  grab_and_release_pose: null
-  non_color_cues: ["Lomo ancho sin pinchos", "Apoyos separados", "Dirección marcada por el ojo"]
-open_questions:
-  - "Incorporar la especificación completa de la opción A."
-  - "Validar con el usuario el nombre y el aspecto propuestos."
-  - "Definir parámetros de patrulla y contacto durante la implementación."
-
+{
+  "schema_version": 1,
+  "project": "Salto Heroes",
+  "character_id": "terron",
+  "role": "enemy",
+  "request_scope": "concept",
+  "world_ids": [],
+  "design_status": "proposed",
+  "confirmed_user_requirements": [
+    "Primer enemigo normal, eliminable por pisotón.",
+    "Juego de plataformas 2D para Android y Windows.",
+    "Acabado pulido, con texturas y sombreado suave; sin apariencia de dibujo plano.",
+    "Ocho mundos y niveles rejugables.",
+    "Guardar ficha e imagen, actualizar el catálogo y subir a Git.",
+    "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos."
+  ],
+  "proposed_design_choices": [
+    "dormilón",
+    "pesado",
+    "testarudo",
+    "Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida.",
+    "Ojo ámbar entrecerrado, casi sin blanco, y boca encogida bajo una mejilla pesada.",
+    "Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo."
+  ],
+  "identity": {
+    "display_name": "Terrón",
+    "concept": "Tierra y musgo",
+    "silhouette": "Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida.",
+    "proportions": "Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida.",
+    "palette": [
+      "ocre terroso",
+      "marrón oscuro",
+      "verde musgo",
+      "marfil",
+      "casi negro"
+    ],
+    "materials": [
+      "tierra de grano fino",
+      "musgo corto",
+      "raíces"
+    ],
+    "clothing_and_accessories": [],
+    "expression": "Ojo ámbar entrecerrado, casi sin blanco, y boca encogida bajo una mejilla pesada.",
+    "signature_pose": "Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo."
+  },
+  "visual_direction": {
+    "medium": "raster_2d_hd",
+    "view": "side",
+    "facing": "right",
+    "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
+    "option_a_reference": null,
+    "canonical_reference_paths": [
+      "art/characters/terron/concept_v003.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda.",
+    "style_reference_paths": [
+      "art/characters/terron/concept_v002.png"
+    ],
+    "reference_scope": "Concepto y materiales previos de este personaje; se revisan cara, proporciones y gesto."
+  },
+  "proposed_technical_defaults": {
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      224
+    ],
+    "padding_px": 4,
+    "max_sheet_size": [
+      2048,
+      2048
+    ],
+    "format": "PNG_RGBA",
+    "transparent_background": true
+  },
+  "animations_requested": [],
+  "gameplay_readability": {
+    "stomp_response": "El lomo baja y el cuerpo se asienta de golpe; el musgo se sacude sin pinchos ni destellos.",
+    "thrown_object_response": null,
+    "grab_and_release_pose": null,
+    "non_color_cues": [
+      "Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida.",
+      "Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo.",
+      "Parpadeo lento, pausa larga y arranque pesado con un pequeño cabeceo."
+    ]
+  },
+  "open_questions": [
+    "Valorar la nueva personalidad visual; el concepto de criatura ya gustó al usuario.",
+    "Incorporar la especificación completa de la opción A.",
+    "Producir sprites, animaciones y comportamiento en una tarea de integración."
+  ],
+  "revision_scope": "personality",
+  "user_feedback": "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos.",
+  "concept_status": "user_selected",
+  "personality": {
+    "traits": [
+      "dormilón",
+      "pesado",
+      "testarudo"
+    ],
+    "tagline": "El que tarda en arrancar y después sigue a lo suyo.",
+    "silhouette": "Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida.",
+    "face": "Ojo ámbar entrecerrado, casi sin blanco, y boca encogida bajo una mejilla pesada.",
+    "acting_pose": "Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo.",
+    "signature_gesture": "Parpadeo lento, pausa larga y arranque pesado con un pequeño cabeceo.",
+    "proposed_movement": "Avanza despacio, se detiene como si se quedara dormido y reanuda con dos pasos pesados.",
+    "proposed_stomp_response": "El lomo baja y el cuerpo se asienta de golpe; el musgo se sacude sin pinchos ni destellos."
+  }
+}

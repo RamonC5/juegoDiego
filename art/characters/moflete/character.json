@@ -5,14 +5,20 @@
   "role": "enemy",
   "world_ids": [],
   "design_status": "proposed",
-  "design_version": 3,
+  "design_version": 4,
   "visual_reference": {
-    "path": "art/characters/moflete/concept_v003.png",
-    "style_reference": "art/characters/terron/concept_v002.png",
+    "path": "art/characters/moflete/concept_v004.png",
+    "previous_version": "art/characters/moflete/concept_v003.png",
     "preserved_decisions": [
-      "Lomo redondeado y despejado",
-      "Hocico que indica la dirección",
-      "Orejas plegadas fuera de la zona superior"
+      "pelaje cobrizo",
+      "mejillas y vientre crema",
+      "cola de roedor"
+    ],
+    "changed_decisions": [
+      "silueta",
+      "rostro",
+      "proporciones",
+      "postura"
     ],
     "option_a_reference": null
   },
@@ -33,27 +39,25 @@
       128,
       224
     ],
-    "actions": [
+    "planned_actions": [
       {
         "name": "patrol",
-        "frames": 6,
-        "fps": 10,
-        "loop": true
+        "intent": "Da varios pasos rápidos, frena para olfatear y gira con una pequeña vacilación."
+      },
+      {
+        "name": "idle",
+        "intent": "Olfatea con rapidez, hincha una mejilla y junta las manos antes de dar un paso."
       },
       {
         "name": "stomped",
-        "frames": 3,
-        "fps": 12,
-        "loop": false
+        "intent": "Las mejillas se desinflan, el cuerpo se encoge y las orejas laterales bajan."
       },
       {
         "name": "defeated",
-        "frames": 1,
-        "fps": null,
-        "loop": false
+        "intent": "Pose final coherente con la compresión y la personalidad del personaje."
       }
     ],
-    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+    "note": "Propuestas de actuación; tiempos, número de fotogramas y ritmo se decidirán al producir animación."
   },
   "generation": {
     "tool": "image_gen",
@@ -61,30 +65,56 @@
     "prompts_path": "art/characters/moflete/prompts.md",
     "transparent_background_requested": true,
     "input_references": [
-      "art/characters/terron/concept_v002.png"
+      "art/characters/moflete/concept_v003.png"
     ],
-    "correction_references": [
-      "art/characters/moflete/sources/concept_v001.png",
-      "art/characters/moflete/sources/concept_v002.png"
-    ],
-    "selected_output": "art/characters/moflete/concept_v003.png",
-    "generated_on": "2026-10-15"
+    "selected_output": "art/characters/moflete/concept_v004.png",
+    "generated_on": "2026-10-15",
+    "scope": "personality_revision"
   },
   "validation": {
     "technical_report": "art/characters/moflete/qa-technical.json",
-    "technical_passed": true,
+    "technical_passed": false,
     "concept_visual_review_passed": true,
+    "cast_comparison_passed": true,
     "production_ready": false,
     "visual_review": "art/characters/moflete/qa.md",
-    "source_bytes": 1140535,
-    "sha256": "1526016ccf11ade0b0434fbdb316d04da298925d439a33c83f82a706beec4957",
+    "source_bytes": 904805,
+    "sha256": "22575d3a14057c2ebdcb68384f575f18ebfa453e75fc82bb178f78b099fe540f",
     "pending": [
-      "Selección visual del usuario",
+      "Limpiar alfa residual y preparar el margen de producción antes de crear sprites",
+      "Selección visual de esta revisión por el usuario",
       "Referencia completa de opción A",
       "Celdas, pivote y animaciones",
       "Importación e integración Godot",
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only"
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 3,
+      "path": "art/characters/moflete/concept_v003.png",
+      "source_commit": "cbe894e83e3781b47f8eae8cf0d68b6623a7b2d9",
+      "scope": "previous_concept_image"
+    }
+  ],
+  "concept_selection": {
+    "status": "user_selected",
+    "scope": "underlying_creature_concept",
+    "evidence": "El usuario indicó «los conceptos me gustan» el 15 de octubre de 2026; pidió revisar la personalidad visual."
+  },
+  "personality": {
+    "traits": [
+      "curioso",
+      "glotón",
+      "inquieto"
+    ],
+    "tagline": "Primero olfatea; después descubre que iba demasiado deprisa.",
+    "silhouette": "Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada.",
+    "face": "Ojo oscuro redondo sin blanco, nariz pequeña y boca abierta de sorpresa.",
+    "acting_pose": "Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas.",
+    "signature_gesture": "Olfatea con rapidez, hincha una mejilla y junta las manos antes de dar un paso.",
+    "proposed_movement": "Da varios pasos rápidos, frena para olfatear y gira con una pequeña vacilación.",
+    "proposed_stomp_response": "Las mejillas se desinflan, el cuerpo se encoge y las orejas laterales bajan."
+  }
 }

@@ -1,41 +1,40 @@
-# Revisión de Vainete
+# Revisión de personalidad de Vainete
 
-Fecha: **15 de octubre de 2026**. Alcance: imagen de concepto estática.
+Fecha: **15 de octubre de 2026**. Alcance: concepto 2D estático, versión 002.
+
+## Revisión solicitada y referencia
+
+El usuario valora el concepto de criatura y pide más personalidad y menor parecido entre personajes. Se contrasta esta revisión con [concept_v001.png](concept_v001.png) y con las otras cinco nuevas imágenes del catálogo.
+
+## Revisión visual realizada
+
+Se inspeccionaron imagen completa, comparación del reparto a tamaño reducido y lectura sobre fondo claro (#fffdf8) y oscuro (#111e29), sin modificar el PNG original.
+
+- Conserva la vaina de tres volúmenes y los apoyos vegetales, ahora finos y más elevados.
+- La mirada verde pequeña y el bigote de fibras vegetales dan un rostro propio, distinto de Terrón.
+- Una raíz delantera levantada y el cuerpo horizontal comunican marcha medida y porte disciplinado.
+- Silueta segmentada reconocible en reducción; bigote y apoyos completos, sin elementos punzantes en el lomo.
 
 ## Comprobación técnica
 
-Comando ejecutado desde la raíz del proyecto:
-
 ```sh
-python .agents/skills/generar-personajes-salto-heroes/scripts/validate_sprite.py art/characters/vainete/concept_v001.png
+python .agents/skills/generar-personajes-salto-heroes/scripts/validate_sprite.py art/characters/vainete/concept_v002.png
 ```
 
-Resultado: **Correcto**, código de salida 0. Informe completo en [qa-technical.json](qa-technical.json).
+Resultado: **Pendiente el margen de producción**, código de salida 1. La imagen es RGBA y tiene fondo transparente, pero el comprobador detecta alfa residual hasta el borde. Se conserva como concepto, sin declararlo sprite preparado. Informe completo en [qa-technical.json](qa-technical.json).
 
 | Control | Resultado real |
 | --- | --- |
 | Dimensiones | 1254 × 1254 px |
 | Formato | PNG RGBA |
-| Transparencia | Fondo con alfa 0 y personaje visible |
-| Fotogramas | 1 imagen estática; cuadrícula 1 × 1 |
-| Límites con alfa no nulo | [31, 17, 1202, 1230] |
-| Margen mínimo | 17 px; mínimo exigido: 4 px |
-| Peso | 1032011 bytes |
-| SHA-256 | `c2f53203a1876ffe73993a6118b5e1b53fc45c150eb26d4c117f54ac2f3d6ecd` |
+| Fotogramas | 1, imagen estática |
+| Límites con alfa no nulo | [0, 33, 1234, 1244] |
+| Margen mínimo | 0 px; referencia para producción: 4 px |
+| Peso | 889739 bytes |
+| SHA-256 | `e93e51b7b2d90794f79c74d227e497aa3ed0a128c16b66bcaf8a4aae0095452c` |
 
-La imagen seleccionada es la primera generación; se conserva sin retoques mediante scripts.
+## Pendiente
 
-## Revisión visual
+Valorar esta revisión visual con el usuario, incorporar la referencia completa de «opción A», preparar celdas y pivote, producir animaciones e integrar los recursos. Las descripciones de gestos son propuestas de animación; no se han producido sus secuencias ni probado Godot, Android o Windows.
 
-Se inspeccionó el personaje completo y su lectura reducida a aproximadamente 96 px sobre fondo claro (#fffdf8) y oscuro (#111e29). La vista de comprobación no modifica el PNG de autoría.
-
-- Se distinguen tres volúmenes vegetales unidos y tres apoyos del lado visible.
-- Vista lateral hacia la derecha, personaje completo y dorso redondeado sin elementos punzantes.
-- Las divisiones amplias y los apoyos conservan su lectura en reducción.
-- No se observan fondo dibujado, suelo, texto ni recortes visibles.
-
-## Pendiente para producción
-
-Aprobación visual del usuario y contraste con la descripción completa de «opción A». Preparar celdas, pivote y animaciones; revisar continuidad temporal y raíz estable. Importar y comprobar los recursos en Godot y probarlos después en Android y Windows.
-
-Estado: **concept_only**. No se han probado animación, jugabilidad ni funcionamiento en dispositivos.
+Estado: **concept_only**. La aprobación del concepto base no equivale a una selección de esta imagen nueva.

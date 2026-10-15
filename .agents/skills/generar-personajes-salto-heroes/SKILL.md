@@ -21,6 +21,8 @@ description: Diseñar, generar, editar y verificar personajes originales y sprit
 - Tratar New Super Mario Bros. U y Donkey Kong Country Returns como referencias de acabado y claridad del movimiento. Diseñar identidad propia, sin reutilizar sus personajes ni recursos como entregables.
 - Fijar silueta, proporciones, materiales, paleta, vestuario, cámara lateral y luz de referencia en la ficha. No añadir una especie, nombre, accesorio o historia como si estuviera confirmado.
 - Diferenciar los roles mediante silueta y postura, además del color. Hacer legibles la parte pisable de un enemigo y la vulnerabilidad de un jefe según su diseño, sin cambiar las reglas del juego.
+- Al revisar un reparto, diferenciar cada personaje por silueta, construcción del rostro, proporciones y postura, además de materiales y color. Fijar al menos tres diferencias visibles entre vecinos; evitar repetir por defecto un ojo grande, el mismo ceño o los mismos pies en todo el grupo.
+- Si el usuario valora el concepto pero pide más personalidad, conservar la idea de criatura y los materiales que eligió; tratar la nueva cara, anatomía y actuación como una revisión propuesta. Usar la imagen previa de cada personaje como su propia referencia, sin convertir una sola cara en plantilla para todo el reparto.
 - Mantener manos, pies y objetos legibles en movimiento y a tamaño móvil. Evitar destellos o señales que dependan solo del color.
 
 ## Generar o editar
@@ -49,7 +51,7 @@ description: Diseñar, generar, editar y verificar personajes originales y sprit
    ```
 
    Requerir Python y Pillow para este comprobador. Si falta Pillow, comunicarlo o instalarlo dentro de un entorno de desarrollo permitido; no añadirlo como dependencia del juego. No usar el comprobador para modificar imágenes.
-2. Revisar visualmente secuencia, continuidad, raíz estable y lectura sobre fondos claros y oscuros. Registrar lo verificado y lo pendiente. El comprobador detecta dimensiones, alfa, recortes y celdas vacías; no certifica identidad, fluidez ni animación correcta.
+2. Revisar visualmente secuencia, continuidad, raíz estable y lectura sobre fondos claros y oscuros. Para varios personajes, compararlos juntos a tamaño reducido: siluetas, rostros y gestos deben distinguirse sin depender de la paleta. Registrar lo verificado y lo pendiente. El comprobador detecta dimensiones, alfa, recortes y celdas vacías; no certifica identidad, fluidez ni animación correcta.
 3. Si se piden únicamente conceptos, devolver las imágenes y su ficha. No integrarlas en el proyecto. Para recursos destinados al juego, copiar únicamente los finales a `game/assets/textures/characters/<id>/`; conservar encargos, prompts y evidencias en `art/characters/<id>/` con `art/.gdignore`. No dejar rutas de ejecución apuntando a archivos temporales o de otra conversación.
 4. Registrar `character.json` según el contrato de producción, con dimensiones y resultados reales. No declarar un recurso listo si quedan controles obligatorios pendientes. No sobrescribir versiones existentes salvo petición expresa.
 5. Crear o modificar `SpriteFrames`, escenas y referencias de juego únicamente si el encargo incluye integración. Mantener colisiones y reglas de daño separadas del dibujo; no generar implementaciones de combate por inferirlas del arte.

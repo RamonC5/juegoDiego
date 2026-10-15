@@ -1,62 +1,46 @@
-# Goterón · enemigo normal de Salto Heroes
+# Goterón · personalidad e identidad visual
 
-**Identificador:** `goteron` · **Versión visual:** 003 · **Estado:** propuesta de concepto · **Fecha:** 15 de octubre de 2026.
+**ID:** `goteron` · **Revisión visual:** 004 · **Rol:** enemigo normal eliminable por pisotón.
 
-![Goterón de perfil hacia la derecha: criatura baja y alargada de gel turquesa, ojo marfil y base ancha para deslizarse.](concept_v003.png)
+**Concepto base:** valorado positivamente por el usuario. **Nueva versión visual:** propuesta, pendiente de su valoración. Fecha: 15 de octubre de 2026.
 
-## Identidad visual propuesta
+![Goterón despistado: base alargada de gel turquesa, cuello blando vencido, dos ojos pequeños desiguales y sonrisa.](concept_v004.png)
 
-| Rasgo | Diseño |
+## Personalidad
+
+**Despistado, bonachón, desequilibrado.** Su cuerpo ya ha girado cuando se da cuenta de por dónde iba.
+
+| Rasgo propio | Diseño de esta revisión |
 | --- | --- |
-| Concepto | Criatura blanda de gel |
-| Silueta | Cuerpo alargado y bajo, con frente redondeado y cola corta que descansa cerca del suelo. |
-| Materiales | gel translúcido, inclusiones suaves interiores |
-| Paleta | turquesa profundo, azul claro, marfil |
-| Vista | Lateral hacia la derecha; personaje completo |
-| Luz | Suave desde arriba a la izquierda |
-| Acabado | Raster 2D HD, texturas legibles y sombreado suave incorporado |
-| Referencia de acabado | [Terrón](../terron/ficha.md), conservando una identidad diferente |
+| Silueta y proporciones | Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante. |
+| Rostro | Dos ojitos oscuros pequeños y desiguales sobre el lado visible del gel, y sonrisa blanda. |
+| Postura clave | Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo. |
+| Gesto característico propuesto | La parte superior se inclina, se retrasa y rebota suavemente al cambiar de dirección. |
+| Concepto y materiales conservados | gel turquesa translúcido, base deslizante sin patas, cola blanda |
 
-Nombre, especie, materiales, aspecto y patrón de movimiento son propuestas originales.
+La diferencia de identidad se apoya en forma, cara y postura; el acabado y la iluminación siguen perteneciendo al mismo juego. La [versión anterior](concept_v003.png) se conserva.
 
-## Función y comportamiento propuestos
+## Comportamiento propuesto
 
-Enemigo normal eliminable mediante un pisotón válido, de acuerdo con la regla confirmada del proyecto.
+**Desplazamiento:** Se desliza con un leve vaivén; la cabeza blanda llega tarde a los giros y luego recupera el equilibrio.
 
-**Movimiento:** Deslizamiento continuo y lento, con giro suave en los extremos de su patrulla.
+**Pisotón:** La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible.
 
-**Reacción al pisotón:** Se aplana de forma breve antes de desaparecer; reacción visual pendiente de animar.
+Estos gestos y patrones aún no son animaciones ni comportamiento ejecutable. Velocidad, tiempos, contacto lateral y rebote del jugador se ajustarán al implementar las mecánicas. Los sensores y colisiones serán independientes de la imagen.
 
-Los valores de velocidad, recorrido, contacto lateral, rebote del jugador y tiempos de derrota se decidirán durante la implementación. La detección del pisotón y las colisiones serán independientes del dibujo.
+## Requisitos y estado técnico
 
-## Lectura y requisitos
+Se mantienen 2D, Android y Windows, ocho mundos, niveles rejugables y enemigos normales eliminables por pisotón. El personaje no tiene un mundo asignado; su identificador se conserva para reutilizarlo y mantener la rejugabilidad. La descripción completa de «opción A» sigue pendiente de incorporarse.
 
-- Dorso blando sin punta.
-- Base continua de deslizamiento.
-- Frente y cola claramente diferentes.
+[concept_v004.png](concept_v004.png) es un PNG RGBA de **1254 × 1254 px** con fondo transparente y margen mínimo medido de **18 px**. Se entrega como concepto estático, con vista lateral orientada a la derecha.
 
-La forma y la postura complementan al color para reconocer la zona pisable y la dirección. Se ha revisado su lectura estática a tamaño reducido y sobre fondos claros y oscuros.
+Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 × 256, con raíz [128, 224] por verificar. La preparación de sprites, las animaciones, `SpriteFrames`, la escena de enemigo y la integración jugable quedan pendientes.
 
-La entrega usa una imagen 2D compartible entre Android y Windows. No se asignan mundos ni temáticas: el ID estable podrá reutilizarse al definir los ocho mundos y sus niveles rejugables. La especificación completa de «opción A» sigue pendiente de incorporarse; este concepto conserva los requisitos visuales conocidos sin redefinir esa elección.
-
-## Archivo entregado y producción pendiente
-
-[concept_v003.png](concept_v003.png) es un **PNG RGBA de 1254 × 1254 px**, con transparencia real y margen mínimo medido de **22 px**. Es una imagen de concepto, no una hoja de animación.
-
-
-| Acción futura | Propuesta | Estado |
-| --- | --- | --- |
-| `patrol` | 6 fotogramas, 10 FPS, bucle | Pendiente |
-| `stomped` | 3 fotogramas, 12 FPS, sin bucle | Pendiente |
-| `defeated` | 1 pose final, sin bucle | Pendiente |
-
-Se propone celda de 256 × 256 y raíz [128, 224], pendientes de verificar con las poses reales. La animación, los recursos `SpriteFrames`, la escena y el comportamiento en Godot quedan pendientes.
-
-## Archivos del personaje
+## Archivos
 
 - [Encargo y decisiones](brief.yaml).
-- [Prompts exactos y referencias](prompts.md).
+- [Prompts exactos y versiones](prompts.md).
 - [Metadatos y estado de producción](character.json).
-- [Informe técnico](qa-technical.json) y [revisión visual](qa.md).
+- [Revisión visual](qa.md) e [informe técnico](qa-technical.json).
 
-Volver al [catálogo de personajes](../../../docs/PERSONAJES.md).
+Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).

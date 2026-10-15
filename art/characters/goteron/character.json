@@ -5,14 +5,20 @@
   "role": "enemy",
   "world_ids": [],
   "design_status": "proposed",
-  "design_version": 3,
+  "design_version": 4,
   "visual_reference": {
-    "path": "art/characters/goteron/concept_v003.png",
-    "style_reference": "art/characters/terron/concept_v002.png",
+    "path": "art/characters/goteron/concept_v004.png",
+    "previous_version": "art/characters/goteron/concept_v003.png",
     "preserved_decisions": [
-      "Dorso blando sin punta",
-      "Base continua de deslizamiento",
-      "Frente y cola claramente diferentes"
+      "gel turquesa translúcido",
+      "base deslizante sin patas",
+      "cola blanda"
+    ],
+    "changed_decisions": [
+      "silueta",
+      "rostro",
+      "proporciones",
+      "postura"
     ],
     "option_a_reference": null
   },
@@ -33,27 +39,25 @@
       128,
       224
     ],
-    "actions": [
+    "planned_actions": [
       {
         "name": "patrol",
-        "frames": 6,
-        "fps": 10,
-        "loop": true
+        "intent": "Se desliza con un leve vaivén; la cabeza blanda llega tarde a los giros y luego recupera el equilibrio."
+      },
+      {
+        "name": "idle",
+        "intent": "La parte superior se inclina, se retrasa y rebota suavemente al cambiar de dirección."
       },
       {
         "name": "stomped",
-        "frames": 3,
-        "fps": 12,
-        "loop": false
+        "intent": "La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible."
       },
       {
         "name": "defeated",
-        "frames": 1,
-        "fps": null,
-        "loop": false
+        "intent": "Pose final coherente con la compresión y la personalidad del personaje."
       }
     ],
-    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+    "note": "Propuestas de actuación; tiempos, número de fotogramas y ritmo se decidirán al producir animación."
   },
   "generation": {
     "tool": "image_gen",
@@ -61,30 +65,55 @@
     "prompts_path": "art/characters/goteron/prompts.md",
     "transparent_background_requested": true,
     "input_references": [
-      "art/characters/terron/concept_v002.png"
+      "art/characters/goteron/concept_v003.png"
     ],
-    "correction_references": [
-      "art/characters/goteron/sources/concept_v001.png",
-      "art/characters/goteron/sources/concept_v002.png"
-    ],
-    "selected_output": "art/characters/goteron/concept_v003.png",
-    "generated_on": "2026-10-15"
+    "selected_output": "art/characters/goteron/concept_v004.png",
+    "generated_on": "2026-10-15",
+    "scope": "personality_revision"
   },
   "validation": {
     "technical_report": "art/characters/goteron/qa-technical.json",
     "technical_passed": true,
     "concept_visual_review_passed": true,
+    "cast_comparison_passed": true,
     "production_ready": false,
     "visual_review": "art/characters/goteron/qa.md",
-    "source_bytes": 674845,
-    "sha256": "f0c6ef92f5096547b7cd458f5629ead63f63edfc3100121fc510330adc63dba3",
+    "source_bytes": 694154,
+    "sha256": "256541db5ca1df2e3a9bc1b6ad51cf12bd3c073e347ec2d523b0bf35a1a99199",
     "pending": [
-      "Selección visual del usuario",
+      "Selección visual de esta revisión por el usuario",
       "Referencia completa de opción A",
       "Celdas, pivote y animaciones",
       "Importación e integración Godot",
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only"
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 3,
+      "path": "art/characters/goteron/concept_v003.png",
+      "source_commit": "cbe894e83e3781b47f8eae8cf0d68b6623a7b2d9",
+      "scope": "previous_concept_image"
+    }
+  ],
+  "concept_selection": {
+    "status": "user_selected",
+    "scope": "underlying_creature_concept",
+    "evidence": "El usuario indicó «los conceptos me gustan» el 15 de octubre de 2026; pidió revisar la personalidad visual."
+  },
+  "personality": {
+    "traits": [
+      "despistado",
+      "bonachón",
+      "desequilibrado"
+    ],
+    "tagline": "Su cuerpo ya ha girado cuando se da cuenta de por dónde iba.",
+    "silhouette": "Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante.",
+    "face": "Dos ojitos oscuros pequeños y desiguales sobre el lado visible del gel, y sonrisa blanda.",
+    "acting_pose": "Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo.",
+    "signature_gesture": "La parte superior se inclina, se retrasa y rebota suavemente al cambiar de dirección.",
+    "proposed_movement": "Se desliza con un leve vaivén; la cabeza blanda llega tarde a los giros y luego recupera el equilibrio.",
+    "proposed_stomp_response": "La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible."
+  }
 }

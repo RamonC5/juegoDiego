@@ -10,18 +10,22 @@
     "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
     "Juego de plataformas 2D para Android y Windows.",
     "Enemigos normales eliminables por pisotón.",
-    "Acabado pulido, ocho mundos y niveles rejugables."
+    "Acabado pulido, ocho mundos y niveles rejugables.",
+    "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos."
   ],
   "proposed_design_choices": [
-    "Nombre Remiendo; criatura de tela acolchada.",
-    "Da pasos rápidos durante una distancia corta y se detiene de forma visible antes de repetir.",
-    "Trapecio blando de hombros redondeados, parte superior baja y dos pies planos de tela."
+    "tímido",
+    "torpe",
+    "desgarbado",
+    "Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales.",
+    "Botón oscuro pequeño como ojo visible y boca bordada corta y encogida.",
+    "Hombros caídos; una mano de tela sujeta el otro antebrazo y un pie grande apunta hacia dentro."
   ],
   "identity": {
     "display_name": "Remiendo",
-    "concept": "Criatura de tela acolchada",
-    "silhouette": "Trapecio blando de hombros redondeados, parte superior baja y dos pies planos de tela.",
-    "proportions": "Trapecio acolchado con base ancha",
+    "concept": "Criatura de tela remendada",
+    "silhouette": "Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales.",
+    "proportions": "Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales.",
     "palette": [
       "lino crema",
       "azul verdoso apagado",
@@ -31,9 +35,12 @@
     "materials": [
       "lona tejida densa",
       "parche de tela",
-      "costuras gruesas"
+      "costuras gruesas",
+      "botón de madera oscuro"
     ],
-    "clothing_and_accessories": []
+    "clothing_and_accessories": [],
+    "expression": "Botón oscuro pequeño como ojo visible y boca bordada corta y encogida.",
+    "signature_pose": "Hombros caídos; una mano de tela sujeta el otro antebrazo y un pie grande apunta hacia dentro."
   },
   "visual_direction": {
     "medium": "raster_2d_hd",
@@ -42,12 +49,13 @@
     "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
     "option_a_reference": null,
     "style_reference_paths": [
-      "art/characters/terron/concept_v002.png"
-    ],
-    "canonical_reference_paths": [
       "art/characters/remiendo/concept_v003.png"
     ],
-    "lighting": "Luz suave desde arriba a la izquierda."
+    "canonical_reference_paths": [
+      "art/characters/remiendo/concept_v004.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda.",
+    "reference_scope": "Concepto y materiales previos de este personaje; se revisan cara, proporciones y gesto."
   },
   "proposed_technical_defaults": {
     "frame_size": [
@@ -68,18 +76,35 @@
   },
   "animations_requested": [],
   "gameplay_readability": {
-    "stomp_response": "La tela se pliega y el volumen se aplasta de forma clara, sin violencia gráfica.",
+    "stomp_response": "La tela pierde volumen, los brazos caen y los dos pies quedan abiertos, sin violencia gráfica.",
     "thrown_object_response": null,
     "grab_and_release_pose": null,
     "non_color_cues": [
-      "Costura superior plegada y sin nudos",
-      "Volumen blando",
-      "Parche lateral y dos pies planos"
+      "Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales.",
+      "Hombros caídos; una mano de tela sujeta el otro antebrazo y un pie grande apunta hacia dentro.",
+      "Mira de reojo, se recoge un brazo y da un paso vacilante con el pie demasiado grande."
     ]
   },
   "open_questions": [
-    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
-    "Producción de animaciones e integración Godot.",
-    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
-  ]
+    "Valorar la nueva personalidad visual; el concepto de criatura ya gustó al usuario.",
+    "Incorporar la especificación completa de la opción A.",
+    "Producir sprites, animaciones y comportamiento en una tarea de integración."
+  ],
+  "revision_scope": "personality",
+  "user_feedback": "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos.",
+  "concept_status": "user_selected",
+  "personality": {
+    "traits": [
+      "tímido",
+      "torpe",
+      "desgarbado"
+    ],
+    "tagline": "Intenta ocupar poco espacio, pero siempre deja un pie por medio.",
+    "silhouette": "Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales.",
+    "face": "Botón oscuro pequeño como ojo visible y boca bordada corta y encogida.",
+    "acting_pose": "Hombros caídos; una mano de tela sujeta el otro antebrazo y un pie grande apunta hacia dentro.",
+    "signature_gesture": "Mira de reojo, se recoge un brazo y da un paso vacilante con el pie demasiado grande.",
+    "proposed_movement": "Alterna pasos desiguales y una pequeña pausa para recuperar el equilibrio.",
+    "proposed_stomp_response": "La tela pierde volumen, los brazos caen y los dos pies quedan abiertos, sin violencia gráfica."
+  }
 }

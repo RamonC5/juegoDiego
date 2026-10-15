@@ -1,85 +1,84 @@
 # Personajes de Salto Heroes
 
-Catálogo vivo de los personajes diseñados para Juego Diego. Cada entrada conserva su identificador, ficha e imagen dentro del repositorio. Fecha de actualización: **15 de octubre de 2026**.
+Catálogo de los **seis enemigos normales** de Juego Diego. Fecha de actualización: **15 de octubre de 2026**.
 
-El catálogo reúne **seis enemigos normales**: Terrón y cinco propuestas adicionales. Sus imágenes y fichas son material de concepto; la animación y la integración jugable quedan pendientes.
+El usuario indicó que los conceptos le gustan y pidió dar personalidad propia a cada uno. Se conservan las seis ideas de criatura y sus identificadores; se revisan siluetas, rostros, proporciones y posturas. Las nuevas imágenes son propuestas de concepto; sus gestos, animaciones e integración jugable quedan pendientes.
 
-Los estados se registran por separado: propuesta visual, recurso animado verificado e integración probada en Godot. La aprobación de un diseño corresponde al usuario.
+## Comparación de identidades
 
-| ID estable | Nombre propuesto | Rol | Mundos | Diseño | Producción |
-| --- | --- | --- | --- | --- | --- |
-| `terron` | [Terrón](../art/characters/terron/ficha.md) | Primer enemigo normal, eliminable por pisotón | Sin asignar | Propuesto | Concepto PNG; animación e integración pendientes |
-| `moflete` | [Moflete](../art/characters/moflete/ficha.md) | Enemigo normal, eliminable por pisotón | Sin asignar | Propuesto | Concepto PNG; animación e integración pendientes |
-| `goteron` | [Goterón](../art/characters/goteron/ficha.md) | Enemigo normal, eliminable por pisotón | Sin asignar | Propuesto | Concepto PNG; animación e integración pendientes |
-| `vainete` | [Vainete](../art/characters/vainete/ficha.md) | Enemigo normal, eliminable por pisotón | Sin asignar | Propuesto | Concepto PNG; animación e integración pendientes |
-| `plumin` | [Plumín](../art/characters/plumin/ficha.md) | Enemigo normal, eliminable por pisotón | Sin asignar | Propuesto | Concepto PNG; animación e integración pendientes |
-| `remiendo` | [Remiendo](../art/characters/remiendo/ficha.md) | Enemigo normal, eliminable por pisotón | Sin asignar | Propuesto | Concepto PNG; animación e integración pendientes |
+| Personaje | Concepto conservado | Personalidad | Silueta | Rostro y gesto |
+| --- | --- | --- | --- | --- |
+| [Terrón](../art/characters/terron/ficha.md) | Tierra y musgo | dormilón, pesado, testarudo | Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida. | Ojo ámbar entrecerrado, casi sin blanco, y boca encogida bajo una mejilla pesada. |
+| [Moflete](../art/characters/moflete/ficha.md) | Roedor cobrizo | curioso, glotón, inquieto | Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada. | Ojo oscuro redondo sin blanco, nariz pequeña y boca abierta de sorpresa. |
+| [Goterón](../art/characters/goteron/ficha.md) | Gel turquesa deslizante | despistado, bonachón, desequilibrado | Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante. | Dos ojitos oscuros pequeños y desiguales sobre el lado visible del gel, y sonrisa blanda. |
+| [Vainete](../art/characters/vainete/ficha.md) | Vaina vegetal de tres volúmenes | disciplinado, orgulloso, meticuloso | Vaina muy alargada de tres volúmenes suaves y seis raíces finas. | Ojo verde pequeño y almendrado, y dos fibras vegetales caídas como bigote. |
+| [Plumín](../art/characters/plumin/ficha.md) | Ave terrestre azul | presumido, fanfarrón, teatral | Pecho amplio, cuello visible y dos patas relativamente largas y delgadas. | Ojo cerrado en arco satisfecho y pico curvo alzado. |
+| [Remiendo](../art/characters/remiendo/ficha.md) | Criatura de tela remendada | tímido, torpe, desgarbado | Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales. | Botón oscuro pequeño como ojo visible y boca bordada corta y encogida. |
 
-## Terrón · primer enemigo normal
+Compartir texturas, luz y acabado mantiene la coherencia artística. La identidad se diferencia también sin depender del color, mediante el contorno, la cara y la actuación. Los mundos siguen sin asignar; se mantienen los ocho mundos, los niveles rejugables y Android y Windows. La especificación completa de «opción A» sigue pendiente de incorporarse.
 
-Criatura baja y ancha de tierra ocre, cubierta por musgo blando y apoyada sobre dos pies de raíz. La vista lateral, el ojo claro y la parte superior despejada facilitan reconocer su dirección y la zona sobre la que saltar. Su comportamiento propuesto es una patrulla terrestre sencilla.
+## Terrón · dormilón, pesado, testarudo
 
-![Terrón de perfil hacia la derecha: cuerpo bajo de tierra ocre, musgo verde sin pinchos, un ojo claro y dos pies cortos de raíz.](../art/characters/terron/concept_v002.png)
+El que tarda en arrancar y después sigue a lo suyo. Cuerpo muy bajo y horizontal, con mayor masa en el lomo trasero y frente hundida. Peso hundido entre dos apoyos de raíz ensanchados y mentón bajo.
 
-- [Ficha de diseño y comportamiento](../art/characters/terron/ficha.md).
-- [Imagen de concepto seleccionada para esta entrega](../art/characters/terron/concept_v002.png).
-- [Metadatos y estado de producción](../art/characters/terron/character.json).
-- [Prompts exactos y procedencia](../art/characters/terron/prompts.md).
-- [Revisión técnica y visual](../art/characters/terron/qa.md).
+![Terrón dormilón: bloque bajo y asimétrico de tierra y musgo, ojo pequeño entrecerrado y dos apoyos planos.](../art/characters/terron/concept_v003.png)
 
-El nombre, especie, materiales y aspecto son una propuesta original. La especificación completa de la elección artística previa «opción A» sigue pendiente de incorporarse. Se conservan los requisitos conocidos de imagen 2D de acabado pulido, Android y Windows, ocho mundos y niveles rejugables.
+- [Ficha, personalidad y comportamiento](../art/characters/terron/ficha.md).
+- [Nueva imagen de concepto](../art/characters/terron/concept_v003.png) y [versión anterior](../art/characters/terron/concept_v002.png).
+- [Metadatos](../art/characters/terron/character.json), [prompts](../art/characters/terron/prompts.md) y [revisión](../art/characters/terron/qa.md).
 
-## Moflete · enemigo normal
+## Moflete · curioso, glotón, inquieto
 
-Criatura de pelaje compacto. Óvalo corto y abombado, hocico redondeado y dos orejas pequeñas pegadas a los lados. Patrulla con pasos cortos y pausas de olfateo. Reacción al pisotón propuesta: el cuerpo se comprime y el hocico baja al recibir el pisotón.
+Primero olfatea; después descubre que iba demasiado deprisa. Roedor erguido de tronco estrecho, mejilla desproporcionada y cola curvada. Dos patas traseras alargadas en puntillas y manos pequeñas cerca de las mejillas.
 
-![Moflete de perfil hacia la derecha: cuerpo bajo de pelaje cobrizo, mejilla crema, orejas laterales redondeadas y pies cortos.](../art/characters/moflete/concept_v003.png)
+![Moflete curioso: roedor cobrizo de cuerpo erguido y estrecho, grandes mejillas crema, ojo pequeño y patas en puntillas.](../art/characters/moflete/concept_v004.png)
 
-- [Ficha e identidad visual](../art/characters/moflete/ficha.md).
-- [Imagen de concepto](../art/characters/moflete/concept_v003.png).
-- [Metadatos](../art/characters/moflete/character.json), [prompts exactos](../art/characters/moflete/prompts.md) y [revisión](../art/characters/moflete/qa.md).
+- [Ficha, personalidad y comportamiento](../art/characters/moflete/ficha.md).
+- [Nueva imagen de concepto](../art/characters/moflete/concept_v004.png) y [versión anterior](../art/characters/moflete/concept_v003.png).
+- [Metadatos](../art/characters/moflete/character.json), [prompts](../art/characters/moflete/prompts.md) y [revisión](../art/characters/moflete/qa.md).
 
-## Goterón · enemigo normal
+## Goterón · despistado, bonachón, desequilibrado
 
-Criatura blanda de gel. Cuerpo alargado y bajo, con frente redondeado y cola corta que descansa cerca del suelo. Deslizamiento continuo y lento, con giro suave en los extremos de su patrulla. Reacción al pisotón propuesta: se aplana de forma breve antes de desaparecer; reacción visual pendiente de animar.
+Su cuerpo ya ha girado cuando se da cuenta de por dónde iba. Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante. Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo.
 
-![Goterón de perfil hacia la derecha: criatura baja y alargada de gel turquesa, ojo marfil y base ancha para deslizarse.](../art/characters/goteron/concept_v003.png)
+![Goterón despistado: base alargada de gel turquesa, cuello blando vencido, dos ojos pequeños desiguales y sonrisa.](../art/characters/goteron/concept_v004.png)
 
-- [Ficha e identidad visual](../art/characters/goteron/ficha.md).
-- [Imagen de concepto](../art/characters/goteron/concept_v003.png).
-- [Metadatos](../art/characters/goteron/character.json), [prompts exactos](../art/characters/goteron/prompts.md) y [revisión](../art/characters/goteron/qa.md).
+- [Ficha, personalidad y comportamiento](../art/characters/goteron/ficha.md).
+- [Nueva imagen de concepto](../art/characters/goteron/concept_v004.png) y [versión anterior](../art/characters/goteron/concept_v003.png).
+- [Metadatos](../art/characters/goteron/character.json), [prompts](../art/characters/goteron/prompts.md) y [revisión](../art/characters/goteron/qa.md).
 
-## Vainete · enemigo normal
+## Vainete · disciplinado, orgulloso, meticuloso
 
-Criatura de vaina vegetal. Vaina horizontal con tres abultamientos suaves y patas cortas de raíz. Patrulla constante de seis apoyos, con una pausa breve antes de cambiar de dirección. Reacción al pisotón propuesta: los tres segmentos se comprimen juntos para comunicar una única derrota.
+Marca el paso aunque nadie lo esté siguiendo. Vaina muy alargada de tres volúmenes suaves y seis raíces finas. Cuerpo horizontal recto; una raíz delantera levantada en un paso medido.
 
-![Vainete de perfil hacia la derecha: vaina verde alargada con tres abultamientos redondeados, un ojo claro y tres pies de raíz visibles.](../art/characters/vainete/concept_v001.png)
+![Vainete disciplinado: vaina verde larga de tres segmentos, raíces finas, bigote vegetal caído y una pata delantera levantada.](../art/characters/vainete/concept_v002.png)
 
-- [Ficha e identidad visual](../art/characters/vainete/ficha.md).
-- [Imagen de concepto](../art/characters/vainete/concept_v001.png).
-- [Metadatos](../art/characters/vainete/character.json), [prompts exactos](../art/characters/vainete/prompts.md) y [revisión](../art/characters/vainete/qa.md).
+- [Ficha, personalidad y comportamiento](../art/characters/vainete/ficha.md).
+- [Nueva imagen de concepto](../art/characters/vainete/concept_v002.png) y [versión anterior](../art/characters/vainete/concept_v001.png).
+- [Metadatos](../art/characters/vainete/character.json), [prompts](../art/characters/vainete/prompts.md) y [revisión](../art/characters/vainete/qa.md).
 
-## Plumín · enemigo normal
+## Plumín · presumido, fanfarrón, teatral
 
-Ave terrestre redondeada. Cuerpo de pera compacto, cabeza redondeada y dos pies anchos. Alterna dos pasos cortos con un pequeño salto; ritmo y altura pendientes de ajustar. Reacción al pisotón propuesta: se encoge, pliega las alas y baja la cabeza como señal de derrota.
+Se pavonea incluso cuando tiene que dar un rodeo. Pecho amplio, cuello visible y dos patas relativamente largas y delgadas. Pecho hacia delante, una rodilla levantada y ala pequeña apoyada en el costado.
 
-![Plumín de perfil hacia la derecha: ave terrestre azul pizarra de cuerpo redondeado, pecho marfil, pico naranja y dos pies anchos.](../art/characters/plumin/concept_v002.png)
+![Plumín presumido: ave azul de pecho marfil erguido, cabeza pequeña, pico alzado y patas finas en paso teatral.](../art/characters/plumin/concept_v003.png)
 
-- [Ficha e identidad visual](../art/characters/plumin/ficha.md).
-- [Imagen de concepto](../art/characters/plumin/concept_v002.png).
-- [Metadatos](../art/characters/plumin/character.json), [prompts exactos](../art/characters/plumin/prompts.md) y [revisión](../art/characters/plumin/qa.md).
+- [Ficha, personalidad y comportamiento](../art/characters/plumin/ficha.md).
+- [Nueva imagen de concepto](../art/characters/plumin/concept_v003.png) y [versión anterior](../art/characters/plumin/concept_v002.png).
+- [Metadatos](../art/characters/plumin/character.json), [prompts](../art/characters/plumin/prompts.md) y [revisión](../art/characters/plumin/qa.md).
 
-## Remiendo · enemigo normal
+## Remiendo · tímido, torpe, desgarbado
 
-Criatura de tela acolchada. Trapecio blando de hombros redondeados, parte superior baja y dos pies planos de tela. Da pasos rápidos durante una distancia corta y se detiene de forma visible antes de repetir. Reacción al pisotón propuesta: la tela se pliega y el volumen se aplasta de forma clara, sin violencia gráfica.
+Intenta ocupar poco espacio, pero siempre deja un pie por medio. Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales. Hombros caídos; una mano de tela sujeta el otro antebrazo y un pie grande apunta hacia dentro.
 
-![Remiendo de perfil hacia la derecha: criatura ancha de lona crema, parte superior blanda, parche azul verdoso y dos pies planos de tela.](../art/characters/remiendo/concept_v003.png)
+![Remiendo tímido: muñeco de lona crema alto y ladeado, parche azul verdoso, ojo de botón, brazos blandos y pies desiguales.](../art/characters/remiendo/concept_v004.png)
 
-- [Ficha e identidad visual](../art/characters/remiendo/ficha.md).
-- [Imagen de concepto](../art/characters/remiendo/concept_v003.png).
-- [Metadatos](../art/characters/remiendo/character.json), [prompts exactos](../art/characters/remiendo/prompts.md) y [revisión](../art/characters/remiendo/qa.md).
+- [Ficha, personalidad y comportamiento](../art/characters/remiendo/ficha.md).
+- [Nueva imagen de concepto](../art/characters/remiendo/concept_v004.png) y [versión anterior](../art/characters/remiendo/concept_v003.png).
+- [Metadatos](../art/characters/remiendo/character.json), [prompts](../art/characters/remiendo/prompts.md) y [revisión](../art/characters/remiendo/qa.md).
 
 ## Cómo mantener el catálogo
 
-Añadir una fila por identificador y una ficha en `art/characters/<character_id>/ficha.md`, acompañada por su imagen real, encargo, prompts, metadatos y revisión. Versionar cambios visuales sin reemplazar referencias anteriores. Guardar únicamente recursos de juego preparados en `game/assets/textures/characters/<character_id>/` cuando se encargue esa producción.
+Mantener un ID estable por personaje. Guardar ficha, PNG versionado, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`, conservando las imágenes anteriores. Registrar por separado la aceptación del concepto base y la valoración de cada nueva revisión visual. Comparar el conjunto al diseñar variantes para evitar repetir por defecto cara, proporciones y postura.
 
+Guardar únicamente los recursos de juego preparados en `game/assets/textures/characters/<character_id>/` cuando se encargue su producción. El material de autoría permanece bajo `art/.gdignore`.

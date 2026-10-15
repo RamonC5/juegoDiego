@@ -10,18 +10,22 @@
     "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
     "Juego de plataformas 2D para Android y Windows.",
     "Enemigos normales eliminables por pisotón.",
-    "Acabado pulido, ocho mundos y niveles rejugables."
+    "Acabado pulido, ocho mundos y niveles rejugables.",
+    "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos."
   ],
   "proposed_design_choices": [
-    "Nombre Goterón; criatura blanda de gel.",
-    "Deslizamiento continuo y lento, con giro suave en los extremos de su patrulla.",
-    "Cuerpo alargado y bajo, con frente redondeado y cola corta que descansa cerca del suelo."
+    "despistado",
+    "bonachón",
+    "desequilibrado",
+    "Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante.",
+    "Dos ojitos oscuros pequeños y desiguales sobre el lado visible del gel, y sonrisa blanda.",
+    "Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo."
   ],
   "identity": {
     "display_name": "Goterón",
-    "concept": "Criatura blanda de gel",
-    "silhouette": "Cuerpo alargado y bajo, con frente redondeado y cola corta que descansa cerca del suelo.",
-    "proportions": "Perfil alargado sin patas",
+    "concept": "Gel turquesa deslizante",
+    "silhouette": "Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante.",
+    "proportions": "Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante.",
     "palette": [
       "turquesa profundo",
       "azul claro",
@@ -31,7 +35,9 @@
       "gel translúcido",
       "inclusiones suaves interiores"
     ],
-    "clothing_and_accessories": []
+    "clothing_and_accessories": [],
+    "expression": "Dos ojitos oscuros pequeños y desiguales sobre el lado visible del gel, y sonrisa blanda.",
+    "signature_pose": "Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo."
   },
   "visual_direction": {
     "medium": "raster_2d_hd",
@@ -40,12 +46,13 @@
     "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
     "option_a_reference": null,
     "style_reference_paths": [
-      "art/characters/terron/concept_v002.png"
-    ],
-    "canonical_reference_paths": [
       "art/characters/goteron/concept_v003.png"
     ],
-    "lighting": "Luz suave desde arriba a la izquierda."
+    "canonical_reference_paths": [
+      "art/characters/goteron/concept_v004.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda.",
+    "reference_scope": "Concepto y materiales previos de este personaje; se revisan cara, proporciones y gesto."
   },
   "proposed_technical_defaults": {
     "frame_size": [
@@ -66,18 +73,35 @@
   },
   "animations_requested": [],
   "gameplay_readability": {
-    "stomp_response": "Se aplana de forma breve antes de desaparecer; reacción visual pendiente de animar.",
+    "stomp_response": "La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible.",
     "thrown_object_response": null,
     "grab_and_release_pose": null,
     "non_color_cues": [
-      "Dorso blando sin punta",
-      "Base continua de deslizamiento",
-      "Frente y cola claramente diferentes"
+      "Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante.",
+      "Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo.",
+      "La parte superior se inclina, se retrasa y rebota suavemente al cambiar de dirección."
     ]
   },
   "open_questions": [
-    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
-    "Producción de animaciones e integración Godot.",
-    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
-  ]
+    "Valorar la nueva personalidad visual; el concepto de criatura ya gustó al usuario.",
+    "Incorporar la especificación completa de la opción A.",
+    "Producir sprites, animaciones y comportamiento en una tarea de integración."
+  ],
+  "revision_scope": "personality",
+  "user_feedback": "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos.",
+  "concept_status": "user_selected",
+  "personality": {
+    "traits": [
+      "despistado",
+      "bonachón",
+      "desequilibrado"
+    ],
+    "tagline": "Su cuerpo ya ha girado cuando se da cuenta de por dónde iba.",
+    "silhouette": "Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante.",
+    "face": "Dos ojitos oscuros pequeños y desiguales sobre el lado visible del gel, y sonrisa blanda.",
+    "acting_pose": "Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo.",
+    "signature_gesture": "La parte superior se inclina, se retrasa y rebota suavemente al cambiar de dirección.",
+    "proposed_movement": "Se desliza con un leve vaivén; la cabeza blanda llega tarde a los giros y luego recupera el equilibrio.",
+    "proposed_stomp_response": "La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible."
+  }
 }

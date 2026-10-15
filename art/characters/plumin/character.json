@@ -5,14 +5,20 @@
   "role": "enemy",
   "world_ids": [],
   "design_status": "proposed",
-  "design_version": 2,
+  "design_version": 3,
   "visual_reference": {
-    "path": "art/characters/plumin/concept_v002.png",
-    "style_reference": "art/characters/terron/concept_v002.png",
+    "path": "art/characters/plumin/concept_v003.png",
+    "previous_version": "art/characters/plumin/concept_v002.png",
     "preserved_decisions": [
-      "Cabeza redondeada sin cresta",
-      "Pico que marca la dirección",
-      "Alas plegadas y pies anchos"
+      "plumaje azul pizarra",
+      "pecho marfil",
+      "pico y patas naranjas"
+    ],
+    "changed_decisions": [
+      "silueta",
+      "rostro",
+      "proporciones",
+      "postura"
     ],
     "option_a_reference": null
   },
@@ -33,27 +39,25 @@
       128,
       224
     ],
-    "actions": [
+    "planned_actions": [
       {
         "name": "patrol",
-        "frames": 6,
-        "fps": 10,
-        "loop": true
+        "intent": "Se pavonea con pasos altos, posa un instante con el pecho erguido y da un pequeño salto."
+      },
+      {
+        "name": "idle",
+        "intent": "Alisa una pluma del pecho, levanta el pico y retoma su paso exagerado."
       },
       {
         "name": "stomped",
-        "frames": 3,
-        "fps": 12,
-        "loop": false
+        "intent": "El pecho se desinfla visualmente, las alas se juntan y la cabeza se agacha."
       },
       {
         "name": "defeated",
-        "frames": 1,
-        "fps": null,
-        "loop": false
+        "intent": "Pose final coherente con la compresión y la personalidad del personaje."
       }
     ],
-    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+    "note": "Propuestas de actuación; tiempos, número de fotogramas y ritmo se decidirán al producir animación."
   },
   "generation": {
     "tool": "image_gen",
@@ -61,29 +65,55 @@
     "prompts_path": "art/characters/plumin/prompts.md",
     "transparent_background_requested": true,
     "input_references": [
-      "art/characters/terron/concept_v002.png"
+      "art/characters/plumin/concept_v002.png"
     ],
-    "correction_references": [
-      "art/characters/plumin/sources/concept_v001.png"
-    ],
-    "selected_output": "art/characters/plumin/concept_v002.png",
-    "generated_on": "2026-10-15"
+    "selected_output": "art/characters/plumin/concept_v003.png",
+    "generated_on": "2026-10-15",
+    "scope": "personality_revision"
   },
   "validation": {
     "technical_report": "art/characters/plumin/qa-technical.json",
     "technical_passed": true,
     "concept_visual_review_passed": true,
+    "cast_comparison_passed": true,
     "production_ready": false,
     "visual_review": "art/characters/plumin/qa.md",
-    "source_bytes": 954292,
-    "sha256": "dccf8c9d7015fcb1666ed5197980bfb87c864444a9676276712e83e164aa4131",
+    "source_bytes": 871848,
+    "sha256": "4f9d3c90a795048eec315528f703641979ce0f142e86394cc08a5d3ff7edbdeb",
     "pending": [
-      "Selección visual del usuario",
+      "Selección visual de esta revisión por el usuario",
       "Referencia completa de opción A",
       "Celdas, pivote y animaciones",
       "Importación e integración Godot",
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only"
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 2,
+      "path": "art/characters/plumin/concept_v002.png",
+      "source_commit": "cbe894e83e3781b47f8eae8cf0d68b6623a7b2d9",
+      "scope": "previous_concept_image"
+    }
+  ],
+  "concept_selection": {
+    "status": "user_selected",
+    "scope": "underlying_creature_concept",
+    "evidence": "El usuario indicó «los conceptos me gustan» el 15 de octubre de 2026; pidió revisar la personalidad visual."
+  },
+  "personality": {
+    "traits": [
+      "presumido",
+      "fanfarrón",
+      "teatral"
+    ],
+    "tagline": "Se pavonea incluso cuando tiene que dar un rodeo.",
+    "silhouette": "Pecho amplio, cuello visible y dos patas relativamente largas y delgadas.",
+    "face": "Ojo cerrado en arco satisfecho y pico curvo alzado.",
+    "acting_pose": "Pecho hacia delante, una rodilla levantada y ala pequeña apoyada en el costado.",
+    "signature_gesture": "Alisa una pluma del pecho, levanta el pico y retoma su paso exagerado.",
+    "proposed_movement": "Se pavonea con pasos altos, posa un instante con el pecho erguido y da un pequeño salto.",
+    "proposed_stomp_response": "El pecho se desinfla visualmente, las alas se juntan y la cabeza se agacha."
+  }
 }

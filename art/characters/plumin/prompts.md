@@ -34,3 +34,24 @@ Use case: precise-object-edit. Edit the supplied image of Plumín. Change ONLY f
 ```
 
 El resultado técnico real y los controles pendientes figuran en `qa-technical.json` y `qa.md`. Los PNG se conservan sin retoques mediante scripts.
+
+## Revisión de personalidad · versión 003
+
+Preferencia confirmada el 15 de octubre de 2026: conservar el concepto y reducir el parecido con el resto del reparto. El concepto base está valorado positivamente; esta revisión visual sigue siendo una propuesta.
+
+Herramienta integrada `image_gen`, `transparent_background: true`. Referencia de entrada y versión anterior: [concept_v002.png](concept_v002.png). Se usa la imagen previa de este personaje, no una única cara compartida como referencia para todos. Se conservan concepto y materiales; se revisan silueta, rostro, proporciones y actuación.
+
+### Prompt exacto
+
+```text
+Use case: identity-preserve.
+Asset type: ONE revised original HD RASTER 2D side-view basic enemy concept for Salto Heroes, Android and Windows.
+Input image: the supplied image is THIS CHARACTER'S PRIOR VERSION and material/palette reference. The user LIKES its underlying concept but says the cast looks too similar. This is a SUBSTANTIAL PERSONALITY REDESIGN, not a minor recolor. Preserve ONLY the core creature concept and its characteristic materials/palette; CHANGE the face, proportions, silhouette and acting posture decisively as specified. The old generic giant white angry eye and compact oval body must NOT survive by default.
+Rendering: polished textured raster 2D game art with controlled soft tonal shading painted into the bitmap, smooth readable silhouette, restrained fine detail, no comic outlines, no sketch, no pixel art, no 3D model or 3D scene. Soft upper-left light. Keep a coherent world finish, without copying the same facial construction to every creature.
+View and composition: strict side-view body facing RIGHT, ONE character and ONE expressive key pose, full body and every limb within the image. Fixed camera at character height, no isometric or three-quarter body view, no turntable, no sprite sheet. Use a square canvas and leave generous empty transparent margin around the entire character including feet and tail.
+Background: actual alpha transparency. No ground, external cast shadow, scenery, checkerboard, vignette, text, labels, logos or watermark. Outer border must be fully transparent, free of stray pixels.
+Readability: distinctive outline and expression at small mobile size; use shape and posture as well as color. A broad soft or rounded unobstructed upper surface appropriate for defeat by a stomp. No spikes, weapons, sharp armor, gore or exposed teeth.
+Specific redesign: REPLACE the old squat bird ball, giant white eye and angry brow completely. Plumín remains a slate-blue flightless ground bird with ivory chest and muted orange beak/feet, but now he is VAIN, BOASTFUL and THEATRICAL. Give him a LARGE PROUD FORWARD CHEST, a noticeably SMALL ROUND HEAD above a short VISIBLE NECK, and TWO relatively LONG SLENDER orange legs; overall silhouette tall and elegant rather than round. One knee raised high in a theatrical prancing step, the other broad rounded-toe foot supports him. A SMALL folded wing sits on his hip like a proud gesture; no human arms. A SHORT BLUNT beak tilted slightly UPWARD in a pleased smirk, and a TINY near-black eye almost closed into a content curved arc, NO large white sclera, NO angry brow. Tail fans out behind in three short broad rounded feathers. Short dense slate-blue feathers, pale ivory breast, restrained fine plumage. Smooth rounded crown with NO crest, tuft or sharp elements; all toes rounded, no talons. He should look comically self-important and happy with himself.
+```
+
+Salida de esta entrega: [concept_v003.png](concept_v003.png). Resultados reales y límites en [qa.md](qa.md) y [qa-technical.json](qa-technical.json). Los PNG anteriores permanecen conservados y no se retoca la imagen mediante scripts.

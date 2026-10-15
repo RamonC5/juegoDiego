@@ -1,17 +1,17 @@
 {
-  "path": "art/characters/plumin/concept_v002.png",
+  "path": "art/characters/plumin/concept_v003.png",
   "ok": true,
   "errors": [],
   "frames": [
     {
       "index": 0,
       "alpha_bounds": [
-        17,
-        161,
-        1235,
-        1198
+        33,
+        29,
+        1248,
+        1230
       ],
-      "minimum_padding": 17
+      "minimum_padding": 6
     }
   ],
   "size": [

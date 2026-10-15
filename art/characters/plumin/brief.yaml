@@ -10,18 +10,22 @@
     "Crear cinco enemigos normales más con ficha e imagen y subirlos a Git.",
     "Juego de plataformas 2D para Android y Windows.",
     "Enemigos normales eliminables por pisotón.",
-    "Acabado pulido, ocho mundos y niveles rejugables."
+    "Acabado pulido, ocho mundos y niveles rejugables.",
+    "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos."
   ],
   "proposed_design_choices": [
-    "Nombre Plumín; ave terrestre redondeada.",
-    "Alterna dos pasos cortos con un pequeño salto; ritmo y altura pendientes de ajustar.",
-    "Cuerpo de pera compacto, cabeza redondeada y dos pies anchos."
+    "presumido",
+    "fanfarrón",
+    "teatral",
+    "Pecho amplio, cuello visible y dos patas relativamente largas y delgadas.",
+    "Ojo cerrado en arco satisfecho y pico curvo alzado.",
+    "Pecho hacia delante, una rodilla levantada y ala pequeña apoyada en el costado."
   ],
   "identity": {
     "display_name": "Plumín",
-    "concept": "Ave terrestre redondeada",
-    "silhouette": "Cuerpo de pera compacto, cabeza redondeada y dos pies anchos.",
-    "proportions": "Pera compacta con pico corto",
+    "concept": "Ave terrestre azul",
+    "silhouette": "Pecho amplio, cuello visible y dos patas relativamente largas y delgadas.",
+    "proportions": "Pecho amplio, cuello visible y dos patas relativamente largas y delgadas.",
     "palette": [
       "azul pizarra",
       "marfil cálido",
@@ -32,7 +36,9 @@
       "pico mate",
       "patas lisas"
     ],
-    "clothing_and_accessories": []
+    "clothing_and_accessories": [],
+    "expression": "Ojo cerrado en arco satisfecho y pico curvo alzado.",
+    "signature_pose": "Pecho hacia delante, una rodilla levantada y ala pequeña apoyada en el costado."
   },
   "visual_direction": {
     "medium": "raster_2d_hd",
@@ -41,12 +47,13 @@
     "finish": "Texturas legibles y sombreado suave incorporado en la imagen 2D.",
     "option_a_reference": null,
     "style_reference_paths": [
-      "art/characters/terron/concept_v002.png"
-    ],
-    "canonical_reference_paths": [
       "art/characters/plumin/concept_v002.png"
     ],
-    "lighting": "Luz suave desde arriba a la izquierda."
+    "canonical_reference_paths": [
+      "art/characters/plumin/concept_v003.png"
+    ],
+    "lighting": "Luz suave desde arriba a la izquierda.",
+    "reference_scope": "Concepto y materiales previos de este personaje; se revisan cara, proporciones y gesto."
   },
   "proposed_technical_defaults": {
     "frame_size": [
@@ -67,18 +74,35 @@
   },
   "animations_requested": [],
   "gameplay_readability": {
-    "stomp_response": "Se encoge, pliega las alas y baja la cabeza como señal de derrota.",
+    "stomp_response": "El pecho se desinfla visualmente, las alas se juntan y la cabeza se agacha.",
     "thrown_object_response": null,
     "grab_and_release_pose": null,
     "non_color_cues": [
-      "Cabeza redondeada sin cresta",
-      "Pico que marca la dirección",
-      "Alas plegadas y pies anchos"
+      "Pecho amplio, cuello visible y dos patas relativamente largas y delgadas.",
+      "Pecho hacia delante, una rodilla levantada y ala pequeña apoyada en el costado.",
+      "Alisa una pluma del pecho, levanta el pico y retoma su paso exagerado."
     ]
   },
   "open_questions": [
-    "Validación visual del usuario e incorporación de la especificación completa de opción A.",
-    "Producción de animaciones e integración Godot.",
-    "Parámetros de movimiento, contacto, colisiones y derrota durante la implementación."
-  ]
+    "Valorar la nueva personalidad visual; el concepto de criatura ya gustó al usuario.",
+    "Incorporar la especificación completa de la opción A.",
+    "Producir sprites, animaciones y comportamiento en una tarea de integración."
+  ],
+  "revision_scope": "personality",
+  "user_feedback": "Los conceptos me gustan; dar personalidad propia a cada uno y reducir el parecido entre ellos.",
+  "concept_status": "user_selected",
+  "personality": {
+    "traits": [
+      "presumido",
+      "fanfarrón",
+      "teatral"
+    ],
+    "tagline": "Se pavonea incluso cuando tiene que dar un rodeo.",
+    "silhouette": "Pecho amplio, cuello visible y dos patas relativamente largas y delgadas.",
+    "face": "Ojo cerrado en arco satisfecho y pico curvo alzado.",
+    "acting_pose": "Pecho hacia delante, una rodilla levantada y ala pequeña apoyada en el costado.",
+    "signature_gesture": "Alisa una pluma del pecho, levanta el pico y retoma su paso exagerado.",
+    "proposed_movement": "Se pavonea con pasos altos, posa un instante con el pecho erguido y da un pequeño salto.",
+    "proposed_stomp_response": "El pecho se desinfla visualmente, las alas se juntan y la cabeza se agacha."
+  }
 }

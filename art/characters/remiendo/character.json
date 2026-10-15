@@ -5,14 +5,20 @@
   "role": "enemy",
   "world_ids": [],
   "design_status": "proposed",
-  "design_version": 3,
+  "design_version": 4,
   "visual_reference": {
-    "path": "art/characters/remiendo/concept_v003.png",
-    "style_reference": "art/characters/terron/concept_v002.png",
+    "path": "art/characters/remiendo/concept_v004.png",
+    "previous_version": "art/characters/remiendo/concept_v003.png",
     "preserved_decisions": [
-      "Costura superior plegada y sin nudos",
-      "Volumen blando",
-      "Parche lateral y dos pies planos"
+      "lona crema acolchada",
+      "parche azul verdoso",
+      "costuras visibles"
+    ],
+    "changed_decisions": [
+      "silueta",
+      "rostro",
+      "proporciones",
+      "postura"
     ],
     "option_a_reference": null
   },
@@ -33,27 +39,25 @@
       128,
       224
     ],
-    "actions": [
+    "planned_actions": [
       {
         "name": "patrol",
-        "frames": 6,
-        "fps": 10,
-        "loop": true
+        "intent": "Alterna pasos desiguales y una pequeña pausa para recuperar el equilibrio."
+      },
+      {
+        "name": "idle",
+        "intent": "Mira de reojo, se recoge un brazo y da un paso vacilante con el pie demasiado grande."
       },
       {
         "name": "stomped",
-        "frames": 3,
-        "fps": 12,
-        "loop": false
+        "intent": "La tela pierde volumen, los brazos caen y los dos pies quedan abiertos, sin violencia gráfica."
       },
       {
         "name": "defeated",
-        "frames": 1,
-        "fps": null,
-        "loop": false
+        "intent": "Pose final coherente con la compresión y la personalidad del personaje."
       }
     ],
-    "note": "Valores propuestos; no existen hojas ni recursos de animación."
+    "note": "Propuestas de actuación; tiempos, número de fotogramas y ritmo se decidirán al producir animación."
   },
   "generation": {
     "tool": "image_gen",
@@ -61,31 +65,56 @@
     "prompts_path": "art/characters/remiendo/prompts.md",
     "transparent_background_requested": true,
     "input_references": [
-      "art/characters/terron/concept_v002.png"
+      "art/characters/remiendo/concept_v003.png"
     ],
-    "correction_references": [
-      "art/characters/remiendo/sources/concept_v001.png",
-      "art/characters/remiendo/sources/concept_v002.png"
-    ],
-    "selected_output": "art/characters/remiendo/concept_v003.png",
-    "generated_on": "2026-10-15"
+    "selected_output": "art/characters/remiendo/concept_v004.png",
+    "generated_on": "2026-10-15",
+    "scope": "personality_revision"
   },
   "validation": {
     "technical_report": "art/characters/remiendo/qa-technical.json",
     "technical_passed": false,
     "concept_visual_review_passed": true,
+    "cast_comparison_passed": true,
     "production_ready": false,
     "visual_review": "art/characters/remiendo/qa.md",
-    "source_bytes": 1108744,
-    "sha256": "7d6c15e66e79573f384befd85e667ef195a63093577a0773f8d84105279a6707",
+    "source_bytes": 1123516,
+    "sha256": "c1378b1e3eb06c27372b05e2984b97af325e1a8ec306542c889c8bfce3e4c990",
     "pending": [
       "Limpiar alfa residual y preparar el margen de producción antes de crear sprites",
-      "Selección visual del usuario",
+      "Selección visual de esta revisión por el usuario",
       "Referencia completa de opción A",
       "Celdas, pivote y animaciones",
       "Importación e integración Godot",
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only"
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 3,
+      "path": "art/characters/remiendo/concept_v003.png",
+      "source_commit": "cbe894e83e3781b47f8eae8cf0d68b6623a7b2d9",
+      "scope": "previous_concept_image"
+    }
+  ],
+  "concept_selection": {
+    "status": "user_selected",
+    "scope": "underlying_creature_concept",
+    "evidence": "El usuario indicó «los conceptos me gustan» el 15 de octubre de 2026; pidió revisar la personalidad visual."
+  },
+  "personality": {
+    "traits": [
+      "tímido",
+      "torpe",
+      "desgarbado"
+    ],
+    "tagline": "Intenta ocupar poco espacio, pero siempre deja un pie por medio.",
+    "silhouette": "Muñeco de tela alto y ladeado, un hombro más bajo, brazos blandos y pies desiguales.",
+    "face": "Botón oscuro pequeño como ojo visible y boca bordada corta y encogida.",
+    "acting_pose": "Hombros caídos; una mano de tela sujeta el otro antebrazo y un pie grande apunta hacia dentro.",
+    "signature_gesture": "Mira de reojo, se recoge un brazo y da un paso vacilante con el pie demasiado grande.",
+    "proposed_movement": "Alterna pasos desiguales y una pequeña pausa para recuperar el equilibrio.",
+    "proposed_stomp_response": "La tela pierde volumen, los brazos caen y los dos pies quedan abiertos, sin violencia gráfica."
+  }
 }

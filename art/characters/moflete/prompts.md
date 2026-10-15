@@ -44,3 +44,24 @@ Use case: precise-object-edit. In this image of Moflete there are almost invisib
 ```
 
 El resultado técnico real y los controles pendientes figuran en `qa-technical.json` y `qa.md`. Los PNG se conservan sin retoques mediante scripts.
+
+## Revisión de personalidad · versión 004
+
+Preferencia confirmada el 15 de octubre de 2026: conservar el concepto y reducir el parecido con el resto del reparto. El concepto base está valorado positivamente; esta revisión visual sigue siendo una propuesta.
+
+Herramienta integrada `image_gen`, `transparent_background: true`. Referencia de entrada y versión anterior: [concept_v003.png](concept_v003.png). Se usa la imagen previa de este personaje, no una única cara compartida como referencia para todos. Se conservan concepto y materiales; se revisan silueta, rostro, proporciones y actuación.
+
+### Prompt exacto
+
+```text
+Use case: identity-preserve.
+Asset type: ONE revised original HD RASTER 2D side-view basic enemy concept for Salto Heroes, Android and Windows.
+Input image: the supplied image is THIS CHARACTER'S PRIOR VERSION and material/palette reference. The user LIKES its underlying concept but says the cast looks too similar. This is a SUBSTANTIAL PERSONALITY REDESIGN, not a minor recolor. Preserve ONLY the core creature concept and its characteristic materials/palette; CHANGE the face, proportions, silhouette and acting posture decisively as specified. The old generic giant white angry eye and compact oval body must NOT survive by default.
+Rendering: polished textured raster 2D game art with controlled soft tonal shading painted into the bitmap, smooth readable silhouette, restrained fine detail, no comic outlines, no sketch, no pixel art, no 3D model or 3D scene. Soft upper-left light. Keep a coherent world finish, without copying the same facial construction to every creature.
+View and composition: strict side-view body facing RIGHT, ONE character and ONE expressive key pose, full body and every limb within the image. Fixed camera at character height, no isometric or three-quarter body view, no turntable, no sprite sheet. Use a square canvas and leave generous empty transparent margin around the entire character including feet and tail.
+Background: actual alpha transparency. No ground, external cast shadow, scenery, checkerboard, vignette, text, labels, logos or watermark. Outer border must be fully transparent, free of stray pixels.
+Readability: distinctive outline and expression at small mobile size; use shape and posture as well as color. A broad soft or rounded unobstructed upper surface appropriate for defeat by a stomp. No spikes, weapons, sharp armor, gore or exposed teeth.
+Specific redesign: REPLACE the old angry furry ball silhouette and giant white eye completely. Moflete remains a copper-furred little rodent, now CURIOUS, GREEDY FOR FOOD and FIDGETY. Design an UPRIGHT SLENDER PEAR-LIKE BODY, much narrower than before, with a SMALL ROUND HEAD and an ENORMOUS PUFFED CREAM CHEEK as his signature shape. One visible SMALL glossy near-black round bead eye with no white sclera or angry brow, a tiny pink-brown nose and a small surprised O mouth. Very short round ears sit LOW on the sides of the head; none sticks up above the round safe crown. Two relatively long thin hind legs with broad soft rodent feet, standing on tiptoe with one heel raised; TWO small front paws held near his cheek as if about to sniff something, hands EMPTY. A short curved comma-like furry tail behind him. Lean forward inquisitively with alert gentle expression, NOT angry. Dense copper-russet short fur and pale cream cheek/belly, restrained fine texture. Overall silhouette substantially TALLER THAN WIDE and completely unlike a squat earth block.
+```
+
+Salida de esta entrega: [concept_v004.png](concept_v004.png). Resultados reales y límites en [qa.md](qa.md) y [qa-technical.json](qa-technical.json). Los PNG anteriores permanecen conservados y no se retoca la imagen mediante scripts.
