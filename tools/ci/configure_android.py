@@ -17,7 +17,11 @@ def main() -> None:
     version_code = 1000 + run_number
     if not 1 <= version_code <= 2_100_000_000:
         raise ValueError("Código de versión Android fuera del intervalo permitido.")
-    version_name = f"0.0.0-ci.{run_number}"
+    project_text = (root / "project.godot").read_text(encoding="utf-8")
+    version_match = re.search(r'^config/version="(\d+\.\d+\.\d+)"$', project_text, re.MULTILINE)
+    if version_match is None:
+        raise ValueError("project.godot debe declarar config/version como X.Y.Z")
+    version_name = f"{version_match.group(1)}-ci.{run_number}"
 
     preset_path = root / "export_presets.cfg"
     presets = configparser.ConfigParser(interpolation=None)

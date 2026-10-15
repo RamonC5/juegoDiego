@@ -14,6 +14,8 @@ android/build/
 android/.gradle/
 *.tmp
 *.log
+__pycache__/
+*.pyc
 
 # Ajustes locales y credenciales.
 .env

@@ -1,0 +1,33 @@
+WARNING: Couldn't get executable path from /proc/self/exe, using argv[0]
+     at: get_executable_path (drivers/unix/os_unix.cpp:1157)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: el cuerpo se apoya en el suelo
+PASS: aceleración hasta velocidad de caminar
+PASS: carrera diferenciada
+PASS: frenado al soltar
+Alturas medidas: corto=36.12, mantenido=107.98
+PASS: salto de altura variable
+PASS: salto completo accesible sin mantener
+PASS: margen de salto al abandonar un borde
+PASS: salto anticipado antes de aterrizar
+PASS: un ascenso no cuenta como pisotón
+PASS: contacto desde abajo no cuenta como pisotón
+PASS: contacto lateral no cuenta como pisotón
+PASS: sensor de pies elimina la diana y rebota una vez
+PASS: recogida mediante sensor y marcador de animación
+PASS: un lanzamiento produce una sola suelta
+PASS: el objeto físico independiente impacta en la diana
+PASS: daño activa reacción y resta energía
+PASS: la protección evita daños duplicados
+PASS: energía coherente tras daño duplicado
+PASS: derrota con animación dedicada
+PASS: reaparición restablece el protagonista
+PASS: tres contactos táctiles simultáneos
+PASS: arrastrar fuera del botón libera la dirección
+PASS: pausa detiene la física y bloquea órdenes
+PASS: reanudar libera contactos anteriores
+PASS: disposición táctil intercambiable
+PASS: reasignación de teclado
+PASS: reasignar teclado conserva el mando
+RESULTADO: 27 comprobaciones, 0 fallos

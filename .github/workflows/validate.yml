@@ -123,6 +123,16 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar el protagonista y los controles
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_player.gd 2>&1 | tee .godot-logs/player-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/player-tests.log; then
+            exit 1
+          fi
+
       - name: Exportar el APK instalable
         shell: bash
         run: |
@@ -171,7 +181,7 @@ jobs:
             printf '[Descargar el APK de Salto Heroes](%s)\n\n' "$APK_ARTIFACT_URL"
             printf 'Descomprime el ZIP y abre salto-heroes.apk en un móvil Android ARM64.\n\n'
             printf 'Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.\n\n'
-            printf 'Versión de pruebas: la escena actual está vacía. El artefacto se conserva durante 30 días.\n'
+            printf 'Versión de pruebas: protagonista Diego y zona de entrenamiento. El artefacto se conserva durante 30 días.\n'
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Conservar los registros si falla la compilación

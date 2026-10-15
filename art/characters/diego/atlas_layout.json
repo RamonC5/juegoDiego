@@ -1,0 +1,916 @@
+{
+  "schema_version": 1,
+  "canvas": [
+    1024,
+    1024
+  ],
+  "pivot": [
+    512,
+    900
+  ],
+  "alpha_cutoff": 32,
+  "sheets": {
+    "idle": {
+      "path": "game/assets/textures/characters/diego/idle_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 585,
+      "display_scale": 0.19145299145299147,
+      "frames": [
+        {
+          "region": [
+            228,
+            31,
+            246,
+            596
+          ],
+          "pivot_source": [
+            351,
+            621
+          ],
+          "visible_bounds": [
+            234,
+            37,
+            468,
+            621
+          ]
+        },
+        {
+          "region": [
+            822,
+            28,
+            255,
+            599
+          ],
+          "pivot_source": [
+            951,
+            621
+          ],
+          "visible_bounds": [
+            828,
+            34,
+            1071,
+            621
+          ]
+        },
+        {
+          "region": [
+            228,
+            654,
+            245,
+            598
+          ],
+          "pivot_source": [
+            351,
+            1246
+          ],
+          "visible_bounds": [
+            234,
+            660,
+            467,
+            1246
+          ]
+        },
+        {
+          "region": [
+            829,
+            656,
+            248,
+            597
+          ],
+          "pivot_source": [
+            951,
+            1247
+          ],
+          "visible_bounds": [
+            835,
+            662,
+            1071,
+            1247
+          ]
+        }
+      ]
+    },
+    "walk": {
+      "path": "game/assets/textures/characters/diego/walk_v001.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "reference_height": 488,
+      "display_scale": 0.22950819672131148,
+      "frames": [
+        {
+          "region": [
+            140,
+            9,
+            314,
+            501
+          ],
+          "pivot_source": [
+            300,
+            504
+          ],
+          "visible_bounds": [
+            146,
+            15,
+            448,
+            504
+          ]
+        },
+        {
+          "region": [
+            632,
+            9,
+            265,
+            499
+          ],
+          "pivot_source": [
+            758,
+            502
+          ],
+          "visible_bounds": [
+            638,
+            15,
+            891,
+            502
+          ]
+        },
+        {
+          "region": [
+            1096,
+            9,
+            269,
+            496
+          ],
+          "pivot_source": [
+            1252,
+            499
+          ],
+          "visible_bounds": [
+            1102,
+            15,
+            1359,
+            499
+          ]
+        },
+        {
+          "region": [
+            131,
+            518,
+            342,
+            489
+          ],
+          "pivot_source": [
+            300,
+            1001
+          ],
+          "visible_bounds": [
+            137,
+            524,
+            467,
+            1001
+          ]
+        },
+        {
+          "region": [
+            616,
+            519,
+            272,
+            492
+          ],
+          "pivot_source": [
+            758,
+            1005
+          ],
+          "visible_bounds": [
+            622,
+            525,
+            882,
+            1005
+          ]
+        },
+        {
+          "region": [
+            1107,
+            518,
+            331,
+            490
+          ],
+          "pivot_source": [
+            1252,
+            1002
+          ],
+          "visible_bounds": [
+            1113,
+            524,
+            1432,
+            1002
+          ]
+        }
+      ]
+    },
+    "run": {
+      "path": "game/assets/textures/characters/diego/run_v001.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "reference_height": 480,
+      "display_scale": 0.23333333333333334,
+      "frames": [
+        {
+          "region": [
+            84,
+            18,
+            431,
+            493
+          ],
+          "pivot_source": [
+            295,
+            505
+          ],
+          "visible_bounds": [
+            90,
+            24,
+            509,
+            505
+          ]
+        },
+        {
+          "region": [
+            605,
+            23,
+            314,
+            492
+          ],
+          "pivot_source": [
+            768,
+            509
+          ],
+          "visible_bounds": [
+            611,
+            29,
+            913,
+            509
+          ]
+        },
+        {
+          "region": [
+            1072,
+            19,
+            412,
+            467
+          ],
+          "pivot_source": [
+            1287,
+            480
+          ],
+          "visible_bounds": [
+            1078,
+            25,
+            1478,
+            480
+          ]
+        },
+        {
+          "region": [
+            68,
+            523,
+            446,
+            479
+          ],
+          "pivot_source": [
+            295,
+            996
+          ],
+          "visible_bounds": [
+            74,
+            529,
+            508,
+            996
+          ]
+        },
+        {
+          "region": [
+            615,
+            525,
+            318,
+            482
+          ],
+          "pivot_source": [
+            768,
+            1001
+          ],
+          "visible_bounds": [
+            621,
+            531,
+            927,
+            1001
+          ]
+        },
+        {
+          "region": [
+            1078,
+            522,
+            437,
+            460
+          ],
+          "pivot_source": [
+            1287,
+            976
+          ],
+          "visible_bounds": [
+            1084,
+            528,
+            1509,
+            976
+          ]
+        }
+      ]
+    },
+    "jump": {
+      "path": "game/assets/textures/characters/diego/jump_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 525,
+      "display_scale": 0.21333333333333335,
+      "frames": [
+        {
+          "region": [
+            123,
+            64,
+            495,
+            574
+          ],
+          "pivot_source": [
+            368,
+            632
+          ],
+          "visible_bounds": [
+            129,
+            70,
+            612,
+            632
+          ]
+        },
+        {
+          "region": [
+            798,
+            91,
+            309,
+            470
+          ],
+          "pivot_source": [
+            965,
+            555
+          ],
+          "visible_bounds": [
+            804,
+            97,
+            1101,
+            555
+          ]
+        },
+        {
+          "region": [
+            167,
+            666,
+            396,
+            532
+          ],
+          "pivot_source": [
+            368,
+            1192
+          ],
+          "visible_bounds": [
+            173,
+            672,
+            557,
+            1192
+          ]
+        },
+        {
+          "region": [
+            794,
+            761,
+            366,
+            414
+          ],
+          "pivot_source": [
+            965,
+            1169
+          ],
+          "visible_bounds": [
+            800,
+            767,
+            1154,
+            1169
+          ]
+        }
+      ]
+    },
+    "carry": {
+      "path": "game/assets/textures/characters/diego/carry_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 582,
+      "display_scale": 0.19243986254295534,
+      "frames": [
+        {
+          "region": [
+            164,
+            22,
+            442,
+            598
+          ],
+          "pivot_source": [
+            386,
+            614
+          ],
+          "visible_bounds": [
+            170,
+            28,
+            600,
+            614
+          ]
+        },
+        {
+          "region": [
+            783,
+            24,
+            319,
+            595
+          ],
+          "pivot_source": [
+            951,
+            613
+          ],
+          "visible_bounds": [
+            789,
+            30,
+            1096,
+            613
+          ]
+        },
+        {
+          "region": [
+            164,
+            631,
+            444,
+            595
+          ],
+          "pivot_source": [
+            386,
+            1220
+          ],
+          "visible_bounds": [
+            170,
+            637,
+            602,
+            1220
+          ]
+        },
+        {
+          "region": [
+            795,
+            632,
+            329,
+            595
+          ],
+          "pivot_source": [
+            951,
+            1221
+          ],
+          "visible_bounds": [
+            801,
+            638,
+            1118,
+            1221
+          ]
+        }
+      ]
+    },
+    "grab": {
+      "path": "game/assets/textures/characters/diego/grab_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 594,
+      "display_scale": 0.18855218855218855,
+      "frames": [
+        {
+          "region": [
+            237,
+            109,
+            344,
+            489
+          ],
+          "pivot_source": [
+            393,
+            592
+          ],
+          "visible_bounds": [
+            243,
+            115,
+            575,
+            592
+          ]
+        },
+        {
+          "region": [
+            739,
+            62,
+            370,
+            537
+          ],
+          "pivot_source": [
+            906,
+            593
+          ],
+          "visible_bounds": [
+            745,
+            68,
+            1103,
+            593
+          ]
+        },
+        {
+          "region": [
+            247,
+            606,
+            261,
+            606
+          ],
+          "pivot_source": [
+            393,
+            1206
+          ],
+          "visible_bounds": [
+            253,
+            612,
+            502,
+            1206
+          ]
+        },
+        {
+          "region": [
+            748,
+            607,
+            278,
+            606
+          ],
+          "pivot_source": [
+            906,
+            1207
+          ],
+          "visible_bounds": [
+            754,
+            613,
+            1020,
+            1207
+          ]
+        }
+      ]
+    },
+    "throw": {
+      "path": "game/assets/textures/characters/diego/throw_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 600,
+      "display_scale": 0.18666666666666668,
+      "frames": [
+        {
+          "region": [
+            185,
+            24,
+            327,
+            614
+          ],
+          "pivot_source": [
+            373,
+            632
+          ],
+          "visible_bounds": [
+            191,
+            30,
+            506,
+            632
+          ]
+        },
+        {
+          "region": [
+            717,
+            41,
+            387,
+            595
+          ],
+          "pivot_source": [
+            903,
+            630
+          ],
+          "visible_bounds": [
+            723,
+            47,
+            1098,
+            630
+          ]
+        },
+        {
+          "region": [
+            133,
+            637,
+            529,
+            578
+          ],
+          "pivot_source": [
+            373,
+            1209
+          ],
+          "visible_bounds": [
+            139,
+            643,
+            656,
+            1209
+          ]
+        },
+        {
+          "region": [
+            678,
+            671,
+            435,
+            544
+          ],
+          "pivot_source": [
+            903,
+            1209
+          ],
+          "visible_bounds": [
+            684,
+            677,
+            1107,
+            1209
+          ]
+        }
+      ]
+    },
+    "hurt": {
+      "path": "game/assets/textures/characters/diego/hurt_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 588,
+      "display_scale": 0.19047619047619047,
+      "frames": [
+        {
+          "region": [
+            207,
+            11,
+            322,
+            600
+          ],
+          "pivot_source": [
+            386,
+            605
+          ],
+          "visible_bounds": [
+            213,
+            17,
+            523,
+            605
+          ]
+        },
+        {
+          "region": [
+            744,
+            32,
+            392,
+            579
+          ],
+          "pivot_source": [
+            946,
+            605
+          ],
+          "visible_bounds": [
+            750,
+            38,
+            1130,
+            605
+          ]
+        },
+        {
+          "region": [
+            253,
+            686,
+            300,
+            543
+          ],
+          "pivot_source": [
+            386,
+            1223
+          ],
+          "visible_bounds": [
+            259,
+            692,
+            547,
+            1223
+          ]
+        },
+        {
+          "region": [
+            819,
+            631,
+            267,
+            601
+          ],
+          "pivot_source": [
+            946,
+            1226
+          ],
+          "visible_bounds": [
+            825,
+            637,
+            1080,
+            1226
+          ]
+        }
+      ]
+    },
+    "defeated": {
+      "path": "game/assets/textures/characters/diego/defeated_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 600,
+      "display_scale": 0.18666666666666668,
+      "frames": [
+        {
+          "region": [
+            239,
+            54,
+            312,
+            613
+          ],
+          "pivot_source": [
+            386,
+            661
+          ],
+          "visible_bounds": [
+            245,
+            60,
+            545,
+            661
+          ]
+        },
+        {
+          "region": [
+            787,
+            102,
+            325,
+            554
+          ],
+          "pivot_source": [
+            950,
+            650
+          ],
+          "visible_bounds": [
+            793,
+            108,
+            1106,
+            650
+          ]
+        },
+        {
+          "region": [
+            177,
+            738,
+            402,
+            459
+          ],
+          "pivot_source": [
+            386,
+            1191
+          ],
+          "visible_bounds": [
+            183,
+            744,
+            573,
+            1191
+          ]
+        },
+        {
+          "region": [
+            760,
+            745,
+            381,
+            455
+          ],
+          "pivot_source": [
+            950,
+            1194
+          ],
+          "visible_bounds": [
+            766,
+            751,
+            1135,
+            1194
+          ]
+        }
+      ]
+    },
+    "victory": {
+      "path": "game/assets/textures/characters/diego/victory_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 535,
+      "display_scale": 0.20934579439252338,
+      "frames": [
+        {
+          "region": [
+            233,
+            59,
+            252,
+            545
+          ],
+          "pivot_source": [
+            355,
+            598
+          ],
+          "visible_bounds": [
+            239,
+            65,
+            479,
+            598
+          ]
+        },
+        {
+          "region": [
+            781,
+            59,
+            279,
+            548
+          ],
+          "pivot_source": [
+            928,
+            601
+          ],
+          "visible_bounds": [
+            787,
+            65,
+            1054,
+            601
+          ]
+        },
+        {
+          "region": [
+            187,
+            656,
+            328,
+            552
+          ],
+          "pivot_source": [
+            355,
+            1202
+          ],
+          "visible_bounds": [
+            193,
+            662,
+            509,
+            1202
+          ]
+        },
+        {
+          "region": [
+            786,
+            660,
+            298,
+            549
+          ],
+          "pivot_source": [
+            928,
+            1203
+          ],
+          "visible_bounds": [
+            792,
+            666,
+            1078,
+            1203
+          ]
+        }
+      ]
+    }
+  }
+}

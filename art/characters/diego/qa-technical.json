@@ -1,0 +1,1326 @@
+{
+  "schema_version": 1,
+  "concept": {
+    "path": "art/characters/diego/concept_v001.png",
+    "ok": true,
+    "errors": [],
+    "frames": [
+      {
+        "index": 0,
+        "alpha_bounds": [
+          63,
+          69,
+          1208,
+          1202
+        ],
+        "minimum_padding": 46
+      }
+    ],
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "grid": [
+      1,
+      1
+    ],
+    "frame_size": [
+      1254,
+      1254
+    ],
+    "active_frames": 1
+  },
+  "source_sheets": {
+    "idle": {
+      "path": "game/assets/textures/characters/diego/idle_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            23,
+            34,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            0,
+            9,
+            615,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            25,
+            0,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            1,
+            0,
+            615,
+            627
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "walk": {
+      "path": "game/assets/textures/characters/diego/walk_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 4 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 5 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            31,
+            13,
+            493,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            7,
+            13,
+            502,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            23,
+            13,
+            418,
+            505
+          ],
+          "minimum_padding": 7
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            41,
+            0,
+            500,
+            498
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 4,
+          "alpha_bounds": [
+            5,
+            0,
+            498,
+            498
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 5,
+          "alpha_bounds": [
+            25,
+            2,
+            448,
+            512
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "grid": [
+        3,
+        2
+      ],
+      "frame_size": [
+        512,
+        512
+      ],
+      "active_frames": 6
+    },
+    "run": {
+      "path": "game/assets/textures/characters/diego/run_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 4 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 5 tiene 1 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            0,
+            17,
+            512,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            0,
+            23,
+            512,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            9,
+            500,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            21,
+            0,
+            512,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 4,
+          "alpha_bounds": [
+            0,
+            0,
+            508,
+            498
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 5,
+          "alpha_bounds": [
+            1,
+            9,
+            496,
+            488
+          ],
+          "minimum_padding": 1
+        }
+      ],
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "grid": [
+        3,
+        2
+      ],
+      "frame_size": [
+        512,
+        512
+      ],
+      "active_frames": 6
+    },
+    "jump": {
+      "path": "game/assets/textures/characters/diego/jump_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 1 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 1 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            21,
+            21,
+            623,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            17,
+            39,
+            597,
+            626
+          ],
+          "minimum_padding": 1
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            0,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            1,
+            3,
+            599,
+            589
+          ],
+          "minimum_padding": 1
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "carry": {
+      "path": "game/assets/textures/characters/diego/carry_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            0,
+            24,
+            627,
+            619
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            1,
+            27,
+            593,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            1,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            1,
+            0,
+            609,
+            609
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "grab": {
+      "path": "game/assets/textures/characters/diego/grab_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            27,
+            20,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            1,
+            21,
+            607,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            0,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            1,
+            0,
+            559,
+            627
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "throw": {
+      "path": "game/assets/textures/characters/diego/throw_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            0,
+            19,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            1,
+            21,
+            607,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            25,
+            0,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            0,
+            0,
+            613,
+            595
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "hurt": {
+      "path": "game/assets/textures/characters/diego/hurt_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            33,
+            15,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            13,
+            35,
+            603,
+            614
+          ],
+          "minimum_padding": 13
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            33,
+            0,
+            601,
+            598
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            31,
+            4,
+            617,
+            608
+          ],
+          "minimum_padding": 4
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "defeated": {
+      "path": "game/assets/textures/characters/diego/defeated_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            43,
+            21,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            0,
+            23,
+            599,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            0,
+            627,
+            595
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            1,
+            0,
+            579,
+            627
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    },
+    "victory": {
+      "path": "game/assets/textures/characters/diego/victory_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 1 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            39,
+            17,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            1,
+            18,
+            605,
+            617
+          ],
+          "minimum_padding": 1
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            0,
+            627,
+            627
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            0,
+            1,
+            621,
+            627
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        627,
+        627
+      ],
+      "active_frames": 4
+    }
+  },
+  "atlas": {
+    "ok": true,
+    "frames": [
+      {
+        "sheet": "idle",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          395,
+          316,
+          629,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "idle",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          389,
+          313,
+          632,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "idle",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          395,
+          314,
+          628,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "idle",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          396,
+          315,
+          632,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "walk",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          358,
+          411,
+          660,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "walk",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          392,
+          413,
+          645,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "walk",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          362,
+          416,
+          619,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "walk",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          349,
+          423,
+          679,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "walk",
+        "frame": 4,
+        "virtual_visible_bounds": [
+          376,
+          420,
+          636,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "walk",
+        "frame": 5,
+        "virtual_visible_bounds": [
+          373,
+          422,
+          692,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "run",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          307,
+          419,
+          726,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "run",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          355,
+          420,
+          657,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "run",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          303,
+          445,
+          703,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "run",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          291,
+          433,
+          725,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "run",
+        "frame": 4,
+        "virtual_visible_bounds": [
+          365,
+          430,
+          671,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "run",
+        "frame": 5,
+        "virtual_visible_bounds": [
+          309,
+          452,
+          734,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "jump",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          273,
+          338,
+          756,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "jump",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          351,
+          442,
+          648,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "jump",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          317,
+          380,
+          701,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "jump",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          347,
+          498,
+          701,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "carry",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          296,
+          314,
+          726,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "carry",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          350,
+          317,
+          657,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "carry",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          296,
+          317,
+          728,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "carry",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          362,
+          317,
+          679,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "grab",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          362,
+          423,
+          694,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "grab",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          351,
+          375,
+          709,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "grab",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          372,
+          306,
+          621,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "grab",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          360,
+          306,
+          626,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "throw",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          330,
+          298,
+          645,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "throw",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          332,
+          317,
+          707,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "throw",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          278,
+          334,
+          795,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "throw",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          293,
+          368,
+          716,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "hurt",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          339,
+          312,
+          649,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "hurt",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          316,
+          333,
+          696,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "hurt",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          385,
+          369,
+          673,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "hurt",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          391,
+          311,
+          646,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "defeated",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          371,
+          299,
+          671,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "defeated",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          355,
+          358,
+          668,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "defeated",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          309,
+          453,
+          699,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "defeated",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          328,
+          457,
+          697,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "victory",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          396,
+          367,
+          636,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "victory",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          371,
+          364,
+          638,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "victory",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          350,
+          360,
+          666,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "victory",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          376,
+          363,
+          662,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      }
+    ],
+    "errors": []
+  },
+  "files": {
+    "game/assets/textures/characters/diego/idle_v001.png": {
+      "bytes": 986361,
+      "sha256": "4c43a1180877ba2302aff73b8baf2ae1674925e8d6d4a41db82da392a08e0ed8",
+      "git_blob_sha": "93de3aab30a56b247498dfc0fbd774a05aa4552a"
+    },
+    "game/assets/textures/characters/diego/walk_v001.png": {
+      "bytes": 2004946,
+      "sha256": "c50a69bc00e089d5f5103254edd40c4bbc21f7fa99967e448ef3ea68e76a7847",
+      "git_blob_sha": "50cd265cbc8a015aeed60532bf2fe66c95dff7d5"
+    },
+    "game/assets/textures/characters/diego/run_v001.png": {
+      "bytes": 2169664,
+      "sha256": "c25c63b4216d47c5ce6fe639de67e3b41902583186ab61c10cabbee2fe9e5258",
+      "git_blob_sha": "de1b69d060cfe8c40fbb5cc184fbdb2002483f1a"
+    },
+    "game/assets/textures/characters/diego/jump_v001.png": {
+      "bytes": 1035371,
+      "sha256": "6d6a1a4b7805867d7c01c2148a6b8091011d7a98846fc16ef4d65d986a6dd4de",
+      "git_blob_sha": "554f536ff3b0c6437987f0dac49b0136abf62131"
+    },
+    "game/assets/textures/characters/diego/carry_v001.png": {
+      "bytes": 1071200,
+      "sha256": "c73f70a62111dd86d0796dff64830ae5e5f4cef3b55e018e5bc83d1b413771fe",
+      "git_blob_sha": "ddd6e6083d0cfc111d2e4937d7ddbd464fd30975"
+    },
+    "game/assets/textures/characters/diego/grab_v001.png": {
+      "bytes": 1042308,
+      "sha256": "362258b87a5ff128d744ef58c0098be8e12c9b8bc3bb0e9e43be6fa9e8b642c7",
+      "git_blob_sha": "5ab59250129d628f5d22c25a837b58771690a62c"
+    },
+    "game/assets/textures/characters/diego/throw_v001.png": {
+      "bytes": 1178061,
+      "sha256": "d5a2f09719da29f497836999a7bfb07571793228251bb7e93c753c0830ce9edc",
+      "git_blob_sha": "18a3be263f27a4bdee17b284b72241efdba7f7a2"
+    },
+    "game/assets/textures/characters/diego/hurt_v001.png": {
+      "bytes": 1033520,
+      "sha256": "c1daaf9222eb5ff10e048fbede2e0e9fac017506fd0233bc0c80a5c730dd37a9",
+      "git_blob_sha": "d33c41656467dd723d9c20ecf41f5aaeebf0b946"
+    },
+    "game/assets/textures/characters/diego/defeated_v001.png": {
+      "bytes": 1050324,
+      "sha256": "629b0e66e1b05075b680f66dc64733e28ad5ed1c52be63f5480006a34cf5d181",
+      "git_blob_sha": "697ac79e0992864eac95f791f295529e3c689f14"
+    },
+    "game/assets/textures/characters/diego/victory_v001.png": {
+      "bytes": 957535,
+      "sha256": "85ca975c6bec60f0368ab5af73a3480014e314b00382d7e4995748d28b4e2c76",
+      "git_blob_sha": "3a38b8179ad32e6a20e8a61843772bd943a123dc"
+    }
+  },
+  "rgba8_bytes_without_compression": 62903424,
+  "source_grid_checks_passed": false,
+  "note": "Las hojas fuente conservan avisos de cuadrícula y alfa residual. La ejecución usa regiones explícitas, margen virtual y descarte suave de alfa. La revisión gráfica y las pruebas del motor se registran aparte en qa.md."
+}

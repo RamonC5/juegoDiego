@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-La única escena creada es `game/boot/main.tscn`, con un `Node2D` vacío. No hay scripts de juego, autoloads, personajes integrados, niveles, datos de progreso, menús ni recursos audiovisuales de juego. La aplicación solo incluye un icono provisional SH para la exportación Android. Los apartados de diseño siguientes establecen contratos para futuras implementaciones; no describen funciones ya disponibles.
+`game/boot/main.tscn` compone la primera prueba jugable de Diego: cuerpo 2D, entrada, 13 estados de animación, sensores, objeto de práctica, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. No hay autoloads, mundos, niveles definitivos, progreso ni audio. Los seis enemigos siguen como conceptos de autoría. Se conserva el icono provisional SH.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -65,7 +65,7 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 | Nivel | Emite su finalización con un identificador estable; no decide por sí mismo el desbloqueo de otros niveles |
 | Progreso | Un servicio conserva desbloqueos y mejores resultados por identificador de nivel |
 
-Estos contratos no fijan todavía dificultad, número de niveles por mundo, daños ni patrones de los jefes.
+El protagonista implementa entrada y movimiento; `StompTarget` valida descenso desde arriba y `ThrowableObject` distingue libre, recogido y lanzado. Las dianas responden mediante referencias y señales explícitas. Las opciones se guardan en `user://controls.cfg`, separadas del futuro progreso. Energía, velocidades y tiempos del prototipo son editables; no fijan dificultad definitiva ni patrones de jefes. [Detalles](PROTAGONISTA.md).
 
 ## Ocho mundos y niveles rejugables
 
@@ -82,7 +82,7 @@ El progreso se guardará bajo `user://` con una versión de esquema, escritura a
 - Vista lateral y física 2D. Usar nodos `Node2D`, `CharacterBody2D`, `Area2D`, `TileMapLayer`, `Camera2D` y `Control` según la responsabilidad.
 - Resolución lógica inicial de 1280 × 720, escalado `canvas_items` y aspecto `expand`. La cámara, límites y UI deberán adaptarse al área visible adicional en otras proporciones.
 - Orientación horizontal en móvil. Los futuros controles táctiles respetarán los recortes y la zona segura del dispositivo.
-- Objetivo de 60 FPS a validar en dispositivos reales; física configurada a 60 pasos por segundo. Es un objetivo, no una medición de esta base vacía.
+- Objetivo de 60 FPS a validar en dispositivos reales; física configurada a 60 pasos por segundo. Es un objetivo, no una medición del entrenamiento en un móvil.
 - Texturas con filtrado lineal como base para recursos 2D de alta resolución. La selección final de compresión, atlas y tamaños se medirá al incorporar arte.
 
 ## Skill de creación de personajes
@@ -106,7 +106,7 @@ Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignor
 
 El [catálogo de personajes](PERSONAJES.md) registra seis enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
 
-La escena principal continúa vacía. Los seis conceptos son material de autoría; sus animaciones, recursos de ejecución y escenas de enemigo quedan pendientes de una tarea de producción e integración.
+El protagonista [Diego](../art/characters/diego/ficha.md) añade diez hojas PNG de ejecución, 44 poses y 13 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Los seis enemigos siguen como material de autoría, con animaciones e integración pendientes. El entrenamiento no asigna contenido a los ocho mundos.
 
 ## Capas de colisión reservadas
 
@@ -120,13 +120,13 @@ La escena principal continúa vacía. Los seis conceptos son material de autorí
 | 6 | `collectibles` | Coleccionables |
 | 7 | `interaction_sensors` | Detección de interacción y combate |
 
-Solo están definidos los nombres. Cada escena futura deberá declarar sus capas y máscaras de forma explícita.
+El jugador usa capa 2 y consulta las capas 1 y 3; los objetos usan capa 4 y los sensores capa 7. Las plataformas y dianas declaran sus capas explícitamente. Las escenas futuras conservarán estas responsabilidades.
 
 ## Accesibilidad prevista
 
 Las acciones iniciales incluyen teclado y mando. Al crear la interfaz se añadirán navegación con foco visible, textos escalables y legibles, controles reasignables y botones táctiles ajustables. Las señales relevantes combinarán forma, texto o sonido para evitar depender únicamente del color. Se preverán opciones para reducir sacudidas y destellos, además de pausa accesible y volúmenes separados.
 
-Estas opciones requieren implementación y pruebas de uso; no están disponibles en la escena vacía.
+Ya están implementados contactos simultáneos, tamaño y lados de botones ajustables, carrera automática opcional, salto completo con pulsación, teclado reasignable, foco visible y pausa al perder el foco. La protección de daño no parpadea y la cámara no aplica sacudidas. Audio, escalado avanzado de textos, lectores de pantalla y pruebas físicas quedan pendientes.
 
 ## Compilación continua para Android
 
@@ -134,7 +134,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo no añade sistemas de juego. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 27 pruebas de comportamiento del protagonista y los controles antes de exportar el entrenamiento. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -142,4 +142,3 @@ El flujo no añade sistemas de juego. La firma estable de distribución y las pr
 - [Comparación oficial de renderizadores](https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html).
 - [Exportar a Android](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 - [Exportar a Windows](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_windows.html).
-

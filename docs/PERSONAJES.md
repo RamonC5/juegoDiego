@@ -1,8 +1,22 @@
 # Personajes de Salto Heroes
 
-Catálogo de los **seis enemigos normales** de Juego Diego. Fecha de actualización: **15 de octubre de 2026**.
+Catálogo del **protagonista Diego y los seis enemigos normales** de Juego Diego. Fecha de actualización: **15 de octubre de 2026**.
 
-El usuario indicó que los conceptos le gustan y pidió dar personalidad propia a cada uno. Se conservan las seis ideas de criatura y sus identificadores; se revisan siluetas, rostros, proporciones y posturas. Las nuevas imágenes son propuestas de concepto; sus gestos, animaciones e integración jugable quedan pendientes.
+El usuario valoró los conceptos de los enemigos y pidió diferenciar sus personalidades. Esas seis criaturas conservan sus identificadores y siguen como conceptos, con integración pendiente. Diego se ha creado a partir de la fotografía del usuario y tiene una primera integración jugable con animaciones y controles.
+
+## Protagonista
+
+| Personaje | ID | Rol y mundos | Estado |
+| --- | --- | --- | --- |
+| [Diego](../art/characters/diego/ficha.md) | `diego` | Protagonista compartido; sin mundo exclusivo | Diseño propuesto; 44 poses, 13 estados y controles comprobados en Godot |
+
+![Diego, protagonista de pelo oscuro y gafas negras, con chaleco verde azulado, pañuelo mostaza y botas de aventura.](../art/characters/diego/concept_v001.png)
+
+- [Ficha e imagen](../art/characters/diego/ficha.md), [movimientos y controles](PROTAGONISTA.md).
+- [Prompts](../art/characters/diego/prompts.md), [metadatos](../art/characters/diego/character.json) y [revisión](../art/characters/diego/qa.md).
+- [Entrenamiento con controles táctiles](../art/characters/diego/preview_gameplay.png) y [opciones](../art/characters/diego/preview_controls.png).
+
+Nombre y vestuario propuestos; se conservan pelo, gafas y rasgos de la referencia. Quedan las pruebas físicas en Android y tablet Windows y la ficha detallada de «opción A».
 
 ## Comparación de identidades
 

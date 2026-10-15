@@ -8,7 +8,7 @@ Las plantillas de exportación deben corresponder exactamente a la versión del 
 
 ## Qué debe ocurrir al ejecutar
 
-La escena principal contiene únicamente un nodo `Main` de tipo `Node2D`. Al pulsar F5 aparecerá una pantalla vacía del color de fondo configurado. No hay interacción, personajes, escenarios, música ni menús.
+F5 abre el entrenamiento de Diego, con plataformas, esfera recogible, dianas, controles táctiles, HUD y pausa. Mundos, niveles definitivos, enemigos jugables y música se implementarán después. [Guía del protagonista](PROTAGONISTA.md).
 
 ## Acciones de entrada configuradas
 
@@ -20,7 +20,7 @@ La escena principal contiene únicamente un nodo `Main` de tipo `Node2D`. Al pul
 | `grab_throw` | E | X |
 | `pause` | Escape | Start / Menú |
 
-Las acciones solo están declaradas. Los controles táctiles futuros emitirán esas mismas acciones para permitir moverse y saltar simultáneamente. La navegación de menús usará las acciones `ui_*` de Godot y foco explícito. La reasignación de controles se implementará al crear los ajustes.
+`PlayerInputSource` mezcla acciones de teclado, mando y contactos independientes. `run` añade Mayús/B y puede sustituirse por carrera automática. Pausa permite reasignar teclas, ajustar tamaño y lados de botones y activar salto completo con una pulsación. Los menús tienen foco visible y navegación `ui_*`. Las opciones se guardan en `user://controls.cfg`.
 
 ## Comprobación local
 
@@ -31,7 +31,7 @@ godot --headless --path . --editor --import --quit
 godot --headless --path . --quit-after 3
 ```
 
-La primera orden importa y analiza el proyecto. La segunda inicia la escena vacía y termina tras tres iteraciones. No verifican controles, gráficos finales, guardado ni compatibilidad real de dispositivos.
+La primera orden importa y analiza el proyecto; la segunda inicia el entrenamiento. Para comprobar el protagonista, ejecutar además `godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd`: son 27 pruebas. El renderizado se ha revisado en Compatibility a 1280 × 720 y 1024 × 768; los dispositivos físicos siguen pendientes.
 
 ## Windows
 
@@ -45,7 +45,7 @@ La modificación de recursos del ejecutable y la firma están desactivadas en es
 
 ## Android
 
-El perfil **Android** prepara un APK ARM64 con el identificador `com.ramonc5.saltoheroes`, versión `0.0.0` y código de versión `1`. El identificador queda reservado para este proyecto y debe revisarse antes de publicar. No se solicita permiso de Internet.
+El perfil **Android** prepara un APK ARM64 con el identificador `com.ramonc5.saltoheroes`, versión `0.1.0` y código de versión `2`. El identificador queda reservado para este proyecto y debe revisarse antes de publicar. No se solicita permiso de Internet.
 
 1. Instala OpenJDK 17 y el SDK Android con los paquetes requeridos por [la guía oficial](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 2. En los ajustes del editor configura **Export → Android → Java SDK Path** y **Android SDK Path**.
@@ -84,7 +84,7 @@ El flujo realiza estas operaciones:
 2. Descarga Godot con la versión de `.godot-version` y comprueba el SHA-512 registrado en `tools/godot-linux-x86_64.sha512`.
 3. Descarga las plantillas de esa misma versión, comprueba `tools/godot-export-templates.sha256` e instala las plantillas APK Android. El checksum procede del campo `digest` de la [publicación oficial de Godot 4.7.2](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable).
 4. Recupera o crea una clave de depuración fuera del repositorio y configura las rutas de Java, SDK y firma en un directorio temporal mediante `tools/ci/configure_android.py`.
-5. Importa el proyecto, comprueba su arranque y exporta con `--headless --export-debug Android`. Falla ante errores de Godot.
+5. Importa el proyecto, comprueba el arranque, ejecuta las 27 pruebas del protagonista y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
 6. Verifica el APK con `apksigner`, comprueba el paquete `com.ramonc5.saltoheroes` y la biblioteca ARM64, y calcula el SHA-256 del archivo.
 7. Publica el APK, su checksum y los metadatos de compilación durante 30 días. Si falla la compilación, conserva los registros disponibles durante 7 días.
 
@@ -102,7 +102,7 @@ El resumen de cada ejecución también enlaza directamente al artefacto. La desc
 | `salto-heroes.apk.sha256` | Comprobación de integridad del APK |
 | `build-info.json` | Versión de Godot, versión Android, commit y ejecución de origen |
 
-El código de versión del APK es `1000 + GITHUB_RUN_NUMBER` y el nombre es `0.0.0-ci.<número>`. Solo se modifica la copia del perfil dentro del runner; la versión del proyecto en Git conserva `0.0.0`. Una repetición de la misma ejecución conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
+El código de versión del APK es `1000 + GITHUB_RUN_NUMBER`. El nombre toma `config/version` del proyecto y añade `-ci.<número>`, actualmente `0.1.0-ci.<número>`. Solo se modifica la copia del perfil dentro del runner. Una repetición conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
 
 ### Firma de pruebas y actualizaciones
 
@@ -110,7 +110,7 @@ No hace falta configurar secretos para generar e instalar estos APK. Se usa una 
 
 La caché permite reutilizar la firma en ejecuciones posteriores cuando está disponible. No es un almacén permanente: si GitHub elimina la caché o una rama no puede recuperarla, se genera otra clave. Android no permite actualizar una aplicación con otra firma; en ese caso será necesario desinstalar la versión anterior antes de instalar la nueva, lo que puede borrar el progreso local. Para distribución estable se configurará una clave permanente respaldada y almacenada como secreto.
 
-El APK actual abre la escena vacía. La CI verifica importación, arranque, exportación y firma; el funcionamiento gráfico, los controles y el rendimiento deben comprobarse en móviles reales.
+El APK abre el entrenamiento de Diego. La CI verifica importación, arranque, 27 pruebas, exportación y firma; el tacto y rendimiento deben comprobarse en Android y tablet Windows físicos.
 
 ### Actualizar Godot
 

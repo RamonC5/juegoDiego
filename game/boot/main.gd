@@ -1,0 +1,336 @@
+extends Node2D
+## Composición de la prueba del protagonista. No define mundos ni progreso.
+
+const PLAYER_SCENE: PackedScene = preload("res://game/features/player/diego.tscn")
+const STAGE_SCRIPT = preload("res://game/features/player/practice_stage.gd")
+const TARGET_SCRIPT = preload("res://game/features/player/practice_target.gd")
+const ACTION_LABELS: Dictionary = {&"move_left": "Izquierda", &"move_right": "Derecha",
+	&"jump": "Saltar", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
+
+var player: DiegoPlayer
+var settings: ControlSettings
+var touch: HeroTouchControls
+var _camera: Camera2D
+var _ui: Control
+var _health: Label
+var _message: Label
+var _menu: Control
+var _panel: PanelContainer
+var _menu_title: Label
+var _resume_button: Button
+var _remap_buttons: Dictionary = {}
+var _waiting_action: StringName = &""
+var _key_hint: Label
+var _check_boxes: Dictionary = {}
+
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	settings = ControlSettings.new()
+	add_child(settings)
+	var stage := Node2D.new()
+	stage.name = "PracticeStage"
+	stage.set_script(STAGE_SCRIPT)
+	add_child(stage)
+	player = PLAYER_SCENE.instantiate()
+	player.position = Vector2(160, 500)
+	stage.add_child(player)
+	_camera = Camera2D.new()
+	_camera.position = Vector2(640, 360)
+	_camera.position_smoothing_enabled = false
+	_camera.limit_left = 0
+	_camera.limit_right = 2900
+	_camera.limit_top = -200
+	_camera.limit_bottom = 1100
+	add_child(_camera)
+	var ball := ThrowableObject.new()
+	ball.position = Vector2(330, 470)
+	stage.add_child(ball)
+	for spec in [[&"throw", Vector2(520, 500)], [&"stomp", Vector2(730, 500)]]:
+		var target := StaticBody2D.new()
+		target.set_script(TARGET_SCRIPT)
+		target.kind = spec[0]
+		target.position = spec[1]
+		stage.add_child(target)
+		target.completed.connect(func(): _message.text = "¡Bien hecho! Sigue practicando hacia la derecha.")
+	_add_goal(stage)
+	_build_ui()
+	settings.changed.connect(_apply_settings)
+	_apply_settings()
+	player.health_changed.connect(func(value: int): _health.text = "Energía: %d / 3" % value)
+	player.defeated.connect(func(): _open_menu("¡Otra oportunidad!", false))
+	get_viewport().size_changed.connect(_layout_menu)
+
+
+func _process(_delta: float) -> void:
+	if is_instance_valid(player):
+		var half_width: float = get_viewport_rect().size.x / 2.0
+		_camera.position.x = clampf(player.position.x, half_width, maxf(half_width, 2900.0-half_width))
+
+
+func _add_goal(stage: Node2D) -> void:
+	var goal := Area2D.new()
+	goal.position = Vector2(2680, 440)
+	goal.collision_layer = 64
+	goal.collision_mask = 2
+	var shape := CollisionShape2D.new()
+	var rectangle := RectangleShape2D.new()
+	rectangle.size = Vector2(90, 120)
+	shape.shape = rectangle
+	goal.add_child(shape)
+	stage.add_child(goal)
+	var caption := Label.new()
+	caption.text = "META DE PRUEBA"
+	caption.position = Vector2(-150, -110)
+	caption.size.x = 300
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	caption.add_theme_font_size_override("font_size", 28)
+	caption.add_theme_color_override("font_color", Color("142e37"))
+	goal.add_child(caption)
+	goal.body_entered.connect(func(body: Node2D):
+		if body == player:
+			player.celebrate()
+			_message.text = "¡Prueba completada! Abre Pausa para volver a jugar."
+	)
+
+
+func _build_ui() -> void:
+	var layer := CanvasLayer.new()
+	add_child(layer)
+	_ui = Control.new()
+	_ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(_ui)
+	var theme := Theme.new()
+	theme.default_font_size = 21
+	var focus := StyleBoxFlat.new()
+	focus.bg_color = Color(0, 0, 0, 0)
+	focus.set_border_width_all(3)
+	focus.border_color = Color("ffd27d")
+	theme.set_stylebox("focus", "Button", focus)
+	theme.set_stylebox("focus", "CheckBox", focus)
+	theme.set_icon("checked", "CheckBox", preload("res://game/assets/ui/checkbox_on.svg"))
+	theme.set_icon("unchecked", "CheckBox", preload("res://game/assets/ui/checkbox_off.svg"))
+	_ui.theme = theme
+	var top := PanelContainer.new()
+	top.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	top.offset_bottom = 126.0
+	_ui.add_child(top)
+	var margin := MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_"+side, 16)
+	top.add_child(margin)
+	var header := VBoxContainer.new()
+	margin.add_child(header)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 18)
+	header.add_child(row)
+	var title := Label.new()
+	title.text = "SALTO HEROES · Diego"
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.add_theme_font_size_override("font_size", 25)
+	row.add_child(title)
+	_health = Label.new()
+	_health.text = "Energía: 3 / 3"
+	row.add_child(_health)
+	var pause_button := _button("Pausa", func(): _toggle_pause())
+	pause_button.custom_minimum_size = Vector2(114, 58)
+	row.add_child(pause_button)
+	_message = Label.new()
+	_message.text = "Entrenamiento: muévete, salta y prueba a coger y lanzar la esfera."
+	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	header.add_child(_message)
+	touch = HeroTouchControls.new()
+	touch.settings = settings
+	touch.input_source = player.controls
+	_ui.add_child(touch)
+	_build_menu()
+
+
+func _build_menu() -> void:
+	_menu = Control.new()
+	_menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_ui.add_child(_menu)
+	var shade := ColorRect.new()
+	shade.color = Color(0.02, 0.05, 0.07, 0.85)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_menu.add_child(shade)
+	_panel = PanelContainer.new()
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("172c32")
+	panel_style.set_corner_radius_all(10)
+	_panel.add_theme_stylebox_override("panel", panel_style)
+	_menu.add_child(_panel)
+	var margin := MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_"+side, 20)
+	_panel.add_child(margin)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 13)
+	margin.add_child(column)
+	_menu_title = Label.new()
+	_menu_title.add_theme_font_size_override("font_size", 30)
+	column.add_child(_menu_title)
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 12)
+	column.add_child(buttons)
+	_resume_button = _button("Continuar", _resume)
+	_resume_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buttons.add_child(_resume_button)
+	var restart_button := _button("Volver a empezar", _restart)
+	restart_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buttons.add_child(restart_button)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(scroll)
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 13)
+	scroll.add_child(box)
+	var instructions := Label.new()
+	instructions.text = "Izquierda y derecha para moverte. Mantén Salto para saltar más alto.\nCoger / lanzar actúa con una sola pulsación. Mando: A salta, X actúa, Start pausa."
+	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(instructions)
+	for spec in [["Correr automáticamente", "automatic_run"],
+		["Salto completo con una pulsación", "full_jump"],
+		["Mostrar botones táctiles en Windows", "show_touch"],
+		["Intercambiar los lados de los botones", "left_handed"]]:
+		var checkbox := CheckBox.new()
+		checkbox.text = spec[0]
+		checkbox.button_pressed = settings.get(spec[1])
+		checkbox.custom_minimum_size.y = 48
+		box.add_child(checkbox)
+		_check_boxes[spec[1]] = checkbox
+		checkbox.toggled.connect(func(value: bool):
+			settings.set(spec[1], value)
+			settings.save()
+		)
+	var size_label := Label.new()
+	size_label.text = "Tamaño de los botones táctiles"
+	box.add_child(size_label)
+	var slider := HSlider.new()
+	slider.min_value = 0.8
+	slider.max_value = 1.4
+	slider.step = 0.1
+	slider.value = settings.button_scale
+	slider.custom_minimum_size.y = 48
+	slider.tooltip_text = "Ajusta con las flechas o arrastrando"
+	box.add_child(slider)
+	slider.value_changed.connect(func(value: float):
+		settings.button_scale = value
+		settings.save()
+	)
+	_key_hint = Label.new()
+	_key_hint.text = "Teclado: pulsa una acción para cambiar su tecla."
+	_key_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(_key_hint)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 12)
+	grid.add_theme_constant_override("v_separation", 8)
+	box.add_child(grid)
+	for action in ControlSettings.ACTIONS:
+		var label := Label.new()
+		label.text = ACTION_LABELS[action]
+		grid.add_child(label)
+		var button := _button(settings.key_label(action), func():
+			_waiting_action = action
+			_key_hint.text = "Pulsa la nueva tecla para %s. Escape cancela." % ACTION_LABELS[action]
+		)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.add_child(button)
+		_remap_buttons[action] = button
+	box.add_child(_button("Restablecer teclas", func():
+		_waiting_action = &""
+		settings.reset_keys()
+	))
+	_menu.visible = false
+	_layout_menu()
+
+
+func _button(text: String, callback: Callable) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size.y = 52
+	button.pressed.connect(callback)
+	return button
+
+
+func _layout_menu() -> void:
+	if not is_instance_valid(_panel):
+		return
+	var view: Vector2 = get_viewport_rect().size
+	_panel.size = Vector2(minf(720, view.x-40), minf(650, view.y-40))
+	_panel.position = (view - _panel.size) / 2.0
+
+
+func _apply_settings() -> void:
+	player.controls.automatic_run = settings.automatic_run
+	player.controls.full_jump = settings.full_jump
+	for property in _check_boxes:
+		_check_boxes[property].set_pressed_no_signal(bool(settings.get(property)))
+	for action in _remap_buttons:
+		_remap_buttons[action].text = settings.key_label(action)
+
+
+func _input(event: InputEvent) -> void:
+	if _waiting_action.is_empty() or not event is InputEventKey or not event.pressed or event.echo:
+		return
+	if event.keycode == KEY_ESCAPE:
+		_waiting_action = &""
+		_key_hint.text = "Cambio cancelado."
+	elif settings.rebind(_waiting_action, int(event.physical_keycode)):
+		_waiting_action = &""
+		_key_hint.text = "Tecla guardada."
+	else:
+		_key_hint.text = "Esa tecla ya está asignada. Elige otra o pulsa Escape."
+	get_viewport().set_input_as_handled()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"pause") and not event.is_echo():
+		_toggle_pause()
+		get_viewport().set_input_as_handled()
+
+
+func _toggle_pause() -> void:
+	if get_tree().paused and not player.dead:
+		_resume()
+	else:
+		_open_menu("Pausa y controles", not player.dead)
+
+
+func _open_menu(title: String, allow_resume: bool = true) -> void:
+	_waiting_action = &""
+	touch.release_all()
+	player.suspend_controls()
+	get_tree().paused = true
+	_menu_title.text = title
+	_resume_button.disabled = not allow_resume
+	_menu.visible = true
+	if allow_resume:
+		_resume_button.grab_focus()
+	else:
+		_resume_button.find_next_valid_focus().grab_focus()
+
+
+func _resume() -> void:
+	_waiting_action = &""
+	touch.release_all()
+	_menu.visible = false
+	player.controls.enabled = true
+	player.controls.block_current_physical()
+	get_tree().paused = false
+
+
+func _restart() -> void:
+	touch.release_all()
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(touch):
+		_open_menu("Partida en pausa", not player.dead)
