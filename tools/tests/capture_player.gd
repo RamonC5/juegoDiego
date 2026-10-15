@@ -29,12 +29,22 @@ func _capture() -> void:
 	root.add_child(_main)
 	await _frames(12)
 	_main.settings.left_handed = false
-	_main.settings.button_scale = 1.0
+	_main.settings.gesture_scale = 1.0
+	_main.settings.automatic_run = true
+	_main.settings.full_jump = false
 	_main.settings.show_touch = true
+	_main.settings.show_gesture_hints = true
 	_main._apply_settings()
 	_main.touch.refresh()
 	await _frames(3)
 	_save("preview_gameplay")
+	_touch(0, Vector2(220, 540), true)
+	_drag(0, Vector2(300, 540))
+	_touch(1, Vector2(1010, 530), true)
+	_drag(1, Vector2(1010, 465))
+	await _frames(2)
+	_save("preview_gestures")
+	_main.touch.release_all()
 	_main._open_menu("Pausa y controles")
 	await _frames(3)
 	_save("preview_controls")
@@ -42,10 +52,29 @@ func _capture() -> void:
 	root.size = Vector2i(1024, 768)
 	await _frames(5)
 	_save("preview_tablet")
+	_main.touch._guide_time = 0.0
+	_main.touch._update_guides()
+	await _frames(2)
+	_save("preview_clean")
 	_main.queue_free()
 	await _frames(2)
 	await _animation_board()
 	quit()
+
+
+func _touch(index: int, point: Vector2, pressed: bool) -> void:
+	var event := InputEventScreenTouch.new()
+	event.index = index
+	event.position = point
+	event.pressed = pressed
+	root.push_input(event, true)
+
+
+func _drag(index: int, point: Vector2) -> void:
+	var event := InputEventScreenDrag.new()
+	event.index = index
+	event.position = point
+	root.push_input(event, true)
 
 
 func _animation_board() -> void:

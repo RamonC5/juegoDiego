@@ -26,9 +26,9 @@ Diez hojas PNG RGBA contienen **44 poses fuente**. `SpriteFrames` expone **13 es
 
 La generación no respetó de forma exacta todos los límites de la cuadrícula solicitada. Se usan regiones de atlas explícitas, con pivote de apoyo y escala uniforme por hoja. Un shader suave descarta alfa residual de baja opacidad. Los PNG originales no se han retocado por código; el informe conserva los avisos de margen de las hojas fuente. La referencia está en `art/`; únicamente las diez hojas de ejecución se importan desde `game/assets/`.
 
-La integración se ha comprobado en **Godot 4.7.2**, con 27 pruebas de comportamiento y revisión gráfica en Compatibility a 1280 × 720 y 1024 × 768. Quedan pendientes la valoración visual del usuario, la ficha completa de «opción A» y las pruebas físicas y de rendimiento en Android y Windows.
+La integración se ha comprobado en **Godot 4.7.2**, con 55 pruebas de comportamiento y revisión gráfica en Compatibility a 1280 × 720 y 1024 × 768. Quedan pendientes la valoración visual del usuario, la ficha completa de «opción A» y las pruebas físicas y de rendimiento en Android y Windows.
 
-![Zona de entrenamiento con Diego, una esfera recogible y dianas de lanzamiento y pisotón, con botones táctiles grandes.](preview_gameplay.png)
+![Zona de entrenamiento con Diego, una esfera recogible y dianas de lanzamiento y pisotón, con guía de gestos y sin botones de juego fijos.](preview_gameplay.png)
 
 ## Registro de producción
 

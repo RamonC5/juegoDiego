@@ -358,7 +358,7 @@
     "visual_review": "art/characters/diego/qa.md",
     "visual_review_passed": true,
     "godot_version": "4.7.2.stable.official.ed1daf0bf",
-    "behavior_checks": 27,
+    "behavior_checks": 55,
     "behavior_failures": 0,
     "rendering": "Compatibility / OpenGL 4.5 / Mesa llvmpipe",
     "rendered_sizes": [

@@ -18,7 +18,7 @@ proposed_decisions:
   camera: Vista lateral hacia la derecha, rostro ligeramente visible y luz superior izquierda.
   graphics: Raster HD texturizado con sombreado suave; escenas y física exclusivamente 2D.
   gameplay: Aceleración, caminar, correr, salto variable, margen de borde, salto anticipado, rebote, recoger, transportar y lanzar.
-  accessibility: Carrera automática opcional, salto completo con pulsación, tamaño y lados de botones, teclado reasignable y foco visible.
+  accessibility: Carrera automática opcional, salto completo con pulsación, recorrido y lados de los gestos sin botones fijos, teclado reasignable y foco visible.
   health: Tres puntos de energía y protección temporal sin parpadeos, editables.
 production:
   tool: image_gen integrada

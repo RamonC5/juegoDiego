@@ -113,16 +113,20 @@ func _build_ui() -> void:
 	theme.set_icon("unchecked", "CheckBox", preload("res://game/assets/ui/checkbox_off.svg"))
 	_ui.theme = theme
 	var top := PanelContainer.new()
+	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	top.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	top.offset_bottom = 126.0
 	_ui.add_child(top)
 	var margin := MarginContainer.new()
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for side in ["left", "right", "top", "bottom"]:
 		margin.add_theme_constant_override("margin_"+side, 16)
 	top.add_child(margin)
 	var header := VBoxContainer.new()
+	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_child(header)
 	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_theme_constant_override("separation", 18)
 	header.add_child(row)
 	var title := Label.new()
@@ -143,6 +147,7 @@ func _build_ui() -> void:
 	touch = HeroTouchControls.new()
 	touch.settings = settings
 	touch.input_source = player.controls
+	touch.excluded_controls = [pause_button]
 	_ui.add_child(touch)
 	_build_menu()
 
@@ -190,13 +195,14 @@ func _build_menu() -> void:
 	box.add_theme_constant_override("separation", 13)
 	scroll.add_child(box)
 	var instructions := Label.new()
-	instructions.text = "Izquierda y derecha para moverte. Mantén Salto para saltar más alto.\nCoger / lanzar actúa con una sola pulsación. Mando: A salta, X actúa, Start pausa."
+	instructions.text = "GESTOS SIN BOTONES\nEn cualquier punto de la mitad de movimiento, arrastra ← →. Un arrastre corto camina; uno largo corre. Suelta para parar.\nEn la otra mitad, desliza ↑ para saltar y mantén el dedo para ganar altura. Un toque corto coge o lanza. Puedes usar varios dedos a la vez.\nTeclado: A / D, Espacio y E. Mando: A salta, X actúa, Start pausa."
 	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(instructions)
-	for spec in [["Correr automáticamente", "automatic_run"],
-		["Salto completo con una pulsación", "full_jump"],
-		["Mostrar botones táctiles en Windows", "show_touch"],
-		["Intercambiar los lados de los botones", "left_handed"]]:
+	for spec in [["Correr también con arrastres cortos / teclado", "automatic_run"],
+		["Salto completo sin mantener", "full_jump"],
+		["Activar gestos táctiles y de ratón en Windows", "show_touch"],
+		["Intercambiar las zonas izquierda y derecha", "left_handed"],
+		["Mostrar guía de gestos al empezar (10 segundos)", "show_gesture_hints"]]:
 		var checkbox := CheckBox.new()
 		checkbox.text = spec[0]
 		checkbox.button_pressed = settings.get(spec[1])
@@ -208,18 +214,18 @@ func _build_menu() -> void:
 			settings.save()
 		)
 	var size_label := Label.new()
-	size_label.text = "Tamaño de los botones táctiles"
+	size_label.text = "Recorrido de los gestos (menor = menos arrastre)"
 	box.add_child(size_label)
 	var slider := HSlider.new()
 	slider.min_value = 0.8
 	slider.max_value = 1.4
 	slider.step = 0.1
-	slider.value = settings.button_scale
+	slider.value = settings.gesture_scale
 	slider.custom_minimum_size.y = 48
 	slider.tooltip_text = "Ajusta con las flechas o arrastrando"
 	box.add_child(slider)
 	slider.value_changed.connect(func(value: float):
-		settings.button_scale = value
+		settings.gesture_scale = value
 		settings.save()
 	)
 	_key_hint = Label.new()

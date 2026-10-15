@@ -8,15 +8,15 @@ La escena de arranque abre una **zona de entrenamiento** con el protagonista, pl
 
 | Acción | Android y tablet Windows | Teclado inicial | Mando |
 | --- | --- | --- | --- |
-| Moverse | Flechas de la izquierda | A / D o flechas | Cruceta o palanca izquierda |
-| Saltar | Botón Saltar; mantener para mayor altura | Espacio | A |
-| Recoger / lanzar | Botón Coger / lanzar, una pulsación | E | X |
-| Correr | Automático de inicio; botón Correr si se desactiva | Mayús | B |
+| Moverse | Arrastrar horizontalmente desde cualquier punto de la mitad izquierda; soltar para parar | A / D o flechas | Cruceta o palanca izquierda |
+| Saltar | Deslizar hacia arriba en cualquier punto de la mitad derecha; mantener para mayor altura | Espacio | A |
+| Recoger / lanzar | Toque corto en cualquier punto de la mitad derecha | E | X |
+| Correr | Arrastre largo; carrera con arrastre corto opcional | Mayús o carrera automática | B o carrera automática |
 | Pausar / ajustar | Botón Pausa | Escape | Start |
 
-En **Pausa y controles** se pueden cambiar las teclas, activar carrera automática, usar salto completo con una pulsación, intercambiar los lados y ajustar el tamaño de los botones. Los ajustes se guardan en `user://controls.cfg`, separados del futuro progreso. Android siempre ofrece los botones táctiles; en Windows se muestran de inicio y pueden ocultarse. Arrastrar fuera de un botón, cancelar un contacto, pausar o perder el foco libera los controles.
+En **Pausa y controles** se pueden cambiar las teclas, activar carrera con arrastres cortos, usar salto completo sin mantener el dedo después del gesto, intercambiar las mitades y ajustar el recorrido de los gestos. Los ajustes se guardan en `user://controls.cfg`, separados del futuro progreso. Android siempre permite gestos; en Windows están activados de inicio y también se pueden probar con el ratón. El ajuste anterior de tamaño se migra a recorrido, conservando las demás preferencias.
 
-Los botones admiten contactos simultáneos para desplazarse, saltar y actuar. Se adaptan al área segura de Android y a la relación de aspecto. Hay etiquetas visibles, contraste alto, foco de teclado, navegación de mando y un menú con desplazamiento. No se usan sacudidas, destellos ni parpadeos de daño. La compatibilidad con lectores de pantalla nativos no está certificada.
+No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centro; se puede mover, saltar y actuar simultáneamente. El origen horizontal sigue al dedo en arrastres largos para facilitar invertir la dirección. Cancelar un contacto, pausar o perder el foco libera la entrada correspondiente. Los trazos solo aparecen al tocar y la guía inicial desaparece a los diez segundos; se puede desactivar en pausa. Se respetan el área segura y la relación de aspecto. El menú conserva contraste alto, foco de teclado, navegación de mando y desplazamiento. [Referencias y detalle de los gestos](CONTROLES_TACTILES.md).
 
 ## Movimiento inicial
 
@@ -61,7 +61,7 @@ Son diez hojas y 44 poses fuente. Los estados que contienen una pose se identifi
 - `game/core/contracts/stomp_target.gd`: acepta descenso desde arriba y emite `stomped`; el futuro enemigo responde a esa señal.
 - `game/features/objects/throwable_object.gd`: estados libre, recogido y lanzado; un impacto lanzado solo es válido durante el vuelo.
 - `game/core/services/control_settings.gd`: opciones y reasignación persistentes; conserva los eventos de mando.
-- `game/ui/touch_controls/touch_controls.gd`: punteros independientes, cancelación, zona segura y distribución.
+- `game/ui/touch_controls/touch_controls.gd`: reconocimiento de gestos, eje analógico, punteros independientes, cancelación y zona segura.
 
 Los jefes futuros podrán implementar `receive_thrown_hit(object)` y decidir su vulnerabilidad. Las dianas actuales solo sirven para entrenar; no definen enemigos ni jefes nuevos.
 
@@ -76,4 +76,4 @@ python tools/build_diego_atlas.py
 
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
-Las 27 pruebas cubren movimiento, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, tres contactos simultáneos, pausa, cambio de lados y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+Las 55 pruebas cubren movimiento, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.

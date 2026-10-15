@@ -39,7 +39,7 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 | `game/features/world_map/` | Selección de mundos y acceso a niveles desbloqueados |
 | `game/ui/menus/` | Inicio, pausa, opciones y selección |
 | `game/ui/hud/` | Información de la partida |
-| `game/ui/touch_controls/` | Botones táctiles y adaptación a la zona segura |
+| `game/ui/touch_controls/` | Gestos táctiles por zonas, multitoque y adaptación a la zona segura |
 | `game/data/worlds/world_01/` a `world_08/` | Definiciones futuras de los ocho mundos |
 | `game/assets/textures/`, `audio/`, `fonts/` | Recursos audiovisuales |
 | `game/localization/` | Traducciones |
@@ -124,9 +124,9 @@ El jugador usa capa 2 y consulta las capas 1 y 3; los objetos usan capa 4 y los 
 
 ## Accesibilidad prevista
 
-Las acciones iniciales incluyen teclado y mando. Al crear la interfaz se añadirán navegación con foco visible, textos escalables y legibles, controles reasignables y botones táctiles ajustables. Las señales relevantes combinarán forma, texto o sonido para evitar depender únicamente del color. Se preverán opciones para reducir sacudidas y destellos, además de pausa accesible y volúmenes separados.
+Las acciones iniciales incluyen teclado y mando. Al crear la interfaz se añadirán navegación con foco visible, textos escalables y legibles, controles reasignables y gestos táctiles ajustables. Las señales relevantes combinarán forma, texto o sonido para evitar depender únicamente del color. Se preverán opciones para reducir sacudidas y destellos, además de pausa accesible y volúmenes separados.
 
-Ya están implementados contactos simultáneos, tamaño y lados de botones ajustables, carrera automática opcional, salto completo con pulsación, teclado reasignable, foco visible y pausa al perder el foco. La protección de daño no parpadea y la cámara no aplica sacudidas. Audio, escalado avanzado de textos, lectores de pantalla y pruebas físicas quedan pendientes.
+Ya están implementados contactos simultáneos, gestos sin botones fijos, recorrido y lados ajustables, carrera automática opcional, salto completo con pulsación, teclado reasignable, foco visible y pausa al perder el foco. La protección de daño no parpadea y la cámara no aplica sacudidas. Audio, escalado avanzado de textos, lectores de pantalla y pruebas físicas quedan pendientes.
 
 ## Compilación continua para Android
 
@@ -134,7 +134,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 27 pruebas de comportamiento del protagonista y los controles antes de exportar el entrenamiento. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 55 pruebas de comportamiento del protagonista y los controles antes de exportar el entrenamiento. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 

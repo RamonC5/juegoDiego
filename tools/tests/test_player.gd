@@ -11,6 +11,10 @@ var _checks: int = 0
 
 
 func _initialize() -> void:
+	root.size = Vector2i(1280, 720)
+	# El servidor headless puede ignorar el tamaño físico de ventana.
+	root.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP
+	root.content_scale_size = Vector2i(1280, 720)
 	_run.call_deferred()
 
 
@@ -176,35 +180,168 @@ func _run() -> void:
 	quit(0 if _failures == 0 else 1)
 
 
+func _touch(index: int, point: Vector2, pressed: bool, canceled: bool = false) -> void:
+	var event := InputEventScreenTouch.new()
+	event.index = index
+	event.position = point
+	event.pressed = pressed
+	event.canceled = canceled
+	root.push_input(event, true)
+
+
+func _drag(index: int, point: Vector2) -> void:
+	var event := InputEventScreenDrag.new()
+	event.index = index
+	event.position = point
+	root.push_input(event, true)
+
+
 func _test_interface() -> void:
 	var main: Node2D = MAIN.instantiate()
 	root.add_child(main)
 	await _step(5)
 	main.settings.show_touch = true
+	main.settings.left_handed = false
+	main.settings.gesture_scale = 1.0
+	main.settings.automatic_run = false
+	main.settings.show_gesture_hints = true
+	main._apply_settings()
 	main.touch.refresh()
-	for index in 3:
-		var action: StringName = [&"move_right", &"jump", &"grab_throw"][index]
-		var event := InputEventScreenTouch.new()
-		event.index = index
-		event.position = main.touch._centres[action]
-		event.pressed = true
-		root.push_input(event, true)
-	await process_frame
-	_check(main.player.controls.held(&"move_right") and main.player.controls.held(&"jump") and main.player.controls.held(&"grab_throw"), "tres contactos táctiles simultáneos")
-	var drag := InputEventScreenDrag.new()
-	drag.index = 0
-	drag.position = Vector2(600, 300)
-	root.push_input(drag, true)
-	_check(not main.player.controls.held(&"move_right"), "arrastrar fuera del botón libera la dirección")
+	var view: Vector2 = main.touch.size
+	_check(is_equal_approx(view.x/view.y, 16.0/9.0), "el lienzo de prueba inicial tiene proporción móvil 16:9")
+	var left := Vector2(view.x*0.2, view.y*0.3)
+	var right := Vector2(view.x*0.75, view.y*0.65)
+	_touch(0, left, true)
+	_check(is_zero_approx(main.player.controls.horizontal()), "apoyar el dedo en un punto libre no inicia el movimiento")
+	_drag(0, left+Vector2(3, 0))
+	_check(is_zero_approx(main.player.controls.horizontal()), "la zona muerta evita moverse por pequeños temblores")
+	_drag(0, left+Vector2(35, 0))
+	_check(main.player.controls.horizontal() > 0.2 and main.player.controls.horizontal() < 0.8, "arrastre corto produce movimiento analógico")
+	_drag(0, left+Vector2(180, 0))
+	await _step(14)
+	_check(main.player.velocity.x > 300 and main.player.controls.held(&"run"), "arrastre largo corre sin botón de carrera")
+	var across := Vector2(view.x*0.7, left.y)
+	_drag(0, across)
+	_check(main.player.controls.horizontal() > 0.9 and not main.player.controls.held(&"jump"), "cruzar el centro conserva el control de movimiento")
+	_drag(0, across-Vector2(200, 0))
+	_check(main.player.controls.horizontal() < -0.9, "el origen flotante permite invertir sin volver al punto inicial")
+	_touch(0, Vector2(-10, -10), false)
+	_check(is_zero_approx(main.player.controls.horizontal()) and not main.player.controls.held(&"run"), "soltar fuera de la pantalla detiene movimiento y carrera")
+	# Mover, mantener salto y dar un tercer toque no se bloquean entre sí.
+	_touch(0, left, true)
+	_drag(0, left+Vector2(90, 0))
+	_touch(1, right, true)
+	_drag(1, right-Vector2(0, 65))
+	_touch(2, right+Vector2(100, -100), true)
+	_touch(2, right+Vector2(102, -100), false)
+	_check(main.player.controls.horizontal() > 0.9 and main.player.controls.held(&"jump") and main.player.controls.consume(&"grab_throw"), "mover, saltar y actuar con tres contactos simultáneos")
+	_check(not main.player.controls.consume(&"grab_throw"), "un toque genera una sola orden de coger o lanzar")
+	await _step(2)
+	_check(main.player.velocity.y < -200, "el deslizamiento hacia arriba salta con la física real")
+	_touch(1, right-Vector2(0, 65), false)
+	_check(not main.player.controls.held(&"jump") and not main.player.controls.consume(&"grab_throw"), "soltar un salto no se confunde con un toque de acción")
+	_touch(0, left+Vector2(90, 0), false)
+	# La mitad de acción funciona arriba y abajo, sin objetivos fijos.
+	for point in [Vector2(view.x*0.56, 150), Vector2(view.x-35, view.y-40)]:
+		_touch(3, point, true)
+		_touch(3, point, false)
+		_check(main.player.controls.consume(&"grab_throw"), "toque de acción desde un punto libre de su mitad: %s" % point)
+	_touch(3, right, true)
+	_drag(3, right+Vector2(90, 35))
+	_drag(3, right)
+	_touch(3, right, false)
+	_check(not main.player.controls.consume(&"grab_throw"), "un arrastre que vuelve al origen no lanza por accidente")
+	_touch(3, right, true)
+	await _step(30)
+	_touch(3, right, false)
+	_check(not main.player.controls.consume(&"grab_throw"), "una pulsación larga de descanso no actúa al soltar")
+	_touch(3, right, true)
+	_touch(3, right, false, true)
+	_check(not main.player.controls.consume(&"grab_throw"), "cancelar un contacto no recoge ni lanza")
+	_touch(3, right, true)
+	_drag(3, right-Vector2(0, 65))
+	_touch(4, right+Vector2(80, 0), true)
+	_drag(4, right+Vector2(80, -65))
+	_touch(3, right-Vector2(0, 65), false, true)
+	_check(main.player.controls.held(&"jump"), "cancelar un dedo conserva otro contacto de salto activo")
+	_touch(4, right+Vector2(80, -65), false, true)
+	_check(not main.player.controls.held(&"jump"), "cancelar el último salto libera la acción")
+	_touch(3, right, true)
+	_touch(3, right-Vector2(0, 70), false)
+	_check(main.player.controls.consume(&"jump") and not main.player.controls.consume(&"grab_throw"), "un deslizamiento rápido sin evento intermedio también salta")
+	# Godot puede emular ratón desde touch; ese duplicado no es otro gesto.
+	var mouse := InputEventMouseButton.new()
+	mouse.device = InputEvent.DEVICE_ID_EMULATION
+	mouse.button_index = MOUSE_BUTTON_LEFT
+	mouse.position = right
+	mouse.pressed = true
+	root.push_input(mouse, true)
+	mouse.pressed = false
+	root.push_input(mouse, true)
+	_check(not main.player.controls.consume(&"grab_throw"), "el ratón emulado desde touch no duplica las acciones")
+	_touch(0, left, true)
+	_drag(0, left+Vector2(100, 0))
 	main._toggle_pause()
-	_check(paused and not main.player.controls.enabled, "pausa detiene la física y bloquea órdenes")
+	_check(paused and not main.player.controls.enabled and main.touch._pointers.is_empty(), "pausa detiene la física y libera los gestos")
 	Input.action_press(&"jump")
 	main._toggle_pause()
-	_check(not paused and not main.player.controls.held(&"jump"), "reanudar libera contactos anteriores")
+	_drag(0, left+Vector2(150, 0))
+	_check(not paused and not main.player.controls.held(&"jump") and is_zero_approx(main.player.controls.horizontal()), "reanudar ignora contactos anteriores y teclas aún pulsadas")
 	Input.action_release(&"jump")
+	# Pausa es una interfaz real: tocarla no inicia ningún gesto del juego.
+	var pause_control: Control = main.touch.excluded_controls[0]
+	var pause_point: Vector2 = pause_control.get_global_rect().get_center()
+	_touch(5, pause_point, true)
+	_touch(5, pause_point, false)
+	_check(main.touch._pointers.is_empty() and not main.player.controls.consume(&"grab_throw"), "tocar Pausa queda fuera de los gestos de juego")
+	if not paused:
+		for down in [true, false]:
+			var click := InputEventMouseButton.new()
+			click.button_index = MOUSE_BUTTON_LEFT
+			click.position = pause_point
+			click.pressed = down
+			root.push_input(click, true)
+	_check(paused, "la interfaz recibe el clic de Pausa antes que los gestos")
+	main._toggle_pause()
+	# Perder el foco limpia tanto el eje como un salto mantenido.
+	_touch(0, left, true)
+	_drag(0, left+Vector2(90, 0))
+	_touch(1, right, true)
+	_drag(1, right-Vector2(0, 65))
+	main.touch.notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	_check(is_zero_approx(main.player.controls.horizontal()) and not main.player.controls.held(&"jump"), "perder el foco libera movimiento y salto")
 	main.settings.left_handed = true
 	main.touch.refresh()
-	_check(main.touch._centres[&"jump"].x < main.touch._centres[&"move_right"].x, "disposición táctil intercambiable")
+	_touch(0, right, true)
+	_drag(0, right-Vector2(100, 0))
+	_touch(1, left, true)
+	_drag(1, left-Vector2(0, 60))
+	_check(main.player.controls.horizontal() < -0.9 and main.player.controls.held(&"jump"), "intercambiar las zonas cambia realmente los gestos")
+	main.touch.release_all()
+	main.settings.left_handed = false
+	main.settings.gesture_scale = 1.4
+	main.touch.refresh()
+	_touch(0, left, true)
+	_drag(0, left+Vector2(35, 0))
+	_check(main.player.controls.horizontal() > 0 and main.player.controls.horizontal() < 0.4, "aumentar el recorrido permite ajustar la sensibilidad")
+	main.touch.release_all()
+	root.size = Vector2i(1024, 768)
+	root.content_scale_size = Vector2i(1280, 960)
+	await _step(4)
+	view = main.touch.size
+	_check(is_equal_approx(view.x/view.y, 4.0/3.0), "el lienzo de prueba se adapta realmente a tablet 4:3")
+	_touch(0, Vector2(100, 160), true)
+	_drag(0, Vector2(260, 160))
+	_touch(1, Vector2(view.x-45, view.y-45), true)
+	_drag(1, Vector2(view.x-45, view.y-110))
+	_check(main.player.controls.horizontal() > 0.9 and main.player.controls.held(&"jump"), "gestos simultáneos en las esquinas de una tablet 4:3")
+	main.touch.release_all()
+	root.size = Vector2i(1280, 720)
+	root.content_scale_size = Vector2i(1280, 720)
+	await _step(4)
+	main.touch._guide_time = 0.02
+	await _step(3)
+	_check(not main.touch._move_hint.visible and not main.touch._action_hint.visible, "la guía desaparece y deja libre la pantalla")
 	var joy_count: int = 0
 	for event in InputMap.action_get_events(&"jump"):
 		if event is InputEventJoypadButton:
@@ -218,3 +355,31 @@ func _test_interface() -> void:
 	main.settings.reset_keys()
 	main.queue_free()
 	await _step(2)
+	await _test_settings_migration()
+
+
+func _test_settings_migration() -> void:
+	var existed: bool = FileAccess.file_exists(ControlSettings.PATH)
+	var original: PackedByteArray = FileAccess.get_file_as_bytes(ControlSettings.PATH) if existed else PackedByteArray()
+	var legacy := ConfigFile.new()
+	legacy.set_value("controls", "button_scale", 1.3)
+	legacy.set_value("controls", "left_handed", true)
+	legacy.set_value("controls", "full_jump", true)
+	legacy.save(ControlSettings.PATH)
+	var settings := ControlSettings.new()
+	root.add_child(settings)
+	_check(is_equal_approx(settings.gesture_scale, 1.3) and settings.left_handed and settings.full_jump, "los ajustes de la versión con botones migran sin perder preferencias")
+	settings.gesture_scale = 1.1
+	settings.show_gesture_hints = false
+	settings.save()
+	var saved := ConfigFile.new()
+	saved.load(ControlSettings.PATH)
+	_check(is_equal_approx(float(saved.get_value("controls", "gesture_scale")), 1.1) and not saved.get_value("controls", "show_gesture_hints"), "recorrido y guía de gestos se guardan de forma persistente")
+	settings.queue_free()
+	if existed:
+		var file := FileAccess.open(ControlSettings.PATH, FileAccess.WRITE)
+		file.store_buffer(original)
+		file.close()
+	else:
+		DirAccess.remove_absolute(ControlSettings.PATH)
+	await _step(1)

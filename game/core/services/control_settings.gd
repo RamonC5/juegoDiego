@@ -10,7 +10,8 @@ var automatic_run: bool = true
 var full_jump: bool = false
 var show_touch: bool = true
 var left_handed: bool = false
-var button_scale: float = 1.0
+var gesture_scale: float = 1.0
+var show_gesture_hints: bool = true
 var _default_keys: Dictionary = {}
 
 
@@ -23,16 +24,19 @@ func _ready() -> void:
 		full_jump = bool(config.get_value("controls", "full_jump", false))
 		show_touch = bool(config.get_value("controls", "show_touch", true))
 		left_handed = bool(config.get_value("controls", "left_handed", false))
-		button_scale = clampf(float(config.get_value("controls", "button_scale", 1.0)), 0.8, 1.4)
+		# Migrar el ajuste de tamaño anterior sin borrar las teclas ni preferencias.
+		gesture_scale = clampf(float(config.get_value("controls", "gesture_scale",
+			config.get_value("controls", "button_scale", 1.0))), 0.8, 1.4)
+		show_gesture_hints = bool(config.get_value("controls", "show_gesture_hints", true))
 		for action in ACTIONS:
-			var keys: Variant = config.get_value("keys", String(action), null)
+			var keys: Variant = config.get_value("keys", String(action), [])
 			if keys is Array and not keys.is_empty():
 				_replace_keys(action, keys)
 
 
 func save() -> void:
 	var config := ConfigFile.new()
-	for property in ["automatic_run", "full_jump", "show_touch", "left_handed", "button_scale"]:
+	for property in ["automatic_run", "full_jump", "show_touch", "left_handed", "gesture_scale", "show_gesture_hints"]:
 		config.set_value("controls", property, get(property))
 	for action in ACTIONS:
 		config.set_value("keys", String(action), _key_codes(action))

@@ -17,17 +17,19 @@ Propuesta visual integrada y comprobada en Godot 4.7.2. La foto guía el pelo os
 
 ## Motor y comportamiento
 
-Importación y arranque sin errores de scripts en Godot **4.7.2.stable.official.ed1daf0bf**. Se ejecutaron **27 comprobaciones con cero fallos** usando la física y las escenas reales del motor. [Salida de las pruebas](qa-tests.txt).
+Importación y arranque sin errores de scripts en Godot **4.7.2.stable.official.ed1daf0bf**. Se ejecutaron **55 comprobaciones con cero fallos** usando la física y las escenas reales del motor. [Salida de las pruebas](qa-tests.txt).
 
-Cubren apoyo, aceleración, carrera, frenado, altura de salto, salto completo con pulsación, tolerancia al borde y al aterrizaje, rechazo de pisotón al ascender/contactar desde abajo o lateralmente, rebote por sensor, recogida, suelta única, objeto físico independiente, daño, protección, derrota, reaparición, tres contactos simultáneos, liberación al arrastrar, pausa, cambio de lados y reasignación que conserva el mando. Las alturas medidas fueron 36,12 y 107,98 px para salto corto y mantenido.
+Cubren apoyo, aceleración, carrera, frenado, altura de salto, salto completo con pulsación, tolerancia al borde y al aterrizaje, rechazo de pisotón al ascender/contactar desde abajo o lateralmente, rebote por sensor, recogida, suelta única, objeto físico independiente, daño, protección, derrota, reaparición, tres contactos simultáneos, eje analógico y origen flotante, cruce de mitades, toque único, salto por gesto, cancelación, rechazo de ratón emulado, pausa sin órdenes fantasma, cambio de lados, recorrido ajustable, proporciones 16:9 y 4:3, migración de ajustes y reasignación que conserva el mando. Las alturas medidas fueron 36,12 y 107,98 px para salto corto y mantenido.
 
 ## Revisión gráfica
 
 Capturas reales del motor con **Compatibility, OpenGL 4.5 y Mesa llvmpipe**, en una pantalla virtual X11. Se comprobó:
 
-- [Entrenamiento a 1280 × 720](preview_gameplay.png): transparencia, escala y lectura del protagonista, HUD y botones.
+- [Entrenamiento a 1280 × 720](preview_gameplay.png): transparencia, escala y lectura del protagonista, HUD y guía inicial de gestos.
+- [Dos gestos activos](preview_gestures.png): movimiento y salto simultáneos, con trazos donde se apoyan los dedos.
+- [Pantalla despejada](preview_clean.png): la guía desaparece y no hay botones de juego.
 - [Pausa y ajustes](preview_controls.png): encabezado y acciones fijas, foco visible, casillas con contraste y opciones en una zona desplazable.
-- [Formato tablet a 1024 × 768](preview_tablet.png): distribución y botones dentro del área visible.
+- [Formato tablet a 1024 × 768](preview_tablet.png): distribución, zonas amplias y ayuda dentro del área visible.
 - [Estados en claro y oscuro](preview_animations.png): recortes, identidad y poses.
 
 Los avisos del entorno sobre `/proc/self/exe` y VSync de la pantalla virtual no son errores del proyecto. La última captura usó audio Dummy porque este entorno no tiene dispositivo de sonido.

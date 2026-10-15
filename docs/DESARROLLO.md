@@ -20,7 +20,7 @@ F5 abre el entrenamiento de Diego, con plataformas, esfera recogible, dianas, co
 | `grab_throw` | E | X |
 | `pause` | Escape | Start / Menú |
 
-`PlayerInputSource` mezcla acciones de teclado, mando y contactos independientes. `run` añade Mayús/B y puede sustituirse por carrera automática. Pausa permite reasignar teclas, ajustar tamaño y lados de botones y activar salto completo con una pulsación. Los menús tienen foco visible y navegación `ui_*`. Las opciones se guardan en `user://controls.cfg`.
+`PlayerInputSource` mezcla acciones de teclado, mando, eje táctil analógico y contactos independientes. [Gestos y referencias](CONTROLES_TACTILES.md). `run` añade Mayús/B y puede sustituirse por carrera automática. Pausa permite reasignar teclas, ajustar recorrido y lados de los gestos y activar salto completo con una pulsación. Los menús tienen foco visible y navegación `ui_*`. Las opciones se guardan en `user://controls.cfg`.
 
 ## Comprobación local
 
@@ -31,7 +31,7 @@ godot --headless --path . --editor --import --quit
 godot --headless --path . --quit-after 3
 ```
 
-La primera orden importa y analiza el proyecto; la segunda inicia el entrenamiento. Para comprobar el protagonista, ejecutar además `godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd`: son 27 pruebas. El renderizado se ha revisado en Compatibility a 1280 × 720 y 1024 × 768; los dispositivos físicos siguen pendientes.
+La primera orden importa y analiza el proyecto; la segunda inicia el entrenamiento. Para comprobar el protagonista, ejecutar además `godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd`: son 55 pruebas. El renderizado se ha revisado en Compatibility a 1280 × 720 y 1024 × 768; los dispositivos físicos siguen pendientes.
 
 ## Windows
 
@@ -84,7 +84,7 @@ El flujo realiza estas operaciones:
 2. Descarga Godot con la versión de `.godot-version` y comprueba el SHA-512 registrado en `tools/godot-linux-x86_64.sha512`.
 3. Descarga las plantillas de esa misma versión, comprueba `tools/godot-export-templates.sha256` e instala las plantillas APK Android. El checksum procede del campo `digest` de la [publicación oficial de Godot 4.7.2](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable).
 4. Recupera o crea una clave de depuración fuera del repositorio y configura las rutas de Java, SDK y firma en un directorio temporal mediante `tools/ci/configure_android.py`.
-5. Importa el proyecto, comprueba el arranque, ejecuta las 27 pruebas del protagonista y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
+5. Importa el proyecto, comprueba el arranque, ejecuta las 55 pruebas del protagonista y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
 6. Verifica el APK con `apksigner`, comprueba el paquete `com.ramonc5.saltoheroes` y la biblioteca ARM64, y calcula el SHA-256 del archivo.
 7. Publica el APK, su checksum y los metadatos de compilación durante 30 días. Si falla la compilación, conserva los registros disponibles durante 7 días.
 
@@ -110,7 +110,7 @@ No hace falta configurar secretos para generar e instalar estos APK. Se usa una 
 
 La caché permite reutilizar la firma en ejecuciones posteriores cuando está disponible. No es un almacén permanente: si GitHub elimina la caché o una rama no puede recuperarla, se genera otra clave. Android no permite actualizar una aplicación con otra firma; en ese caso será necesario desinstalar la versión anterior antes de instalar la nueva, lo que puede borrar el progreso local. Para distribución estable se configurará una clave permanente respaldada y almacenada como secreto.
 
-El APK abre el entrenamiento de Diego. La CI verifica importación, arranque, 27 pruebas, exportación y firma; el tacto y rendimiento deben comprobarse en Android y tablet Windows físicos.
+El APK abre el entrenamiento de Diego. La CI verifica importación, arranque, 55 pruebas, exportación y firma; el tacto y rendimiento deben comprobarse en Android y tablet Windows físicos.
 
 ### Actualizar Godot
 

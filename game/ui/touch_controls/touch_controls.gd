@@ -1,35 +1,54 @@
 class_name HeroTouchControls
 extends Control
-## Un puntero por contacto: moverse, saltar y actuar funcionan simultáneamente.
+## Zonas amplias sin botones: arrastre horizontal, deslizamiento arriba y toque.
+## Cada contacto conserva su función aunque cruce la mitad de la pantalla.
+
+const NO_POINTER: int = -2
+const TAP_SECONDS: float = 0.4
+const GUIDE_SECONDS: float = 10.0
 
 var input_source: PlayerInputSource
 var settings: ControlSettings
-var _centres: Dictionary = {}
+var excluded_controls: Array[Control] = []
 var _pointers: Dictionary = {}
-var _labels: Dictionary = {}
-var _radius: float = 44.0
+var _movement_pointer: int = NO_POINTER
+var _play_area: Rect2
+var _travel: float = 64.0
+var _dead_zone: float = 8.0
+var _jump_threshold: float = 25.0
+var _tap_slop: float = 18.0
+var _axis: float = 0.0
+var _guide_time: float = GUIDE_SECONDS
+var _move_hint: Label
+var _action_hint: Label
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for action in [&"move_left", &"move_right", &"jump", &"grab_throw", &"run"]:
-		var label := Label.new()
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", 19)
-		add_child(label)
-		_labels[action] = label
-	_labels[&"move_left"].text = "←"
-	_labels[&"move_right"].text = "→"
-	_labels[&"jump"].text = "Saltar"
-	_labels[&"grab_throw"].text = "Coger\nlanzar"
-	_labels[&"run"].text = "Correr"
+	_move_hint = _hint_label("DESLIZA ← →\nCaminar / correr · Suelta para parar")
+	_action_hint = _hint_label("DESLIZA ↑ PARA SALTAR\nToque corto: coger / lanzar")
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
 	refresh()
+
+
+func _hint_label(text: String) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_size_override("font_size", 20)
+	label.add_theme_color_override("font_color", Color("f4f5ed"))
+	var background := StyleBoxFlat.new()
+	background.bg_color = Color(0.05, 0.13, 0.16, 0.92)
+	background.set_corner_radius_all(10)
+	label.add_theme_stylebox_override("normal", background)
+	add_child(label)
+	return label
 
 
 func refresh() -> void:
@@ -37,72 +56,156 @@ func refresh() -> void:
 		return
 	release_all()
 	visible = settings.show_touch or DisplayServer.is_touchscreen_available()
-	# Conversión de píxeles físicos de la zona segura al lienzo lógico expandido.
+	# La zona segura física se convierte al lienzo lógico, también en tablet 4:3.
 	var window_size: Vector2i = DisplayServer.window_get_size()
 	var safe: Rect2i = DisplayServer.get_display_safe_area()
-	var margin_left: float = 18.0
-	var margin_right: float = 18.0
-	var margin_bottom: float = 18.0
+	var insets := Vector4(0, 0, 0, 0)
 	if OS.has_feature("android") and window_size.x > 0 and window_size.y > 0:
-		margin_left = maxf(margin_left, float(safe.position.x) * size.x / window_size.x)
-		margin_right = maxf(margin_right, float(window_size.x-safe.end.x) * size.x / window_size.x)
-		margin_bottom = maxf(margin_bottom, float(window_size.y-safe.end.y) * size.y / window_size.y)
-	_radius = minf(44.0 * settings.button_scale, (size.x-margin_left-margin_right) / 11.2)
-	var gap: float = _radius * 2.32
-	var y: float = size.y - margin_bottom - _radius
-	var left: float = margin_left + _radius
-	var right: float = size.x - margin_right - _radius
-	_centres = {&"move_left": Vector2(left, y), &"move_right": Vector2(left+gap, y),
-		&"jump": Vector2(right, y), &"grab_throw": Vector2(right-gap, y),
-		&"run": Vector2(right-gap*2.0, y)}
-	if settings.left_handed:
-		for action in _centres:
-			_centres[action].x = size.x - _centres[action].x
-	_labels[&"run"].visible = not settings.automatic_run
-	if settings.automatic_run:
-		_centres.erase(&"run")
-	for action in _centres:
-		var label: Label = _labels[action]
-		label.position = _centres[action] - Vector2.ONE * _radius
-		label.size = Vector2.ONE * _radius * 2.0
+		insets = Vector4(maxf(0, safe.position.x * size.x / window_size.x),
+			maxf(0, safe.position.y * size.y / window_size.y),
+			maxf(0, (window_size.x-safe.end.x) * size.x / window_size.x),
+			maxf(0, (window_size.y-safe.end.y) * size.y / window_size.y))
+	_play_area = Rect2(Vector2(insets.x, insets.y),
+		Vector2(size.x-insets.x-insets.z, size.y-insets.y-insets.w))
+	var shortest: float = minf(_play_area.size.x, _play_area.size.y)
+	_travel = clampf(shortest * 0.09, 48.0, 80.0) * settings.gesture_scale
+	_dead_zone = _travel * 0.12
+	_jump_threshold = clampf(shortest * 0.035, 20.0, 36.0) * settings.gesture_scale
+	_tap_slop = _jump_threshold * 0.7
+	if is_instance_valid(_move_hint):
+		var width: float = _play_area.size.x / 2.0 - 24.0
+		var left := Vector2(_play_area.position.x+12, _play_area.end.y-90)
+		var right := left + Vector2(_play_area.size.x/2.0, 0)
+		_move_hint.position = right if settings.left_handed else left
+		_action_hint.position = left if settings.left_handed else right
+		_move_hint.size = Vector2(width, 76)
+		_action_hint.size = Vector2(width, 76)
+	_guide_time = GUIDE_SECONDS
+	_update_guides()
 	queue_redraw()
+
+
+func _process(delta: float) -> void:
+	for pointer in _pointers.values():
+		pointer.age += delta
+	if _guide_time > 0:
+		_guide_time = maxf(0, _guide_time-delta)
+		_update_guides()
+
+
+func _update_guides() -> void:
+	if not is_instance_valid(_move_hint):
+		return
+	for label in [_move_hint, _action_hint]:
+		label.visible = settings.show_gesture_hints and _guide_time > 0
+		label.modulate.a = minf(1, _guide_time)
+
+
+func _can_read() -> bool:
+	return visible and not get_tree().paused and is_instance_valid(input_source) and input_source.enabled
 
 
 func _input(event: InputEvent) -> void:
-	if not visible or get_tree().paused or not is_instance_valid(input_source):
+	# Un contacto ya capturado se libera incluso sobre el HUD o fuera de su zona.
+	if not _can_read():
 		return
-	if event is InputEventScreenTouch:
-		_update_pointer(event.index, event.position, event.pressed and not event.canceled)
+	var index: int = NO_POINTER
+	if event is InputEventScreenTouch and _pointers.has(event.index):
+		index = event.index
+		if not event.pressed or event.canceled:
+			_end_pointer(index, event.position, event.canceled)
 	elif event is InputEventScreenDrag and _pointers.has(event.index):
-		_update_pointer(event.index, event.position, true)
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.device != InputEvent.DEVICE_ID_EMULATION:
-		_update_pointer(-1, event.position, event.pressed)
-	elif event is InputEventMouseMotion and _pointers.has(-1):
-		_update_pointer(-1, event.position, true)
+		index = event.index
+		_move_pointer(index, event.position)
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.device != InputEvent.DEVICE_ID_EMULATION and _pointers.has(-1):
+		index = -1
+		if not event.pressed:
+			_end_pointer(index, event.position, false)
+	elif event is InputEventMouseMotion and event.device != InputEvent.DEVICE_ID_EMULATION and _pointers.has(-1):
+		index = -1
+		_move_pointer(index, event.position)
+	if index != NO_POINTER:
+		get_viewport().set_input_as_handled()
 
 
-func _update_pointer(index: int, point: Vector2, down: bool) -> void:
-	var previous: StringName = _pointers.get(index, &"")
-	var next: StringName = &""
-	if down:
-		for action in _centres:
-			if point.distance_to(_centres[action]) <= _radius:
-				next = action
-				break
-	# Mantener el índice al arrastrar fuera permite volver a entrar y soltar bien.
-	if down:
-		_pointers[index] = next
-	else:
-		_pointers.erase(index)
-	if not previous.is_empty():
-		input_source.set_virtual_action(previous, previous in _pointers.values())
-	if not next.is_empty():
-		input_source.set_virtual_action(next, true)
+func _unhandled_input(event: InputEvent) -> void:
+	# Los menús reciben los nuevos contactos antes que el juego.
+	if not _can_read():
+		return
+	var accepted: bool = false
+	if event is InputEventScreenTouch and event.pressed and not event.canceled:
+		accepted = _begin_pointer(event.index, event.position)
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and event.device != InputEvent.DEVICE_ID_EMULATION:
+		accepted = _begin_pointer(-1, event.position)
+	if accepted:
+		get_viewport().set_input_as_handled()
+
+
+func _begin_pointer(index: int, point: Vector2) -> bool:
+	if not _play_area.has_point(point):
+		return false
+	for control in excluded_controls:
+		if is_instance_valid(control) and control.is_visible_in_tree() and control.get_global_rect().has_point(point):
+			return false
+	var movement_side: bool = (point.x < _play_area.get_center().x) != settings.left_handed
+	if movement_side and _movement_pointer != NO_POINTER:
+		return false
+	_pointers[index] = {"origin": point, "start": point, "point": point,
+		"max_distance": 0.0, "age": 0.0, "mode": &"move" if movement_side else &"pending"}
+	if movement_side:
+		_movement_pointer = index
 	queue_redraw()
+	return true
+
+
+func _move_pointer(index: int, point: Vector2) -> void:
+	var pointer: Dictionary = _pointers[index]
+	pointer.point = point
+	pointer.max_distance = maxf(pointer.max_distance, point.distance_to(pointer.start))
+	if pointer.mode == &"move":
+		var offset: float = point.x-pointer.origin.x
+		if absf(offset) > _travel:
+			# El origen sigue al dedo al exceder el recorrido: invertir exige poco arrastre.
+			pointer.origin.x = point.x-signf(offset)*_travel
+			offset = point.x-pointer.origin.x
+		_axis = signf(offset) * clampf((absf(offset)-_dead_zone)/(_travel-_dead_zone), 0, 1)
+	elif pointer.mode == &"pending":
+		var offset: Vector2 = point-pointer.start
+		if -offset.y >= _jump_threshold and -offset.y > absf(offset.x)*0.65:
+			pointer.mode = &"jump"
+	_sync_virtual()
+	queue_redraw()
+
+
+func _end_pointer(index: int, point: Vector2, canceled: bool) -> void:
+	if not canceled:
+		_move_pointer(index, point)
+	var pointer: Dictionary = _pointers[index]
+	if not canceled and pointer.mode == &"pending" and pointer.max_distance <= _tap_slop and pointer.age <= TAP_SECONDS:
+		# El toque se reconoce al soltar; no dispara una acción al iniciar un salto.
+		input_source.set_virtual_action(&"grab_throw", true)
+		input_source.set_virtual_action(&"grab_throw", false)
+	_pointers.erase(index)
+	if _movement_pointer == index:
+		_movement_pointer = NO_POINTER
+		_axis = 0
+	_sync_virtual()
+	queue_redraw()
+
+
+func _sync_virtual() -> void:
+	input_source.set_virtual_axis(_axis)
+	input_source.set_virtual_action(&"run", absf(_axis) >= 0.95)
+	var jumping: bool = false
+	for pointer in _pointers.values():
+		jumping = jumping or pointer.mode == &"jump"
+	input_source.set_virtual_action(&"jump", jumping)
 
 
 func release_all() -> void:
 	_pointers.clear()
+	_movement_pointer = NO_POINTER
+	_axis = 0
 	if is_instance_valid(input_source):
 		input_source.clear_virtual()
 	queue_redraw()
@@ -114,8 +217,17 @@ func _notification(what: int) -> void:
 
 
 func _draw() -> void:
-	for action in _centres:
-		var pressed: bool = action in _pointers.values()
-		draw_circle(_centres[action], _radius, Color("276b64") if pressed else Color("142e37"))
-		draw_arc(_centres[action], _radius-1.5, 0, TAU, 48,
-			Color("ffdc90") if pressed else Color("d5e6df"), 3.0, true)
+	# Solo hay trazos mientras se toca; no existen objetivos fijos que acertar.
+	for pointer in _pointers.values():
+		var point: Vector2 = pointer.point
+		if pointer.mode == &"move":
+			var origin: Vector2 = pointer.origin
+			draw_line(origin-Vector2(_travel, 0), origin+Vector2(_travel, 0), Color("142e37"), 14, true)
+			draw_line(origin-Vector2(_travel, 0), origin+Vector2(_travel, 0), Color("d5e6df"), 2, true)
+			draw_circle(origin+Vector2(clampf(point.x-origin.x, -_travel, _travel), 0), 11, Color("ffdc90"))
+		elif pointer.mode == &"jump":
+			draw_line(pointer.start, point, Color("ffdc90"), 4, true)
+			draw_line(point+Vector2(-9, 11), point, Color("ffdc90"), 4, true)
+			draw_line(point+Vector2(9, 11), point, Color("ffdc90"), 4, true)
+		else:
+			draw_arc(point, 14, 0, TAU, 32, Color("ffdc90"), 2, true)

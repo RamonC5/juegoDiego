@@ -29,7 +29,7 @@ El [protagonista y sus controles](docs/PROTAGONISTA.md) ya están integrados, co
 
 1. Instala [Godot 4.7.2 estándar](https://godotengine.org/download/archive/4.7.2-stable/).
 2. En el gestor de proyectos, selecciona **Importar** y abre `project.godot`.
-3. Pulsa **F5** para abrir el entrenamiento. A/D o flechas mueven, Espacio salta y E recoge/lanza. Escape abre la pausa. También puedes usar los botones táctiles o un mando.
+3. Pulsa **F5** para abrir el entrenamiento. A/D o flechas mueven, Espacio salta y E recoge/lanza. Escape abre la pausa. También puedes usar gestos desde cualquier punto de cada mitad de la pantalla o un mando.
 
 La versión del motor está fijada en [`.godot-version`](.godot-version).
 
@@ -59,7 +59,7 @@ godot --headless --path . --quit-after 3
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd
 ```
 
-GitHub Actions importa el proyecto, comprueba el arranque y ejecuta 27 pruebas del protagonista y los controles. Si pasan, exporta un APK de pruebas firmado para Android ARM64 y verifica firma y paquete. El renderizado se ha revisado en Godot; quedan las pruebas físicas en Android y Windows.
+GitHub Actions importa el proyecto, comprueba el arranque y ejecuta 55 pruebas del protagonista y los controles. Si pasan, exporta un APK de pruebas firmado para Android ARM64 y verifica firma y paquete. El renderizado se ha revisado en Godot; quedan las pruebas físicas en Android y Windows.
 
 ## Descargar e instalar el APK en el móvil
 

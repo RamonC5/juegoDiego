@@ -8,6 +8,11 @@ var full_jump: bool = false
 var _held: Dictionary = {}
 var _presses: Dictionary = {}
 var _blocked_physical: Dictionary = {}
+var _virtual_axis: float = 0.0
+
+
+func set_virtual_axis(value: float) -> void:
+	_virtual_axis = clampf(value, -1.0, 1.0) if enabled else 0.0
 
 
 func set_virtual_action(action: StringName, down: bool) -> void:
@@ -34,12 +39,14 @@ func horizontal() -> float:
 	axis -= Input.get_action_strength(&"move_left") if _physical_held(&"move_left") else 0.0
 	axis += float(bool(_held.get(&"move_right", false)))
 	axis -= float(bool(_held.get(&"move_left", false)))
+	axis += _virtual_axis
 	return clampf(axis, -1.0, 1.0)
 
 
 func clear_virtual() -> void:
 	_held.clear()
 	_presses.clear()
+	_virtual_axis = 0.0
 
 
 func block_current_physical() -> void:
