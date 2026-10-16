@@ -26,12 +26,14 @@ func _draw() -> void:
 	# El musgo empieza al 35 % de la hoja. El recorte es un recurso, sin editar el PNG.
 	var source_y: float = image_size.y * 0.345
 	var ratio: float = 0.36
-	var cap_height: float = minf(dimensions.y + 8.0, (image_size.y - source_y) * ratio)
+	# El borde opaco del musgo está 53 px por debajo del recorte; alinear con y=0.
+	var surface_offset: float = 19.0
+	var cap_height: float = minf(dimensions.y + surface_offset, (image_size.y - source_y) * ratio)
 	if is_ground:
 		draw_rect(Rect2(Vector2.ZERO, dimensions), Color("30291e"))
 	var x: float = 0.0
 	while x < dimensions.x:
 		var width: float = minf(image_size.x * ratio, dimensions.x - x)
-		draw_texture_rect_region(TERRAIN, Rect2(x, -8, width, cap_height),
+		draw_texture_rect_region(TERRAIN, Rect2(x, -surface_offset, width, cap_height),
 			Rect2(0, source_y, width / ratio, cap_height / ratio))
 		x += width

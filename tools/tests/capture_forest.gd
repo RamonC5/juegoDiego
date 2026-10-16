@@ -32,7 +32,7 @@ func _capture() -> void:
 	main.settings.show_gesture_hints = true
 	main._apply_settings()
 	main.touch.refresh()
-	await _frames(15)
+	await _frames(60)
 	_save("preview_start")
 	main.touch._guide_time = 0.0
 	main.touch._update_guides()

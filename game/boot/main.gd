@@ -172,7 +172,7 @@ func _layout_hud() -> void:
 	var view: Vector2 = get_viewport_rect().size
 	var safe := Rect2(Vector2.ZERO, view)
 	var physical: Rect2i = DisplayServer.get_display_safe_area()
-	if DisplayServer.is_touchscreen_available() and physical.has_area():
+	if OS.has_feature("android") and physical.has_area():
 		var inverse: Transform2D = get_viewport().get_screen_transform().affine_inverse()
 		safe = inverse * Rect2(physical)
 	_top_panel.position = safe.position + Vector2(16, 12)

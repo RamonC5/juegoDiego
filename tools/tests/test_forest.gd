@@ -147,7 +147,8 @@ func _run() -> void:
 	storage.record_completion(stage.DEFINITION.level_id, {"leaves": 0, "crystals": 0, "seconds": 9999.0})
 	var best: Dictionary = storage.levels.get(stage.DEFINITION.level_id, {})
 	_check(int(best.get("best_leaves", -1)) == int(old_result.get("best_leaves", -2)), "rejugar no borra las mejores hojas")
-	_check(float(best.get("best_seconds", 0)) <= float(old_result.get("best_seconds", 0)), "rejugar conserva el mejor tiempo")
+	# JSON puede redondear por debajo de la resolución de la física (1/60 s).
+	_check(float(best.get("best_seconds", 0)) <= float(old_result.get("best_seconds", 0)) + 0.0001, "rejugar conserva el mejor tiempo")
 	_check(best.get("unlocked", false) and int(best.get("completions", 0)) == 2, "nivel completado permanece desbloqueado y rejugable")
 	DirAccess.remove_absolute("user://forest-test-progress.json")
 	main.queue_free()

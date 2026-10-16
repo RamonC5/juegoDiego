@@ -32,6 +32,8 @@ func _ready() -> void:
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
 	refresh()
+	# El primer ancho disponible puede ser cero: reajustar las etiquetas tras el layout.
+	refresh.call_deferred()
 
 
 func _hint_label(text: String) -> Label:
