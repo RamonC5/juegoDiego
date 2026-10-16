@@ -1,131 +1,86 @@
-extends Node2D
-## Composición de la prueba del protagonista. No define mundos ni progreso.
+extends "res://game/boot/practice.gd"
+## Entrada del primer nivel. Reutiliza pausa, opciones y controles del entrenamiento.
 
-const PLAYER_SCENE: PackedScene = preload("res://game/features/player/diego.tscn")
-const STAGE_SCRIPT = preload("res://game/features/player/practice_stage.gd")
-const TARGET_SCRIPT = preload("res://game/features/player/practice_target.gd")
-const ACTION_LABELS: Dictionary = {&"move_left": "Izquierda", &"move_right": "Derecha",
-	&"jump": "Saltar", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
-
-var player: DiegoPlayer
-var settings: ControlSettings
-var touch: HeroTouchControls
-var _camera: Camera2D
-var _ui: Control
-var _health: Label
-var _message: Label
-var _menu: Control
-var _panel: PanelContainer
-var _menu_title: Label
-var _resume_button: Button
-var _remap_buttons: Dictionary = {}
-var _waiting_action: StringName = &""
-var _key_hint: Label
-var _check_boxes: Dictionary = {}
-var _last_held_object: ThrowableObject
+var stage: ForestStage
+var progress: LevelProgress
+var backdrop: ForestBackdrop
+var _stats: Label
+var _distance: ProgressBar
+var _tip_seconds: float = 9.0
+var _result: Dictionary = {}
+var _top_panel: PanelContainer
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	settings = ControlSettings.new()
 	add_child(settings)
-	var stage := Node2D.new()
-	stage.name = "PracticeStage"
-	stage.set_script(STAGE_SCRIPT)
+	progress = LevelProgress.new()
+	var background_layer := CanvasLayer.new()
+	background_layer.layer = -20
+	add_child(background_layer)
+	backdrop = ForestBackdrop.new()
+	background_layer.add_child(backdrop)
+	stage = ForestStage.new()
+	stage.name = "BosqueEsmeralda"
 	add_child(stage)
 	player = PLAYER_SCENE.instantiate()
-	player.position = Vector2(160, 500)
 	stage.add_child(player)
+	stage.start(player)
 	_camera = Camera2D.new()
 	_camera.position = Vector2(640, 360)
 	_camera.position_smoothing_enabled = false
 	_camera.limit_left = 0
-	_camera.limit_right = 2900
-	_camera.limit_top = -200
-	_camera.limit_bottom = 1100
+	_camera.limit_right = int(stage.DEFINITION.width)
+	_camera.limit_top = -600
+	_camera.limit_bottom = 1200
 	add_child(_camera)
-	_add_throwable_objects(stage)
-	for spec in [[&"throw", Vector2(520, 500)], [&"stomp", Vector2(730, 500)]]:
-		var target := StaticBody2D.new()
-		target.set_script(TARGET_SCRIPT)
-		target.kind = spec[0]
-		target.position = spec[1]
-		stage.add_child(target)
-		target.completed.connect(func(): _message.text = "¡Bien hecho! Sigue practicando hacia la derecha.")
-	_add_goal(stage)
 	_build_ui()
 	settings.changed.connect(_apply_settings)
 	_apply_settings()
-	player.health_changed.connect(func(value: int): _health.text = "Energía: %d / 3" % value)
-	player.defeated.connect(func(): _open_menu("¡Otra oportunidad!", false))
+	player.health_changed.connect(func(value: int): _health.text = "Energía  %d / 3" % value)
+	player.defeated.connect(func(): _open_menu("¡Otra oportunidad!", true))
+	stage.hint_requested.connect(_show_hint)
+	stage.counts_changed.connect(_update_counts)
+	stage.level_completed.connect(_on_level_completed)
 	get_viewport().size_changed.connect(_layout_menu)
+	get_viewport().size_changed.connect(_layout_hud)
+	_layout_hud()
+	_update_counts(0, 0)
+	_show_hint("BOSQUE ESMERALDA · El despertar del bosque. Sigue las hojas hasta el arco de salida.")
 
 
-func _process(_delta: float) -> void:
-	if is_instance_valid(player):
-		var half_width: float = get_viewport_rect().size.x / 2.0
-		_camera.position.x = clampf(player.position.x, half_width, maxf(half_width, 2900.0-half_width))
-		if player.held_object != _last_held_object:
-			_last_held_object = player.held_object
-			if is_instance_valid(_last_held_object):
-				_message.text = "%s · %s Toque corto o %s para lanzar." % [
-					_last_held_object.definition.display_name, _last_held_object.definition.description,
-					settings.key_label(&"grab_throw")]
-			else:
-				_message.text = "Prueba los seis objetos. Los usados reaparecen en su puesto."
+func _process(delta: float) -> void:
+	if not is_instance_valid(player):
+		return
+	var half_width: float = get_viewport_rect().size.x / 2.0
+	_camera.position.x = clampf(player.position.x + 125.0, half_width,
+		maxf(half_width, stage.DEFINITION.width - half_width))
+	backdrop.camera_x = _camera.position.x
+	_distance.value = clampf(player.position.x / stage.DEFINITION.goal.x * 100.0, 0.0, 100.0)
+	if not get_tree().paused:
+		_tip_seconds = maxf(0.0, _tip_seconds - delta)
+		_message.visible = _tip_seconds > 0.0
+	if player.held_object != _last_held_object:
+		_last_held_object = player.held_object
+		if is_instance_valid(_last_held_object):
+			_show_hint("%s en las manos · Toque corto o %s para lanzar." % [
+				_last_held_object.definition.display_name, settings.key_label(&"grab_throw")])
 
 
-func _add_throwable_objects(stage: Node2D) -> void:
-	const POSITIONS: Array[float] = [270.0, 360.0, 450.0, 590.0, 660.0, 840.0]
-	for index in ThrowableCatalog.DEFINITIONS.size():
-		var object := ThrowableObject.new()
-		object.definition = ThrowableCatalog.DEFINITIONS[index]
-		object.position = Vector2(POSITIONS[index], 470)
-		object.respawn_delay = 3.0
-		object.recovery_bounds = Rect2(-200, -600, 3600, 1800)
-		stage.add_child(object)
-		object.broken.connect(func():
-			_message.text = "Vasija rota. Volverá a su puesto en 3 segundos."
-		)
-		var caption := Label.new()
-		caption.text = object.definition.display_name
-		caption.position = Vector2(POSITIONS[index] - 62.0, 540.0 + (index % 2) * 60.0)
-		caption.size = Vector2(124, 52)
-		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		caption.add_theme_font_size_override("font_size", 20)
-		caption.add_theme_color_override("font_color", Color("fff1cc"))
-		stage.add_child(caption)
+func _show_hint(text: String) -> void:
+	_message.text = text
+	_tip_seconds = 7.0
+	_message.visible = true
 
 
-func _add_goal(stage: Node2D) -> void:
-	var goal := Area2D.new()
-	goal.position = Vector2(2680, 440)
-	goal.collision_layer = 64
-	goal.collision_mask = 2
-	var shape := CollisionShape2D.new()
-	var rectangle := RectangleShape2D.new()
-	rectangle.size = Vector2(90, 120)
-	shape.shape = rectangle
-	goal.add_child(shape)
-	stage.add_child(goal)
-	var caption := Label.new()
-	caption.text = "META DE PRUEBA"
-	caption.position = Vector2(-150, -110)
-	caption.size.x = 300
-	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	caption.add_theme_font_size_override("font_size", 28)
-	caption.add_theme_color_override("font_color", Color("142e37"))
-	goal.add_child(caption)
-	goal.body_entered.connect(func(body: Node2D):
-		if body == player:
-			player.celebrate()
-			_message.text = "¡Prueba completada! Abre Pausa para volver a jugar."
-	)
+func _update_counts(leaves: int, crystals: int) -> void:
+	_stats.text = "Hojas  %d / %d     Cristales  %d / 3" % [leaves, stage.total_leaves, crystals]
 
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
+	layer.layer = 10
 	add_child(layer)
 	_ui = Control.new()
 	_ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -142,232 +97,128 @@ func _build_ui() -> void:
 	theme.set_icon("checked", "CheckBox", preload("res://game/assets/ui/checkbox_on.svg"))
 	theme.set_icon("unchecked", "CheckBox", preload("res://game/assets/ui/checkbox_off.svg"))
 	_ui.theme = theme
-	var top := PanelContainer.new()
-	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	top.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	top.offset_bottom = 126.0
-	_ui.add_child(top)
-	var margin := MarginContainer.new()
-	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_"+side, 16)
-	top.add_child(margin)
-	var header := VBoxContainer.new()
-	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_child(header)
+	_top_panel = PanelContainer.new()
+	_top_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.025, 0.12, 0.10, 0.94)
+	panel_style.set_corner_radius_all(14)
+	panel_style.content_margin_left = 20
+	panel_style.content_margin_right = 14
+	panel_style.content_margin_top = 8
+	panel_style.content_margin_bottom = 8
+	_top_panel.add_theme_stylebox_override("panel", panel_style)
+	_ui.add_child(_top_panel)
+	var column := VBoxContainer.new()
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_top_panel.add_child(column)
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_theme_constant_override("separation", 18)
-	header.add_child(row)
+	column.add_child(row)
 	var title := Label.new()
-	title.text = "SALTO HEROES · Diego"
+	title.text = "1–1  BOSQUE ESMERALDA"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size", 25)
+	title.add_theme_color_override("font_color", Color("fff2c9"))
 	row.add_child(title)
 	_health = Label.new()
-	_health.text = "Energía: 3 / 3"
+	_health.text = "Energía  3 / 3"
 	row.add_child(_health)
-	var pause_button := _button("Pausa", func(): _toggle_pause())
-	pause_button.custom_minimum_size = Vector2(114, 58)
+	_stats = Label.new()
+	row.add_child(_stats)
+	var pause_button := _button("Pausa", _toggle_pause)
+	pause_button.custom_minimum_size = Vector2(110, 54)
 	row.add_child(pause_button)
+	_distance = ProgressBar.new()
+	_distance.custom_minimum_size.y = 4
+	_distance.show_percentage = false
+	_distance.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color("b8df99")
+	fill.set_corner_radius_all(2)
+	_distance.add_theme_stylebox_override("fill", fill)
+	column.add_child(_distance)
 	_message = Label.new()
-	_message.text = "Prueba seis objetos: toque corto para coger o lanzar. Teclado: %s." % settings.key_label(&"grab_throw")
+	_message.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	header.add_child(_message)
+	_message.add_theme_font_size_override("font_size", 21)
+	_message.add_theme_color_override("font_color", Color("fff3d0"))
+	var hint_style := StyleBoxFlat.new()
+	hint_style.bg_color = Color(0.025, 0.12, 0.10, 0.91)
+	hint_style.set_corner_radius_all(10)
+	hint_style.content_margin_left = 16
+	hint_style.content_margin_right = 16
+	hint_style.content_margin_top = 10
+	hint_style.content_margin_bottom = 10
+	_message.add_theme_stylebox_override("normal", hint_style)
+	_ui.add_child(_message)
 	touch = HeroTouchControls.new()
 	touch.settings = settings
 	touch.input_source = player.controls
 	touch.excluded_controls = [pause_button]
 	_ui.add_child(touch)
 	_build_menu()
-
-
-func _build_menu() -> void:
-	_menu = Control.new()
-	_menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_ui.add_child(_menu)
-	var shade := ColorRect.new()
-	shade.color = Color(0.02, 0.05, 0.07, 0.85)
-	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_menu.add_child(shade)
-	_panel = PanelContainer.new()
-	var panel_style := StyleBoxFlat.new()
-	panel_style.bg_color = Color("172c32")
-	panel_style.set_corner_radius_all(10)
-	_panel.add_theme_stylebox_override("panel", panel_style)
-	_menu.add_child(_panel)
-	var margin := MarginContainer.new()
-	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_"+side, 20)
-	_panel.add_child(margin)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 13)
-	margin.add_child(column)
-	_menu_title = Label.new()
-	_menu_title.add_theme_font_size_override("font_size", 30)
-	column.add_child(_menu_title)
-	var buttons := HBoxContainer.new()
-	buttons.add_theme_constant_override("separation", 12)
-	column.add_child(buttons)
-	_resume_button = _button("Continuar", _resume)
-	_resume_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	buttons.add_child(_resume_button)
-	var restart_button := _button("Volver a empezar", _restart)
-	restart_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	buttons.add_child(restart_button)
-	var scroll := ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus = true
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	column.add_child(scroll)
-	var box := VBoxContainer.new()
-	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_constant_override("separation", 13)
-	scroll.add_child(box)
-	var instructions := Label.new()
-	instructions.text = "GESTOS SIN BOTONES\nEn cualquier punto de la mitad de movimiento, arrastra ← →. Un arrastre corto camina; uno largo corre. Suelta para parar.\nEn la otra mitad, desliza ↑ para saltar y mantén el dedo para ganar altura. Un toque corto coge o lanza. Puedes usar varios dedos a la vez.\nTeclado: A / D, Espacio y E. Mando: A salta, X actúa, Start pausa."
-	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(instructions)
-	for spec in [["Correr también con arrastres cortos / teclado", "automatic_run"],
-		["Salto completo sin mantener", "full_jump"],
-		["Activar gestos táctiles y de ratón en Windows", "show_touch"],
-		["Intercambiar las zonas izquierda y derecha", "left_handed"],
-		["Mostrar guía de gestos al empezar (10 segundos)", "show_gesture_hints"]]:
-		var checkbox := CheckBox.new()
-		checkbox.text = spec[0]
-		checkbox.button_pressed = settings.get(spec[1])
-		checkbox.custom_minimum_size.y = 48
-		box.add_child(checkbox)
-		_check_boxes[spec[1]] = checkbox
-		checkbox.toggled.connect(func(value: bool):
-			settings.set(spec[1], value)
-			settings.save()
-		)
-	var size_label := Label.new()
-	size_label.text = "Recorrido de los gestos (menor = menos arrastre)"
-	box.add_child(size_label)
-	var slider := HSlider.new()
-	slider.min_value = 0.8
-	slider.max_value = 1.4
-	slider.step = 0.1
-	slider.value = settings.gesture_scale
-	slider.custom_minimum_size.y = 48
-	slider.tooltip_text = "Ajusta con las flechas o arrastrando"
-	box.add_child(slider)
-	slider.value_changed.connect(func(value: float):
-		settings.gesture_scale = value
-		settings.save()
-	)
-	_key_hint = Label.new()
-	_key_hint.text = "Teclado: pulsa una acción para cambiar su tecla."
-	_key_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(_key_hint)
-	var grid := GridContainer.new()
-	grid.columns = 2
-	grid.add_theme_constant_override("h_separation", 12)
-	grid.add_theme_constant_override("v_separation", 8)
-	box.add_child(grid)
-	for action in ControlSettings.ACTIONS:
-		var label := Label.new()
-		label.text = ACTION_LABELS[action]
-		grid.add_child(label)
-		var button := _button(settings.key_label(action), func():
-			_waiting_action = action
-			_key_hint.text = "Pulsa la nueva tecla para %s. Escape cancela." % ACTION_LABELS[action]
-		)
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		grid.add_child(button)
-		_remap_buttons[action] = button
-	box.add_child(_button("Restablecer teclas", func():
-		_waiting_action = &""
-		settings.reset_keys()
+	_menu_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_menu_title.add_theme_font_size_override("font_size", 27)
+	var buttons: Container = _resume_button.get_parent()
+	buttons.add_child(_button("Entrenamiento", func():
+		touch.release_all()
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://game/features/player/practice.tscn")
 	))
-	_menu.visible = false
-	_layout_menu()
 
 
-func _button(text: String, callback: Callable) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.custom_minimum_size.y = 52
-	button.pressed.connect(callback)
-	return button
-
-
-func _layout_menu() -> void:
-	if not is_instance_valid(_panel):
-		return
+func _layout_hud() -> void:
 	var view: Vector2 = get_viewport_rect().size
-	_panel.size = Vector2(minf(720, view.x-40), minf(650, view.y-40))
-	_panel.position = (view - _panel.size) / 2.0
-
-
-func _apply_settings() -> void:
-	player.controls.automatic_run = settings.automatic_run
-	player.controls.full_jump = settings.full_jump
-	for property in _check_boxes:
-		_check_boxes[property].set_pressed_no_signal(bool(settings.get(property)))
-	for action in _remap_buttons:
-		_remap_buttons[action].text = settings.key_label(action)
-
-
-func _input(event: InputEvent) -> void:
-	if _waiting_action.is_empty() or not event is InputEventKey or not event.pressed or event.echo:
-		return
-	if event.keycode == KEY_ESCAPE:
-		_waiting_action = &""
-		_key_hint.text = "Cambio cancelado."
-	elif settings.rebind(_waiting_action, int(event.physical_keycode)):
-		_waiting_action = &""
-		_key_hint.text = "Tecla guardada."
-	else:
-		_key_hint.text = "Esa tecla ya está asignada. Elige otra o pulsa Escape."
-	get_viewport().set_input_as_handled()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"pause") and not event.is_echo():
-		_toggle_pause()
-		get_viewport().set_input_as_handled()
+	var safe := Rect2(Vector2.ZERO, view)
+	var physical: Rect2i = DisplayServer.get_display_safe_area()
+	if DisplayServer.is_touchscreen_available() and physical.has_area():
+		var inverse: Transform2D = get_viewport().get_screen_transform().affine_inverse()
+		safe = inverse * Rect2(physical)
+	_top_panel.position = safe.position + Vector2(16, 12)
+	_top_panel.size = Vector2(safe.size.x - 32, 82)
+	_message.position = _top_panel.position + Vector2(0, _top_panel.size.y + 10)
+	_message.size = Vector2(minf(760, safe.size.x - 32), 0)
 
 
 func _toggle_pause() -> void:
-	if get_tree().paused and not player.dead:
-		_resume()
+	if stage.completed:
+		_open_menu(_completion_text(), false)
+	elif player.dead:
+		_open_menu("¡Otra oportunidad!", true)
 	else:
-		_open_menu("Pausa y controles", not player.dead)
+		super._toggle_pause()
 
 
 func _open_menu(title: String, allow_resume: bool = true) -> void:
-	_waiting_action = &""
-	touch.release_all()
-	player.suspend_controls()
-	get_tree().paused = true
-	_menu_title.text = title
-	_resume_button.disabled = not allow_resume
-	_menu.visible = true
-	if allow_resume:
-		_resume_button.grab_focus()
-	else:
-		_resume_button.find_next_valid_focus().grab_focus()
+	if is_instance_valid(stage) and stage.completed:
+		title = _completion_text()
+		allow_resume = false
+	super._open_menu(title, allow_resume)
+	_resume_button.text = "Volver al farol" if player.dead else "Continuar"
 
 
 func _resume() -> void:
-	_waiting_action = &""
-	touch.release_all()
-	_menu.visible = false
-	player.controls.enabled = true
-	player.controls.block_current_physical()
-	get_tree().paused = false
+	if stage.completed:
+		return
+	if player.dead:
+		stage.respawn_player()
+	super._resume()
 
 
-func _restart() -> void:
-	touch.release_all()
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+func _on_level_completed(level_id: String, result: Dictionary) -> void:
+	_result = result
+	_result["saved"] = progress.record_completion(level_id, result) == OK
+	_show_hint("¡Bosque Esmeralda completado! Puedes volver a jugar para encontrar los tres cristales.")
+	get_tree().create_timer(1.6, false).timeout.connect(func():
+		_open_menu(_completion_text(), false)
+	)
 
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(touch):
-		_open_menu("Partida en pausa", not player.dead)
-
+func _completion_text() -> String:
+	var elapsed: int = int(_result.get("seconds", 0.0))
+	return "¡Bosque Esmeralda completado!\nHojas %d / %d · Cristales %d / 3 · Tiempo %d:%02d\n%s" % [
+		int(_result.get("leaves", 0)), stage.total_leaves, int(_result.get("crystals", 0)),
+		elapsed / 60, elapsed % 60,
+		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
+	]

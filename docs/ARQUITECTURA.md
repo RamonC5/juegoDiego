@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` compone la primera prueba jugable de Diego: cuerpo 2D, entrada, 13 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. No hay autoloads, mundos, niveles definitivos, progreso ni audio. Los seis enemigos siguen como conceptos de autoría. Se conserva el icono provisional SH.
+`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 13 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cuatro enemigos siguen como conceptos. Se conserva el icono provisional SH.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -81,7 +81,7 @@ Las imágenes finales están en `game/assets/textures/objects/<id>/idle_v001.png
 
 Los identificadores de mundo serán `world_01` a `world_08`. Cada nivel recibirá un identificador único independiente del nombre visible y de su ruta de archivo.
 
-Las futuras definiciones de mundo enumerarán sus niveles, sus dependencias de desbloqueo y la referencia al jefe. Ningún nivel concreto está definido todavía.
+Las futuras definiciones de mundo enumerarán sus niveles, sus dependencias de desbloqueo y la referencia al jefe. El primer nivel es `world_01_level_01`, definido por `game/data/worlds/world_01/level_01.tres`; las restantes definiciones siguen pendientes.
 
 El guardado distinguirá `unlocked`, `completed` y los mejores resultados. Completar un nivel no lo bloqueará: el mapa permitirá volver a cualquier nivel desbloqueado. Rejugarlo conservará los desbloqueos y solo sustituirá un mejor resultado cuando corresponda.
 
@@ -116,7 +116,7 @@ Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignor
 
 El [catálogo de personajes](PERSONAJES.md) registra seis enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
 
-El protagonista [Diego](../art/characters/diego/ficha.md) añade diez hojas PNG de ejecución, 44 poses y 13 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Los seis enemigos siguen como material de autoría, con animaciones e integración pendientes. El entrenamiento no asigna contenido a los ocho mundos.
+El protagonista [Diego](../art/characters/diego/ficha.md) añade diez hojas PNG de ejecución, 44 poses y 13 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable con animación por transformación; las hojas de fotogramas de enemigos siguen pendientes y los otros cuatro conservan su estado de concepto. El entrenamiento no asigna contenido a los ocho mundos.
 
 ## Capas de colisión reservadas
 
@@ -144,7 +144,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 55 pruebas de comportamiento del protagonista y los controles, además de 63 de los objetos arrojadizos antes de exportar el entrenamiento. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 55 pruebas del protagonista y controles, 63 de objetos arrojadizos y 29 del nivel, y genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -153,3 +153,11 @@ El flujo ejecuta 55 pruebas de comportamiento del protagonista y los controles, 
 - [Exportar a Android](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 - [Exportar a Windows](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_windows.html).
 
+
+## Bosque Esmeralda 1-1 · 0.2.0
+
+`ForestLevelDefinition` separa los datos editables del nivel de `ForestStage`, que crea suelo, plataformas de una dirección, coleccionables, marcadores y patrullas. El nivel emite `level_completed`, `checkpoint_reached`, `counts_changed` e `hint_requested`; `boot/main.gd` recibe esas señales y compone cámara, HUD y pausa mediante la base de entrenamiento `boot/practice.gd`.
+
+`ForestEnemy` reutiliza `StompTarget` y `receive_thrown_hit`. `DiegoPlayer.fall_limit_y` permite al nivel decidir su límite de caída, manteniendo el valor anterior como predeterminado del entrenamiento. `LevelProgress` guarda JSON de esquema 1 mediante un temporal y renombrado, mantiene el nivel desbloqueado y conserva máximos de coleccionables y mínimo de tiempo al rejugar. Los ajustes siguen separados del progreso.
+
+Los PNG HD de fondo, terreno y cuatro elementos de escenario están en `game/assets/textures/environments/bosque_esmeralda/`; los recortes se hacen con `AtlasTexture` o regiones de dibujo. La colisión nunca se infiere del píxel. Fondo a velocidad 0,17 respecto a la cámara, árboles en plano intermedio y helechos en primer plano componen la profundidad, íntegramente 2D. Prompts y revisión en `art/levels/bosque_esmeralda/`. [Diseño y controles del nivel](BOSQUE_ESMERALDA.md).

@@ -143,6 +143,39 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar el Bosque Esmeralda
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_forest.gd 2>&1 | tee .godot-logs/forest-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-tests.log; then
+            exit 1
+          fi
+
+      - name: Capturar el nivel en móvil y tablet
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v xvfb-run >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y xvfb
+          fi
+          LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --path . \
+            --script tools/tests/capture_forest.gd 2>&1 | tee .godot-logs/forest-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-render.log; then
+            exit 1
+          fi
+
+      - name: Guardar las capturas del Bosque Esmeralda
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: bosque-esmeralda-capturas-${{ github.run_number }}
+          path: art/levels/bosque_esmeralda/preview_*.png
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Exportar el APK instalable
         shell: bash
         run: |
@@ -191,7 +224,7 @@ jobs:
             printf '[Descargar el APK de Salto Heroes](%s)\n\n' "$APK_ARTIFACT_URL"
             printf 'Descomprime el ZIP y abre salto-heroes.apk en un móvil Android ARM64.\n\n'
             printf 'Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.\n\n'
-            printf 'Versión de pruebas: protagonista Diego y zona de entrenamiento. El artefacto se conserva durante 30 días.\n'
+            printf 'Versión de pruebas: Bosque Esmeralda 1-1, protagonista Diego y entrenamiento. El artefacto se conserva durante 30 días.\n'
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Conservar los registros si falla la compilación

@@ -10,6 +10,7 @@ signal state_changed(state: StringName)
 
 @export var tuning: PlayerTuning = preload("res://game/features/player/default_tuning.tres")
 @export var maximum_health: int = 3
+@export var fall_limit_y: float = 1100.0
 
 @onready var controls: PlayerInputSource = $InputSource
 @onready var sprite: AnimatedSprite2D = $Facing/Sprite
@@ -120,7 +121,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_ceiling():
 		_jump_cut_allowed = false
 	_update_animation()
-	if global_position.y > 1100.0:
+	if global_position.y > fall_limit_y:
 		_die()
 
 

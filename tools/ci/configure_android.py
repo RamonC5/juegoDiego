@@ -72,6 +72,8 @@ def main() -> None:
             f'/actions/runs/{os.environ["GITHUB_RUN_ID"]}'
         ),
         "build_type": "debug",
+        "level_id": "world_01_level_01",
+        "level_name": "Bosque Esmeralda - El despertar del bosque",
         "architecture": "arm64-v8a",
     }
     (output_dir / "build-info.json").write_text(

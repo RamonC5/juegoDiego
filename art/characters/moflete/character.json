@@ -3,7 +3,9 @@
   "character_id": "moflete",
   "display_name": "Moflete",
   "role": "enemy",
-  "world_ids": [],
+  "world_ids": [
+    "world_01"
+  ],
   "design_status": "proposed",
   "design_version": 4,
   "visual_reference": {
@@ -89,7 +91,7 @@
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only",
+  "integration_status": "godot_checked",
   "visual_history": [
     {
       "version": 3,
@@ -116,5 +118,13 @@
     "signature_gesture": "Olfatea con rapidez, hincha una mejilla y junta las manos antes de dar un paso.",
     "proposed_movement": "Da varios pasos rápidos, frena para olfatear y gira con una pequeña vacilación.",
     "proposed_stomp_response": "Las mejillas se desinflan, el cuerpo se encoge y las orejas laterales bajan."
+  },
+  "runtime_integration": {
+    "level_id": "world_01_level_01",
+    "sprite": "game/assets/textures/characters/moflete/idle_v001.png",
+    "import_size_limit": 512,
+    "animation_method": "Transformación del sprite existente: balanceo de patrulla, compresión al pisotón y desvanecimiento; no hay una nueva hoja de fotogramas.",
+    "scene_script": "game/features/enemies/forest_enemy.gd",
+    "validation": "Pisotón, contacto lateral, impacto arrojadizo y recorrido completo comprobados en tools/tests/test_forest.gd; prueba física móvil pendiente."
   }
 }

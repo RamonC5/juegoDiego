@@ -210,7 +210,7 @@ func _run() -> void:
 
 	_world.queue_free()
 	await _step(2)
-	var main: Node2D = load("res://game/boot/main.tscn").instantiate()
+	var main: Node2D = load("res://game/features/player/practice.tscn").instantiate()
 	root.add_child(main)
 	await _step(4)
 	var count: int = 0

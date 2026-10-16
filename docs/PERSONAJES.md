@@ -96,3 +96,7 @@ Intenta ocupar poco espacio, pero siempre deja un pie por medio. Muñeco de tela
 Mantener un ID estable por personaje. Guardar ficha, PNG versionado, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`, conservando las imágenes anteriores. Registrar por separado la aceptación del concepto base y la valoración de cada nueva revisión visual. Comparar el conjunto al diseñar variantes para evitar repetir por defecto cara, proporciones y postura.
 
 Guardar únicamente los recursos de juego preparados en `game/assets/textures/characters/<character_id>/` cuando se encargue su producción. El material de autoría permanece bajo `art/.gdignore`.
+
+## Integración del primer nivel · 0.2.0
+
+**Terrón y Moflete** ya aparecen como enemigos jugables de Bosque Esmeralda 1-1: siete patrullas entre ambos. Se reutilizan los conceptos raster existentes, con animación por transformación de patrulla y aplastamiento. Se eliminan por pisotón y admiten el contrato de objetos lanzados. Las hojas de fotogramas propias de estos enemigos siguen pendientes; los otros cuatro enemigos continúan como conceptos. Los metadatos y fichas de Terrón y Moflete registran esta integración.

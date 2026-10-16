@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ground_sections = Array[Rect2]([Rect2(0, 600, 1700, 520), Rect2(1820, 600, 1650, 520), Rect2(3590, 600, 1510, 520), Rect2(5220, 600, 1680, 520), Rect2(7020, 600, 1180, 520)])
+raised_platforms = Array[Rect2]([Rect2(650, 515, 250, 64), Rect2(1050, 435, 250, 64), Rect2(2050, 515, 220, 64), Rect2(2390, 435, 250, 64), Rect2(3830, 515, 240, 64), Rect2(4400, 515, 250, 64), Rect2(4780, 435, 230, 64), Rect2(5650, 515, 250, 64), Rect2(6040, 435, 240, 64), Rect2(6440, 515, 240, 64), Rect2(7270, 515, 250, 64)])
+enemy_spawns = Array[Vector4]([Vector4(1390, 600, 1310, 1570), Vector4(2150, 600, 1940, 2310), Vector4(3140, 600, 2940, 3310), Vector4(3910, 600, 3720, 4020), Vector4(5730, 600, 5480, 5880), Vector4(6610, 600, 6370, 6770), Vector4(7470, 600, 7190, 7620)])
+enemy_kinds = PackedStringArray("terron", "moflete", "terron", "terron", "moflete", "terron", "moflete")
+object_spawns = Array[Vector3]([Vector3(1130, 574, 0), Vector3(2700, 574, 1), Vector3(4310, 574, 0), Vector3(5370, 574, 3), Vector3(7070, 574, 0)])
+crystal_positions = Array[Vector2]([Vector2(1175, 384), Vector2(4895, 384), Vector2(6160, 384)])

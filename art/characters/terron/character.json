@@ -3,7 +3,9 @@
   "character_id": "terron",
   "display_name": "Terrón",
   "role": "enemy",
-  "world_ids": [],
+  "world_ids": [
+    "world_01"
+  ],
   "design_status": "proposed",
   "design_version": 3,
   "visual_reference": {
@@ -89,7 +91,7 @@
       "Pruebas Android y Windows"
     ]
   },
-  "integration_status": "concept_only",
+  "integration_status": "godot_checked",
   "visual_history": [
     {
       "version": 2,
@@ -116,5 +118,13 @@
     "signature_gesture": "Parpadeo lento, pausa larga y arranque pesado con un pequeño cabeceo.",
     "proposed_movement": "Avanza despacio, se detiene como si se quedara dormido y reanuda con dos pasos pesados.",
     "proposed_stomp_response": "El lomo baja y el cuerpo se asienta de golpe; el musgo se sacude sin pinchos ni destellos."
+  },
+  "runtime_integration": {
+    "level_id": "world_01_level_01",
+    "sprite": "game/assets/textures/characters/terron/idle_v001.png",
+    "import_size_limit": 512,
+    "animation_method": "Transformación del sprite existente: balanceo de patrulla, compresión al pisotón y desvanecimiento; no hay una nueva hoja de fotogramas.",
+    "scene_script": "game/features/enemies/forest_enemy.gd",
+    "validation": "Pisotón, contacto lateral, impacto arrojadizo y recorrido completo comprobados en tools/tests/test_forest.gd; prueba física móvil pendiente."
   }
 }

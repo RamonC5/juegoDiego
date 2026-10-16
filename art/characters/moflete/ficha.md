@@ -46,3 +46,7 @@ Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 �
 - [Revisión visual](qa.md) e [informe técnico](qa-technical.json).
 
 Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).
+
+## Integración en Bosque Esmeralda 1-1
+
+El primer nivel reutiliza este concepto como sprite raster lateral. `ForestEnemy` implementa patrulla, contacto lateral, pisotón con rebote y recepción de objetos lanzados. La animación usa balanceo y compresión del sprite existente; no se han generado hojas de carrera nuevas. El PNG final se importa con un límite de 512 px y mantiene el recorte normalizado y la colisión separados. La revisión de juego cubre combate y recorrido; la prueba en un móvil físico queda pendiente.

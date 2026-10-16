@@ -1,86 +1,65 @@
 # Salto Heroes · Juego Diego
 
-Base de un juego de plataformas **2D** para **Android y Windows**, con ocho mundos y niveles rejugables.
+Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
 
-## Estado de esta entrega
+## Bosque Esmeralda 1-1 · versión 0.2.0
 
-Primera integración jugable de **Diego**, protagonista basado en la fotografía del usuario y adaptado al acabado raster 2D del juego. Incluye diez hojas PNG, 44 poses fuente, 13 estados de animación, movimiento, salto variable, pisotón, recoger/lanzar y controles para Android y tablet Windows.
+El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda. Incluye fondo raster con parallax, suelo con musgo, árboles, helechos, plataformas opcionales, cuatro brechas, siete patrullas de Terrón y Moflete, objetos arrojadizos, hojas doradas, tres cristales, farol de control y arco de salida.
 
-El proyecto abre una zona de entrenamiento con plataformas, [seis objetos arrojadizos](docs/OBJETOS_ARROJADIZOS.md) y dianas geométricas. El nombre y vestuario de Diego son propuestas para valorar. Se conserva el icono provisional SH.
+Diego mantiene sus movimientos, 13 estados de animación y controles por gestos sin botones fijos. Los enemigos se eliminan saltando encima y reciben impactos de objetos lanzados. La meta guarda el resultado y permite rejugar para mejorar tiempo y coleccionables. Desde Pausa puedes volver al entrenamiento anterior, con los seis objetos, o regresar al bosque.
 
-El [catálogo de personajes](docs/PERSONAJES.md) reúne **seis enemigos normales** con ficha e imagen: Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo. Son propuestas visuales 2D; sus animaciones y su integración jugable quedan pendientes. El material de autoría está en `art/`, excluido de la importación y de los APK.
+![Bosque Esmeralda con árboles de musgo y luz entre la vegetación](game/assets/textures/environments/bosque_esmeralda/forest_backdrop_v001.png)
 
-El [protagonista y sus controles](docs/PROTAGONISTA.md) ya están integrados, con pausa, opciones de accesibilidad y teclas reasignables. Los ocho mundos, niveles rejugables, enemigos y jefes jugables, audio y progreso se implementarán en entregas posteriores.
+[Diseño del nivel, recorrido y controles](docs/BOSQUE_ESMERALDA.md).
 
-## Arquitectura elegida
+## Descargar el APK e instalarlo
 
-| Elemento | Configuración |
-| --- | --- |
-| Motor | Godot **4.7.2**, edición estándar |
-| Lenguaje | GDScript con tipado estático |
-| Organización | Escenas y componentes agrupados por funcionalidad |
-| Renderizado | Compatibility para escritorio y móvil |
-| Presentación | Escenas 2D, base de 1280 × 720, orientación horizontal |
-| Física | 60 pasos por segundo |
-| Plataformas de exportación | Windows x86_64 y Android ARM64 |
-| Dependencias externas | Ninguna en el proyecto |
+1. Abre [Actions → Validar y generar APK Android](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml) y entra en la ejecución verde del commit más reciente.
+2. Descarga el artefacto `salto-heroes-android-<número>`, descomprime el ZIP y abre `salto-heroes.apk` en el móvil Android ARM64.
+3. Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.
 
-## Abrir el proyecto
+El APK es una compilación de pruebas firmada, con versión y commit en `build-info.json`, y se conserva durante 30 días. La CI comprueba su firma, paquete y arquitectura. Las capturas de la escena real se descargan en `bosque-esmeralda-capturas-<número>`. Las claves y binarios no se incluyen en Git.
 
-1. Instala [Godot 4.7.2 estándar](https://godotengine.org/download/archive/4.7.2-stable/).
-2. En el gestor de proyectos, selecciona **Importar** y abre `project.godot`.
-3. Pulsa **F5** para abrir el entrenamiento. A/D o flechas mueven, Espacio salta y E recoge/lanza. Escape abre la pausa. También puedes usar gestos desde cualquier punto de cada mitad de la pantalla o un mando.
+## Jugar y abrir el proyecto
 
-La versión del motor está fijada en [`.godot-version`](.godot-version).
+- **Táctil:** arrastra horizontalmente en la mitad de movimiento; desliza hacia arriba en la otra mitad para saltar y toca brevemente para coger o lanzar. Admite varios dedos a la vez.
+- **Teclado:** A/D o flechas, Espacio, E y Escape. También admite mando.
+- **Pausa:** sensibilidad, lados intercambiables, salto completo, carrera, guías y teclas reasignables. Foco visible y textos de energía y coleccionables.
 
-## Estructura
-
-| Ruta | Responsabilidad |
-| --- | --- |
-| `game/boot/` | Entrada del juego y futura composición de servicios |
-| `game/core/` | Contratos, componentes y servicios compartidos |
-| `game/features/` | Jugador, enemigos, jefes, objetos, niveles y mapa de mundos |
-| `game/ui/` | Controles táctiles; HUD y pausa compuestos por la escena de arranque |
-| `game/data/worlds/world_01/` a `world_08/` | Reserva vacía de los ocho mundos |
-| `art/characters/` | Fichas, conceptos PNG, encargos, prompts y revisión de personajes |
-| `game/assets/` | Hojas de Diego y reservas para audio y fuentes |
-| `game/localization/` | Traducciones futuras |
-| `.agents/skills/generar-personajes-salto-heroes/` | Skill para el futuro diseño y producción de personajes 2D |
-| `docs/` | Arquitectura y guía de desarrollo |
-| `tools/` | Verificación de la descarga del motor usada por CI |
+Importa `project.godot` con **Godot 4.7.2 estándar** y pulsa F5. Usa GDScript tipado, renderizador Compatibility, vista base 1280×720, orientación horizontal y física a 60 Hz. Los perfiles de exportación son Android ARM64 y Windows x86_64.
 
 ## Verificación
-
-Con el ejecutable de Godot disponible como `godot`:
 
 ```sh
 godot --headless --path . --editor --import --quit
 godot --headless --path . --quit-after 3
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd
+godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 ```
 
-GitHub Actions importa el proyecto, comprueba el arranque y ejecuta 55 pruebas del protagonista y los controles y 63 de los objetos arrojadizos. Si pasan, exporta un APK de pruebas firmado para Android ARM64 y verifica firma y paquete. El renderizado se ha revisado en Godot; quedan las pruebas físicas en Android y Windows.
+147 comprobaciones: 55 de protagonista y controles, 63 de objetos y 29 de nivel. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
 
-## Descargar e instalar el APK en el móvil
+## Estructura y documentación
 
-1. Abre [Actions → Validar y generar APK Android](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml) y selecciona una ejecución terminada en verde. Debes tener acceso al repositorio e iniciar sesión en GitHub.
-2. En **Artifacts**, descarga `salto-heroes-android-<número de ejecución>` y descomprime el ZIP.
-3. Copia o descarga `salto-heroes.apk` en un móvil Android ARM64 y ábrelo.
-4. Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.
+| Ruta | Contenido |
+| --- | --- |
+| `game/boot/` | Composición del nivel y base del entrenamiento, pausa y opciones |
+| `game/features/levels/` | Construcción del bosque, terreno, coleccionables y fondo |
+| `game/features/enemies/` | Patrullas de Terrón y Moflete y contratos de combate |
+| `game/features/player/` | Diego, animaciones, entrada y entrenamiento |
+| `game/features/objects/` | Seis arrojadizos y sus definiciones |
+| `game/core/services/` | Ajustes y progreso local separado |
+| `game/data/worlds/world_01/level_01.tres` | Datos del primer nivel; quedan reservados los otros mundos |
+| `game/assets/` | Recursos finales usados por el juego |
+| `art/` | Conceptos, fichas, prompts y revisión; excluidos del APK |
 
-Cada envío a Git y cada pull request genera automáticamente un APK nuevo. Puedes solicitar otra compilación con **Run workflow**, sin modificar archivos. Los APK se conservan durante **30 días** e incluyen su checksum SHA-256 y `build-info.json` con la versión y el commit.
+- [Arquitectura](docs/ARQUITECTURA.md).
+- [Desarrollo y exportación Android](docs/DESARROLLO.md).
+- [Catálogo de personajes](docs/PERSONAJES.md).
+- [Protagonista y animaciones](docs/PROTAGONISTA.md).
+- [Gestos táctiles](docs/CONTROLES_TACTILES.md).
+- [Objetos arrojadizos](docs/OBJETOS_ARROJADIZOS.md).
+- [Skill de personajes](.agents/skills/generar-personajes-salto-heroes/SKILL.md).
 
-El APK contiene a Diego, seis objetos arrojadizos y la zona de entrenamiento. Se firma con una clave de depuración que la CI conserva en caché; consulta [la guía de CI](docs/DESARROLLO.md#integración-continua) si Android rechaza una actualización por cambio de firma.
-
-## Documentación
-
-- [Arquitectura y contratos para el desarrollo](docs/ARQUITECTURA.md).
-- [Entorno, controles y exportación](docs/DESARROLLO.md).
-- [Catálogo de personajes: ficha e imagen de cada diseño](docs/PERSONAJES.md).
-- [Protagonista, animaciones, movimientos y controles](docs/PROTAGONISTA.md).
-- [Objetos arrojadizos: imágenes, comportamiento y recursos Godot](docs/OBJETOS_ARROJADIZOS.md).
-- [Skill para generar personajes de Salto Heroes](.agents/skills/generar-personajes-salto-heroes/SKILL.md), basado en el flujo `imagegen` de OpenAI y adaptado a los requisitos del juego. Invocación: `$generar-personajes-salto-heroes`.
-
-`export_presets.cfg` incluye los perfiles **Windows** y **Android**. Para exportar hay que instalar las plantillas de Godot y, en Android, configurar también Java y el SDK. Los APK generados se descargan desde Actions; los binarios y las claves no se guardan en Git.
-
+Los otros cuatro enemigos conservan sus conceptos. Las animaciones de Terrón y Moflete usan transformaciones de sus sprites existentes; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
