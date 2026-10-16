@@ -121,7 +121,10 @@ func _build_collectibles() -> void:
 	for section in DEFINITION.ground_sections:
 		var x: float = section.position.x + 310.0
 		while x < section.end.x - 140.0:
-			_add_collectible(Vector2(x, 551))
+			# La meta detiene a Diego: la última hoja debe recogerse antes de su sensor.
+			_add_collectible(Vector2(minf(x, DEFINITION.goal.x - 130.0), 551))
+			if x >= DEFINITION.goal.x - 130.0:
+				break
 			x += 190.0
 	for section in DEFINITION.raised_platforms:
 		for offset in [65.0, 130.0, 195.0]:

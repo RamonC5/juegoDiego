@@ -38,7 +38,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 ```
 
-147 comprobaciones: 55 de protagonista y controles, 63 de objetos y 29 de nivel. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
+148 comprobaciones: 55 de protagonista y controles, 63 de objetos y 30 de nivel. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
 
 ## Estructura y documentación
 

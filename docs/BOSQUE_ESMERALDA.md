@@ -39,6 +39,6 @@ Prompts exactos: [material de producción](../art/levels/bosque_esmeralda/prompt
 
 `user://progress.json` guarda el estado completado, número de finalizaciones, máximos de hojas y cristales y mejor tiempo por identificador. Se escribe primero un temporal; rejugar conserva los mejores resultados y el acceso al nivel. Los ajustes de control se guardan por separado.
 
-La CI exige 147 comprobaciones: 55 del protagonista y controles, 63 de objetos y 29 del nivel. Estas últimas cubren contacto lateral, pisotón con rebote, impacto arrojadizo, recogida única, las cuatro brechas, plataforma atravesable, checkpoint, caída y reintento, pausa del reloj, recorrido completo, meta única y guardado rejugable. Captura el juego con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720; las imágenes se publican como artefacto de Actions.
+La CI exige 148 comprobaciones: 55 del protagonista y controles, 63 de objetos y 30 del nivel. Estas últimas cubren contacto lateral, pisotón con rebote, impacto arrojadizo, recogida única, las cuatro brechas, plataforma atravesable, checkpoint, caída y reintento, pausa del reloj, recorrido completo, meta única y guardado rejugable. Captura el juego con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720; las imágenes se publican como artefacto de Actions.
 
 El objetivo es 60 FPS. Las pruebas automatizadas y las capturas no son una medición de rendimiento en un teléfono físico. Queda pendiente la prueba física de instalación, tacto y rendimiento en el móvil del usuario.

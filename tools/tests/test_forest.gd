@@ -137,6 +137,11 @@ func _run() -> void:
 			break
 	hero.controls.clear_virtual()
 	_check(stage.completed and not hero.dead, "se puede recorrer todo el nivel con movimiento y saltos reales")
+	var last_leaf: ForestCollectible
+	for collectible in stage.collectibles:
+		if not collectible.crystal and (last_leaf == null or collectible.position.x > last_leaf.position.x):
+			last_leaf = collectible
+	_check(last_leaf.taken, "la última hoja se recoge antes de que la meta detenga al jugador")
 	_check(hero.celebrating, "llegar a la salida reproduce victoria")
 	_check(main.progress.levels.get(stage.DEFINITION.level_id, {}).get("completed", false), "meta guarda la finalización")
 	var old_result: Dictionary = main.progress.levels.get(stage.DEFINITION.level_id, {}).duplicate()
