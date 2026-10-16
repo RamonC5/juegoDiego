@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=55 format=3]
+[gd_resource type="SpriteFrames" load_steps=60 format=3]
 
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/idle_v001.png" id="1"]
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/walk_v001.png" id="2"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/hurt_v001.png" id="8"]
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/defeated_v001.png" id="9"]
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/victory_v001.png" id="10"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/crouch_v001.png" id="11"]
 
 [sub_resource type="AtlasTexture" id="Atlas_idle_0"]
 atlas = ExtResource("1")
@@ -275,6 +276,30 @@ region = Rect2(786, 660, 298, 549)
 margin = Rect2(370, 357, 726, 475)
 filter_clip = true
 
+[sub_resource type="AtlasTexture" id="Atlas_crouch_0"]
+atlas = ExtResource("11")
+region = Rect2(266, 27, 331, 497)
+margin = Rect2(358, 409, 693, 527)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_crouch_1"]
+atlas = ExtResource("11")
+region = Rect2(953, 18, 334, 506)
+margin = Rect2(357, 400, 690, 518)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_crouch_2"]
+atlas = ExtResource("11")
+region = Rect2(264, 541, 341, 469)
+margin = Rect2(356, 437, 683, 555)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_crouch_3"]
+atlas = ExtResource("11")
+region = Rect2(955, 528, 331, 485)
+margin = Rect2(359, 421, 693, 539)
+filter_clip = true
+
 [resource]
 animations = [
 {"frames": [
@@ -347,5 +372,11 @@ animations = [
 {"duration": 1.0, "texture": SubResource("Atlas_victory_1")},
 {"duration": 1.0, "texture": SubResource("Atlas_victory_2")},
 {"duration": 1.0, "texture": SubResource("Atlas_victory_3")}
-], "loop": false, "name": &"victory", "speed": 8.0}
+], "loop": false, "name": &"victory", "speed": 8.0},
+{"frames": [
+{"duration": 1.0, "texture": SubResource("Atlas_crouch_0")},
+{"duration": 1.0, "texture": SubResource("Atlas_crouch_1")},
+{"duration": 1.0, "texture": SubResource("Atlas_crouch_2")},
+{"duration": 1.0, "texture": SubResource("Atlas_crouch_3")}
+], "loop": true, "name": &"crouch", "speed": 5.0}
 ]

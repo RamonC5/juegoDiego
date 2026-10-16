@@ -17,7 +17,7 @@ SOURCE_SPECS = {
     "idle": (4, 585), "walk": (6, 488), "run": (6, 480),
     "jump": (4, 525), "carry": (4, 582), "grab": (4, 594),
     "throw": (4, 600), "hurt": (4, 588), "defeated": (4, 600),
-    "victory": (4, 535),
+    "victory": (4, 535), "crouch": (4, 776),
 }
 ANIMATIONS = {
     "idle": ("idle", [0, 1, 2, 3], 6, True),
@@ -33,6 +33,7 @@ ANIMATIONS = {
     "hurt": ("hurt", [0, 1, 2, 3], 10, False),
     "defeated": ("defeated", [0, 1, 2, 3], 8, False),
     "victory": ("victory", [0, 1, 2, 3], 8, False),
+    "crouch": ("crouch", [0, 1, 2, 3], 5, True),
 }
 
 
@@ -111,3 +112,4 @@ if __name__ == '__main__':
     parser.add_argument('--discover', action='store_true')
     args = parser.parse_args()
     build(discover() if args.discover else json.loads(LAYOUT.read_text()))
+

@@ -41,6 +41,10 @@ jump={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"physical_keycode":32), Object(InputEventJoypadButton,"device":-1,"button_index":0)]
 }
+crouch={
+"deadzone": 0.35,
+"events": [Object(InputEventKey,"physical_keycode":83), Object(InputEventKey,"physical_keycode":4194322), Object(InputEventJoypadMotion,"device":-1,"axis":1,"axis_value":1.0), Object(InputEventJoypadButton,"device":-1,"button_index":12)]
+}
 run={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"physical_keycode":4194325), Object(InputEventJoypadButton,"device":-1,"button_index":1)]
@@ -86,3 +90,4 @@ textures/vram_compression/import_etc2_astc=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
 environment/defaults/default_clear_color=Color(0.08, 0.09, 0.12, 1)
+

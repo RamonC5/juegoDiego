@@ -14,7 +14,7 @@ El vestuario propone camiseta marfil, chaleco corto verde azulado, pañuelo most
 
 ## Movimiento y actuación
 
-Camina, acelera, corre, frena, salta con altura variable, cae y aterriza. El salto admite una pequeña tolerancia al salir de un borde y al pulsar antes de tocar el suelo. Al pisar desde arriba un objetivo válido, rebota; el ascenso y el contacto lateral no producen un pisotón.
+Camina, acelera, corre, frena, se agacha, salta con altura variable, cae y aterriza. El salto admite una pequeña tolerancia al salir de un borde y al pulsar antes de tocar el suelo. Al pisar desde arriba un objetivo válido, rebota; el ascenso y el contacto lateral no producen un pisotón.
 
 Puede recoger un objeto cercano con una pulsación, transportarlo y lanzarlo con otra. El objeto existe como entidad física independiente; se suelta en el fotograma 2 de `throw`, una sola vez. Incluye reacción al daño, derrota sentada y celebración. La protección temporal se muestra con un aro continuo, sin parpadeos.
 
@@ -22,11 +22,11 @@ Las velocidades, energía y tiempos son valores iniciales editables, no decision
 
 ## Recursos e integración
 
-Diez hojas PNG RGBA contienen **44 poses fuente**. `SpriteFrames` expone **13 estados**, incluidos los ciclos de reposo, caminar, correr y transportar, las acciones de recoger/lanzar/daño/derrota/victoria y las poses de salto, caída, aterrizaje y sostener en reposo. La colisión es independiente de la imagen.
+Once hojas PNG RGBA contienen **48 poses fuente**. `SpriteFrames` expone **14 estados**, incluidos los ciclos de reposo, caminar, correr y transportar, las acciones de recoger/lanzar/daño/derrota/victoria y las poses de salto, caída, aterrizaje y sostener en reposo. La colisión es independiente de la imagen.
 
-La generación no respetó de forma exacta todos los límites de la cuadrícula solicitada. Se usan regiones de atlas explícitas, con pivote de apoyo y escala uniforme por hoja. Un shader suave descarta alfa residual de baja opacidad. Los PNG originales no se han retocado por código; el informe conserva los avisos de margen de las hojas fuente. La referencia está en `art/`; únicamente las diez hojas de ejecución se importan desde `game/assets/`.
+La generación no respetó de forma exacta todos los límites de la cuadrícula solicitada. Se usan regiones de atlas explícitas, con pivote de apoyo y escala uniforme por hoja. Un shader suave descarta alfa residual de baja opacidad. Los PNG originales no se han retocado por código; el informe conserva los avisos de margen de las hojas fuente. La referencia está en `art/`; únicamente las once hojas de ejecución se importan desde `game/assets/`.
 
-La integración se ha comprobado en **Godot 4.7.2**, con 55 pruebas de comportamiento y revisión gráfica en Compatibility a 1280 × 720 y 1024 × 768. Quedan pendientes la valoración visual del usuario, la ficha completa de «opción A» y las pruebas físicas y de rendimiento en Android y Windows.
+La integración se ha comprobado en **Godot 4.7.2**, con 88 pruebas de comportamiento y revisión gráfica en Compatibility a 1280 × 720 y 1024 × 768. Quedan pendientes la valoración visual del usuario, la ficha completa de «opción A» y las pruebas físicas y de rendimiento en Android y Windows.
 
 ![Zona de entrenamiento con Diego, una esfera recogible y dianas de lanzamiento y pisotón, con guía de gestos y sin botones de juego fijos.](preview_gameplay.png)
 
@@ -36,5 +36,12 @@ La integración se ha comprobado en **Godot 4.7.2**, con 55 pruebas de comportam
 - [Prompts exactos](prompts.md), generados mediante `image_gen` integrada.
 - [Metadatos](character.json), [regiones y pivotes](atlas_layout.json).
 - [Revisión visual y funcional](qa.md) e [informe técnico](qa-technical.json).
-- [Trece estados renderizados](preview_animations.png) sobre fondos claros y oscuros.
+- [Catorce estados renderizados](preview_animations.png) sobre fondos claros y oscuros.
 - [Catálogo del reparto](../../../docs/PERSONAJES.md).
+
+
+## Agacharse · 16 de octubre de 2026
+
+Cuatro poses nuevas de respiración en postura baja, manteniendo gafas, vestuario y acabado. Desliza abajo y mantén en la mitad de acciones; también S, flecha abajo y mando. El cuerpo baja a 58 px y no se levanta bajo un techo. [Hoja de agacharse](../../../game/assets/textures/characters/diego/crouch_v001.png), [prompt exacto](crouch-prompt.txt).
+
+![Diego agachado en el Bosque Esmeralda, con los pies apoyados y la guía de deslizar hacia abajo.](preview_crouch.png)

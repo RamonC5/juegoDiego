@@ -34,6 +34,11 @@ func _capture() -> void:
 	main.touch.refresh()
 	await _frames(60)
 	_save("preview_start")
+	main.player.controls.set_virtual_action(&"crouch", true)
+	await _frames(10)
+	_save("preview_crouch")
+	main.player.controls.set_virtual_action(&"crouch", false)
+	await _frames(3)
 	main.touch._guide_time = 0.0
 	main.touch._update_guides()
 	main.player.respawn(Vector2(1110, 435))
@@ -51,6 +56,11 @@ func _capture() -> void:
 	main.player.respawn(Vector2(7460, 515))
 	await _frames(5)
 	_save("preview_tablet")
+	main.player.controls.set_virtual_action(&"crouch", true)
+	await _frames(10)
+	_save("preview_crouch_tablet")
+	main.player.controls.set_virtual_action(&"crouch", false)
+	await _frames(3)
 	root.size = Vector2i(1600, 720)
 	root.content_scale_size = Vector2i(1600, 720)
 	main.player.respawn(Vector2(2600, 435))
@@ -73,4 +83,5 @@ func _capture() -> void:
 	main.queue_free()
 	await _frames(2)
 	quit()
+
 

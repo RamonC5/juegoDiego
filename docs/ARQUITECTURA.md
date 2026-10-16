@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 13 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cinco enemigos siguen como conceptos. Se conserva el icono provisional SH.
+`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 14 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cinco enemigos siguen como conceptos. Se conserva el icono provisional SH.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -122,7 +122,7 @@ Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignor
 
 El [catálogo de personajes](PERSONAJES.md) registra siete enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín, Remiendo y Nóctilo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
 
-El protagonista [Diego](../art/characters/diego/ficha.md) añade diez hojas PNG de ejecución, 44 poses y 13 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable con animación por transformación; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo añade un diseño de murciélago volador con ficha, PNG y propuesta de vuelo; todavía no tiene animaciones ni integración jugable. El entrenamiento no asigna contenido a los ocho mundos.
+El protagonista [Diego](../art/characters/diego/ficha.md) añade once hojas PNG de ejecución, 48 poses y 14 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable con animación por transformación; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo añade un diseño de murciélago volador con ficha, PNG y propuesta de vuelo; todavía no tiene animaciones ni integración jugable. El entrenamiento no asigna contenido a los ocho mundos.
 
 ## Capas de colisión reservadas
 
@@ -150,7 +150,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 55 pruebas del protagonista y controles, 63 de objetos arrojadizos y 55 del nivel y llaves, y genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 88 pruebas del protagonista y controles, 63 de objetos arrojadizos y 55 del nivel y llaves, y genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -168,3 +168,8 @@ El flujo ejecuta 55 pruebas del protagonista y controles, 63 de objetos arrojadi
 
 Los PNG HD de fondo, terreno y cuatro elementos de escenario están en `game/assets/textures/environments/bosque_esmeralda/`; los recortes se hacen con `AtlasTexture` o regiones de dibujo. La colisión nunca se infiere del píxel. Fondo a velocidad 0,17 respecto a la cámara, árboles en plano intermedio y helechos en primer plano componen la profundidad, íntegramente 2D. Prompts y revisión en `art/levels/bosque_esmeralda/`. [Diseño y controles del nivel](BOSQUE_ESMERALDA.md).
 
+
+
+## Agacharse
+
+La acción `crouch` se integra en InputMap, los gestos, la reasignación y el bloqueo de teclas al reanudar. `DiegoPlayer` intercambia cápsulas propias de 98 y 58 px, conserva la base y comprueba la forma erguida contra las capas del cuerpo antes de levantarse. La consulta se separa del suelo por el margen de seguridad. `PlayerTuning.crouch_height` permite ajustar la altura. El estado frena, mantiene el objeto a menor altura y conserva daño y sensores. [Reglas y controles](PROTAGONISTA.md).

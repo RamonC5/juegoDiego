@@ -5,7 +5,7 @@ extends Node
 signal changed
 
 const PATH: String = "user://controls.cfg"
-const ACTIONS: Array[StringName] = [&"move_left", &"move_right", &"jump", &"grab_throw", &"run", &"pause"]
+const ACTIONS: Array[StringName] = [&"move_left", &"move_right", &"jump", &"crouch", &"grab_throw", &"run", &"pause"]
 var automatic_run: bool = true
 var full_jump: bool = false
 var show_touch: bool = true
@@ -83,3 +83,4 @@ func _replace_keys(action: StringName, keys: Array) -> void:
 		var key := InputEventKey.new()
 		key.physical_keycode = code
 		InputMap.action_add_event(action, key)
+

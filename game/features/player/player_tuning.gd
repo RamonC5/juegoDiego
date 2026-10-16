@@ -15,3 +15,5 @@ extends Resource
 @export var jump_buffer_seconds: float = 0.14
 @export var stomp_bounce: float = 470.0
 @export var invulnerability_seconds: float = 1.2
+@export_range(38.0, 96.0, 1.0) var crouch_height: float = 58.0
+

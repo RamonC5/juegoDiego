@@ -40,7 +40,8 @@
     "throw": 0.18666666666666668,
     "hurt": 0.19047619047619047,
     "defeated": 0.18666666666666668,
-    "victory": 0.20934579439252338
+    "victory": 0.20934579439252338,
+    "crouch": 0.14432989690721648
   },
   "animations": [
     {
@@ -338,18 +339,49 @@
       ],
       "display_scale": 0.20934579439252338,
       "markers": {}
+    },
+    {
+      "name": "crouch",
+      "path": "game/assets/textures/characters/diego/crouch_v001.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "layout": "explicit_atlas_regions",
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fps": 5,
+      "loop": true,
+      "pivot_px": [
+        512,
+        900
+      ],
+      "display_scale": 0.14432989690721648,
+      "markers": {}
     }
   ],
-  "source_sheets": 10,
-  "source_poses": 44,
-  "runtime_states": 13,
+  "source_sheets": 11,
+  "source_poses": 48,
+  "runtime_states": 14,
   "generation": {
     "tool": "image_gen",
     "mode": "built_in",
     "prompts_path": "art/characters/diego/prompts.md",
     "transparent_background_requested": true,
     "generated_on": "2026-10-15",
-    "image_files_modified_by_code": false
+    "image_files_modified_by_code": false,
+    "crouch": {
+      "generated_on": "2026-10-16",
+      "tool": "image_gen",
+      "mode": "built_in",
+      "reference": "art/characters/diego/concept_v001.png",
+      "prompt_path": "art/characters/diego/crouch-prompt.txt",
+      "image_files_modified_by_code": false
+    }
   },
   "validation": {
     "technical_report": "art/characters/diego/qa-technical.json",
@@ -358,7 +390,7 @@
     "visual_review": "art/characters/diego/qa.md",
     "visual_review_passed": true,
     "godot_version": "4.7.2.stable.official.ed1daf0bf",
-    "behavior_checks": 55,
+    "behavior_checks": 88,
     "behavior_failures": 0,
     "rendering": "Compatibility / OpenGL 4.5 / Mesa llvmpipe",
     "rendered_sizes": [

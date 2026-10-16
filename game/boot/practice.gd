@@ -5,7 +5,7 @@ const PLAYER_SCENE: PackedScene = preload("res://game/features/player/diego.tscn
 const STAGE_SCRIPT = preload("res://game/features/player/practice_stage.gd")
 const TARGET_SCRIPT = preload("res://game/features/player/practice_target.gd")
 const ACTION_LABELS: Dictionary = {&"move_left": "Izquierda", &"move_right": "Derecha",
-	&"jump": "Saltar", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
+	&"jump": "Saltar", &"crouch": "Agacharse", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
 
 var player: DiegoPlayer
 var settings: ControlSettings
@@ -231,7 +231,7 @@ func _build_menu() -> void:
 	box.add_theme_constant_override("separation", 13)
 	scroll.add_child(box)
 	var instructions := Label.new()
-	instructions.text = "GESTOS SIN BOTONES\nEn cualquier punto de la mitad de movimiento, arrastra ← →. Un arrastre corto camina; uno largo corre. Suelta para parar.\nEn la otra mitad, desliza ↑ para saltar y mantén el dedo para ganar altura. Un toque corto coge o lanza. Puedes usar varios dedos a la vez.\nTeclado: A / D, Espacio y E. Mando: A salta, X actúa, Start pausa."
+	instructions.text = "GESTOS SIN BOTONES\nEn cualquier punto de la mitad de movimiento, arrastra ← →. Un arrastre corto camina; uno largo corre. Suelta para parar.\nEn la otra mitad, desliza ↑ para saltar y mantén el dedo para ganar altura. Desliza ↓ y mantén para agacharte; suelta para levantarte cuando haya espacio. Un toque corto coge o lanza. Puedes usar varios dedos a la vez.\nTeclado inicial: A / D, Espacio, S / ↓ y E. Mando: A salta, abajo agacha, X actúa, Start pausa."
 	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(instructions)
 	for spec in [["Correr también con arrastres cortos / teclado", "automatic_run"],
@@ -376,4 +376,5 @@ func _restart() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(touch):
 		_open_menu("Partida en pausa", not player.dead)
+
 

@@ -19,15 +19,16 @@ Esta distribución es una adaptación para las acciones existentes de Diego, no 
 | Cualquier punto de la mitad izquierda | Apoyar y arrastrar ← / → | Eje de movimiento analógico. Poco recorrido camina; mucho recorrido corre. |
 | Mitad de movimiento | Soltar | Detener la orden de movimiento y frenar. |
 | Cualquier punto de la mitad derecha | Deslizar ↑ | Saltar en cuanto se supera el umbral, sin esperar a soltar. |
+| Cualquier punto de la mitad de acciones | Deslizar ↓ y mantener | Agacharse en el suelo; soltar permite levantarse si hay espacio. |
 | Tras iniciar el salto | Mantener / soltar | Salto más alto / corto. Con salto completo activado basta el gesto. |
 | Cualquier punto de la mitad derecha | Toque corto | Coger el objeto cercano o lanzar el que se lleva, una vez al soltar. |
 | Botón Pausa | Pulsar | Abrir ajustes, liberar contactos y pausar la física. |
 
-Se pueden intercambiar las mitades. La función queda fijada al apoyar cada dedo y se conserva al cruzar el centro. Los contactos de movimiento, salto y acción pueden coexistir. Un gesto de salto nunca produce también un lanzamiento al soltar. El pisotón sigue siendo aterrizar sobre un enemigo válido; no requiere otro gesto.
+Se pueden intercambiar las mitades. La función queda fijada al apoyar cada dedo y se conserva al cruzar el centro. Los contactos de movimiento, salto y acción pueden coexistir. Los gestos de salto y agacharse nunca producen un lanzamiento al soltar. Abajo se mantiene hasta soltar o cancelar el contacto; si coinciden arriba y abajo, agacharse tiene prioridad en el suelo. El pisotón sigue siendo aterrizar sobre un enemigo válido; no requiere otro gesto.
 
 ## Respuesta y ayuda
 
-El eje horizontal parte del punto de apoyo. Tiene zona muerta, recorrido limitado y origen que sigue al dedo cuando se sobrepasa el recorrido. No hay botones ni palancas fijas. Solo se dibujan un trazo horizontal, una flecha de salto o un pequeño aro durante el contacto.
+El eje horizontal parte del punto de apoyo. Tiene zona muerta, recorrido limitado y origen que sigue al dedo cuando se sobrepasa el recorrido. No hay botones ni palancas fijas. Solo se dibujan un trazo horizontal, una flecha de salto o agacharse o un pequeño aro durante el contacto.
 
 La guía textual dura diez segundos al entrar o cambiar los ajustes y se puede desactivar. Pausa permite cambiar el recorrido de los gestos, intercambiar lados, usar salto completo y decidir si los arrastres cortos también permiten correr. El ajuste anterior `button_scale` migra a `gesture_scale` si todavía no existe el nuevo valor. Las teclas y los eventos de mando se conservan.
 
@@ -35,8 +36,9 @@ Los contactos nuevos se procesan después de la interfaz. Los ya capturados se l
 
 ## Comprobación
 
-`tools/tests/test_player.gd` ejecuta 55 comprobaciones de comportamiento, incluidas las mecánicas previas y regresiones de gestos, simultaneidad, interfaz, tablet 4:3 y persistencia. La CI las ejecuta antes de exportar el APK.
+`tools/tests/test_player.gd` ejecuta 88 comprobaciones de comportamiento, incluidas las mecánicas previas y regresiones de gestos, simultaneidad, interfaz, tablet 4:3 y persistencia. La CI las ejecuta antes de exportar el APK.
 
 `tools/tests/capture_player.gd` captura el entrenamiento, dos contactos activos, el menú y la proporción 4:3 mediante el renderizador real. Las capturas y el registro se encuentran en [la revisión de Diego](../art/characters/diego/qa.md).
 
 Queda por comprobar la sensación del arrastre, el multitoque del hardware y el rendimiento en el móvil Android y la tablet Windows del usuario.
+

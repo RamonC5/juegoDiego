@@ -39,3 +39,16 @@ Los avisos del entorno sobre `/proc/self/exe` y VSync de la pantalla virtual no 
 No se certifican todavía dispositivos físicos Android/Windows, lectores de pantalla nativos, tacto real ni 60 FPS. El cálculo RGBA8 de las diez hojas ronda 60 MiB antes de compresión y no mide VRAM de un teléfono. El arte fuente conserva los avisos descritos: su reutilización sin el atlas y shader actuales requiere limpieza de margen/alfa mediante el flujo de imágenes.
 
 Quedan la valoración visual del usuario y la descripción detallada de «opción A». Los ocho mundos, niveles rejugables, enemigos y jefes completos siguen fuera de esta prueba del protagonista. La CI ejecuta las pruebas antes de generar el APK; el estado de cada build se consulta en Actions.
+
+
+## Agacharse · 16 de octubre de 2026
+
+Se añade `crouch_v001.png`, generado con `image_gen` a partir de `concept_v001.png`, sin modificación de píxeles por código. Cuatro poses con rodillas flexionadas, manos sobre las rodillas, gafas y vestuario conservados; vista hacia la derecha y respiración sutil a 5 FPS. El PNG RGBA mide 1536 × 1024. El 72,36 % de los píxeles tienen alfa cero.
+
+La cuadrícula nominal 2 × 2 conserva avisos de margen y alfa residual: la primera fila llega a y=518. Se registran en `crouch-source-check.json`; el juego usa regiones explícitas separadas y el shader de alfa ya existente. La revisión de las 48 regiones de atlas pasa sin errores, con apoyo estable y márgenes virtuales. No se presenta la hoja como una cuadrícula regular lista para otros motores.
+
+Godot 4.7.2: importación y arranque correctos. **206 comprobaciones sin fallos**: 88 de protagonista y controles, 63 de objetos y 55 de bosque y llaves. Incluyen altura reducida, apoyo de pies, techo a 70 px, recuperación al despejarlo, instancia independiente, entrada durante la caída, daño, reaparición, objeto sostenido, prioridad sobre salto, multitáctil, cancelación, pausa, foco y reasignación conservando el mando. Evidencia: `qa-crouch-tests.txt`.
+
+Los scripts de captura incluyen la postura nueva en móvil y tablet. La CI los ejecuta con Compatibility antes de exportar el APK. Las pruebas en Android y tablet Windows físicos siguen pendientes.
+
+Revisión gráfica realizada con Compatibility, OpenGL 4.5 y Mesa llvmpipe: `preview_crouch.png` (1280 × 720), `preview_crouch_tablet.png` (1024 × 768) y `preview_animations.png` con los 14 estados sobre fondos claros y oscuros. La postura baja es legible y mantiene los pies en la raíz sin recortes. La guía incluye agacharse y el menú presenta la acción reasignable. También se comprueba celebrar al entrar agachado en un sensor de meta.

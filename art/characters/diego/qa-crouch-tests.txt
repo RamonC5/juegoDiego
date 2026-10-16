@@ -1,0 +1,97 @@
+WARNING: Couldn't get executable path from /proc/self/exe, using argv[0]
+     at: get_executable_path (drivers/unix/os_unix.cpp:1157)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: el cuerpo se apoya en el suelo
+PASS: aceleración hasta velocidad de caminar
+PASS: carrera diferenciada
+PASS: frenado al soltar
+Alturas medidas: corto=36.12, mantenido=107.98
+PASS: salto de altura variable
+PASS: salto completo accesible sin mantener
+PASS: margen de salto al abandonar un borde
+PASS: salto anticipado antes de aterrizar
+PASS: un ascenso no cuenta como pisotón
+PASS: contacto desde abajo no cuenta como pisotón
+PASS: contacto lateral no cuenta como pisotón
+PASS: sensor de pies elimina la diana y rebota una vez
+PASS: recogida mediante sensor y marcador de animación
+PASS: un lanzamiento produce una sola suelta
+PASS: el objeto físico independiente impacta en la diana
+PASS: daño activa reacción y resta energía
+PASS: la protección evita daños duplicados
+PASS: energía coherente tras daño duplicado
+PASS: derrota con animación dedicada
+PASS: reaparición restablece el protagonista
+PASS: agacharse activa su estado y animación propios
+PASS: agacharse reduce la cápsula a 58 píxeles
+PASS: agacharse conserva el apoyo y la posición de los pies
+PASS: la cápsula baja desde la cabeza sin hundirse en el suelo
+PASS: agachado permanece quieto incluso con carrera automática o dirección
+PASS: mantener abajo tiene prioridad sobre un salto simultáneo
+PASS: soltar abajo permite levantarse en espacio libre
+PASS: levantarse restaura la cápsula original
+PASS: soltar abajo no ejecuta un salto acumulado
+PASS: un techo a 70 píxeles impide levantarse al soltar
+PASS: bajo el techo no salta ni atraviesa el obstáculo
+PASS: se levanta automáticamente cuando vuelve a haber espacio
+PASS: agacharse no modifica las colisiones de otra instancia
+PASS: no se encoge al pulsar abajo en el aire
+PASS: mantener abajo al caer se aplica al aterrizar
+PASS: agacharse mantiene las reglas de daño
+PASS: reaparecer restablece postura y colisión
+PASS: el objeto sostenido acompaña la postura baja
+PASS: un toque no lanza desde una postura bloqueada por abajo
+PASS: levantarse restaura el agarre sin lanzar por accidente
+PASS: llegar agachado a una meta restaura la postura fuera del callback físico
+PASS: el lienzo de prueba inicial tiene proporción móvil 16:9
+PASS: deslizar abajo mantiene agacharse sin saltar
+PASS: soltar abajo libera agacharse sin coger ni lanzar
+PASS: cancelar un dedo conserva el otro gesto de agacharse
+PASS: cancelar el último gesto libera agacharse
+PASS: cruzar la pantalla conserva la función de agacharse
+PASS: soltar el gesto abajo fuera de pantalla libera sin actuar
+PASS: pausar libera el gesto de agacharse
+PASS: reanudar bloquea abajo si la tecla sigue pulsada
+PASS: una nueva pulsación física de abajo vuelve a funcionar
+PASS: perder el foco libera agacharse
+PASS: apoyar el dedo en un punto libre no inicia el movimiento
+PASS: la zona muerta evita moverse por pequeños temblores
+PASS: arrastre corto produce movimiento analógico
+PASS: arrastre largo corre sin botón de carrera
+PASS: cruzar el centro conserva el control de movimiento
+PASS: el origen flotante permite invertir sin volver al punto inicial
+PASS: soltar fuera de la pantalla detiene movimiento y carrera
+PASS: mover, saltar y actuar con tres contactos simultáneos
+PASS: un toque genera una sola orden de coger o lanzar
+PASS: el deslizamiento hacia arriba salta con la física real
+PASS: soltar un salto no se confunde con un toque de acción
+PASS: toque de acción desde un punto libre de su mitad: (716.8, 150.0)
+PASS: toque de acción desde un punto libre de su mitad: (1245.0, 680.0)
+PASS: un arrastre que vuelve al origen no lanza por accidente
+PASS: una pulsación larga de descanso no actúa al soltar
+PASS: cancelar un contacto no recoge ni lanza
+PASS: cancelar un dedo conserva otro contacto de salto activo
+PASS: cancelar el último salto libera la acción
+PASS: un deslizamiento rápido sin evento intermedio también salta
+PASS: el ratón emulado desde touch no duplica las acciones
+PASS: pausa detiene la física y libera los gestos
+PASS: reanudar ignora contactos anteriores y teclas aún pulsadas
+PASS: tocar Pausa queda fuera de los gestos de juego
+PASS: la interfaz recibe el clic de Pausa antes que los gestos
+PASS: perder el foco libera movimiento y salto
+PASS: intercambiar las zonas cambia realmente los gestos
+PASS: aumentar el recorrido permite ajustar la sensibilidad
+PASS: el lienzo de prueba se adapta realmente a tablet 4:3
+PASS: gestos simultáneos en las esquinas de una tablet 4:3
+PASS: la guía desaparece y deja libre la pantalla
+PASS: reasignación de teclado
+PASS: reasignar teclado conserva el mando
+PASS: agacharse permite reasignar su tecla
+PASS: reasignar agacharse conserva cruceta y palanca del mando
+PASS: los ajustes de la versión con botones migran sin perder preferencias
+PASS: recorrido y guía de gestos se guardan de forma persistente
+RESULTADO: 88 comprobaciones, 0 fallos
+
+RESULTADO OBJETOS: 63 comprobaciones, 0 fallos
+RESULTADO BOSQUE: 55 comprobaciones, 0 fallos

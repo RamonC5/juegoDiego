@@ -911,6 +911,89 @@
           ]
         }
       ]
+    },
+    "crouch": {
+      "path": "game/assets/textures/characters/diego/crouch_v001.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "reference_height": 776,
+      "display_scale": 0.14432989690721648,
+      "frames": [
+        {
+          "region": [
+            266,
+            27,
+            331,
+            497
+          ],
+          "pivot_source": [
+            420,
+            518
+          ],
+          "visible_bounds": [
+            272,
+            33,
+            591,
+            518
+          ]
+        },
+        {
+          "region": [
+            953,
+            18,
+            334,
+            506
+          ],
+          "pivot_source": [
+            1108,
+            518
+          ],
+          "visible_bounds": [
+            959,
+            24,
+            1281,
+            518
+          ]
+        },
+        {
+          "region": [
+            264,
+            541,
+            341,
+            469
+          ],
+          "pivot_source": [
+            420,
+            1004
+          ],
+          "visible_bounds": [
+            270,
+            547,
+            599,
+            1004
+          ]
+        },
+        {
+          "region": [
+            955,
+            528,
+            331,
+            485
+          ],
+          "pivot_source": [
+            1108,
+            1007
+          ],
+          "visible_bounds": [
+            961,
+            534,
+            1280,
+            1007
+          ]
+        }
+      ]
     }
   }
 }

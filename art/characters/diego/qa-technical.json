@@ -732,6 +732,72 @@
         627
       ],
       "active_frames": 4
+    },
+    "crouch": {
+      "path": "game/assets/textures/characters/diego/crouch_v001.png",
+      "ok": false,
+      "errors": [
+        "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+        "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            27,
+            19,
+            768,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            0,
+            19,
+            722,
+            512
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            0,
+            0,
+            768,
+            497
+          ],
+          "minimum_padding": 0
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            0,
+            0,
+            744,
+            498
+          ],
+          "minimum_padding": 0
+        }
+      ],
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "grid": [
+        2,
+        2
+      ],
+      "frame_size": [
+        768,
+        512
+      ],
+      "active_frames": 4
     }
   },
   "atlas": {
@@ -1264,6 +1330,54 @@
         ],
         "virtual_minimum_padding": 124,
         "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "crouch",
+        "frame": 0,
+        "virtual_visible_bounds": [
+          364,
+          415,
+          683,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "crouch",
+        "frame": 1,
+        "virtual_visible_bounds": [
+          363,
+          406,
+          685,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "crouch",
+        "frame": 2,
+        "virtual_visible_bounds": [
+          362,
+          443,
+          691,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
+      },
+      {
+        "sheet": "crouch",
+        "frame": 3,
+        "virtual_visible_bounds": [
+          365,
+          427,
+          684,
+          900
+        ],
+        "virtual_minimum_padding": 124,
+        "foot_offset_logical_px": 0.0
       }
     ],
     "errors": []
@@ -1318,9 +1432,14 @@
       "bytes": 957535,
       "sha256": "85ca975c6bec60f0368ab5af73a3480014e314b00382d7e4995748d28b4e2c76",
       "git_blob_sha": "3a38b8179ad32e6a20e8a61843772bd943a123dc"
+    },
+    "game/assets/textures/characters/diego/crouch_v001.png": {
+      "bytes": 1853994,
+      "sha256": "b31d4d4cd5d4e4f48fa140514cb862c8754065c9ca84ae3cf54649d6dc80378e",
+      "git_blob_sha": "b6f86992ada35ee91a0ccc8fc151f5f725b66736"
     }
   },
-  "rgba8_bytes_without_compression": 62903424,
+  "rgba8_bytes_without_compression": 69194880,
   "source_grid_checks_passed": false,
   "note": "Las hojas fuente conservan avisos de cuadrícula y alfa residual. La ejecución usa regiones explícitas, margen virtual y descarte suave de alfa. La revisión gráfica y las pruebas del motor se registran aparte en qa.md."
 }

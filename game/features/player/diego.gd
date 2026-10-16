@@ -18,6 +18,7 @@ signal state_changed(state: StringName)
 @onready var hand: Marker2D = $Facing/Hand
 @onready var pickup_sensor: Area2D = $PickupSensor
 @onready var foot_sensor: Area2D = $FootSensor
+@onready var body_collision: CollisionShape2D = $CollisionShape2D
 
 var health: int = 3
 var facing: float = 1.0
@@ -25,6 +26,7 @@ var held_object: ThrowableObject
 var invulnerability: float = 0.0
 var dead: bool = false
 var celebrating: bool = false
+var crouching: bool = false
 var motion_state: StringName = &"idle"
 var _coyote: float = 0.0
 var _buffer: float = 0.0
@@ -36,10 +38,23 @@ var _release_done: bool = false
 var _defeat_notified: bool = false
 var _landing: float = 0.0
 var _visual_scales: Dictionary = {}
+var _standing_shape: CapsuleShape2D
+var _crouching_shape: CapsuleShape2D
+var _standing_body_position: Vector2
+var _standing_hand_position: Vector2
+var _standing_pickup_position: Vector2
 
 
 func _ready() -> void:
 	health = maximum_health
+	# Cada instancia conserva sus propias formas; el recurso de la escena no se modifica.
+	_standing_shape = body_collision.shape.duplicate() as CapsuleShape2D
+	_crouching_shape = _standing_shape.duplicate() as CapsuleShape2D
+	_crouching_shape.height = clampf(tuning.crouch_height, _standing_shape.radius * 2.0, _standing_shape.height)
+	body_collision.shape = _standing_shape
+	_standing_body_position = body_collision.position
+	_standing_hand_position = hand.position
+	_standing_pickup_position = pickup_sensor.position
 	_visual_scales = JSON.parse_string(FileAccess.get_file_as_string(
 		"res://game/features/player/animation_scales.json"))
 	sprite.frame_changed.connect(_animation_marker)
@@ -51,6 +66,8 @@ func _physics_process(delta: float) -> void:
 	_landing = maxf(0.0, _landing - delta)
 	queue_redraw()
 	if celebrating:
+		if crouching and can_stand():
+			_set_crouching(false)
 		velocity.x = 0.0
 		_apply_gravity(delta)
 		move_and_slide()
@@ -66,6 +83,7 @@ func _physics_process(delta: float) -> void:
 
 	var was_grounded: bool = is_on_floor()
 	var previous_feet: Vector2 = global_position
+	_update_crouch(was_grounded)
 	if was_grounded:
 		_coyote = tuning.coyote_seconds
 	else:
@@ -73,6 +91,9 @@ func _physics_process(delta: float) -> void:
 	_buffer = maxf(0.0, _buffer - delta)
 	if controls.consume(&"jump"):
 		_buffer = tuning.jump_buffer_seconds
+	if crouching:
+		# Mantener abajo no acumula saltos para cuando se suelte el gesto.
+		_buffer = 0.0
 	var axis: float = controls.horizontal()
 	if _action.is_empty():
 		if not is_zero_approx(axis):
@@ -81,8 +102,10 @@ func _physics_process(delta: float) -> void:
 		var speed: float = tuning.run_speed if controls.automatic_run or controls.held(&"run") else tuning.walk_speed
 		if is_instance_valid(held_object):
 			speed *= 0.82
+		if crouching:
+			speed = 0.0
 		var acceleration: float = tuning.acceleration if was_grounded else tuning.air_acceleration
-		if is_zero_approx(axis):
+		if is_zero_approx(axis) or crouching:
 			acceleration = tuning.braking if was_grounded else tuning.air_acceleration
 		velocity.x = move_toward(velocity.x, axis * speed, acceleration * delta)
 		if _buffer > 0.0 and _coyote > 0.0:
@@ -92,7 +115,7 @@ func _physics_process(delta: float) -> void:
 			_jump_cut_allowed = true
 			_landing = 0.0
 			jumped.emit()
-		if controls.consume(&"grab_throw"):
+		if controls.consume(&"grab_throw") and not crouching:
 			_interact()
 	else:
 		controls.consume(&"grab_throw")
@@ -129,6 +152,35 @@ func _apply_gravity(delta: float) -> void:
 	velocity.y = minf(velocity.y + tuning.gravity * delta, tuning.maximum_fall_speed)
 
 
+func _update_crouch(grounded: bool) -> void:
+	if grounded and controls.held(&"crouch") and _action.is_empty():
+		_set_crouching(true)
+	elif crouching and can_stand():
+		_set_crouching(false)
+
+
+func can_stand() -> bool:
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = _standing_shape
+	# Separar la consulta del contacto con el suelo; conservar un pequeño margen arriba.
+	query.transform = global_transform * Transform2D(0.0, _standing_body_position - Vector2(0.0, safe_margin + 0.1))
+	query.collision_mask = collision_mask
+	query.exclude = [get_rid()]
+	return get_world_2d().direct_space_state.intersect_shape(query, 1).is_empty()
+
+
+func _set_crouching(value: bool) -> void:
+	if crouching == value:
+		return
+	crouching = value
+	body_collision.shape = _crouching_shape if value else _standing_shape
+	# La base de la cápsula y el sensor de pisotón permanecen a la altura de los pies.
+	body_collision.position = Vector2(_standing_body_position.x, -_crouching_shape.height / 2.0) if value else _standing_body_position
+	var hand_drop: float = (_standing_shape.height - _crouching_shape.height) * 0.7 if value else 0.0
+	hand.position = _standing_hand_position + Vector2(0.0, hand_drop)
+	pickup_sensor.position = _standing_pickup_position + Vector2(0.0, hand_drop)
+
+
 func _interact() -> void:
 	_release_done = false
 	if is_instance_valid(held_object):
@@ -151,7 +203,7 @@ func _interact() -> void:
 func _begin_action(action: StringName) -> void:
 	_action = action
 	_action_time = 0.0
-	_play(action)
+	_play(&"crouch" if crouching and action == &"hurt" else action)
 	sprite.set_frame_and_progress(0, 0.0)
 	sprite.play()
 
@@ -176,7 +228,9 @@ func _action_duration() -> float:
 
 
 func _update_animation() -> void:
-	if not _action.is_empty():
+	if crouching:
+		_play(&"crouch")
+	elif not _action.is_empty():
 		_play(_action)
 	elif not is_on_floor():
 		if is_instance_valid(held_object):
@@ -251,6 +305,7 @@ func celebrate() -> void:
 
 func respawn(at: Vector2) -> void:
 	_drop_object()
+	_set_crouching(false)
 	global_position = at
 	velocity = Vector2.ZERO
 	health = maximum_health
@@ -280,3 +335,4 @@ func _draw() -> void:
 	# Protección continua y visible: sin parpadeos ni destellos.
 	if invulnerability > 0.0:
 		draw_arc(Vector2(0, -52), 62.0, 0.0, TAU, 48, Color("ffe4a8"), 3.0, true)
+

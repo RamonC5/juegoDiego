@@ -38,6 +38,12 @@ func _capture() -> void:
 	_main.touch.refresh()
 	await _frames(3)
 	_save("preview_gameplay")
+	_touch(6, Vector2(1010, 360), true)
+	_drag(6, Vector2(1010, 425))
+	await _frames(8)
+	_save("preview_crouch")
+	_main.touch.release_all()
+	await _frames(3)
 	_touch(0, Vector2(220, 540), true)
 	_drag(0, Vector2(300, 540))
 	_touch(1, Vector2(1010, 530), true)
@@ -52,6 +58,12 @@ func _capture() -> void:
 	root.size = Vector2i(1024, 768)
 	await _frames(5)
 	_save("preview_tablet")
+	_touch(6, Vector2(850, 400), true)
+	_drag(6, Vector2(850, 465))
+	await _frames(8)
+	_save("preview_crouch_tablet")
+	_main.touch.release_all()
+	await _frames(3)
 	_main.touch._guide_time = 0.0
 	_main.touch._update_guides()
 	await _frames(2)
@@ -88,6 +100,7 @@ func _animation_board() -> void:
 		["carry_idle", "Sostener", 0], ["carry_run", "Transportar", 1],
 		["grab", "Recoger", 1], ["throw", "Lanzar", 2], ["hurt", "Daño", 1],
 		["defeated", "Derrota", 3], ["victory", "Victoria", 2],
+		["crouch", "Agacharse", 1],
 	]
 	for index in states.size():
 		var column: int = index % 5
@@ -116,3 +129,4 @@ func _animation_board() -> void:
 	_save("preview_animations")
 	board.queue_free()
 	await _frames(2)
+

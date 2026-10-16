@@ -1,6 +1,6 @@
 class_name HeroTouchControls
 extends Control
-## Zonas amplias sin botones: arrastre horizontal, deslizamiento arriba y toque.
+## Zonas amplias sin botones: arrastre horizontal, arriba/abajo y toque.
 ## Cada contacto conserva su función aunque cruce la mitad de la pantalla.
 
 const NO_POINTER: int = -2
@@ -28,7 +28,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_move_hint = _hint_label("DESLIZA ← →\nCaminar / correr · Suelta para parar")
-	_action_hint = _hint_label("DESLIZA ↑ PARA SALTAR\nToque corto: coger / lanzar")
+	_action_hint = _hint_label("↑ SALTAR · ↓ AGACHARSE\nMantén abajo · Toque: coger / lanzar")
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
 	refresh()
@@ -175,6 +175,8 @@ func _move_pointer(index: int, point: Vector2) -> void:
 		var offset: Vector2 = point-pointer.start
 		if -offset.y >= _jump_threshold and -offset.y > absf(offset.x)*0.65:
 			pointer.mode = &"jump"
+		elif offset.y >= _jump_threshold and offset.y > absf(offset.x)*0.65:
+			pointer.mode = &"crouch"
 	_sync_virtual()
 	queue_redraw()
 
@@ -199,9 +201,12 @@ func _sync_virtual() -> void:
 	input_source.set_virtual_axis(_axis)
 	input_source.set_virtual_action(&"run", absf(_axis) >= 0.95)
 	var jumping: bool = false
+	var crouching: bool = false
 	for pointer in _pointers.values():
 		jumping = jumping or pointer.mode == &"jump"
+		crouching = crouching or pointer.mode == &"crouch"
 	input_source.set_virtual_action(&"jump", jumping)
+	input_source.set_virtual_action(&"crouch", crouching)
 
 
 func release_all() -> void:
@@ -231,5 +236,10 @@ func _draw() -> void:
 			draw_line(pointer.start, point, Color("ffdc90"), 4, true)
 			draw_line(point+Vector2(-9, 11), point, Color("ffdc90"), 4, true)
 			draw_line(point+Vector2(9, 11), point, Color("ffdc90"), 4, true)
+		elif pointer.mode == &"crouch":
+			draw_line(pointer.start, point, Color("ffdc90"), 4, true)
+			draw_line(point+Vector2(-9, -11), point, Color("ffdc90"), 4, true)
+			draw_line(point+Vector2(9, -11), point, Color("ffdc90"), 4, true)
 		else:
 			draw_arc(point, 14, 0, TAU, 32, Color("ffdc90"), 2, true)
+

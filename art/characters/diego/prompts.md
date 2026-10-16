@@ -130,3 +130,8 @@ Hoja de sprites CUADRADA, CUATRO poses del MISMO protagonista de la referencia e
 Acción única, en orden izquierda a derecha y después abajo: celebración breve: (1) sonrisa con manos junto al pecho; (2) levantar un brazo con puño cerrado de alegría, (3) ambos brazos arriba sonriendo, (4) terminar orgulloso con una mano en cintura y otra saludando. No cambiar el ángulo de cámara.
 No hay suelo, sombras externas, halo, fondo, letras, números, bordes ni cuadrícula pintada. Todo el espacio entre figuras debe estar completamente vacío y transparente.
 ```
+
+
+## Agacharse · 16 de octubre de 2026
+
+Herramienta integrada `image_gen`, referencia `concept_v001.png`, fondo transparente solicitado. El prompt completo se conserva en [crouch-prompt.txt](crouch-prompt.txt); resultado sin retoque por código: `game/assets/textures/characters/diego/crouch_v001.png`.

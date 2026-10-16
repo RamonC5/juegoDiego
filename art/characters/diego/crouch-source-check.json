@@ -1,0 +1,66 @@
+{
+  "path": "game/assets/textures/characters/diego/crouch_v001.png",
+  "ok": false,
+  "errors": [
+    "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+    "El fotograma 1 tiene 0 píxeles de margen mínimo; requiere 4.",
+    "El fotograma 2 tiene 0 píxeles de margen mínimo; requiere 4.",
+    "El fotograma 3 tiene 0 píxeles de margen mínimo; requiere 4."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "alpha_bounds": [
+        27,
+        19,
+        768,
+        512
+      ],
+      "minimum_padding": 0
+    },
+    {
+      "index": 1,
+      "alpha_bounds": [
+        0,
+        19,
+        722,
+        512
+      ],
+      "minimum_padding": 0
+    },
+    {
+      "index": 2,
+      "alpha_bounds": [
+        0,
+        0,
+        768,
+        497
+      ],
+      "minimum_padding": 0
+    },
+    {
+      "index": 3,
+      "alpha_bounds": [
+        0,
+        0,
+        744,
+        498
+      ],
+      "minimum_padding": 0
+    }
+  ],
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "grid": [
+    2,
+    2
+  ],
+  "frame_size": [
+    768,
+    512
+  ],
+  "active_frames": 4
+}

@@ -50,7 +50,7 @@ func clear_virtual() -> void:
 
 
 func block_current_physical() -> void:
-	for action in [&"move_left", &"move_right", &"jump", &"grab_throw", &"run"]:
+	for action in [&"move_left", &"move_right", &"jump", &"crouch", &"grab_throw", &"run"]:
 		if Input.is_action_pressed(action):
 			_blocked_physical[action] = true
 
@@ -61,3 +61,4 @@ func _physical_held(action: StringName) -> bool:
 			_blocked_physical.erase(action)
 		return false
 	return Input.is_action_pressed(action)
+

@@ -2,7 +2,7 @@
 
 Diego es la propuesta de protagonista de Salto Heroes basada en la fotografía aportada por el usuario. Tiene pelo oscuro y gafas negras, con ropa de aventura adaptada al acabado raster 2D del reparto. [Ficha e imagen](../art/characters/diego/ficha.md).
 
-La escena de arranque abre una **zona de entrenamiento** con el protagonista, plataformas, [seis objetos arrojadizos](OBJETOS_ARROJADIZOS.md) y dos dianas geométricas. Permite comprobar controles, salto, pisotón y lanzamiento. Los ocho mundos, sus niveles rejugables, los seis enemigos del catálogo y los jefes continúan como desarrollo posterior.
+La escena de arranque abre **Bosque Esmeralda 1-1**, y Pausa permite volver a la **zona de entrenamiento** con el protagonista, plataformas, [seis objetos arrojadizos](OBJETOS_ARROJADIZOS.md) y dos dianas geométricas. Permite comprobar controles, salto, pisotón y lanzamiento. El bosque integra a Terrón y Moflete y guarda resultados rejugables; los otros niveles, mundos, enemigos y jefes siguen pendientes.
 
 ## Controles para jugar
 
@@ -10,6 +10,7 @@ La escena de arranque abre una **zona de entrenamiento** con el protagonista, pl
 | --- | --- | --- | --- |
 | Moverse | Arrastrar horizontalmente desde cualquier punto de la mitad izquierda; soltar para parar | A / D o flechas | Cruceta o palanca izquierda |
 | Saltar | Deslizar hacia arriba en cualquier punto de la mitad derecha; mantener para mayor altura | Espacio | A |
+| Agacharse | Deslizar hacia abajo en la mitad de acciones y mantener; soltar para levantarse | S / flecha abajo (reasignable) | Cruceta abajo o palanca izquierda hacia abajo |
 | Recoger / lanzar | Toque corto en cualquier punto de la mitad derecha | E | X |
 | Correr | Arrastre largo; carrera con arrastre corto opcional | Mayús o carrera automática | B o carrera automática |
 | Pausar / ajustar | Botón Pausa | Escape | Start |
@@ -32,7 +33,9 @@ No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centr
 | Energía / protección tras daño | 3 / 1,2 s |
 | Alturas medidas en la prueba | Pulsación corta: 36,12 px; mantenida: 107,98 px |
 
-Se ajustan en `game/features/player/default_tuning.tres` y `player_tuning.gd`. La cápsula de colisión mide 38 × 98 px; el arte de pie ocupa aproximadamente 112 px de alto. La forma de la imagen no define colisiones ni daño.
+Se ajustan en `game/features/player/default_tuning.tres` y `player_tuning.gd`. La cápsula de colisión mide 38 × 98 px; el arte de pie ocupa aproximadamente 112 px de alto. Agachado baja a 38 × 58 px y conserva el apoyo de los pies. La forma de la imagen no define colisiones ni daño.
+
+Agacharse se activa sobre el suelo y frena el movimiento horizontal. Mantener abajo durante una caída aplica la postura al aterrizar. Soltarla permite levantarse cuando la cápsula completa cabe: un techo lo impide hasta que se retire. Mantener abajo tiene prioridad sobre saltar y descarta ese salto; la energía y el daño mantienen sus reglas. El objeto sostenido baja con la mano; recoger y lanzar vuelven a estar disponibles al levantarse. Pausa y pérdida de foco liberan los contactos, y reaparecer restablece la postura.
 
 ## Animaciones
 
@@ -51,8 +54,9 @@ Se ajustan en `game/features/player/default_tuning.tres` y `player_tuning.gd`. L
 | `hurt` | hurt, 0–3 | 10 | Sobresalto y recuperación |
 | `defeated` | defeated, 0–3 | 8 | Derrota amable y pose final |
 | `victory` | victory, 0–3 | 8 | Celebración y pose final |
+| `crouch` | crouch, 0–3 | 5 | Postura baja con respiración, bucle |
 
-Son diez hojas y 44 poses fuente. Los estados que contienen una pose se identifican como tales. Las hojas cuadradas miden 1254 × 1254; caminar y correr miden 1536 × 1024. El pivote virtual es [512, 900] en 1024 × 1024, con escala uniforme por hoja y regiones explícitas que conservan las poses completas. `AtlasTexture.filter_clip` evita mezclar bordes vecinos; el shader de alfa descarta ruido de baja opacidad. El presupuesto RGBA8 sin compresión de las diez hojas ronda 60 MiB; no es una medición de VRAM en un teléfono.
+Son once hojas y 48 poses fuente, con 14 estados. Los estados que contienen una pose se identifican como tales. Las hojas cuadradas miden 1254 × 1254; caminar, correr y agacharse miden 1536 × 1024. El pivote virtual es [512, 900] en 1024 × 1024, con escala uniforme por hoja y regiones explícitas que conservan las poses completas. `AtlasTexture.filter_clip` evita mezclar bordes vecinos; el shader de alfa descarta ruido de baja opacidad. El presupuesto RGBA8 sin compresión de las once hojas ronda 66 MiB; no es una medición de VRAM en un teléfono.
 
 ## Piezas reutilizables
 
@@ -76,5 +80,6 @@ python tools/build_diego_atlas.py
 
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
-Las 55 pruebas cubren movimiento, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+Las 88 pruebas cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+
 

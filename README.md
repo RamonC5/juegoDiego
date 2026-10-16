@@ -8,7 +8,7 @@ El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda.
 
 Para completar cada intento hay que recoger **tres llaves de ramas** y abrir la puerta del bosque. El HUD y los tres cerrojos muestran el progreso; volver al farol conserva las llaves y reiniciar las repone. [Diseños temáticos y reglas de las llaves](docs/LLAVES_Y_PUERTAS.md).
 
-Diego mantiene sus movimientos, 13 estados de animación y controles por gestos sin botones fijos. Los enemigos se eliminan saltando encima y reciben impactos de objetos lanzados. La meta guarda el resultado y permite rejugar para mejorar tiempo y coleccionables. Desde Pausa puedes volver al entrenamiento anterior, con los seis objetos, o regresar al bosque.
+Diego mantiene sus movimientos, 14 estados de animación y controles por gestos sin botones fijos. Los enemigos se eliminan saltando encima y reciben impactos de objetos lanzados. La meta guarda el resultado y permite rejugar para mejorar tiempo y coleccionables. Desde Pausa puedes volver al entrenamiento anterior, con los seis objetos, o regresar al bosque.
 
 ![Bosque Esmeralda con árboles de musgo y luz entre la vegetación](game/assets/textures/environments/bosque_esmeralda/forest_backdrop_v001.png)
 
@@ -24,8 +24,8 @@ El APK es una compilación de pruebas firmada, con versión y commit en `build-i
 
 ## Jugar y abrir el proyecto
 
-- **Táctil:** arrastra horizontalmente en la mitad de movimiento; desliza hacia arriba en la otra mitad para saltar y toca brevemente para coger o lanzar. Admite varios dedos a la vez.
-- **Teclado:** A/D o flechas, Espacio, E y Escape. También admite mando.
+- **Táctil:** arrastra horizontalmente en la mitad de movimiento; desliza hacia arriba en la otra mitad para saltar, hacia abajo y mantén para agacharte, y toca brevemente para coger o lanzar. Admite varios dedos a la vez.
+- **Teclado:** A/D o flechas, Espacio, S/flecha abajo, E y Escape. También admite mando.
 - **Pausa:** sensibilidad, lados intercambiables, salto completo, carrera, guías y teclas reasignables. Foco visible y textos de energía y coleccionables.
 
 Importa `project.godot` con **Godot 4.7.2 estándar** y pulsa F5. Usa GDScript tipado, renderizador Compatibility, vista base 1280×720, orientación horizontal y física a 60 Hz. Los perfiles de exportación son Android ARM64 y Windows x86_64.
@@ -40,7 +40,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 ```
 
-173 comprobaciones: 55 de protagonista y controles, 63 de objetos y 55 de nivel y llaves. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
+206 comprobaciones: 88 de protagonista y controles, 63 de objetos y 55 de nivel y llaves. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
 
 ## Estructura y documentación
 
@@ -65,4 +65,5 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 - [Skill de personajes](.agents/skills/generar-personajes-salto-heroes/SKILL.md).
 
 Los otros cinco enemigos conservan sus conceptos, incluido [Nóctilo, el nuevo murciélago volador](art/characters/noctilo/ficha.md). Las animaciones de Terrón y Moflete usan transformaciones de sus sprites existentes; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
+
 
