@@ -56,6 +56,21 @@ func _capture() -> void:
 	main.player.respawn(Vector2(2600, 435))
 	await _frames(5)
 	_save("preview_mobile_wide")
+	root.size = Vector2i(1280, 720)
+	root.content_scale_size = Vector2i(1280, 720)
+	for enemy in main.stage.enemies:
+		enemy.set_physics_process(false)
+	main.player.respawn(Vector2(6400, 515))
+	await _frames(5)
+	_save("preview_keys_platform")
+	main.player.respawn(main.stage.DEFINITION.goal - Vector2(170, 0))
+	await _frames(5)
+	_save("preview_keys_locked")
+	for key in main.stage.level_keys:
+		key._on_body_entered(main.player)
+	await _frames(40)
+	_save("preview_keys_open")
 	main.queue_free()
 	await _frames(2)
 	quit()
+

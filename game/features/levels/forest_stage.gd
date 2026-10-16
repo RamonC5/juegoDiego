@@ -4,6 +4,7 @@ extends Node2D
 
 signal hint_requested(text: String)
 signal counts_changed(leaves: int, crystals: int)
+signal keys_changed(collected: int, required: int)
 signal checkpoint_reached
 signal level_completed(level_id: String, result: Dictionary)
 
@@ -20,6 +21,9 @@ var completed: bool = false
 var seconds: float = 0.0
 var enemies: Array[ForestEnemy] = []
 var collectibles: Array[ForestCollectible] = []
+var level_keys: Array[LevelKey] = []
+var collected_keys: Array[int] = []
+var exit_door: KeyExitDoor
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
 var _checkpoint_label: Label
@@ -35,6 +39,7 @@ func _ready() -> void:
 		_add_platform(Rect2(x - 40, -600, 80, 2000), true, false)
 	_build_scenery()
 	_build_collectibles()
+	_build_keys()
 	_build_markers()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
@@ -138,6 +143,31 @@ func _build_collectibles() -> void:
 			_add_collectible(Vector2(edge + offset, 490 if offset == 60 else 525))
 
 
+func _build_keys() -> void:
+	assert(DEFINITION.key_positions.size() == KeyExitDoor.REQUIRED_KEYS, "El nivel necesita tres posiciones de llave")
+	for index in DEFINITION.key_positions.size():
+		var key := LevelKey.new()
+		key.slot = index
+		key.definition = DEFINITION.key_definition
+		key.position = DEFINITION.key_positions[index]
+		key.z_index = 2
+		key.collected.connect(_on_key_collected)
+		add_child(key)
+		level_keys.append(key)
+
+
+func _on_key_collected(key: LevelKey) -> void:
+	if completed or not level_keys.has(key) or not key.taken or collected_keys.has(key.slot):
+		return
+	collected_keys.append(key.slot)
+	exit_door.set_keys(collected_keys)
+	keys_changed.emit(collected_keys.size(), KeyExitDoor.REQUIRED_KEYS)
+	if exit_door.is_open:
+		hint_requested.emit("¡Tres llaves de ramas! La puerta del bosque está abierta. Entra para completar el nivel.")
+	else:
+		hint_requested.emit("Llave de ramas %d recogida · %d / 3. Busca las otras llaves para abrir la puerta." % [key.slot + 1, collected_keys.size()])
+
+
 func _marker(at: Vector2, size: Vector2, callback: Callable) -> void:
 	var area := Area2D.new()
 	area.position = at
@@ -168,9 +198,15 @@ func _world_label(text: String, at: Vector2, width: float) -> Label:
 
 func _build_markers() -> void:
 	_checkpoint_label = _world_label("FAROL · PUNTO DE CONTROL", DEFINITION.checkpoint + Vector2(0, -218), 360)
-	_world_label("SALIDA DEL BOSQUE", DEFINITION.goal + Vector2(0, -285), 330)
 	_marker(DEFINITION.checkpoint + Vector2(0, -80), Vector2(115, 190), _on_checkpoint)
-	_marker(DEFINITION.goal + Vector2(0, -80), Vector2(90, 190), _on_goal)
+	exit_door = KeyExitDoor.new()
+	exit_door.key_definition = DEFINITION.key_definition
+	exit_door.panel_texture = preload("res://game/assets/textures/keys/puerta_bosque_v001.png")
+	exit_door.panel_region = Rect2(0.16894531, 0.02604167, 0.66210938, 0.93815104)
+	exit_door.position = DEFINITION.goal
+	exit_door.z_index = -3
+	exit_door.entry_requested.connect(_on_goal)
+	add_child(exit_door)
 
 
 func _on_collected(collectible: ForestCollectible) -> void:
@@ -200,11 +236,15 @@ func _on_checkpoint(body: Node2D) -> void:
 func _on_goal(body: Node2D) -> void:
 	if body != player or player.dead or completed:
 		return
+	if collected_keys.size() != KeyExitDoor.REQUIRED_KEYS:
+		hint_requested.emit("Puerta cerrada · Llaves %d / 3. Te faltan %d para abrirla. Puedes volver a buscarlas." % [collected_keys.size(), KeyExitDoor.REQUIRED_KEYS - collected_keys.size()])
+		return
 	completed = true
 	player.celebrate()
 	level_completed.emit(DEFINITION.level_id, {
 		"leaves": leaves, "crystals": crystals, "seconds": seconds,
 		"enemies": defeated_enemies, "total_leaves": total_leaves,
+		"keys": collected_keys.size(),
 	})
 
 
@@ -212,7 +252,7 @@ func respawn_player() -> void:
 	player.respawn(respawn_position)
 	player.invulnerability = 1.5
 	player.controls.block_current_physical()
-	hint_requested.emit("¡Otra oportunidad! Las hojas y cristales recogidos se conservan en este intento.")
+	hint_requested.emit("¡Otra oportunidad! Las llaves, hojas y cristales recogidos se conservan en este intento.")
 
 
 func _physics_process(delta: float) -> void:
@@ -220,13 +260,16 @@ func _physics_process(delta: float) -> void:
 		return
 	seconds += delta
 	var hints: Dictionary = {
-		350: "Arrastra ← → para moverte. En la otra mitad, desliza ↑ para saltar.",
+		350: "Consigue las tres llaves de ramas para abrir la salida. Se recogen al tocarlas.",
 		950: "Toca para coger el barril. Otro toque lo lanza en la dirección que miras.",
 		1490: "Las hojas dibujan el salto sobre el hueco. Puedes caminar o correr.",
-		2240: "Las plataformas altas esconden cristales. La ruta del suelo también llega a la meta.",
+		2240: "Busca llaves también en las plataformas. Sube saltando desde abajo. Los cristales son opcionales.",
+		3650: "La segunda llave está sobre la plataforma, antes del farol. Salta para alcanzarla.",
 		5350: "La piña del bosque también se puede recoger y lanzar.",
+		6400: "La tercera llave está en la plataforma. Con las tres podrás abrir la puerta del bosque.",
 	}
 	for x in hints:
 		if player.position.x >= float(x) and not _hints_passed.has(x):
 			_hints_passed[x] = true
 			hint_requested.emit(hints[x])
+

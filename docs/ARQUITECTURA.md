@@ -77,6 +77,12 @@ El entrenamiento ofrece los seis objetos en el primer tramo y activa una reposic
 
 Las imágenes finales están en `game/assets/textures/objects/<id>/idle_v001.png`. Godot limita su importación a 256 × 256, sin mipmaps, y aplica el mismo recorte suave de alfa del protagonista. Las regiones normalizadas mantienen el encuadre al cambiar el tamaño de importación. Fichas, prompts, metadatos y evidencias están en `art/objects/`, fuera del APK. Nombres y balance son propuestas; no se asignan temáticas a los ocho mundos.
 
+## Llaves y puertas de salida
+
+Cada intento exige tres llaves diferentes. `LevelKeyDefinition`, bajo `game/features/levels/keys/`, separa las texturas y regiones normalizadas de la recogida `LevelKey`. `ForestStage` registra las ranuras obtenidas, emite `keys_changed` y valida las tres antes de emitir `level_completed`. `KeyExitDoor` muestra las ranuras, bloquea físicamente el paso y se abre al recibir las tres; su sensor también comprueba al jugador que ya estaba delante al abrirse.
+
+`ForestLevelDefinition` añade `key_definition` y tres `key_positions`. El HUD presenta contador, iconos, números y marcas. Las llaves se conservan al volver al farol; reiniciar crea un intento nuevo. Los resultados añaden `keys` y el guardado `best_keys`, con lectura compatible del esquema 1. El bosque integra tres variantes de ramas; otros siete recursos de ambiente son propuestas sin asignación a los mundos pendientes. [Catálogo visual y reglas](LLAVES_Y_PUERTAS.md).
+
 ## Ocho mundos y niveles rejugables
 
 Los identificadores de mundo serán `world_01` a `world_08`. Cada nivel recibirá un identificador único independiente del nombre visible y de su ruta de archivo.
@@ -144,7 +150,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 55 pruebas del protagonista y controles, 63 de objetos arrojadizos y 30 del nivel, y genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 55 pruebas del protagonista y controles, 63 de objetos arrojadizos y 55 del nivel y llaves, y genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -161,3 +167,4 @@ El flujo ejecuta 55 pruebas del protagonista y controles, 63 de objetos arrojadi
 `ForestEnemy` reutiliza `StompTarget` y `receive_thrown_hit`. `DiegoPlayer.fall_limit_y` permite al nivel decidir su límite de caída, manteniendo el valor anterior como predeterminado del entrenamiento. `LevelProgress` guarda JSON de esquema 1 mediante un temporal y renombrado, mantiene el nivel desbloqueado y conserva máximos de coleccionables y mínimo de tiempo al rejugar. Los ajustes siguen separados del progreso.
 
 Los PNG HD de fondo, terreno y cuatro elementos de escenario están en `game/assets/textures/environments/bosque_esmeralda/`; los recortes se hacen con `AtlasTexture` o regiones de dibujo. La colisión nunca se infiere del píxel. Fondo a velocidad 0,17 respecto a la cámara, árboles en plano intermedio y helechos en primer plano componen la profundidad, íntegramente 2D. Prompts y revisión en `art/levels/bosque_esmeralda/`. [Diseño y controles del nivel](BOSQUE_ESMERALDA.md).
+

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LevelKeyDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/keys/key_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/keys/arenisca_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+theme_id = &"arenisca"
+display_name = "Llave de arenisca"
+material_description = "Piedra arenisca tallada con cabeza solar"
+texture = ExtResource("2")
+regions = Array[Rect2]([Rect2(0.10116448, 0.06899563, 0.80422125, 0.87248908)])

@@ -38,6 +38,39 @@ func _run() -> void:
 	_check(stage.total_leaves > 50 and stage.collectibles.size() == stage.total_leaves + 3, "hojas y tres cristales opcionales")
 	_check(stage.DEFINITION.level_id == "world_01_level_01", "identificador estable del primer mundo")
 	_check(not stage.checkpoint_active and not stage.completed, "nivel nuevo sin completar")
+	_check(stage.level_keys.size() == 3 and stage.collected_keys.is_empty(), "el intento empieza con tres llaves pendientes")
+	_check(not stage.exit_door.is_open, "la puerta empieza cerrada")
+	stage._on_goal(hero)
+	_check(not stage.completed and main.progress.levels.is_empty(), "cero llaves no permite completar ni guardar el nivel")
+	var first_key: LevelKey = stage.level_keys[0]
+	var outsider := Node2D.new()
+	first_key._on_body_entered(outsider)
+	outsider.free()
+	_check(not first_key.taken, "un cuerpo ajeno al jugador no recoge llaves")
+	hero.dead = true
+	first_key._on_body_entered(hero)
+	hero.dead = false
+	_check(not first_key.taken, "Diego derrotado no puede recoger una llave")
+	hero.respawn(first_key.position + Vector2(0, 49))
+	await _step(5)
+	_check(first_key.taken and stage.collected_keys.size() == 1, "contacto físico recoge automáticamente la primera llave")
+	_check(not first_key.visible and not first_key.monitoring, "la llave recogida desaparece y desactiva su sensor")
+	first_key._on_body_entered(hero)
+	_check(stage.collected_keys.size() == 1, "la misma llave no cuenta dos veces")
+	var impostor := LevelKey.new()
+	impostor.slot = 1
+	impostor.taken = true
+	stage._on_key_collected(impostor)
+	impostor.free()
+	_check(stage.collected_keys.size() == 1, "una llave ajena al nivel no aumenta el contador")
+	stage._on_goal(hero)
+	_check(not stage.completed and not stage.exit_door.is_open, "una llave mantiene bloqueada la salida")
+	_check(main._key_counter.text == "Llaves  1 / 3" and main._key_numbers[0].text.contains("✓"), "el HUD combina contador, número y marca de recogida")
+	hero.respawn(stage.DEFINITION.goal - Vector2(220, 0))
+	hero.controls.set_virtual_axis(1)
+	await _step(70)
+	hero.controls.clear_virtual()
+	_check(hero.position.x < stage.DEFINITION.goal.x - 65 and not stage.completed, "la puerta cerrada bloquea físicamente el paso")
 	for enemy in stage.enemies:
 		enemy.set_physics_process(false)
 	# Un pisotón real debe rebotar y anular el daño del enemigo.
@@ -97,6 +130,14 @@ func _run() -> void:
 	await _step(48)
 	hero.controls.clear_virtual()
 	_check(hero.is_on_floor() and absf(hero.position.y - 515) < 2, "plataforma opcional permite subir desde abajo y aterrizar encima")
+	hero.respawn(Vector2(stage.level_keys[1].position.x, 600))
+	await _step(3)
+	hero.controls.set_virtual_action(&"jump", true)
+	await _step(48)
+	hero.controls.clear_virtual()
+	_check(stage.level_keys[1].taken and stage.collected_keys.size() == 2, "la segunda llave se alcanza saltando desde el suelo")
+	stage._on_goal(hero)
+	_check(not stage.completed and not stage.exit_door.is_open, "dos llaves tampoco permiten completar el nivel")
 	hero.respawn(stage.DEFINITION.checkpoint)
 	await _step(4)
 	_check(stage.checkpoint_active, "cruzar el farol activa el punto de control")
@@ -108,6 +149,7 @@ func _run() -> void:
 	await _step(3)
 	_check(not hero.dead and hero.health == 3 and hero.position.distance_to(stage.respawn_position) < 3, "reanudar vuelve al farol con energía completa")
 	_check(stage.leaves == collected_before_death, "reintentar conserva lo recogido en el intento")
+	_check(stage.collected_keys.size() == 2 and stage.level_keys[0].taken and stage.level_keys[1].taken, "volver al farol conserva las dos llaves sin duplicarlas")
 	var clock: float = stage.seconds
 	main._toggle_pause()
 	await _step(8)
@@ -130,6 +172,10 @@ func _run() -> void:
 					var distance: float = enemy.position.x - hero.position.x
 					if distance > 0.0 and distance < 125.0:
 						needs_jump = true
+			for key in stage.level_keys:
+				var distance: float = key.position.x - hero.position.x
+				if not key.taken and hero.position.y - key.position.y > 100.0 and distance > 0.0 and distance < 180.0:
+					needs_jump = true
 			if needs_jump:
 				hero.controls.set_virtual_action(&"jump", true)
 		await _step(1)
@@ -137,6 +183,8 @@ func _run() -> void:
 			break
 	hero.controls.clear_virtual()
 	_check(stage.completed and not hero.dead, "se puede recorrer todo el nivel con movimiento y saltos reales")
+	_check(stage.collected_keys.size() == 3 and stage.exit_door.is_open, "la tercera llave abre la puerta antes de completar")
+	_check(main._result.get("keys", 0) == 3, "el resultado registra las tres llaves obligatorias")
 	var last_leaf: ForestCollectible
 	for collectible in stage.collectibles:
 		if not collectible.crystal and (last_leaf == null or collectible.position.x > last_leaf.position.x):
@@ -149,15 +197,46 @@ func _run() -> void:
 	_check(main.progress.levels.get(stage.DEFINITION.level_id, {}) == old_result, "la meta solo registra una finalización por partida")
 	var storage := LevelProgress.new("user://forest-test-progress.json")
 	_check(storage.levels.has(stage.DEFINITION.level_id), "guardado se recupera desde disco")
+	_check(storage.levels[stage.DEFINITION.level_id].get("best_keys", 0) == 3, "el guardado conserva las tres llaves del resultado")
 	storage.record_completion(stage.DEFINITION.level_id, {"leaves": 0, "crystals": 0, "seconds": 9999.0})
 	var best: Dictionary = storage.levels.get(stage.DEFINITION.level_id, {})
 	_check(int(best.get("best_leaves", -1)) == int(old_result.get("best_leaves", -2)), "rejugar no borra las mejores hojas")
 	# JSON puede redondear por debajo de la resolución de la física (1/60 s).
 	_check(float(best.get("best_seconds", 0)) <= float(old_result.get("best_seconds", 0)) + 0.0001, "rejugar conserva el mejor tiempo")
 	_check(best.get("unlocked", false) and int(best.get("completions", 0)) == 2, "nivel completado permanece desbloqueado y rejugable")
+	_check(best.get("best_keys", 0) == 3, "un resultado antiguo sin llaves no borra las mejores llaves")
 	DirAccess.remove_absolute("user://forest-test-progress.json")
 	main.queue_free()
 	paused = false
 	await _step(2)
+	var replay: Node2D = load("res://game/boot/main.tscn").instantiate()
+	root.add_child(replay)
+	await _step(3)
+	_check(replay.stage.collected_keys.is_empty() and not replay.stage.exit_door.is_open, "reiniciar o rejugar exige conseguir tres llaves nuevas")
+	_check(replay.stage.level_keys.all(func(key: LevelKey): return key.visible and not key.taken), "el reinicio repone las tres llaves")
+	replay.progress = LevelProgress.new("user://keys-sensor-test-progress.json")
+	replay.progress.levels.clear()
+	var duplicate_slots: Array[int] = [0, 0, 1]
+	replay.stage.exit_door.set_keys(duplicate_slots)
+	_check(not replay.stage.exit_door.is_open, "la puerta rechaza tres entradas con una ranura duplicada")
+	var invalid_slots: Array[int] = [-1, 0, 1, 3]
+	replay.stage.exit_door.set_keys(invalid_slots)
+	_check(not replay.stage.exit_door.is_open, "los identificadores fuera de las tres ranuras no abren la puerta")
+	var empty_slots: Array[int] = []
+	replay.stage.exit_door.set_keys(empty_slots)
+	# Situar llaves de prueba junto a la salida permite verificar el sensor continuo.
+	replay.player.respawn(replay.stage.DEFINITION.goal - Vector2(100, 0))
+	await _step(3)
+	for index in 2:
+		replay.stage.level_keys[index].position = replay.player.position + Vector2(0, -49)
+	await _step(5)
+	_check(replay.stage.collected_keys.size() == 2 and not replay.stage.completed, "dos contactos junto a la salida aún no completan")
+	replay.stage.level_keys[2].position = replay.player.position + Vector2(0, -49)
+	await _step(6)
+	_check(replay.stage.completed and replay.stage.exit_door.is_open, "la tercera llave abre estando ya dentro del sensor de salida")
+	DirAccess.remove_absolute("user://keys-sensor-test-progress.json")
+	replay.queue_free()
+	await _step(2)
 	print("RESULTADO BOSQUE: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+

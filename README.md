@@ -6,6 +6,8 @@ Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previ
 
 El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda. Incluye fondo raster con parallax, suelo con musgo, árboles, helechos, plataformas opcionales, cuatro brechas, siete patrullas de Terrón y Moflete, objetos arrojadizos, hojas doradas, tres cristales, farol de control y arco de salida.
 
+Para completar cada intento hay que recoger **tres llaves de ramas** y abrir la puerta del bosque. El HUD y los tres cerrojos muestran el progreso; volver al farol conserva las llaves y reiniciar las repone. [Diseños temáticos y reglas de las llaves](docs/LLAVES_Y_PUERTAS.md).
+
 Diego mantiene sus movimientos, 13 estados de animación y controles por gestos sin botones fijos. Los enemigos se eliminan saltando encima y reciben impactos de objetos lanzados. La meta guarda el resultado y permite rejugar para mejorar tiempo y coleccionables. Desde Pausa puedes volver al entrenamiento anterior, con los seis objetos, o regresar al bosque.
 
 ![Bosque Esmeralda con árboles de musgo y luz entre la vegetación](game/assets/textures/environments/bosque_esmeralda/forest_backdrop_v001.png)
@@ -38,7 +40,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 ```
 
-148 comprobaciones: 55 de protagonista y controles, 63 de objetos y 30 de nivel. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
+173 comprobaciones: 55 de protagonista y controles, 63 de objetos y 55 de nivel y llaves. Incluyen un recorrido completo con movimiento y saltos reales, checkpoint, caída, pisotones, lanzamientos y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos.
 
 ## Estructura y documentación
 
@@ -63,3 +65,4 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 - [Skill de personajes](.agents/skills/generar-personajes-salto-heroes/SKILL.md).
 
 Los otros cinco enemigos conservan sus conceptos, incluido [Nóctilo, el nuevo murciélago volador](art/characters/noctilo/ficha.md). Las animaciones de Terrón y Moflete usan transformaciones de sus sprites existentes; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
+

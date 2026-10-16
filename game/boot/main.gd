@@ -9,6 +9,9 @@ var _distance: ProgressBar
 var _tip_seconds: float = 9.0
 var _result: Dictionary = {}
 var _top_panel: PanelContainer
+var _key_counter: Label
+var _key_icons: Array[TextureRect] = []
+var _key_numbers: Array[Label] = []
 
 
 func _ready() -> void:
@@ -42,12 +45,14 @@ func _ready() -> void:
 	player.defeated.connect(func(): _open_menu("¡Otra oportunidad!", true))
 	stage.hint_requested.connect(_show_hint)
 	stage.counts_changed.connect(_update_counts)
+	stage.keys_changed.connect(_update_keys)
 	stage.level_completed.connect(_on_level_completed)
 	get_viewport().size_changed.connect(_layout_menu)
 	get_viewport().size_changed.connect(_layout_hud)
 	_layout_hud()
 	_update_counts(0, 0)
-	_show_hint("BOSQUE ESMERALDA · El despertar del bosque. Sigue las hojas hasta el arco de salida.")
+	_update_keys(0, KeyExitDoor.REQUIRED_KEYS)
+	_show_hint("BOSQUE ESMERALDA · Reúne tres llaves de ramas para abrir la salida. Arrastra para moverte y desliza ↑ en la otra mitad para saltar.")
 
 
 func _process(delta: float) -> void:
@@ -76,6 +81,15 @@ func _show_hint(text: String) -> void:
 
 func _update_counts(leaves: int, crystals: int) -> void:
 	_stats.text = "Hojas  %d / %d     Cristales  %d / 3" % [leaves, stage.total_leaves, crystals]
+
+
+func _update_keys(collected: int, required: int) -> void:
+	_key_counter.text = "Llaves  %d / %d" % [collected, required]
+	for index in _key_icons.size():
+		var found: bool = stage.collected_keys.has(index)
+		_key_icons[index].modulate.a = 1.0 if found else 0.28
+		_key_numbers[index].text = "%d %s" % [index + 1, "✓" if found else "–"]
+		_key_icons[index].tooltip_text = "Llave %d · %s" % [index + 1, "recogida" if found else "pendiente"]
 
 
 func _build_ui() -> void:
@@ -125,10 +139,32 @@ func _build_ui() -> void:
 	_health.text = "Energía  3 / 3"
 	row.add_child(_health)
 	_stats = Label.new()
-	row.add_child(_stats)
 	var pause_button := _button("Pausa", _toggle_pause)
 	pause_button.custom_minimum_size = Vector2(110, 54)
 	row.add_child(pause_button)
+	var status_row := HBoxContainer.new()
+	status_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	status_row.add_theme_constant_override("separation", 12)
+	column.add_child(status_row)
+	_key_counter = Label.new()
+	status_row.add_child(_key_counter)
+	for index in KeyExitDoor.REQUIRED_KEYS:
+		var icon := TextureRect.new()
+		icon.texture = stage.DEFINITION.key_definition.icon_for(index)
+		icon.material = stage.DEFINITION.key_definition.sprite_material()
+		icon.custom_minimum_size = Vector2(34, 34)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		status_row.add_child(icon)
+		_key_icons.append(icon)
+		var number := Label.new()
+		number.custom_minimum_size.x = 43
+		status_row.add_child(number)
+		_key_numbers.append(number)
+	_stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_stats.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	status_row.add_child(_stats)
 	_distance = ProgressBar.new()
 	_distance.custom_minimum_size.y = 4
 	_distance.show_percentage = false
@@ -176,7 +212,7 @@ func _layout_hud() -> void:
 		var inverse: Transform2D = get_viewport().get_screen_transform().affine_inverse()
 		safe = inverse * Rect2(physical)
 	_top_panel.position = safe.position + Vector2(16, 12)
-	_top_panel.size = Vector2(safe.size.x - 32, 82)
+	_top_panel.size = Vector2(safe.size.x - 32, 126)
 	_message.position = _top_panel.position + Vector2(0, _top_panel.size.y + 10)
 	_message.size = Vector2(minf(760, safe.size.x - 32), 0)
 
@@ -217,8 +253,9 @@ func _on_level_completed(level_id: String, result: Dictionary) -> void:
 
 func _completion_text() -> String:
 	var elapsed: int = int(_result.get("seconds", 0.0))
-	return "¡Bosque Esmeralda completado!\nHojas %d / %d · Cristales %d / 3 · Tiempo %d:%02d\n%s" % [
-		int(_result.get("leaves", 0)), stage.total_leaves, int(_result.get("crystals", 0)),
+	return "¡Bosque Esmeralda completado!\nLlaves %d / 3 · Hojas %d / %d · Cristales %d / 3\nTiempo %d:%02d · %s" % [
+		int(_result.get("keys", 0)), int(_result.get("leaves", 0)), stage.total_leaves, int(_result.get("crystals", 0)),
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+

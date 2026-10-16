@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LevelKeyDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/keys/key_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/keys/plumas_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+theme_id = &"plumas"
+display_name = "Llave de las cumbres"
+material_description = "Caliza clara y plumas"
+texture = ExtResource("2")
+regions = Array[Rect2]([Rect2(0.08213716, 0.01515152, 0.88197767, 0.93141946)])

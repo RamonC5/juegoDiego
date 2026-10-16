@@ -18,3 +18,7 @@ extends Resource
 ## x, y e índice del catálogo de arrojadizos.
 @export var object_spawns: Array[Vector3] = []
 @export var crystal_positions: Array[Vector2] = []
+## Exactamente tres llaves por intento. El arte se elige por entorno, no por color.
+@export var key_definition: LevelKeyDefinition
+@export var key_positions: Array[Vector2] = []
+

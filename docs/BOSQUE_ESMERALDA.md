@@ -8,13 +8,13 @@
 
 | Tramo en píxeles lógicos | Experiencia |
 | --- | --- |
-| 0–1700 | Espacio seguro inicial, primeras hojas, plataformas altas opcionales, barril y primer Terrón |
+| 0–1700 | Espacio seguro inicial, primera llave de ramas en x=820, hojas, barril y primer Terrón |
 | 1820–3470 | Primera brecha, Moflete, plataformas de exploración y práctica de lanzamientos |
-| 3590–5100 | Farol de control en x=4160 y desvío alto con cristal |
-| 5220–6900 | Piña lanzable, dos patrullas y último cristal |
-| 7020–8200 | Última brecha, patrulla final y arco de salida en x=7900 |
+| 3590–5100 | Segunda llave en la plataforma de x=3960, farol en x=4160 y desvío alto con cristal |
+| 5220–6900 | Piña lanzable, dos patrullas, tercera llave en x=6600 y último cristal |
+| 7020–8200 | Última brecha, patrulla final y puerta de salida en x=7900, que exige tres llaves |
 
-Las cuatro brechas miden 120 px y se han cruzado caminando con salto completo en la prueba física. Las plataformas opcionales dejan atravesarlas desde abajo y sostienen al aterrizar desde arriba. Los tres cristales están en plataformas altas; no son necesarios para completar el nivel. El farol permite reintentar con tres puntos de energía y conserva lo recogido durante ese intento. Reiniciar el nivel empieza una partida nueva.
+Las cuatro brechas miden 120 px y se han cruzado caminando con salto completo en la prueba física. Las plataformas se atraviesan desde abajo y sostienen al aterrizar desde arriba; dos contienen llaves obligatorias. Los tres cristales siguen siendo opcionales. Volver al farol conserva las llaves, hojas y cristales del intento; reiniciar repone las llaves y cierra la puerta. [Diseños y reglas de llaves](LLAVES_Y_PUERTAS.md).
 
 Se mantienen ocho identificadores de mundo. Esta entrega incorpora solo `world_01_level_01`; no crea los otros siete mundos ni un jefe del bosque.
 
@@ -37,8 +37,9 @@ Prompts exactos: [material de producción](../art/levels/bosque_esmeralda/prompt
 
 ## Progreso y verificación
 
-`user://progress.json` guarda el estado completado, número de finalizaciones, máximos de hojas y cristales y mejor tiempo por identificador. Se escribe primero un temporal; rejugar conserva los mejores resultados y el acceso al nivel. Los ajustes de control se guardan por separado.
+`user://progress.json` guarda el estado completado, número de finalizaciones, máximos de hojas, cristales y llaves y mejor tiempo por identificador. Se escribe primero un temporal; rejugar conserva los mejores resultados y el acceso al nivel. Los ajustes de control se guardan por separado.
 
-La CI exige 148 comprobaciones: 55 del protagonista y controles, 63 de objetos y 30 del nivel. Estas últimas cubren contacto lateral, pisotón con rebote, impacto arrojadizo, recogida única, las cuatro brechas, plataforma atravesable, checkpoint, caída y reintento, pausa del reloj, recorrido completo, meta única y guardado rejugable. Captura el juego con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720; las imágenes se publican como artefacto de Actions.
+La CI exige 173 comprobaciones: 55 del protagonista y controles, 63 de objetos y 55 del nivel y llaves. Estas últimas cubren contacto lateral, pisotón con rebote, impacto arrojadizo, recogida única, las cuatro brechas, plataforma atravesable, checkpoint, caída y reintento, pausa del reloj, recorrido completo, meta única y guardado rejugable. Captura el juego con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720; las imágenes se publican como artefacto de Actions.
 
 El objetivo es 60 FPS. Las pruebas automatizadas y las capturas no son una medición de rendimiento en un teléfono físico. Queda pendiente la prueba física de instalación, tacto y rendimiento en el móvil del usuario.
+

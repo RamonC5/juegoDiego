@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LevelKeyDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/keys/key_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/keys/ramas_v002.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+theme_id = &"ramas"
+display_name = "Llave de ramas"
+material_description = "Ramas trenzadas, corteza, musgo y brotes"
+texture = ExtResource("2")
+regions = Array[Rect2]([Rect2(0.03059896, 0.12500000, 0.31250000, 0.75878906), Rect2(0.37434896, 0.13867188, 0.30729167, 0.74511719), Rect2(0.71549479, 0.11425781, 0.28450521, 0.77148438)])

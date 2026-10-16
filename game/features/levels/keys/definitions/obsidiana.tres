@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LevelKeyDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/keys/key_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/keys/obsidiana_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+theme_id = &"obsidiana"
+display_name = "Llave de obsidiana"
+material_description = "Obsidiana y grietas de brasa"
+texture = ExtResource("2")
+regions = Array[Rect2]([Rect2(0.02667683, 0.02251877, 0.95198171, 0.94662219)])

@@ -22,6 +22,7 @@ func record_completion(level_id: String, result: Dictionary) -> Error:
 		"completions": int(previous.get("completions", 0)) + 1,
 		"best_leaves": maxi(int(previous.get("best_leaves", 0)), int(result.get("leaves", 0))),
 		"best_crystals": maxi(int(previous.get("best_crystals", 0)), int(result.get("crystals", 0))),
+		"best_keys": maxi(int(previous.get("best_keys", 0)), int(result.get("keys", 0))),
 		"best_seconds": minf(float(previous.get("best_seconds", INF)), float(result.get("seconds", 0.0))),
 	}
 	var updated: Dictionary = levels.duplicate(true)
@@ -40,3 +41,4 @@ func record_completion(level_id: String, result: Dictionary) -> Error:
 	if error == OK:
 		levels = updated
 	return error
+
