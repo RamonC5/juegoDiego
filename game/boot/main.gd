@@ -12,6 +12,7 @@ var _top_panel: PanelContainer
 var _key_counter: Label
 var _key_icons: Array[TextureRect] = []
 var _key_numbers: Array[Label] = []
+var _look_ahead: float = 125.0
 
 
 func _ready() -> void:
@@ -59,8 +60,17 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(player):
 		return
 	var half_width: float = get_viewport_rect().size.x / 2.0
-	_camera.position.x = clampf(player.position.x + 125.0, half_width,
+	var desired_look_ahead: float = 125.0
+	for bridge in stage.bridges:
+		if player.position.x >= bridge.definition.pine_position.x - 100.0 \
+			and player.position.x <= bridge.definition.bridge_rect.end.x + 100.0:
+			desired_look_ahead = 300.0
+	if not get_tree().paused:
+		_look_ahead = move_toward(_look_ahead, desired_look_ahead, delta * 300.0)
+	_camera.position.x = clampf(player.position.x + _look_ahead, half_width,
 		maxf(half_width, stage.DEFINITION.width - half_width))
+	# Seguir únicamente la recuperación inferior del ensayo; las plataformas altas conservan la vista estable.
+	_camera.position.y = clampf(player.position.y - 240.0, 360.0, 580.0)
 	backdrop.camera_x = _camera.position.x
 	_distance.value = clampf(player.position.x / stage.DEFINITION.goal.x * 100.0, 0.0, 100.0)
 	if not get_tree().paused:

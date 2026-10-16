@@ -9,9 +9,13 @@ extends Resource
 @export var width: float = 8200.0
 @export var spawn: Vector2 = Vector2(180, 600)
 @export var checkpoint: Vector2 = Vector2(4160, 600)
+## Orden de avance: volver a un farol anterior no hace retroceder la reaparición.
+@export var checkpoints: Array[Vector2] = []
 @export var goal: Vector2 = Vector2(7900, 600)
 @export var ground_sections: Array[Rect2] = []
 @export var raised_platforms: Array[Rect2] = []
+@export var recovery_platforms: Array[Rect2] = []
+@export var bridges: Array[RootBridgeDefinition] = []
 ## x, y, límite izquierdo y límite derecho de cada patrulla.
 @export var enemy_spawns: Array[Vector4] = []
 @export var enemy_kinds: PackedStringArray = []

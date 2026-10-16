@@ -150,7 +150,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 88 pruebas del protagonista y controles, 63 de objetos arrojadizos y 55 del nivel y llaves, y genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 88 pruebas del protagonista y controles, 63 de objetos arrojadizos, 58 del nivel y llaves y 55 de dianas y puentes; genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -160,7 +160,7 @@ El flujo ejecuta 88 pruebas del protagonista y controles, 63 de objetos arrojadi
 - [Exportar a Windows](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_windows.html).
 
 
-## Bosque Esmeralda 1-1 · 0.2.0
+## Bosque Esmeralda 1-1 · 0.3.0
 
 `ForestLevelDefinition` separa los datos editables del nivel de `ForestStage`, que crea suelo, plataformas de una dirección, coleccionables, marcadores y patrullas. El nivel emite `level_completed`, `checkpoint_reached`, `counts_changed` e `hint_requested`; `boot/main.gd` recibe esas señales y compone cámara, HUD y pausa mediante la base de entrenamiento `boot/practice.gd`.
 
@@ -182,5 +182,11 @@ El plan establece tres aventuras antes del jefe de cada uno de los ocho mundos. 
 
 Las fichas futuras se guardarán en `docs/dinamicas/` y `docs/niveles/`; constituyen material de autoría y no sustituyen los recursos `.tres`, señales ni reglas de las funcionalidades. El skill y su comprobador no añaden dependencias al juego. Mantenerlos fuera de la exportación como el resto de `.agents/`.
 
-Avance agachado, plataformas móviles, setas de rebote, placas de peso, conexiones entre dianas y puentes, múltiples faroles y guardado de intentos se registran como propuestas pendientes. La creación de este skill no integra esos sistemas ni modifica el bosque existente.
+Avance agachado, plataformas móviles, setas de rebote, placas de peso y guardado de intentos siguen pendientes. La integración 0.3.0 añade dianas conectadas a dos puentes y tres faroles al bosque actual.
+
+### Dianas y puentes integrados
+
+`RootBridgeDefinition` separa los datos de estación; `ForestThrowTarget` valida impactos y emite una activación única; `RootBridge` despliega la imagen durante 0,6 segundos y después habilita suelo estático. `ForestStage` compone referencias y conserva `activated_mechanisms` durante el intento. Al reaparecer restaura abiertos los mecanismos resueltos y recupera las piñas; no guarda el intento en disco. Las dianas usan la capa 7 de interacción y los arrojadizos la incluyen en sus barridos; Diego no colisiona con ellas. El puente usa la capa de entorno.
+
+Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la segunda llave y tres faroles. La reaparición solo avanza a índices de farol posteriores. La cámara aumenta suavemente la anticipación en las estaciones y sigue la recuperación inferior. Las texturas raster tienen límites de importación de 1024 y 256 píxeles. [Diseño, evidencia y pendientes](dinamicas/puente_diana.md).
 

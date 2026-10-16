@@ -36,7 +36,7 @@ La identidad depende del material y la forma, además del color. Se mantiene vis
 | Llave | Posición lógica | Propósito |
 | --- | --- | --- |
 | 1 | (820, 550), ruta del suelo | Enseñar la recogida en un tramo seguro |
-| 2 | (3960, 466), plataforma anterior al farol | Explorar y saltar antes del punto de control |
+| 2 | (4560, 466), plataforma posterior al puente principal | Abrir las dos pasarelas con las dianas, cruzar y saltar a la plataforma |
 | 3 | (6600, 466), plataforma del último tramo | Completar el requisito antes del arco |
 
 Las plataformas se alcanzan saltando desde el suelo. No hacen falta cristales ni objetos en las manos. La recogida no cambia el combate por pisotón ni los lanzamientos; los futuros niveles con jefe deberán conservar su condición de combate junto a la puerta.

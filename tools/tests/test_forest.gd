@@ -86,6 +86,7 @@ func _run() -> void:
 	var second: ForestEnemy = stage.enemies[1]
 	second.set_physics_process(true)
 	hero.respawn(second.position + Vector2(-120, 0))
+	hero.controls.automatic_run = true
 	hero.controls.set_virtual_axis(1)
 	await _step(38)
 	hero.controls.clear_virtual()
@@ -110,19 +111,34 @@ func _run() -> void:
 	var before: int = stage.leaves
 	leaf._on_body_entered(hero)
 	_check(stage.leaves == before, "una hoja no se puede contabilizar dos veces")
-	# Las cuatro brechas se cruzan andando, con salto completo, sin teletransporte en vuelo.
+	# Resolver las dianas mediante recogida, animación de lanzamiento e impacto reales.
+	for index in stage.bridges.size():
+		hero.respawn(stage.DEFINITION.bridges[index].pine_position + Vector2(0, 26))
+		hero.controls.set_virtual_axis(1)
+		await _step(2)
+		hero.controls.set_virtual_axis(0)
+		await _step(4)
+		for _action in 2:
+			hero.controls.set_virtual_action(&"grab_throw", true)
+			await _step(1)
+			hero.controls.set_virtual_action(&"grab_throw", false)
+			await _step(25)
+		await _step(65)
+		_check(stage.bridges[index].state == RootBridge.State.OPEN, "diana %d abre su puente mediante un lanzamiento real" % (index + 1))
+	# Huecos pequeños y puentes abiertos permiten cruzar sin teletransportes en vuelo.
 	for index in stage.DEFINITION.ground_sections.size() - 1:
 		var edge: float = stage.DEFINITION.ground_sections[index].end.x
+		var next_edge: float = stage.DEFINITION.ground_sections[index + 1].position.x
 		hero.respawn(Vector2(edge - 34, 600))
 		hero.controls.automatic_run = false
 		await _step(3)
 		hero.controls.set_virtual_axis(1)
 		hero.velocity.x = hero.tuning.walk_speed
 		hero.controls.set_virtual_action(&"jump", true)
-		await _step(68)
+		await _step(maxi(68, ceili((next_edge - edge + 120.0) / hero.tuning.walk_speed * 60.0)))
 		hero.controls.clear_virtual()
-		_check(not hero.dead and hero.is_on_floor() and hero.position.x > edge + 120,
-			"brecha %d accesible caminando" % (index + 1))
+		_check(not hero.dead and hero.is_on_floor() and hero.position.x > next_edge,
+			"paso %d accesible con el puente correspondiente abierto" % (index + 1))
 	# Comprobar el acceso real a la ruta alta, atravesando la plataforma desde abajo.
 	hero.respawn(Vector2(750, 600))
 	await _step(3)
@@ -170,7 +186,7 @@ func _run() -> void:
 			for enemy in stage.enemies:
 				if is_instance_valid(enemy) and enemy.active:
 					var distance: float = enemy.position.x - hero.position.x
-					if distance > 0.0 and distance < 125.0:
+					if distance > 0.0 and distance < 125.0 and absf(hero.position.y - enemy.position.y) < 65.0:
 						needs_jump = true
 			for key in stage.level_keys:
 				var distance: float = key.position.x - hero.position.x
@@ -182,6 +198,8 @@ func _run() -> void:
 		if stage.completed or hero.dead:
 			break
 	hero.controls.clear_virtual()
+	if not stage.completed:
+		print("DIAGNÓSTICO RUTA: posición=", hero.position, " muerto=", hero.dead, " llaves=", stage.collected_keys)
 	_check(stage.completed and not hero.dead, "se puede recorrer todo el nivel con movimiento y saltos reales")
 	_check(stage.collected_keys.size() == 3 and stage.exit_door.is_open, "la tercera llave abre la puerta antes de completar")
 	_check(main._result.get("keys", 0) == 3, "el resultado registra las tres llaves obligatorias")
@@ -197,7 +215,7 @@ func _run() -> void:
 	_check(main.progress.levels.get(stage.DEFINITION.level_id, {}) == old_result, "la meta solo registra una finalización por partida")
 	var storage := LevelProgress.new("user://forest-test-progress.json")
 	_check(storage.levels.has(stage.DEFINITION.level_id), "guardado se recupera desde disco")
-	_check(storage.levels[stage.DEFINITION.level_id].get("best_keys", 0) == 3, "el guardado conserva las tres llaves del resultado")
+	_check(storage.levels.get(stage.DEFINITION.level_id, {}).get("best_keys", 0) == 3, "el guardado conserva las tres llaves del resultado")
 	storage.record_completion(stage.DEFINITION.level_id, {"leaves": 0, "crystals": 0, "seconds": 9999.0})
 	var best: Dictionary = storage.levels.get(stage.DEFINITION.level_id, {})
 	_check(int(best.get("best_leaves", -1)) == int(old_result.get("best_leaves", -2)), "rejugar no borra las mejores hojas")

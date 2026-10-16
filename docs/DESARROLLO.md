@@ -31,7 +31,7 @@ godot --headless --path . --editor --import --quit
 godot --headless --path . --quit-after 3
 ```
 
-La primera orden importa y analiza el proyecto; la segunda inicia el entrenamiento. Para comprobar el protagonista, ejecutar además `godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd`: son 55 pruebas. Para los seis objetos, ejecutar `godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd`: son 63 comprobaciones adicionales. El renderizado se ha revisado en Compatibility a 1280 × 720 y 1024 × 768; los dispositivos físicos siguen pendientes.
+La primera orden importa y analiza el proyecto; la segunda inicia el entrenamiento. Para comprobar el protagonista, ejecutar además `godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd`: son 88 pruebas. Para los seis objetos, ejecutar `godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd`: son 63 comprobaciones adicionales. El renderizado se ha revisado en Compatibility a 1280 × 720 y 1024 × 768; los dispositivos físicos siguen pendientes.
 
 ## Windows
 
@@ -84,7 +84,7 @@ El flujo realiza estas operaciones:
 2. Descarga Godot con la versión de `.godot-version` y comprueba el SHA-512 registrado en `tools/godot-linux-x86_64.sha512`.
 3. Descarga las plantillas de esa misma versión, comprueba `tools/godot-export-templates.sha256` e instala las plantillas APK Android. El checksum procede del campo `digest` de la [publicación oficial de Godot 4.7.2](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable).
 4. Recupera o crea una clave de depuración fuera del repositorio y configura las rutas de Java, SDK y firma en un directorio temporal mediante `tools/ci/configure_android.py`.
-5. Importa el proyecto, comprueba el arranque, ejecuta las 55 pruebas del protagonista y las 63 de objetos arrojadizos y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
+5. Importa el proyecto, comprueba el arranque, ejecuta las 88 pruebas del protagonista, 63 de objetos, 58 del bosque y 55 de puentes y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
 6. Verifica el APK con `apksigner`, comprueba el paquete `com.ramonc5.saltoheroes` y la biblioteca ARM64, y calcula el SHA-256 del archivo.
 7. Publica el APK, su checksum y los metadatos de compilación durante 30 días. Si falla la compilación, conserva los registros disponibles durante 7 días.
 
@@ -116,3 +116,7 @@ El APK abre el entrenamiento de Diego. La CI verifica importación, arranque, 11
 
 Al cambiar `.godot-version`, actualiza el checksum del editor y el de las plantillas, manteniendo los nombres de archivo correspondientes. Revisa también las herramientas SDK requeridas por la versión nueva y el nombre del archivo de ajustes del editor generado por `tools/ci/configure_android.py`. Confirma la compilación y la instalación antes de dar la actualización por terminada.
 
+
+## Dianas y puentes del bosque
+
+La versión 0.3.0 integra dos estaciones en el nivel 1. Ejecutar también `godot --headless --fixed-fps 60 --path . --script tools/tests/test_bridges.gd`. Sus 55 comprobaciones cubren control táctil y teclado, recuperación, pausa, reaparición y recorrido completo con las tres llaves. La CI ejecuta esta suite antes de las capturas y exportación. Los presupuestos de duración y las pruebas en dispositivos físicos siguen pendientes.

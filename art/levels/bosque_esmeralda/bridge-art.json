@@ -1,0 +1,32 @@
+{
+  "herramienta": "image_gen integrada",
+  "referencia": "game/assets/textures/environments/bosque_esmeralda/forest_props_v001.png",
+  "imagenes": [
+    {
+      "archivo": "game/assets/textures/environments/bosque_esmeralda/mechanisms/throw_target_v001.png",
+      "dimensiones": [
+        1254,
+        1254
+      ],
+      "modo": "RGBA",
+      "alfa_min_max": [
+        0,
+        255
+      ],
+      "sha256": "ec8b1677ad4eb71ffddbd91ac5d9431e74d61f7e93c0a6421c5de1e47d9508cf"
+    },
+    {
+      "archivo": "game/assets/textures/environments/bosque_esmeralda/mechanisms/root_bridge_v001.png",
+      "dimensiones": [
+        2172,
+        724
+      ],
+      "modo": "RGBA",
+      "alfa_min_max": [
+        0,
+        255
+      ],
+      "sha256": "c6542cb558f013f8b8fa57caf1a218759a1a6159871ef0d22a07725c31323496"
+    }
+  ]
+}

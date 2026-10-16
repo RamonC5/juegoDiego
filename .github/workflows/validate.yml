@@ -153,6 +153,16 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar dianas y puentes de raíces
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_bridges.gd 2>&1 | tee .godot-logs/bridge-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/bridge-tests.log; then
+            exit 1
+          fi
+
       - name: Capturar el nivel en móvil y tablet
         shell: bash
         run: |

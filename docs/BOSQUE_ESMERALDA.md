@@ -9,12 +9,17 @@
 | Tramo en píxeles lógicos | Experiencia |
 | --- | --- |
 | 0–1700 | Espacio seguro inicial, primera llave de ramas en x=820, hojas, barril y primer Terrón |
-| 1820–3470 | Primera brecha, Moflete, plataformas de exploración y práctica de lanzamientos |
-| 3590–5100 | Segunda llave en la plataforma de x=3960, farol en x=4160 y desvío alto con cristal |
-| 5220–6900 | Piña lanzable, dos patrullas, tercera llave en x=6600 y último cristal |
-| 7020–8200 | Última brecha, patrulla final y puerta de salida en x=7900, que exige tres llaves |
+| 1820–2850 | Moflete, plataforma opcional y farol de ensayo en x=2470; piña en x=2540 y diana en x=2780 |
+| 2850–3270 | Pasarela de ensayo de 420 px, suelo inferior y escalones de retorno |
+| 3270–3790 | Farol en x=3390, piña en x=3430 y diana principal en x=3710 |
+| 3790–4270 | Puente de raíces de 480 px, abierto mediante lanzamiento |
+| 4270–5100 | Llave 2 en x=4560, farol en x=4820, patrulla y ruta opcional al cristal alto |
+| 5220–6900 | Vasija lanzable, dos patrullas, tercera llave en x=6600 y último cristal |
+| 7020–8200 | Último hueco de salto, patrulla y puerta en x=7900, que exige tres llaves |
 
-Las cuatro brechas miden 120 px y se han cruzado caminando con salto completo en la prueba física. Las plataformas se atraviesan desde abajo y sostienen al aterrizar desde arriba; dos contienen llaves obligatorias. Los tres cristales siguen siendo opcionales. Volver al farol conserva las llaves, hojas y cristales del intento; reiniciar repone las llaves y cierra la puerta. [Diseños y reglas de llaves](LLAVES_Y_PUERTAS.md).
+Las tres brechas normales miden 120 px; los dos pasos amplios requieren activar sus dianas. La [dinámica del puente de raíces](dinamicas/puente_diana.md) reutiliza la recogida y el lanzamiento: un toque coge una piña y otro la lanza. La diana acepta cualquier arrojadizo válido. El ensayo ofrece suelo inferior y apoyos de retorno, probados con saltos reales. Las piñas perdidas vuelven a sus puestos.
+
+Volver al farol conserva llaves, hojas, cristales y puentes resueltos del intento. Un despliegue interrumpido se restaura abierto al reaparecer. Volver a un farol anterior no hace retroceder la reaparición. Reiniciar rearma las dianas y repone las tres llaves. El intento aún no se guarda al cerrar la aplicación. [Reglas de llaves](LLAVES_Y_PUERTAS.md).
 
 Se mantienen ocho identificadores de mundo. Esta entrega incorpora solo `world_01_level_01`; no crea los otros siete mundos ni un jefe del bosque.
 
@@ -39,7 +44,9 @@ Prompts exactos: [material de producción](../art/levels/bosque_esmeralda/prompt
 
 `user://progress.json` guarda el estado completado, número de finalizaciones, máximos de hojas, cristales y llaves y mejor tiempo por identificador. Se escribe primero un temporal; rejugar conserva los mejores resultados y el acceso al nivel. Los ajustes de control se guardan por separado.
 
-La CI exige 173 comprobaciones: 55 del protagonista y controles, 63 de objetos y 55 del nivel y llaves. Estas últimas cubren contacto lateral, pisotón con rebote, impacto arrojadizo, recogida única, las cuatro brechas, plataforma atravesable, checkpoint, caída y reintento, pausa del reloj, recorrido completo, meta única y guardado rejugable. Captura el juego con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720; las imágenes se publican como artefacto de Actions.
+La CI exige 264 comprobaciones: 88 del protagonista, 63 de objetos, 58 del bosque y 55 de puentes. Incluyen ruta completa, gestos normales e intercambiados, teclado, impactos físicos, recuperación por escalones, pérdida y daño con piñas, pausa durante la apertura, reaparición, tres llaves y resultados rejugables. Captura el escenario real con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720.
+
+El tiempo con un niño de 10 años y el mínimo de 15 minutos de aventura no están medidos. La integración amplía el prototipo actual; el recorrido largo sigue requiriendo contenido y pruebas.
 
 El objetivo es 60 FPS. Las pruebas automatizadas y las capturas no son una medición de rendimiento en un teléfono físico. Queda pendiente la prueba física de instalación, tacto y rendimiento en el móvil del usuario.
 

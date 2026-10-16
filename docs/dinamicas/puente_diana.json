@@ -3,7 +3,7 @@
   "tipo": "dinamica",
   "id": "puente_diana",
   "nombre": "El puente de raíces",
-  "estado": "propuesta",
+  "estado": "implementada",
   "fuentes": [
     {
       "ruta": "encargo:Juego Diego / primera dinámica del bosque",
@@ -54,6 +54,11 @@
       "ruta": "game/core/services/level_progress.gd",
       "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
       "observacion": "Guarda resultados completados; no guarda farol, puente ni llaves de un intento interrumpido."
+    },
+    {
+      "ruta": "game/features/levels/mechanisms/root_bridge.gd",
+      "revision": "0.3.0, integración sobre main 11b12f2bd35ad1c068c41be50d5d85082a16ccef",
+      "observacion": "Implementación nueva contrastada mediante importación, arranque, pruebas físicas y capturas; las fuentes anteriores describen la base de diseño previa."
     }
   ],
   "objetivo": "En world_01_level_01, descubrir que un lanzamiento activa una diana de madera, aprenderlo en una pasarela segura y aplicarlo al puente principal para llegar a la segunda llave de ramas. Es la primera dinámica nueva del bosque; no exige conseguir primero la ranura 1.",
@@ -80,33 +85,33 @@
     },
     {
       "id": "puesto_pinas_local",
-      "estado": "ampliacion",
-      "detalle": "Añadir un puesto por estación con índice 2, suelo propio y límites locales. Una sola piña por puesto; cancelar retorno mientras está sostenida y reponerla si queda fuera del área."
+      "estado": "implementada",
+      "detalle": "Dos puestos de pina_bosque, índice 2, con suelo propio, reposición a cuatro segundos y límites locales. Una sola instancia por puesto; sostener cancela la reposición."
     },
     {
       "id": "conexion_diana_puente",
-      "estado": "propuesta",
-      "detalle": "Crear componente reusable con dos instancias: puente_diana_ensayo y puente_diana_principal. Cada diana acepta un impacto válido, emite una vez su activación y abre solo su puente."
+      "estado": "implementada",
+      "detalle": "RootBridgeDefinition, ForestThrowTarget y RootBridge conectan puente_diana_ensayo y puente_diana_principal mediante referencias y señales explícitas. Cada impacto válido abre solo su puente una vez."
     },
     {
       "id": "recorrido_llave_dos",
-      "estado": "ampliacion",
-      "detalle": "Rediseñar terreno, recuperación, cámara y posición de la segunda llave para que el paso principal use el puente y el retorno siga disponible."
+      "estado": "implementada",
+      "detalle": "Terreno actualizado con pasarela de 420 y puente de 480 unidades, recuperación inferior con escalones y llave visible 2 en (4560, 466). La cámara muestra las estaciones y acompaña la recuperación."
     },
     {
       "id": "faroles_multiples",
-      "estado": "propuesta",
-      "detalle": "Generalizar el farol único para tener uno antes del puente principal y otro tras la llave. El máximo estimado entre ellos es 3 minutos en este bloque; revisar también el tramo de llegada."
+      "estado": "implementada",
+      "detalle": "Tres faroles en x=2470, 3390 y 4820. Volver a uno anterior no hace retroceder la reaparición. Falta medir intervalos de primera partida con el público objetivo."
     },
     {
       "id": "estado_mecanismos_intento",
-      "estado": "propuesta",
-      "detalle": "Conservar las dos activaciones durante las muertes del mismo intento. Reaparecer reconstruye un puente activado como abierto y seguro."
+      "estado": "implementada",
+      "detalle": "ForestStage conserva activated_mechanisms durante el intento y restaura abiertos los mecanismos resueltos al reaparecer, incluso si el despliegue se interrumpió."
     },
     {
       "id": "pistas_por_eventos",
-      "estado": "ampliacion",
-      "detalle": "Reutilizar hint_requested al entrar, fallar o acertar; añadir estado local para orientar sin esperas ni repetir mensajes continuamente."
+      "estado": "implementada",
+      "detalle": "hint_requested muestra mensajes de entrada, acierto y apertura, y una pista ante el primer fallo cercano; sin esperas para permitir el avance."
     }
   ],
   "controles": {
@@ -121,7 +126,7 @@
   },
   "reglas": {
     "activacion": "Cada diana valida un ThrowableObject lanzado mediante can_cause_thrown_damage y que su mechanism_id sigue cerrado. Aceptar cualquier arrojadizo válido; las piñas están garantizadas, pero llevar un barril no impide resolver el reto. Rechazar objetos sostenidos, apoyados, impactos sin velocidad válida y pisotones.",
-    "exito": "Un único acierto por mecanismo inicia cerrado → desplegando → abierto. Publicar «Puente abierto» solo al estar disponible su colisión. Una vez abierto no se cierra durante ese intento. Conseguir la llave visible 2 al tocarla; aporta una sola ranura y no completa el nivel sin las otras dos.",
+    "exito": "Un acierto inicia cerrado → desplegando → abierto. Tras 0,6 segundos habilita suelo y anuncia el paso; permanece abierto durante el intento. La llave visible 2 aporta el índice interno 1 una sola vez y la salida sigue exigiendo las tres.",
     "fallo": "Fallar un lanzamiento no causa daño ni elimina llaves. La diana sigue pendiente y la piña queda recuperable o vuelve a su puesto. Caer en la práctica lleva a suelo seguro; una caída mortal posterior vuelve al farol con las activaciones y las llaves conservadas según el nuevo estado previsto.",
     "recuperacion": "En cada puesto garantizar exactamente una piña: recuperable tras asentarse con reposición a 4 segundos, retorno al salir de límites locales y sin reposición mientras se sostiene. No copiarla ni acumular instancias. Mantener suelo libre en el puesto, rutas de vuelta desde ambos extremos y un farol antes del puente principal. Si se muere durante el despliegue, restaurar ese mecanismo abierto antes de habilitar al jugador. Pausa y pérdida de foco detienen despliegue, pistas y temporizadores."
   },
@@ -138,9 +143,9 @@
     4,
     5
   ],
-  "dificultad": "Inicial para 10 años: dos aplicaciones de la misma dinámica, dianas fijas y amplias, lanzamientos desde parado y desde suelo firme, sin cuenta atrás ni puntería analógica. Como punto de partida de blockout, diana de 128 × 128 unidades lógicas y centro cercano a la altura de la mano; separar 180–240 unidades en el ensayo y 240–300 en la principal. Verificar con animación y física reales. Evitar saltos simultáneos al lanzamiento; situar el enemigo después y conservar el pisotón. Si la primera partida resuelve el bloque antes de la estimación, registrarlo y ajustar el contenido del nivel, sin añadir esperas.",
+  "dificultad": "Dos aplicaciones de la misma dinámica desde suelo firme. Dianas circulares de radio 58 con dibujo de 136 unidades; sin apuntado analógico ni cuenta atrás. Distancia inicial desde la mano aproximada de 211 y 251 unidades. El ensayo tiene suelo inferior y tres saltos de regreso; la patrulla principal aparece tras el puente. Ajuste final con un niño de 10 años pendiente. Los 4–5 minutos siguen siendo presupuesto de autoría, no medición de esta integración.",
   "persistencia": {
-    "al_morir": "Previsto: conservar puente_diana_ensayo y puente_diana_principal activados y llaves del intento, incluso si se resolvieron después del último farol. Restaurar una apertura interrumpida como puente abierto y reaparecer sobre suelo seguro. Actualmente solo están implementadas la conservación de llaves y la reaparición en un farol; el estado de puentes y múltiples faroles es nuevo.",
+    "al_morir": "Implementado: conservar ambas activaciones y las llaves del intento; restaurar abierto un despliegue interrumpido, sincronizar diana y reponer piñas, y reaparecer sobre suelo en el farol más avanzado. No hay serialización de estos hechos entre cierres de la aplicación.",
     "al_cerrar": "Comportamiento actual: un cierre real pierde el intento y sus mecanismos; solo se conservan resultados ya completados y ajustes. Esta dinámica no promete continuar otro día. Guardado de intentos versionado queda como mejora transversal separada, pendiente antes de anunciar esa capacidad.",
     "al_rejugar": "Cerrar ambos puentes, rearmar dianas, reponer piñas y las tres llaves al reiniciar o rejugar el nivel; conservar mejores resultados y desbloqueos. No persistir estas aperturas como progreso de nivel completado."
   },
@@ -168,7 +173,11 @@
       "Medir la aventura completa antes de afirmar al menos 15 minutos. Este bloque se cuenta una sola vez dentro del objetivo 18–22; no demuestra la duración del bosque actual.",
       "Verificar estabilidad y objetivo de 60 FPS en dispositivos físicos; la consistencia JSON no acredita tacto, diversión, rendimiento ni accesibilidad completa."
     ],
-    "evidencias": []
+    "evidencias": [
+      "Godot 4.7.2, 2026-10-16: tools/tests/test_bridges.gd, 55 comprobaciones y 0 fallos; registro en art/levels/bosque_esmeralda/qa-bridge-tests.txt.",
+      "tools/tests/test_forest.gd: 58 comprobaciones y 0 fallos; test_player.gd: 88 y 0; test_throwables.gd: 63 y 0. Total: 264.",
+      "Recorrido completo desde spawn con movimiento, gestos, tecla E, impactos y saltos reales, ambos mecanismos y tres llaves. Los preparativos aislados sí colocan al jugador en posiciones de prueba.",
+      "Capturas Compatibility reales de ensayo, recuperación, puente cerrado/abierto y tablet mediante tools/tests/capture_forest.gd. No equivalen a prueba en Android o Windows físicos ni a medición de primera partida con un niño."
+    ]
   }
 }
-

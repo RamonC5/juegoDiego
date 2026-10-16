@@ -4,9 +4,9 @@ Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un
 
 ## Estado y alcance
 
-El bosque experimental contiene movimiento, salto, agacharse sin avanzar, pisotones, lanzamientos, Terrón y Moflete, tres llaves de ramas, puerta y un farol. El guardado actual conserva resultados completados; no guarda un intento al cerrar a mitad de nivel. No hay una medición de 15 minutos en el perfil objetivo.
+El bosque experimental contiene movimiento, salto, agacharse sin avanzar, pisotones, lanzamientos, Terrón y Moflete, tres llaves de ramas, puerta, dos estaciones de diana y puente y tres faroles. El guardado actual conserva resultados completados; no guarda un intento al cerrar a mitad de nivel. No hay una medición de 15 minutos en el perfil objetivo.
 
-La ampliación, los otros niveles y los jefes son trabajo pendiente. La entrega del skill añade documentación y herramientas de autoría, sin cambiar escenas, datos jugables ni controles. El [inventario del prototipo](../.agents/skills/crear-dinamicas-salto-heroes/references/estado-prototipo.md) registra fuentes y commit; contrastarlo al usarlo.
+La ampliación hasta el recorrido largo, los otros niveles y los jefes son trabajo pendiente. El skill aporta herramientas de autoría; la integración 0.3.0 añade la primera dinámica al bosque actual. El [inventario del prototipo](../.agents/skills/crear-dinamicas-salto-heroes/references/estado-prototipo.md) conserva la instantánea previa a los puentes; contrastarlo con esta ficha y el código al usarlo.
 
 ## Duración y recuperación
 
@@ -39,9 +39,9 @@ Guardar las fichas en `docs/dinamicas/<id>.json` y los recorridos en `docs/nivel
 
 Aplicación de `crear-dinamicas-salto-heroes` a `world_01_level_01`: aprender a lanzar una piña a una diana en una pasarela segura y aplicar después la misma relación para abrir el puente principal y alcanzar la segunda llave de ramas. Se reutilizan gestos, lanzamientos y pisotón; las dos estaciones enseñan una sola dinámica nueva.
 
-Estado: **propuesta**, contrastada con `main` en el commit `dd5d7891fa421a6c23befe1479421ed38e942f2d`. El diseño detalla reposición local de piñas, retorno, faroles, apertura conservada al morir, accesibilidad y pruebas pendientes. Requiere integrar dianas conectadas a puentes, generalizar faroles y ajustar datos del recorrido. La piña existe, pero el bosque actual no incluye su índice 2 en los puestos; se registra la discrepancia con la pista que menciona una piña donde hay una vasija.
+Estado: **implementada en 0.3.0**, sobre `main` en el commit `11b12f2bd35ad1c068c41be50d5d85082a16ccef`. Incluye piñas con recuperación local, dos puentes, suelo y escalones de ensayo, segunda llave reubicada, tres faroles y aperturas conservadas al morir. La pista del puesto de vasija se ha corregido. Las cuatro suites suman 264 comprobaciones correctas, incluidas 55 de puentes y un recorrido completo con entradas reales.
 
-El bloque completo presupuesta **4–5 minutos estimados**, incluidos una sola vez en el futuro recorrido de 18–22 minutos. No acredita el mínimo de 15 minutos de la aventura completa ni incorpora guardado de intentos al cerrar la aplicación.
+Los **4–5 minutos** fueron el presupuesto inicial de autoría; no están medidos con un niño ni acreditan 15 minutos del nivel actual. Ampliar la aventura hasta ese mínimo y medir primeras partidas sigue pendiente. El cierre de la aplicación continúa reiniciando el intento.
 
 Validar la ficha desde la raíz del proyecto:
 

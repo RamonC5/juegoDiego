@@ -17,6 +17,7 @@ var crystals: int = 0
 var total_leaves: int = 0
 var defeated_enemies: int = 0
 var checkpoint_active: bool = false
+var active_checkpoint_index: int = -1
 var completed: bool = false
 var seconds: float = 0.0
 var enemies: Array[ForestEnemy] = []
@@ -24,9 +25,17 @@ var collectibles: Array[ForestCollectible] = []
 var level_keys: Array[LevelKey] = []
 var collected_keys: Array[int] = []
 var exit_door: KeyExitDoor
+var bridges: Array[RootBridge] = []
+var throw_targets: Array[ForestThrowTarget] = []
+var pine_stations: Array[ThrowableObject] = []
+var activated_mechanisms: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
 var _checkpoint_label: Label
+var _checkpoint_labels: Array[Label] = []
+var _throw_hint_target: ForestThrowTarget
+var _throw_hint_seconds: float = 0.0
+var _miss_hints_shown: Array[StringName] = []
 
 
 func _ready() -> void:
@@ -35,12 +44,15 @@ func _ready() -> void:
 		_add_platform(section, true)
 	for section in DEFINITION.raised_platforms:
 		_add_platform(section, false)
+	for section in DEFINITION.recovery_platforms:
+		_add_platform(section, true)
 	for x in [-40.0, DEFINITION.width + 40.0]:
 		_add_platform(Rect2(x - 40, -600, 80, 2000), true, false)
 	_build_scenery()
 	_build_collectibles()
 	_build_keys()
 	_build_markers()
+	_build_bridges()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
 		object.definition = ThrowableCatalog.DEFINITIONS[int(spec.z)]
@@ -54,6 +66,7 @@ func start(hero: DiegoPlayer) -> void:
 	player = hero
 	player.fall_limit_y = 980.0
 	player.position = DEFINITION.spawn
+	player.object_released.connect(_on_object_released)
 	for index in DEFINITION.enemy_spawns.size():
 		var spec: Vector4 = DEFINITION.enemy_spawns[index]
 		var enemy := ForestEnemy.new()
@@ -64,6 +77,57 @@ func start(hero: DiegoPlayer) -> void:
 		enemy.defeated.connect(_on_enemy_defeated)
 		add_child(enemy)
 		enemies.append(enemy)
+
+
+func _build_bridges() -> void:
+	for definition in DEFINITION.bridges:
+		var bridge := RootBridge.new()
+		bridge.definition = definition
+		bridge.opened.connect(_on_bridge_opened)
+		add_child(bridge)
+		bridges.append(bridge)
+		var target := ForestThrowTarget.new()
+		target.definition = definition
+		target.activated.connect(_on_mechanism_activated)
+		add_child(target)
+		throw_targets.append(target)
+		var pine := ThrowableObject.new()
+		pine.definition = ThrowableCatalog.DEFINITIONS[2]
+		pine.position = definition.pine_position
+		pine.respawn_delay = 4.0
+		pine.recovery_bounds = definition.recovery_bounds
+		add_child(pine)
+		pine_stations.append(pine)
+		_world_label("PIÑA · COGE Y LANZA", definition.pine_position + Vector2(0, -116), 260)
+
+
+func _on_mechanism_activated(mechanism_id: StringName) -> void:
+	if completed or activated_mechanisms.has(mechanism_id):
+		return
+	for bridge in bridges:
+		if bridge.definition.mechanism_id == mechanism_id:
+			activated_mechanisms.append(mechanism_id)
+			bridge.activate()
+			_throw_hint_target = null
+			_throw_hint_seconds = 0.0
+			hint_requested.emit("¡Diana activada! Las raíces están abriendo el paso.")
+			return
+
+
+func _on_bridge_opened(mechanism_id: StringName) -> void:
+	if mechanism_id == &"puente_diana_ensayo":
+		hint_requested.emit("¡Puente abierto! Cruza la pasarela. La siguiente diana funciona igual.")
+	else:
+		hint_requested.emit("¡Puente abierto! Cruza y busca la llave de ramas 2 en la plataforma.")
+
+
+func _on_object_released() -> void:
+	for target in throw_targets:
+		if target.active and not _miss_hints_shown.has(target.definition.mechanism_id) \
+			and absf(player.position.x - target.position.x) < 430.0:
+			_throw_hint_target = target
+			_throw_hint_seconds = 1.2
+			return
 
 
 func _add_platform(rect: Rect2, ground: bool, visible_art: bool = true) -> void:
@@ -107,7 +171,8 @@ func _build_scenery() -> void:
 		for x in [section.position.x + 55.0, section.end.x - 75.0]:
 			_prop(1, Vector2(x, 611), 92.0, 2)
 	_prop(2, DEFINITION.goal + Vector2(0, 7), 255.0, -2)
-	_prop(3, DEFINITION.checkpoint + Vector2(0, 6), 180.0, -2)
+	for at in checkpoint_positions():
+		_prop(3, at + Vector2(0, 6), 180.0, -2)
 
 
 func _add_collectible(at: Vector2, crystal: bool = false) -> void:
@@ -197,8 +262,13 @@ func _world_label(text: String, at: Vector2, width: float) -> Label:
 
 
 func _build_markers() -> void:
-	_checkpoint_label = _world_label("FAROL · PUNTO DE CONTROL", DEFINITION.checkpoint + Vector2(0, -218), 360)
-	_marker(DEFINITION.checkpoint + Vector2(0, -80), Vector2(115, 190), _on_checkpoint)
+	var positions: Array[Vector2] = checkpoint_positions()
+	for index in positions.size():
+		var at: Vector2 = positions[index]
+		var label := _world_label("FAROL · PUNTO DE CONTROL", at + Vector2(0, -218), 360)
+		_checkpoint_labels.append(label)
+		_marker(at + Vector2(0, -80), Vector2(115, 190), _on_checkpoint.bind(index))
+	_checkpoint_label = _checkpoint_labels[0]
 	exit_door = KeyExitDoor.new()
 	exit_door.key_definition = DEFINITION.key_definition
 	exit_door.panel_texture = preload("res://game/assets/textures/keys/puerta_bosque_v001.png")
@@ -223,11 +293,21 @@ func _on_enemy_defeated(_enemy: ForestEnemy, by_throw: bool) -> void:
 	hint_requested.emit("¡Buen lanzamiento!" if by_throw else "¡Buen pisotón! Mantén el salto para llegar más alto.")
 
 
-func _on_checkpoint(body: Node2D) -> void:
-	if body != player or player.dead or checkpoint_active:
+func checkpoint_positions() -> Array[Vector2]:
+	if not DEFINITION.checkpoints.is_empty():
+		return DEFINITION.checkpoints
+	return [DEFINITION.checkpoint]
+
+
+func _on_checkpoint(body: Node2D, index: int = 0) -> void:
+	if body != player or player.dead or index <= active_checkpoint_index:
 		return
 	checkpoint_active = true
-	respawn_position = DEFINITION.checkpoint + Vector2(55, 0)
+	active_checkpoint_index = index
+	respawn_position = checkpoint_positions()[index] + Vector2(55, 0)
+	if is_instance_valid(_checkpoint_label):
+		_checkpoint_label.text = "FAROL ACTIVADO"
+	_checkpoint_label = _checkpoint_labels[index]
 	_checkpoint_label.text = "FAROL ACTIVADO · REAPARECES AQUÍ"
 	checkpoint_reached.emit()
 	hint_requested.emit("Punto de control activado. Si caes, volverás a este farol.")
@@ -249,7 +329,14 @@ func _on_goal(body: Node2D) -> void:
 
 
 func respawn_player() -> void:
+	for index in bridges.size():
+		if activated_mechanisms.has(bridges[index].definition.mechanism_id):
+			bridges[index].restore_open()
+			throw_targets[index].restore_activated()
 	player.respawn(respawn_position)
+	# La reaparición suelta primero cualquier objeto. Cada puesto conserva su instancia.
+	for pine in pine_stations:
+		pine.reset_to_spawn()
 	player.invulnerability = 1.5
 	player.controls.block_current_physical()
 	hint_requested.emit("¡Otra oportunidad! Las llaves, hojas y cristales recogidos se conservan en este intento.")
@@ -259,13 +346,21 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player) or player.dead or completed:
 		return
 	seconds += delta
+	if _throw_hint_seconds > 0.0:
+		_throw_hint_seconds = maxf(0.0, _throw_hint_seconds - delta)
+		if is_zero_approx(_throw_hint_seconds) and is_instance_valid(_throw_hint_target) and _throw_hint_target.active:
+			_miss_hints_shown.append(_throw_hint_target.definition.mechanism_id)
+			hint_requested.emit("Acércate a la piña, mira hacia la diana y vuelve a lanzar. Las piñas regresan a su puesto.")
+			_throw_hint_target = null
 	var hints: Dictionary = {
 		350: "Consigue las tres llaves de ramas para abrir la salida. Se recogen al tocarlas.",
 		950: "Toca para coger el barril. Otro toque lo lanza en la dirección que miras.",
 		1490: "Las hojas dibujan el salto sobre el hueco. Puedes caminar o correr.",
-		2240: "Busca llaves también en las plataformas. Sube saltando desde abajo. Los cristales son opcionales.",
-		3650: "La segunda llave está sobre la plataforma, antes del farol. Salta para alcanzarla.",
-		5350: "La piña del bosque también se puede recoger y lanzar.",
+		2240: "Busca llaves también en las plataformas. Los cristales son opcionales. Más adelante practicarás con una piña.",
+		2460: "EL PUENTE DE RAÍCES · Toca para coger la piña. Mira a la diana y toca otra vez para lanzar.",
+		3330: "Activa el farol. Repite el lanzamiento a la segunda diana para abrir el puente hacia la llave 2.",
+		4380: "La llave de ramas 2 está en la plataforma. Puedes volver por los puentes abiertos si falta otra llave.",
+		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
 		6400: "La tercera llave está en la plataforma. Con las tres podrás abrir la puerta del bosque.",
 	}
 	for x in hints:

@@ -33,7 +33,7 @@ var _squash: float = 0.0
 
 func _ready() -> void:
 	collision_layer = 8
-	collision_mask = 1 | 4
+	collision_mask = 1 | 4 | 64
 	_world = get_parent()
 	_spawn_position = global_position
 	var shape := CollisionShape2D.new()
@@ -90,7 +90,7 @@ func release(direction: float, inherited_velocity: Vector2, launch: bool = true)
 	scale = Vector2.ONE
 	state = State.THROWN if launch else State.FREE
 	collision_layer = 8
-	collision_mask = 1 | 4
+	collision_mask = 1 | 4 | 64
 	velocity = Vector2(signf(direction) * definition.launch_speed, -definition.launch_lift) \
 		+ inherited_velocity * 0.25
 	if not launch:
@@ -98,7 +98,8 @@ func release(direction: float, inherited_velocity: Vector2, launch: bool = true)
 	_flight_time = 0.0
 	_bounce_count = 0
 	_grounded = false
-	_return_time = -1.0
+	# Una suelta por daño también debe recuperarse aunque quede apoyada dentro del área.
+	_return_time = respawn_delay if not launch and respawn_delay > 0.0 else -1.0
 	if launch:
 		thrown.emit()
 
@@ -210,7 +211,7 @@ func reset_to_spawn() -> void:
 	velocity = Vector2.ZERO
 	state = State.FREE
 	collision_layer = 8
-	collision_mask = 1 | 4
+	collision_mask = 1 | 4 | 64
 	visible = true
 	_flight_time = 0.0
 	_bounce_count = 0
