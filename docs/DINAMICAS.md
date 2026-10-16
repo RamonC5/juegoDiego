@@ -31,7 +31,25 @@ No fijar los nombres ni las temáticas de los otros siete mundos a partir del ca
 
 Usar [`crear-dinamicas-salto-heroes`](../.agents/skills/crear-dinamicas-salto-heroes/SKILL.md), invocándolo como `$crear-dinamicas-salto-heroes`. Incluye reglas, catálogo, inventario verificado, plantillas JSON y ejemplos de un puente y una ampliación del bosque.
 
-Guardar futuras fichas en `docs/dinamicas/<id>.json` y `docs/niveles/<id>.json`, y enlazarlas aquí. Registrar objetivo, controles, aprendizaje, dependencias, éxito, fallo, recuperación, persistencia, accesibilidad, tiempos y pruebas. Diferenciar siempre propuesta, implementación y evidencia.
+Guardar las fichas en `docs/dinamicas/<id>.json` y los recorridos en `docs/niveles/<id>.json`, y enlazarlos aquí. Registrar objetivo, controles, aprendizaje, dependencias, éxito, fallo, recuperación, persistencia, accesibilidad, tiempos y pruebas. Diferenciar siempre propuesta, implementación y evidencia.
+
+### Primera dinámica del nivel 1 · El puente de raíces
+
+[Diseño del puente de raíces](dinamicas/puente_diana.md) · [Ficha JSON verificable](dinamicas/puente_diana.json).
+
+Aplicación de `crear-dinamicas-salto-heroes` a `world_01_level_01`: aprender a lanzar una piña a una diana en una pasarela segura y aplicar después la misma relación para abrir el puente principal y alcanzar la segunda llave de ramas. Se reutilizan gestos, lanzamientos y pisotón; las dos estaciones enseñan una sola dinámica nueva.
+
+Estado: **propuesta**, contrastada con `main` en el commit `dd5d7891fa421a6c23befe1479421ed38e942f2d`. El diseño detalla reposición local de piñas, retorno, faroles, apertura conservada al morir, accesibilidad y pruebas pendientes. Requiere integrar dianas conectadas a puentes, generalizar faroles y ajustar datos del recorrido. La piña existe, pero el bosque actual no incluye su índice 2 en los puestos; se registra la discrepancia con la pista que menciona una piña donde hay una vasija.
+
+El bloque completo presupuesta **4–5 minutos estimados**, incluidos una sola vez en el futuro recorrido de 18–22 minutos. No acredita el mínimo de 15 minutos de la aventura completa ni incorpora guardado de intentos al cerrar la aplicación.
+
+Validar la ficha desde la raíz del proyecto:
+
+```sh
+python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py docs/dinamicas/puente_diana.json
+```
+
+### Ejemplos del skill
 
 Los [ejemplos de autoría](../.agents/skills/crear-dinamicas-salto-heroes/assets/) están marcados como propuestas. El del bosque presupuesta 18–21,6 minutos principales y excluye sus desvíos opcionales; ese cálculo no acredita duración real.
 
@@ -42,3 +60,4 @@ python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py
 ```
 
 El comprobador usa únicamente Python 3, no modifica archivos y revisa consistencia documental. Para validar un mundo completo, pasar las tres fichas de aventura y la del jefe con `--mundo`. Faltan siempre las comprobaciones físicas, de duración, tacto y rendimiento que aún no se hayan realizado.
+

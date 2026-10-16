@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "tipo": "dinamica",
+  "id": "puente_diana",
+  "nombre": "El puente de raíces",
+  "estado": "propuesta",
+  "fuentes": [
+    {
+      "ruta": "encargo:Juego Diego / primera dinámica del bosque",
+      "revision": "2026-10-16",
+      "observacion": "Aplicar crear-dinamicas-salto-heroes a la primera dinámica del nivel 1; se entrega diseño para un niño de 10 años, sin integrar escenas."
+    },
+    {
+      "ruta": "docs/DINAMICAS.md",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "El nivel world_01_level_01 prevé puente activado por lanzamiento, tres llaves y 18–22 minutos estimados para la aventura completa."
+    },
+    {
+      "ruta": "game/features/player/diego.gd",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "grab_throw recoge o lanza según las manos; la dirección depende de hacia dónde mira Diego. Agacharse impide recoger/lanzar y avanzar."
+    },
+    {
+      "ruta": "game/features/objects/throwable_object.gd",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "Existen can_cause_thrown_damage, receive_thrown_hit, reposición configurable, límites de recuperación y cancelación de reposición al recoger."
+    },
+    {
+      "ruta": "game/features/objects/definitions/pina_bosque.tres",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "Piña del bosque ya definida: lanzamiento horizontal 760, impulso vertical 200 y gravedad 1150; no existe gesto de apuntado libre."
+    },
+    {
+      "ruta": "game/features/objects/throwable_catalog.gd",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "pina_bosque ocupa el índice 2 y vasija_barro el 3."
+    },
+    {
+      "ruta": "game/data/worlds/world_01/level_01.tres",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "Los puestos actuales usan 0, 1, 0, 3 y 0; no incluyen piña. Las tres llaves están en posiciones fijas y la segunda no depende de un puente."
+    },
+    {
+      "ruta": "game/features/player/practice_target.gd",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "Referencia de receptor de impactos y señal completed; es una diana de entrenamiento, sin puente."
+    },
+    {
+      "ruta": "game/features/levels/forest_stage.gd",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "El bosque configura reposición a 4 segundos y límites para sus objetos. Conserva llaves al reaparecer, tiene un solo farol y emite una pista de piña donde hay vasija."
+    },
+    {
+      "ruta": "game/core/services/level_progress.gd",
+      "revision": "dd5d7891fa421a6c23befe1479421ed38e942f2d",
+      "observacion": "Guarda resultados completados; no guarda farol, puente ni llaves de un intento interrumpido."
+    }
+  ],
+  "objetivo": "En world_01_level_01, descubrir que un lanzamiento activa una diana de madera, aprenderlo en una pasarela segura y aplicarlo al puente principal para llegar a la segunda llave de ramas. Es la primera dinámica nueva del bosque; no exige conseguir primero la ranura 1.",
+  "dependencias": [
+    {
+      "id": "lanzamiento_objetos",
+      "estado": "implementada",
+      "detalle": "Reutilizar grab_throw, la piña existente y el contrato de impacto; sin nuevos gestos ni apuntado manual."
+    },
+    {
+      "id": "tres_llaves_puerta",
+      "estado": "implementada",
+      "detalle": "Mantener recogida automática, ranuras únicas y puerta con tres llaves. Ranura visible 2 equivale al índice interno 1."
+    },
+    {
+      "id": "pisoton_patrullas",
+      "estado": "implementada",
+      "detalle": "Terrón y Moflete siguen siendo pisables. Un Terrón después del puente permite practicar lo conocido, fuera de la zona de lanzamiento."
+    },
+    {
+      "id": "reposicion_objetos",
+      "estado": "implementada",
+      "detalle": "ForestStage ya configura respawn_delay=4 y recovery_bounds; reutilizar la entidad y su recuperación."
+    },
+    {
+      "id": "puesto_pinas_local",
+      "estado": "ampliacion",
+      "detalle": "Añadir un puesto por estación con índice 2, suelo propio y límites locales. Una sola piña por puesto; cancelar retorno mientras está sostenida y reponerla si queda fuera del área."
+    },
+    {
+      "id": "conexion_diana_puente",
+      "estado": "propuesta",
+      "detalle": "Crear componente reusable con dos instancias: puente_diana_ensayo y puente_diana_principal. Cada diana acepta un impacto válido, emite una vez su activación y abre solo su puente."
+    },
+    {
+      "id": "recorrido_llave_dos",
+      "estado": "ampliacion",
+      "detalle": "Rediseñar terreno, recuperación, cámara y posición de la segunda llave para que el paso principal use el puente y el retorno siga disponible."
+    },
+    {
+      "id": "faroles_multiples",
+      "estado": "propuesta",
+      "detalle": "Generalizar el farol único para tener uno antes del puente principal y otro tras la llave. El máximo estimado entre ellos es 3 minutos en este bloque; revisar también el tramo de llegada."
+    },
+    {
+      "id": "estado_mecanismos_intento",
+      "estado": "propuesta",
+      "detalle": "Conservar las dos activaciones durante las muertes del mismo intento. Reaparecer reconstruye un puente activado como abierto y seguro."
+    },
+    {
+      "id": "pistas_por_eventos",
+      "estado": "ampliacion",
+      "detalle": "Reutilizar hint_requested al entrar, fallar o acertar; añadir estado local para orientar sin esperas ni repetir mensajes continuamente."
+    }
+  ],
+  "controles": {
+    "tactil": "Arrastrar en la zona de movimiento para situarse y mirar a la diana; soltar para frenar. Toque corto en la zona de acción para coger y otro para lanzar. Deslizar arriba para saltar después; respetar lados intercambiables y multitoque. No tocar la diana, arrastrar una trayectoria ni mantener abajo durante el lanzamiento.",
+    "teclado": "A/D o flechas para colocarse y orientar a Diego; E (acción grab_throw reasignable) para coger y lanzar. Espacio para los saltos del recorrido. No exige combinaciones nuevas.",
+    "mando": "Eje horizontal o cruceta para moverse y orientar; acción grab_throw (botón de índice 2 en el mapa actual) para coger/lanzar y jump para saltar. Mostrar indicaciones de acciones sin asumir letras iguales entre mandos."
+  },
+  "aprendizaje": {
+    "presentacion": "Lectura y aproximación, 0,5–0,75 min: mostrar puesto de piñas, diana, raíz conectada y destino en una vista estable, sobre suelo seguro. Pistas: «Toca para coger la piña» y después «Mira a la diana y toca para lanzar».",
+    "practica": "Ensayo seguro, 1–1,25 min: activar puente_diana_ensayo con una diana fija amplia y una pasarela baja sobre suelo de recuperación. Un acierto abre el paso a la estación principal. Si la geometría permite saltársela, corregir el trazado antes de integrar. La práctica no se basa en fallos obligatorios.",
+    "combinacion": "Puente principal, 1,25–1,5 min: activar un farol, recoger otra piña y abrir puente_diana_principal desde tierra firme, con una distancia algo mayor y sin enemigo simultáneo. Cruzar y resolver después una patrulla pisable y saltos amplios para tocar la llave 2, 1,25–1,5 min. Estos cuatro tramos suman 4–5 min exclusivos estimados."
+  },
+  "reglas": {
+    "activacion": "Cada diana valida un ThrowableObject lanzado mediante can_cause_thrown_damage y que su mechanism_id sigue cerrado. Aceptar cualquier arrojadizo válido; las piñas están garantizadas, pero llevar un barril no impide resolver el reto. Rechazar objetos sostenidos, apoyados, impactos sin velocidad válida y pisotones.",
+    "exito": "Un único acierto por mecanismo inicia cerrado → desplegando → abierto. Publicar «Puente abierto» solo al estar disponible su colisión. Una vez abierto no se cierra durante ese intento. Conseguir la llave visible 2 al tocarla; aporta una sola ranura y no completa el nivel sin las otras dos.",
+    "fallo": "Fallar un lanzamiento no causa daño ni elimina llaves. La diana sigue pendiente y la piña queda recuperable o vuelve a su puesto. Caer en la práctica lleva a suelo seguro; una caída mortal posterior vuelve al farol con las activaciones y las llaves conservadas según el nuevo estado previsto.",
+    "recuperacion": "En cada puesto garantizar exactamente una piña: recuperable tras asentarse con reposición a 4 segundos, retorno al salir de límites locales y sin reposición mientras se sostiene. No copiarla ni acumular instancias. Mantener suelo libre en el puesto, rutas de vuelta desde ambos extremos y un farol antes del puente principal. Si se muere durante el despliegue, restaurar ese mecanismo abierto antes de habilitar al jugador. Pausa y pérdida de foco detienen despliegue, pistas y temporizadores."
+  },
+  "feedback": [
+    "La silueta circular con anillos identifica la diana; una raíz visible la conecta con la pasarela. No depender solo del verde o del sonido.",
+    "Al recoger aparece la piña en las manos. Al acertar, la diana se hunde y muestra una marca de acierto permanente, sin destellos.",
+    "Despliegue visual suave de aproximadamente 0,6 segundos con el jugador fuera del área de colisión; el puente nunca necesita transportar a Diego mientras se mueve.",
+    "Al quedar transitable aparece «Puente abierto». La cámara conserva al jugador, la diana y la llegada; no fuerza una cinemática ni un salto ciego.",
+    "Al tocar la recompensa: «Llave de ramas 2 · X / 3», con X tomado del contador real; no asumir que ya se consiguió la primera.",
+    "Pista ante fallo: «Acércate, mira a la diana y vuelve a lanzar». Ante manos vacías, señalar el puesto con icono y texto; sin esperar un temporizador de ayuda."
+  ],
+  "recompensa": "Acceso por el puente principal a la llave de ramas de la ranura visible 2, con su variante existente y número. Se recoge automáticamente y deja las manos libres. Hojas, cristal y un lanzamiento de maestría opcional no condicionan la llave ni la salida.",
+  "minutos_estimados": [
+    4,
+    5
+  ],
+  "dificultad": "Inicial para 10 años: dos aplicaciones de la misma dinámica, dianas fijas y amplias, lanzamientos desde parado y desde suelo firme, sin cuenta atrás ni puntería analógica. Como punto de partida de blockout, diana de 128 × 128 unidades lógicas y centro cercano a la altura de la mano; separar 180–240 unidades en el ensayo y 240–300 en la principal. Verificar con animación y física reales. Evitar saltos simultáneos al lanzamiento; situar el enemigo después y conservar el pisotón. Si la primera partida resuelve el bloque antes de la estimación, registrarlo y ajustar el contenido del nivel, sin añadir esperas.",
+  "persistencia": {
+    "al_morir": "Previsto: conservar puente_diana_ensayo y puente_diana_principal activados y llaves del intento, incluso si se resolvieron después del último farol. Restaurar una apertura interrumpida como puente abierto y reaparecer sobre suelo seguro. Actualmente solo están implementadas la conservación de llaves y la reaparición en un farol; el estado de puentes y múltiples faroles es nuevo.",
+    "al_cerrar": "Comportamiento actual: un cierre real pierde el intento y sus mecanismos; solo se conservan resultados ya completados y ajustes. Esta dinámica no promete continuar otro día. Guardado de intentos versionado queda como mejora transversal separada, pendiente antes de anunciar esa capacidad.",
+    "al_rejugar": "Cerrar ambos puentes, rearmar dianas, reponer piñas y las tres llaves al reiniciar o rejugar el nivel; conservar mejores resultados y desbloqueos. No persistir estas aperturas como progreso de nivel completado."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Dianas con anillos y conexión física visible, marcas de acierto y textos de estado. Llave con variante de ramas y número 2, y ranuras numeradas en HUD.",
+    "equivalencia_visual_sonora": "Toda activación y recuperación debe entenderse con audio silenciado. El proyecto aún no tiene audio; un futuro golpe o crujido será complementario y nunca necesario.",
+    "legibilidad_movil": "Comprobar Android horizontal, tablet Windows, vista base 1280 × 720 y pantallas anchas. Respetar zona segura; textos breves con fondo contrastado, lectura estable y fuera de las zonas cubiertas por los pulgares. No exigir distinguir diana y llaves por color.",
+    "ajustes_control": "Conservar sensibilidad, lados intercambiables, salto completo, carrera opcional, reasignación y foco visible. Mantener recepción amplia y quieta, pausa accesible y ausencia de sacudidas o parpadeos."
+  },
+  "validacion": {
+    "funcional": [
+      "Activación: un impacto válido abre solo el mecanismo asociado; sostenidos, apoyados, lentos y pisotones no lo abren. Un barril válido también lo resuelve. Rechazar duplicados y emitir activación una sola vez.",
+      "Reposición: lanzar a ambos lados, dejar asentar, perder fuera de límites, recibir daño llevando la piña y morir deja exactamente una piña disponible por puesto. La piña sostenida no reaparece ni se duplica.",
+      "Colisiones: desplegar antes de habilitar el paso, sin crear suelo dentro de Diego. Morir o pausar a mitad de despliegue conserva una solución segura. Una apertura completada no se cierra al reaparecer.",
+      "Llaves: la recompensa usa el índice interno 1 y suma una sola vez; funciona si las ranuras 1 y 3 siguen pendientes. Con dos llaves la salida continúa cerrada; con las tres finaliza una sola vez.",
+      "Recorrido: volver de la llave 2 a la 1 y a la salida sigue siendo posible. Un objeto transportado no bloquea el paso ni sustituye una llave.",
+      "Pausa y foco: congelar movimiento visual, colisión pendiente y reposición; reanudar no consume un grab_throw retenido. Revisar teclado, mando y dos contactos táctiles.",
+      "Cierre real de la aplicación: comprobar que el intento se reinicia conforme al comportamiento documentado y se mantienen los resultados anteriores. Rejugar rearma las dos dianas sin borrar mejores marcas."
+    ],
+    "jugando": [
+      "Primera partida del perfil objetivo: observar si identifica piña → diana → puente con las pistas breves; registrar ayudas y no adelantar la solución con instrucciones verbales.",
+      "Recorrer ambas estaciones con movimiento y lanzamientos reales. Verificar que ninguna puede eludirse por salto, rebote sobre enemigo o plataformas alternativas obligatorias, y que el regreso a cada llave está disponible.",
+      "Medir por separado las cuatro fases, sin pausas, cargas, cinemáticas, secretos ni repeticiones por derrota. Registrar muestras anónimas; 4–5 minutos sigue siendo una estimación hasta entonces.",
+      "Revisar Android y Windows táctiles: lados intercambiados, carrera activada/desactivada, salto completo y diana visible con ambos pulgares en pantalla. Comprobar lectura con sonido silenciado.",
+      "Medir la aventura completa antes de afirmar al menos 15 minutos. Este bloque se cuenta una sola vez dentro del objetivo 18–22; no demuestra la duración del bosque actual.",
+      "Verificar estabilidad y objetivo de 60 FPS en dispositivos físicos; la consistencia JSON no acredita tacto, diversión, rendimiento ni accesibilidad completa."
+    ],
+    "evidencias": []
+  }
+}
+
