@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "object_id": "pina_bosque",
+  "display_name": "Piña del bosque",
+  "design_status": "proposed",
+  "world_ids": [],
+  "role": "throwable",
+  "texture": "game/assets/textures/objects/pina_bosque/idle_v001.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_sha256": "da14ecc727f930c3cf5a7a73eb5a658876cde367b0636e8ff28fd662998910ba",
+  "import_max_size": 256,
+  "normalized_region": [
+    0.18022328548644337,
+    0.037480063795853266,
+    0.6746411483253588,
+    0.9346092503987241
+  ],
+  "display_width_px": 32,
+  "collision_radius_px": 14,
+  "animation": {
+    "sprite_frames": 1,
+    "runtime_motion": [
+      "rotation_in_flight",
+      "ground_motion",
+      "bounce_squash_if_applicable"
+    ],
+    "break_effect": null
+  },
+  "generation": {
+    "tool": "image_gen",
+    "prompt_file": "art/objects/pina_bosque/prompts.md",
+    "style_reference": "art/characters/diego/preview_clean.png",
+    "reference_role": "polished game finish only",
+    "transparent_background": true,
+    "requested_canvas": [
+      1024,
+      1024
+    ],
+    "actual_canvas": [
+      1254,
+      1254
+    ]
+  },
+  "validation": {
+    "rgba_and_alpha": true,
+    "raw_four_pixel_margin_check": false,
+    "margin_note": "Low-alpha residual pixels touch the raw canvas edge. A normalized region and the existing hero shader (smoothstep 0.13, 0.40) remove them at runtime; original alpha is preserved.",
+    "technical_report": "art/objects/pina_bosque/qa-technical.json",
+    "strict_margin_report": "art/objects/pina_bosque/qa-strict-margins.json",
+    "godot_tests": "tools/tests/test_throwables.gd",
+    "pending": [
+      "physical Android device",
+      "physical Windows tablet"
+    ],
+    "visual_review": "art/objects/qa.md",
+    "screenshots": [
+      "art/objects/preview_catalog.png",
+      "art/objects/preview_gameplay.png",
+      "art/objects/preview_carry.png",
+      "art/objects/preview_tablet.png"
+    ]
+  },
+  "integration_status": "godot_checked",
+  "tuning": {
+    "id": "pina_bosque",
+    "name": "Piña del bosque",
+    "description": "Ligera y rápida, con un rebote corto.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "raw_alpha_bounds": [
+      0,
+      31,
+      1240,
+      1220
+    ],
+    "visible_alpha_bounds_at_32": [
+      234,
+      55,
+      1064,
+      1211
+    ],
+    "art_region": [
+      0.18022328548644337,
+      0.037480063795853266,
+      0.6746411483253588,
+      0.9346092503987241
+    ],
+    "display_width": 32,
+    "collision_radius": 14,
+    "launch_speed": 760,
+    "launch_lift": 200,
+    "gravity": 1150,
+    "flight_seconds": 3,
+    "ground_behavior": 3,
+    "ground_drag": 360,
+    "maximum_bounces": 1,
+    "restitution": 0.42,
+    "spin_speed": 14,
+    "break_on_impact": false
+  }
+}

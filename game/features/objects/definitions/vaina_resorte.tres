@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ThrowableDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/objects/throwable_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/objects/vaina_resorte/idle_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+object_id = &"vaina_resorte"
+display_name = "Vaina resorte"
+description = "Describe un arco alto y puede rebotar tres veces."
+texture = ExtResource("2")
+art_region = Rect2(0.098086124, 0.098086124, 0.852472089, 0.759170654)
+display_width = 48
+collision_radius = 16
+launch_speed = 660
+launch_lift = 300
+gravity = 1050
+flight_seconds = 5
+ground_behavior = 3
+ground_drag = 360
+maximum_bounces = 3
+restitution = 0.72
+spin_speed = 12
+break_on_impact = false

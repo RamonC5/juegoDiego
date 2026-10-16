@@ -1,0 +1,14 @@
+{
+  "object_id": "pina_bosque",
+  "role": "throwable",
+  "design_status": "proposed",
+  "confirmed_requirements": [
+    "raster 2D side view",
+    "Android and Windows",
+    "Diego picks up and throws the object",
+    "original art with readable mobile silhouette"
+  ],
+  "proposed_behavior": "Ligera y rápida, con un rebote corto.",
+  "world_ids": [],
+  "texture": "game/assets/textures/objects/pina_bosque/idle_v001.png"
+}

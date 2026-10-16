@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ThrowableDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/objects/throwable_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/objects/canto_rio/idle_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+object_id = &"canto_rio"
+display_name = "Canto de río"
+description = "Pesado: arco corto y se detiene al caer."
+texture = ExtResource("2")
+art_region = Rect2(0.038277512, 0.211323764, 0.925837321, 0.626794258)
+display_width = 40
+collision_radius = 14
+launch_speed = 460
+launch_lift = 250
+gravity = 1550
+flight_seconds = 3
+ground_behavior = 0
+ground_drag = 600
+maximum_bounces = 0
+restitution = 0.3
+spin_speed = 4
+break_on_impact = false

@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "object_id": "canto_rio",
+  "display_name": "Canto de río",
+  "design_status": "proposed",
+  "world_ids": [],
+  "role": "throwable",
+  "texture": "game/assets/textures/objects/canto_rio/idle_v001.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_sha256": "ef36e8b1026e3bdd58f67c791a351295739e2e391ccee39d6c1d77f5bdf956a3",
+  "import_max_size": 256,
+  "normalized_region": [
+    0.03827751196172249,
+    0.2113237639553429,
+    0.9258373205741627,
+    0.6267942583732058
+  ],
+  "display_width_px": 40,
+  "collision_radius_px": 14,
+  "animation": {
+    "sprite_frames": 1,
+    "runtime_motion": [
+      "rotation_in_flight",
+      "ground_motion",
+      "bounce_squash_if_applicable"
+    ],
+    "break_effect": null
+  },
+  "generation": {
+    "tool": "image_gen",
+    "prompt_file": "art/objects/canto_rio/prompts.md",
+    "style_reference": "art/characters/diego/preview_clean.png",
+    "reference_role": "polished game finish only",
+    "transparent_background": true,
+    "requested_canvas": [
+      1024,
+      1024
+    ],
+    "actual_canvas": [
+      1254,
+      1254
+    ]
+  },
+  "validation": {
+    "rgba_and_alpha": true,
+    "raw_four_pixel_margin_check": false,
+    "margin_note": "Low-alpha residual pixels touch the raw canvas edge. A normalized region and the existing hero shader (smoothstep 0.13, 0.40) remove them at runtime; original alpha is preserved.",
+    "technical_report": "art/objects/canto_rio/qa-technical.json",
+    "strict_margin_report": "art/objects/canto_rio/qa-strict-margins.json",
+    "godot_tests": "tools/tests/test_throwables.gd",
+    "pending": [
+      "physical Android device",
+      "physical Windows tablet"
+    ],
+    "visual_review": "art/objects/qa.md",
+    "screenshots": [
+      "art/objects/preview_catalog.png",
+      "art/objects/preview_gameplay.png",
+      "art/objects/preview_carry.png",
+      "art/objects/preview_tablet.png"
+    ]
+  },
+  "integration_status": "godot_checked",
+  "tuning": {
+    "id": "canto_rio",
+    "name": "Canto de río",
+    "description": "Pesado: arco corto y se detiene al caer.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "raw_alpha_bounds": [
+      0,
+      19,
+      1238,
+      1254
+    ],
+    "visible_alpha_bounds_at_32": [
+      56,
+      273,
+      1201,
+      1043
+    ],
+    "art_region": [
+      0.03827751196172249,
+      0.2113237639553429,
+      0.9258373205741627,
+      0.6267942583732058
+    ],
+    "display_width": 40,
+    "collision_radius": 14,
+    "launch_speed": 460,
+    "launch_lift": 250,
+    "gravity": 1550,
+    "flight_seconds": 3,
+    "ground_behavior": 0,
+    "ground_drag": 600,
+    "maximum_bounces": 0,
+    "restitution": 0.3,
+    "spin_speed": 4,
+    "break_on_impact": false
+  }
+}

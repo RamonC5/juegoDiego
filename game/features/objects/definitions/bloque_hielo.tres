@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ThrowableDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/objects/throwable_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/objects/bloque_hielo/idle_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+object_id = &"bloque_hielo"
+display_name = "Bloque de hielo"
+description = "Cae y se desliza por el suelo."
+texture = ExtResource("2")
+art_region = Rect2(0.087719298, 0.102870813, 0.839712919, 0.826156300)
+display_width = 42
+collision_radius = 18
+launch_speed = 640
+launch_lift = 140
+gravity = 1150
+flight_seconds = 4
+ground_behavior = 2
+ground_drag = 28
+maximum_bounces = 0
+restitution = 0.2
+spin_speed = 2
+break_on_impact = false

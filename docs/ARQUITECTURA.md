@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` compone la primera prueba jugable de Diego: cuerpo 2D, entrada, 13 estados de animación, sensores, objeto de práctica, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. No hay autoloads, mundos, niveles definitivos, progreso ni audio. Los seis enemigos siguen como conceptos de autoría. Se conserva el icono provisional SH.
+`game/boot/main.tscn` compone la primera prueba jugable de Diego: cuerpo 2D, entrada, 13 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. No hay autoloads, mundos, niveles definitivos, progreso ni audio. Los seis enemigos siguen como conceptos de autoría. Se conserva el icono provisional SH.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -66,6 +66,16 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 | Progreso | Un servicio conserva desbloqueos y mejores resultados por identificador de nivel |
 
 El protagonista implementa entrada y movimiento; `StompTarget` valida descenso desde arriba y `ThrowableObject` distingue libre, recogido y lanzado. Las dianas responden mediante referencias y señales explícitas. Las opciones se guardan en `user://controls.cfg`, separadas del futuro progreso. Energía, velocidades y tiempos del prototipo son editables; no fijan dificultad definitiva ni patrones de jefes. [Detalles](PROTAGONISTA.md).
+
+## Objetos arrojadizos integrados
+
+El [catálogo de objetos](OBJETOS_ARROJADIZOS.md) incorpora seis recursos `ThrowableDefinition` bajo `game/features/objects/definitions/`. `ThrowableCatalog` conserva su orden e identificadores. `ThrowableObject` combina esos datos con una textura raster, una colisión independiente y los estados libre, sostenido, lanzado y roto. La suelta sigue usando el marcador de la animación de Diego.
+
+Los barridos `move_and_collide` conservan el remanente de movimiento al rodar, deslizar o rebotar. `can_cause_thrown_damage()` exige lanzamiento activo, tiempo válido y velocidad suficiente; el receptor decide su vulnerabilidad mediante `receive_thrown_hit`. El primer receptor consume el lanzamiento. Las dianas prueban este contrato; todavía no hay jefes ni resistencias elementales.
+
+El entrenamiento ofrece los seis objetos en el primer tramo y activa una reposición a los tres segundos de agotarse o romperse; recogerlos cancela ese temporizador. Salir de su área los devuelve al puesto original. La reposición periódica y el área de recuperación están desactivadas por defecto en la escena reutilizable. El entrenamiento asigna su propio rectángulo; los niveles futuros definirán sus límites sin coordenadas fijas en la entidad.
+
+Las imágenes finales están en `game/assets/textures/objects/<id>/idle_v001.png`. Godot limita su importación a 256 × 256, sin mipmaps, y aplica el mismo recorte suave de alfa del protagonista. Las regiones normalizadas mantienen el encuadre al cambiar el tamaño de importación. Fichas, prompts, metadatos y evidencias están en `art/objects/`, fuera del APK. Nombres y balance son propuestas; no se asignan temáticas a los ocho mundos.
 
 ## Ocho mundos y niveles rejugables
 
@@ -134,7 +144,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 55 pruebas de comportamiento del protagonista y los controles antes de exportar el entrenamiento. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 55 pruebas de comportamiento del protagonista y los controles, además de 63 de los objetos arrojadizos antes de exportar el entrenamiento. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -142,3 +152,4 @@ El flujo ejecuta 55 pruebas de comportamiento del protagonista y los controles a
 - [Comparación oficial de renderizadores](https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html).
 - [Exportar a Android](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 - [Exportar a Windows](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_windows.html).
+

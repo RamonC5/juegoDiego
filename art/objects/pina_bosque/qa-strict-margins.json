@@ -1,0 +1,33 @@
+{
+  "path": "/workspace/scratch/0617c7128f2f/juegoDiego/game/assets/textures/objects/pina_bosque/idle_v001.png",
+  "ok": false,
+  "errors": [
+    "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "alpha_bounds": [
+        0,
+        31,
+        1240,
+        1220
+      ],
+      "minimum_padding": 0
+    }
+  ],
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "grid": [
+    1,
+    1
+  ],
+  "frame_size": [
+    1254,
+    1254
+  ],
+  "active_frames": 1
+}

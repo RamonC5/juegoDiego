@@ -1,0 +1,14 @@
+{
+  "object_id": "barril_raices",
+  "role": "throwable",
+  "design_status": "proposed",
+  "confirmed_requirements": [
+    "raster 2D side view",
+    "Android and Windows",
+    "Diego picks up and throws the object",
+    "original art with readable mobile silhouette"
+  ],
+  "proposed_behavior": "Rueda por el suelo después de caer.",
+  "world_ids": [],
+  "texture": "game/assets/textures/objects/barril_raices/idle_v001.png"
+}

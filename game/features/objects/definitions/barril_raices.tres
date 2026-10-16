@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ThrowableDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/objects/throwable_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/objects/barril_raices/idle_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+object_id = &"barril_raices"
+display_name = "Barril de raíces"
+description = "Rueda por el suelo después de caer."
+texture = ExtResource("2")
+art_region = Rect2(0.075757576, 0.158692185, 0.851674641, 0.698564593)
+display_width = 48
+collision_radius = 18
+launch_speed = 580
+launch_lift = 150
+gravity = 1200
+flight_seconds = 4
+ground_behavior = 1
+ground_drag = 70
+maximum_bounces = 0
+restitution = 0.5
+spin_speed = 9
+break_on_impact = false

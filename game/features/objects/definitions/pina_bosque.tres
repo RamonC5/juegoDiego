@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ThrowableDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/objects/throwable_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/objects/pina_bosque/idle_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+object_id = &"pina_bosque"
+display_name = "Piña del bosque"
+description = "Ligera y rápida, con un rebote corto."
+texture = ExtResource("2")
+art_region = Rect2(0.180223285, 0.037480064, 0.674641148, 0.934609250)
+display_width = 32
+collision_radius = 14
+launch_speed = 760
+launch_lift = 200
+gravity = 1150
+flight_seconds = 3
+ground_behavior = 3
+ground_drag = 360
+maximum_bounces = 1
+restitution = 0.42
+spin_speed = 14
+break_on_impact = false

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ThrowableDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/features/objects/throwable_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/objects/vasija_barro/idle_v001.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+object_id = &"vasija_barro"
+display_name = "Vasija de barro"
+description = "Se rompe al chocar después de lanzarla."
+texture = ExtResource("2")
+art_region = Rect2(0.106060606, 0.110047847, 0.787878788, 0.808612440)
+display_width = 40
+collision_radius = 17
+launch_speed = 600
+launch_lift = 230
+gravity = 1200
+flight_seconds = 4
+ground_behavior = 0
+ground_drag = 500
+maximum_bounces = 0
+restitution = 0.3
+spin_speed = 6
+break_on_impact = true

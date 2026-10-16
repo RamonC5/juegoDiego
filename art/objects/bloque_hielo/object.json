@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "object_id": "bloque_hielo",
+  "display_name": "Bloque de hielo",
+  "design_status": "proposed",
+  "world_ids": [],
+  "role": "throwable",
+  "texture": "game/assets/textures/objects/bloque_hielo/idle_v001.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_sha256": "f81f9ddf43ba41d9a0c0d4d7df4e0d79b3b130e8295200a72a4cc1597ec0840e",
+  "import_max_size": 256,
+  "normalized_region": [
+    0.08771929824561403,
+    0.10287081339712918,
+    0.8397129186602871,
+    0.8261562998405104
+  ],
+  "display_width_px": 42,
+  "collision_radius_px": 18,
+  "animation": {
+    "sprite_frames": 1,
+    "runtime_motion": [
+      "rotation_in_flight",
+      "ground_motion",
+      "bounce_squash_if_applicable"
+    ],
+    "break_effect": null
+  },
+  "generation": {
+    "tool": "image_gen",
+    "prompt_file": "art/objects/bloque_hielo/prompts.md",
+    "style_reference": "art/characters/diego/preview_clean.png",
+    "reference_role": "polished game finish only",
+    "transparent_background": true,
+    "requested_canvas": [
+      1024,
+      1024
+    ],
+    "actual_canvas": [
+      1254,
+      1254
+    ]
+  },
+  "validation": {
+    "rgba_and_alpha": true,
+    "raw_four_pixel_margin_check": false,
+    "margin_note": "Low-alpha residual pixels touch the raw canvas edge. A normalized region and the existing hero shader (smoothstep 0.13, 0.40) remove them at runtime; original alpha is preserved.",
+    "technical_report": "art/objects/bloque_hielo/qa-technical.json",
+    "strict_margin_report": "art/objects/bloque_hielo/qa-strict-margins.json",
+    "godot_tests": "tools/tests/test_throwables.gd",
+    "pending": [
+      "physical Android device",
+      "physical Windows tablet"
+    ],
+    "visual_review": "art/objects/qa.md",
+    "screenshots": [
+      "art/objects/preview_catalog.png",
+      "art/objects/preview_gameplay.png",
+      "art/objects/preview_carry.png",
+      "art/objects/preview_tablet.png"
+    ]
+  },
+  "integration_status": "godot_checked",
+  "tuning": {
+    "id": "bloque_hielo",
+    "name": "Bloque de hielo",
+    "description": "Cae y se desliza por el suelo.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "raw_alpha_bounds": [
+      0,
+      0,
+      1232,
+      1254
+    ],
+    "visible_alpha_bounds_at_32": [
+      118,
+      137,
+      1155,
+      1157
+    ],
+    "art_region": [
+      0.08771929824561403,
+      0.10287081339712918,
+      0.8397129186602871,
+      0.8261562998405104
+    ],
+    "display_width": 42,
+    "collision_radius": 18,
+    "launch_speed": 640,
+    "launch_lift": 140,
+    "gravity": 1150,
+    "flight_seconds": 4,
+    "ground_behavior": 2,
+    "ground_drag": 28,
+    "maximum_bounces": 0,
+    "restitution": 0.2,
+    "spin_speed": 2,
+    "break_on_impact": false
+  }
+}

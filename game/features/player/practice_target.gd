@@ -41,7 +41,7 @@ func _ready() -> void:
 
 
 func receive_thrown_hit(object: ThrowableObject) -> void:
-	if kind == &"throw" and object.state == ThrowableObject.State.THROWN:
+	if kind == &"throw" and object.can_cause_thrown_damage():
 		_complete()
 
 
@@ -69,3 +69,4 @@ func _draw() -> void:
 	else:
 		draw_line(Vector2(-20, -height/2), Vector2(-4, -height/2+12), Color("23474a"), 5.0)
 		draw_line(Vector2(-4, -height/2+12), Vector2(23, -height/2-14), Color("23474a"), 5.0)
+

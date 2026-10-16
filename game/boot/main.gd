@@ -22,6 +22,7 @@ var _remap_buttons: Dictionary = {}
 var _waiting_action: StringName = &""
 var _key_hint: Label
 var _check_boxes: Dictionary = {}
+var _last_held_object: ThrowableObject
 
 
 func _ready() -> void:
@@ -43,9 +44,7 @@ func _ready() -> void:
 	_camera.limit_top = -200
 	_camera.limit_bottom = 1100
 	add_child(_camera)
-	var ball := ThrowableObject.new()
-	ball.position = Vector2(330, 470)
-	stage.add_child(ball)
+	_add_throwable_objects(stage)
 	for spec in [[&"throw", Vector2(520, 500)], [&"stomp", Vector2(730, 500)]]:
 		var target := StaticBody2D.new()
 		target.set_script(TARGET_SCRIPT)
@@ -66,6 +65,37 @@ func _process(_delta: float) -> void:
 	if is_instance_valid(player):
 		var half_width: float = get_viewport_rect().size.x / 2.0
 		_camera.position.x = clampf(player.position.x, half_width, maxf(half_width, 2900.0-half_width))
+		if player.held_object != _last_held_object:
+			_last_held_object = player.held_object
+			if is_instance_valid(_last_held_object):
+				_message.text = "%s · %s Toque corto o %s para lanzar." % [
+					_last_held_object.definition.display_name, _last_held_object.definition.description,
+					settings.key_label(&"grab_throw")]
+			else:
+				_message.text = "Prueba los seis objetos. Los usados reaparecen en su puesto."
+
+
+func _add_throwable_objects(stage: Node2D) -> void:
+	const POSITIONS: Array[float] = [270.0, 360.0, 450.0, 590.0, 660.0, 840.0]
+	for index in ThrowableCatalog.DEFINITIONS.size():
+		var object := ThrowableObject.new()
+		object.definition = ThrowableCatalog.DEFINITIONS[index]
+		object.position = Vector2(POSITIONS[index], 470)
+		object.respawn_delay = 3.0
+		object.recovery_bounds = Rect2(-200, -600, 3600, 1800)
+		stage.add_child(object)
+		object.broken.connect(func():
+			_message.text = "Vasija rota. Volverá a su puesto en 3 segundos."
+		)
+		var caption := Label.new()
+		caption.text = object.definition.display_name
+		caption.position = Vector2(POSITIONS[index] - 62.0, 540.0 + (index % 2) * 60.0)
+		caption.size = Vector2(124, 52)
+		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		caption.add_theme_font_size_override("font_size", 20)
+		caption.add_theme_color_override("font_color", Color("fff1cc"))
+		stage.add_child(caption)
 
 
 func _add_goal(stage: Node2D) -> void:
@@ -141,7 +171,7 @@ func _build_ui() -> void:
 	pause_button.custom_minimum_size = Vector2(114, 58)
 	row.add_child(pause_button)
 	_message = Label.new()
-	_message.text = "Entrenamiento: muévete, salta y prueba a coger y lanzar la esfera."
+	_message.text = "Prueba seis objetos: toque corto para coger o lanzar. Teclado: %s." % settings.key_label(&"grab_throw")
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	header.add_child(_message)
 	touch = HeroTouchControls.new()
@@ -340,3 +370,4 @@ func _restart() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(touch):
 		_open_menu("Partida en pausa", not player.dead)
+

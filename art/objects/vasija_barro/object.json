@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "object_id": "vasija_barro",
+  "display_name": "Vasija de barro",
+  "design_status": "proposed",
+  "world_ids": [],
+  "role": "throwable",
+  "texture": "game/assets/textures/objects/vasija_barro/idle_v001.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_sha256": "a7d79e416e1a3eb66b4eb89577c14808cd243a3480260b81c54f0d4e6c966b80",
+  "import_max_size": 256,
+  "normalized_region": [
+    0.10606060606060606,
+    0.11004784688995216,
+    0.7878787878787878,
+    0.8086124401913876
+  ],
+  "display_width_px": 40,
+  "collision_radius_px": 17,
+  "animation": {
+    "sprite_frames": 1,
+    "runtime_motion": [
+      "rotation_in_flight",
+      "ground_motion",
+      "bounce_squash_if_applicable"
+    ],
+    "break_effect": "hide_and_disable_collision"
+  },
+  "generation": {
+    "tool": "image_gen",
+    "prompt_file": "art/objects/vasija_barro/prompts.md",
+    "style_reference": "art/characters/diego/preview_clean.png",
+    "reference_role": "polished game finish only",
+    "transparent_background": true,
+    "requested_canvas": [
+      1024,
+      1024
+    ],
+    "actual_canvas": [
+      1254,
+      1254
+    ]
+  },
+  "validation": {
+    "rgba_and_alpha": true,
+    "raw_four_pixel_margin_check": false,
+    "margin_note": "Low-alpha residual pixels touch the raw canvas edge. A normalized region and the existing hero shader (smoothstep 0.13, 0.40) remove them at runtime; original alpha is preserved.",
+    "technical_report": "art/objects/vasija_barro/qa-technical.json",
+    "strict_margin_report": "art/objects/vasija_barro/qa-strict-margins.json",
+    "godot_tests": "tools/tests/test_throwables.gd",
+    "pending": [
+      "physical Android device",
+      "physical Windows tablet"
+    ],
+    "visual_review": "art/objects/qa.md",
+    "screenshots": [
+      "art/objects/preview_catalog.png",
+      "art/objects/preview_gameplay.png",
+      "art/objects/preview_carry.png",
+      "art/objects/preview_tablet.png"
+    ]
+  },
+  "integration_status": "godot_checked",
+  "tuning": {
+    "id": "vasija_barro",
+    "name": "Vasija de barro",
+    "description": "Se rompe al chocar después de lanzarla.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "raw_alpha_bounds": [
+      0,
+      15,
+      1234,
+      1254
+    ],
+    "visible_alpha_bounds_at_32": [
+      141,
+      146,
+      1113,
+      1144
+    ],
+    "art_region": [
+      0.10606060606060606,
+      0.11004784688995216,
+      0.7878787878787878,
+      0.8086124401913876
+    ],
+    "display_width": 40,
+    "collision_radius": 17,
+    "launch_speed": 600,
+    "launch_lift": 230,
+    "gravity": 1200,
+    "flight_seconds": 4,
+    "ground_behavior": 0,
+    "ground_drag": 500,
+    "maximum_bounces": 0,
+    "restitution": 0.3,
+    "spin_speed": 6,
+    "break_on_impact": true
+  }
+}

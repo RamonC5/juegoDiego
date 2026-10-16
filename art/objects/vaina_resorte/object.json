@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "object_id": "vaina_resorte",
+  "display_name": "Vaina resorte",
+  "design_status": "proposed",
+  "world_ids": [],
+  "role": "throwable",
+  "texture": "game/assets/textures/objects/vaina_resorte/idle_v001.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_sha256": "367cb5a1a5abdfdf725fc787ac39a9ed0b4c026c5308e0b18c8e1084bac381a5",
+  "import_max_size": 256,
+  "normalized_region": [
+    0.09808612440191387,
+    0.09808612440191387,
+    0.8524720893141946,
+    0.759170653907496
+  ],
+  "display_width_px": 48,
+  "collision_radius_px": 16,
+  "animation": {
+    "sprite_frames": 1,
+    "runtime_motion": [
+      "rotation_in_flight",
+      "ground_motion",
+      "bounce_squash_if_applicable"
+    ],
+    "break_effect": null
+  },
+  "generation": {
+    "tool": "image_gen",
+    "prompt_file": "art/objects/vaina_resorte/prompts.md",
+    "style_reference": "art/characters/diego/preview_clean.png",
+    "reference_role": "polished game finish only",
+    "transparent_background": true,
+    "requested_canvas": [
+      1024,
+      1024
+    ],
+    "actual_canvas": [
+      1254,
+      1254
+    ]
+  },
+  "validation": {
+    "rgba_and_alpha": true,
+    "raw_four_pixel_margin_check": false,
+    "margin_note": "Low-alpha residual pixels touch the raw canvas edge. A normalized region and the existing hero shader (smoothstep 0.13, 0.40) remove them at runtime; original alpha is preserved.",
+    "technical_report": "art/objects/vaina_resorte/qa-technical.json",
+    "strict_margin_report": "art/objects/vaina_resorte/qa-strict-margins.json",
+    "godot_tests": "tools/tests/test_throwables.gd",
+    "pending": [
+      "physical Android device",
+      "physical Windows tablet"
+    ],
+    "visual_review": "art/objects/qa.md",
+    "screenshots": [
+      "art/objects/preview_catalog.png",
+      "art/objects/preview_gameplay.png",
+      "art/objects/preview_carry.png",
+      "art/objects/preview_tablet.png"
+    ]
+  },
+  "integration_status": "godot_checked",
+  "tuning": {
+    "id": "vaina_resorte",
+    "name": "Vaina resorte",
+    "description": "Describe un arco alto y puede rebotar tres veces.",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "raw_alpha_bounds": [
+      0,
+      39,
+      1206,
+      1230
+    ],
+    "visible_alpha_bounds_at_32": [
+      131,
+      131,
+      1184,
+      1067
+    ],
+    "art_region": [
+      0.09808612440191387,
+      0.09808612440191387,
+      0.8524720893141946,
+      0.759170653907496
+    ],
+    "display_width": 48,
+    "collision_radius": 16,
+    "launch_speed": 660,
+    "launch_lift": 300,
+    "gravity": 1050,
+    "flight_seconds": 5,
+    "ground_behavior": 3,
+    "ground_drag": 360,
+    "maximum_bounces": 3,
+    "restitution": 0.72,
+    "spin_speed": 12,
+    "break_on_impact": false
+  }
+}

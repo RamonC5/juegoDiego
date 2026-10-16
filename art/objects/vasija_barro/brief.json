@@ -1,0 +1,14 @@
+{
+  "object_id": "vasija_barro",
+  "role": "throwable",
+  "design_status": "proposed",
+  "confirmed_requirements": [
+    "raster 2D side view",
+    "Android and Windows",
+    "Diego picks up and throws the object",
+    "original art with readable mobile silhouette"
+  ],
+  "proposed_behavior": "Se rompe al chocar después de lanzarla.",
+  "world_ids": [],
+  "texture": "game/assets/textures/objects/vasija_barro/idle_v001.png"
+}

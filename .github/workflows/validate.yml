@@ -133,6 +133,16 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar los seis objetos arrojadizos
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_throwables.gd 2>&1 | tee .godot-logs/object-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/object-tests.log; then
+            exit 1
+          fi
+
       - name: Exportar el APK instalable
         shell: bash
         run: |
@@ -193,3 +203,4 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+

@@ -6,7 +6,7 @@ Base de un juego de plataformas **2D** para **Android y Windows**, con ocho mund
 
 Primera integración jugable de **Diego**, protagonista basado en la fotografía del usuario y adaptado al acabado raster 2D del juego. Incluye diez hojas PNG, 44 poses fuente, 13 estados de animación, movimiento, salto variable, pisotón, recoger/lanzar y controles para Android y tablet Windows.
 
-El proyecto abre una zona de entrenamiento con plataformas, una esfera recogible y dianas geométricas. El nombre y vestuario de Diego son propuestas para valorar. Se conserva el icono provisional SH.
+El proyecto abre una zona de entrenamiento con plataformas, [seis objetos arrojadizos](docs/OBJETOS_ARROJADIZOS.md) y dianas geométricas. El nombre y vestuario de Diego son propuestas para valorar. Se conserva el icono provisional SH.
 
 El [catálogo de personajes](docs/PERSONAJES.md) reúne **seis enemigos normales** con ficha e imagen: Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo. Son propuestas visuales 2D; sus animaciones y su integración jugable quedan pendientes. El material de autoría está en `art/`, excluido de la importación y de los APK.
 
@@ -57,9 +57,10 @@ Con el ejecutable de Godot disponible como `godot`:
 godot --headless --path . --editor --import --quit
 godot --headless --path . --quit-after 3
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd
+godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd
 ```
 
-GitHub Actions importa el proyecto, comprueba el arranque y ejecuta 55 pruebas del protagonista y los controles. Si pasan, exporta un APK de pruebas firmado para Android ARM64 y verifica firma y paquete. El renderizado se ha revisado en Godot; quedan las pruebas físicas en Android y Windows.
+GitHub Actions importa el proyecto, comprueba el arranque y ejecuta 55 pruebas del protagonista y los controles y 63 de los objetos arrojadizos. Si pasan, exporta un APK de pruebas firmado para Android ARM64 y verifica firma y paquete. El renderizado se ha revisado en Godot; quedan las pruebas físicas en Android y Windows.
 
 ## Descargar e instalar el APK en el móvil
 
@@ -70,7 +71,7 @@ GitHub Actions importa el proyecto, comprueba el arranque y ejecuta 55 pruebas d
 
 Cada envío a Git y cada pull request genera automáticamente un APK nuevo. Puedes solicitar otra compilación con **Run workflow**, sin modificar archivos. Los APK se conservan durante **30 días** e incluyen su checksum SHA-256 y `build-info.json` con la versión y el commit.
 
-El APK contiene a Diego y la zona de entrenamiento. Se firma con una clave de depuración que la CI conserva en caché; consulta [la guía de CI](docs/DESARROLLO.md#integración-continua) si Android rechaza una actualización por cambio de firma.
+El APK contiene a Diego, seis objetos arrojadizos y la zona de entrenamiento. Se firma con una clave de depuración que la CI conserva en caché; consulta [la guía de CI](docs/DESARROLLO.md#integración-continua) si Android rechaza una actualización por cambio de firma.
 
 ## Documentación
 
@@ -78,6 +79,8 @@ El APK contiene a Diego y la zona de entrenamiento. Se firma con una clave de de
 - [Entorno, controles y exportación](docs/DESARROLLO.md).
 - [Catálogo de personajes: ficha e imagen de cada diseño](docs/PERSONAJES.md).
 - [Protagonista, animaciones, movimientos y controles](docs/PROTAGONISTA.md).
+- [Objetos arrojadizos: imágenes, comportamiento y recursos Godot](docs/OBJETOS_ARROJADIZOS.md).
 - [Skill para generar personajes de Salto Heroes](.agents/skills/generar-personajes-salto-heroes/SKILL.md), basado en el flujo `imagegen` de OpenAI y adaptado a los requisitos del juego. Invocación: `$generar-personajes-salto-heroes`.
 
 `export_presets.cfg` incluye los perfiles **Windows** y **Android**. Para exportar hay que instalar las plantillas de Godot y, en Android, configurar también Java y el SDK. Los APK generados se descargan desde Actions; los binarios y las claves no se guardan en Git.
+

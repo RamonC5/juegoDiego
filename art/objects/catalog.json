@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "design_status": "proposed",
+  "world_ids": [],
+  "objects": [
+    {
+      "id": "barril_raices",
+      "name": "Barril de raíces",
+      "description": "Rueda por el suelo después de caer.",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "raw_alpha_bounds": [
+        0,
+        0,
+        1198,
+        1254
+      ],
+      "visible_alpha_bounds_at_32": [
+        103,
+        207,
+        1155,
+        1067
+      ],
+      "art_region": [
+        0.07575757575757576,
+        0.15869218500797447,
+        0.8516746411483254,
+        0.6985645933014354
+      ],
+      "display_width": 48,
+      "collision_radius": 18,
+      "launch_speed": 580,
+      "launch_lift": 150,
+      "gravity": 1200,
+      "flight_seconds": 4,
+      "ground_behavior": 1,
+      "ground_drag": 70,
+      "maximum_bounces": 0,
+      "restitution": 0.5,
+      "spin_speed": 9,
+      "break_on_impact": false
+    },
+    {
+      "id": "canto_rio",
+      "name": "Canto de río",
+      "description": "Pesado: arco corto y se detiene al caer.",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "raw_alpha_bounds": [
+        0,
+        19,
+        1238,
+        1254
+      ],
+      "visible_alpha_bounds_at_32": [
+        56,
+        273,
+        1201,
+        1043
+      ],
+      "art_region": [
+        0.03827751196172249,
+        0.2113237639553429,
+        0.9258373205741627,
+        0.6267942583732058
+      ],
+      "display_width": 40,
+      "collision_radius": 14,
+      "launch_speed": 460,
+      "launch_lift": 250,
+      "gravity": 1550,
+      "flight_seconds": 3,
+      "ground_behavior": 0,
+      "ground_drag": 600,
+      "maximum_bounces": 0,
+      "restitution": 0.3,
+      "spin_speed": 4,
+      "break_on_impact": false
+    },
+    {
+      "id": "pina_bosque",
+      "name": "Piña del bosque",
+      "description": "Ligera y rápida, con un rebote corto.",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "raw_alpha_bounds": [
+        0,
+        31,
+        1240,
+        1220
+      ],
+      "visible_alpha_bounds_at_32": [
+        234,
+        55,
+        1064,
+        1211
+      ],
+      "art_region": [
+        0.18022328548644337,
+        0.037480063795853266,
+        0.6746411483253588,
+        0.9346092503987241
+      ],
+      "display_width": 32,
+      "collision_radius": 14,
+      "launch_speed": 760,
+      "launch_lift": 200,
+      "gravity": 1150,
+      "flight_seconds": 3,
+      "ground_behavior": 3,
+      "ground_drag": 360,
+      "maximum_bounces": 1,
+      "restitution": 0.42,
+      "spin_speed": 14,
+      "break_on_impact": false
+    },
+    {
+      "id": "vasija_barro",
+      "name": "Vasija de barro",
+      "description": "Se rompe al chocar después de lanzarla.",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "raw_alpha_bounds": [
+        0,
+        15,
+        1234,
+        1254
+      ],
+      "visible_alpha_bounds_at_32": [
+        141,
+        146,
+        1113,
+        1144
+      ],
+      "art_region": [
+        0.10606060606060606,
+        0.11004784688995216,
+        0.7878787878787878,
+        0.8086124401913876
+      ],
+      "display_width": 40,
+      "collision_radius": 17,
+      "launch_speed": 600,
+      "launch_lift": 230,
+      "gravity": 1200,
+      "flight_seconds": 4,
+      "ground_behavior": 0,
+      "ground_drag": 500,
+      "maximum_bounces": 0,
+      "restitution": 0.3,
+      "spin_speed": 6,
+      "break_on_impact": true
+    },
+    {
+      "id": "bloque_hielo",
+      "name": "Bloque de hielo",
+      "description": "Cae y se desliza por el suelo.",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "raw_alpha_bounds": [
+        0,
+        0,
+        1232,
+        1254
+      ],
+      "visible_alpha_bounds_at_32": [
+        118,
+        137,
+        1155,
+        1157
+      ],
+      "art_region": [
+        0.08771929824561403,
+        0.10287081339712918,
+        0.8397129186602871,
+        0.8261562998405104
+      ],
+      "display_width": 42,
+      "collision_radius": 18,
+      "launch_speed": 640,
+      "launch_lift": 140,
+      "gravity": 1150,
+      "flight_seconds": 4,
+      "ground_behavior": 2,
+      "ground_drag": 28,
+      "maximum_bounces": 0,
+      "restitution": 0.2,
+      "spin_speed": 2,
+      "break_on_impact": false
+    },
+    {
+      "id": "vaina_resorte",
+      "name": "Vaina resorte",
+      "description": "Describe un arco alto y puede rebotar tres veces.",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "raw_alpha_bounds": [
+        0,
+        39,
+        1206,
+        1230
+      ],
+      "visible_alpha_bounds_at_32": [
+        131,
+        131,
+        1184,
+        1067
+      ],
+      "art_region": [
+        0.09808612440191387,
+        0.09808612440191387,
+        0.8524720893141946,
+        0.759170653907496
+      ],
+      "display_width": 48,
+      "collision_radius": 16,
+      "launch_speed": 660,
+      "launch_lift": 300,
+      "gravity": 1050,
+      "flight_seconds": 5,
+      "ground_behavior": 3,
+      "ground_drag": 360,
+      "maximum_bounces": 3,
+      "restitution": 0.72,
+      "spin_speed": 12,
+      "break_on_impact": false
+    }
+  ]
+}
