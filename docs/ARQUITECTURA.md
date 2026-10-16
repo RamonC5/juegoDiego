@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 13 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cuatro enemigos siguen como conceptos. Se conserva el icono provisional SH.
+`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 13 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cinco enemigos siguen como conceptos. Se conserva el icono provisional SH.
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -114,9 +114,9 @@ El skill conserva los requisitos de escenas 2D, acabado pulido sin apariencia de
 
 Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignore`, de los PNG finales bajo `game/assets/textures/characters/`. Los perfiles de exportación excluyen `art/`, `.agents/` y `AGENTS.md`. El skill es una herramienta de producción fuera de la ejecución del juego; no genera personajes en tiempo de juego.
 
-El [catálogo de personajes](PERSONAJES.md) registra seis enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín y Remiendo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
+El [catálogo de personajes](PERSONAJES.md) registra siete enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín, Remiendo y Nóctilo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
 
-El protagonista [Diego](../art/characters/diego/ficha.md) añade diez hojas PNG de ejecución, 44 poses y 13 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable con animación por transformación; las hojas de fotogramas de enemigos siguen pendientes y los otros cuatro conservan su estado de concepto. El entrenamiento no asigna contenido a los ocho mundos.
+El protagonista [Diego](../art/characters/diego/ficha.md) añade diez hojas PNG de ejecución, 44 poses y 13 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable con animación por transformación; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo añade un diseño de murciélago volador con ficha, PNG y propuesta de vuelo; todavía no tiene animaciones ni integración jugable. El entrenamiento no asigna contenido a los ocho mundos.
 
 ## Capas de colisión reservadas
 

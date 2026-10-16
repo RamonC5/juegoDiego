@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "character_id": "noctilo",
+  "display_name": "Nóctilo",
+  "role": "enemy",
+  "world_ids": [],
+  "design_status": "proposed",
+  "design_version": 2,
+  "visual_reference": {
+    "path": "art/characters/noctilo/concept_v002.png",
+    "previous_version": "art/characters/noctilo/sources/concept_v001.png",
+    "option_a_reference": null,
+    "preserved_decisions": [
+      "Murciélago original de perfil orientado a la derecha.",
+      "Pelaje berenjena, alas cobrizas y orejas grandes.",
+      "Pose de vuelo ascendente, cuerpo suspendido y pies recogidos."
+    ],
+    "changed_decisions": [
+      "Limpieza del alfa de fondo y encuadre; membrana final algo más cálida."
+    ]
+  },
+  "frame_size": [
+    1254,
+    1254
+  ],
+  "pivot_px": null,
+  "display_scale": null,
+  "animations": [],
+  "personality": {
+    "traits": [
+      "desconfiado",
+      "nervioso",
+      "sigiloso"
+    ],
+    "tagline": "Vigila todos los ruidos, incluido su propio eco.",
+    "signature_gesture": "Orienta una oreja hacia delante y la otra hacia atrás; al sobresaltarse abre las alas de golpe.",
+    "silhouette": "Cuerpo suspendido y estrecho, alas membranosas angulosas, orejas grandes orientadas en dos direcciones y patas recogidas.",
+    "face": "Mirada ámbar oblicua y desconfiada, hocico corto y boca tensa.",
+    "acting_pose": "Aleteo ascendente de perfil, ala cercana elevada, ala lejana más baja y pies recogidos."
+  },
+  "production_plan": {
+    "status": "pending",
+    "frame_size": [
+      256,
+      256
+    ],
+    "pivot_px": [
+      128,
+      160
+    ],
+    "pivot_status": "proposed_unverified",
+    "planned_actions": [
+      {
+        "name": "flight_patrol",
+        "intent": "Patrulla aérea baja con oscilación suave y aleteo de altura estable."
+      },
+      {
+        "name": "listen",
+        "intent": "Breve suspensión; orienta las orejas en direcciones distintas."
+      },
+      {
+        "name": "telegraph",
+        "intent": "Recoge parcialmente las alas y se inclina antes del picado; aviso por postura."
+      },
+      {
+        "name": "dive",
+        "intent": "Picado corto seguido de recuperación a la ruta de patrulla."
+      },
+      {
+        "name": "stomped",
+        "intent": "Compresión de la cabeza, orejas recogidas y alas plegadas por el pisotón."
+      },
+      {
+        "name": "defeated",
+        "intent": "Caída breve y pose final legible, sin destellos."
+      }
+    ],
+    "note": "Descripciones propuestas; no hay hojas de animación ni comportamiento ejecutable. Tiempos, trayectorias, colisiones y ancla se decidirán durante la integración."
+  },
+  "generation": {
+    "tool": "image_gen",
+    "mode": "built_in",
+    "prompts_path": "art/characters/noctilo/prompts.md",
+    "transparent_background_requested": true,
+    "input_references": [
+      "art/characters/noctilo/sources/concept_v001.png"
+    ],
+    "initial_generation_references": [],
+    "selected_output": "art/characters/noctilo/concept_v002.png",
+    "generated_on": "2026-10-16",
+    "scope": "new_flying_enemy_concept_with_alpha_cleanup"
+  },
+  "validation": {
+    "technical_report": "art/characters/noctilo/qa-technical.json",
+    "technical_passed": true,
+    "concept_visual_review_passed": true,
+    "comparison_image": "art/characters/noctilo/qa-comparison.png",
+    "visual_cast_comparison": ["plumin", "moflete", "goteron", "vainete"],
+    "documentary_cast_comparison": ["terron", "remiendo"],
+    "production_ready": false,
+    "visual_review": "art/characters/noctilo/qa.md",
+    "source_bytes": 1334119,
+    "sha256": "475a76a979e2feccbac0afebb0c324a3ea527b0c84d0b27ac84ef2264aca7f54",
+    "pending": [
+      "Valoración visual del nuevo diseño por el usuario.",
+      "Especificación completa de opción A.",
+      "Celdas de animación, pivote y secuencias.",
+      "Importación e integración Godot.",
+      "Pruebas Android y Windows."
+    ]
+  },
+  "integration_status": "concept_only",
+  "visual_history": [
+    {
+      "version": 1,
+      "path": "art/characters/noctilo/sources/concept_v001.png",
+      "status": "source_not_selected",
+      "technical_report": "art/characters/noctilo/qa-source-v001.json",
+      "reason": "Píxeles de alfa 1 en el borde inferior; margen mínimo 0 px. Corregido mediante edición con image_gen."
+    }
+  ]
+}
