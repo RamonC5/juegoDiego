@@ -162,7 +162,7 @@ jobs:
             sudo apt-get install -y xvfb
           fi
           LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
-            --rendering-method gl_compatibility --path . \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
             --script tools/tests/capture_forest.gd 2>&1 | tee .godot-logs/forest-render.log
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-render.log; then
             exit 1
