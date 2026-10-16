@@ -63,7 +63,10 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 - [Gestos táctiles](docs/CONTROLES_TACTILES.md).
 - [Objetos arrojadizos](docs/OBJETOS_ARROJADIZOS.md).
 - [Skill de personajes](.agents/skills/generar-personajes-salto-heroes/SKILL.md).
+- [Diseño de dinámicas y progresión](docs/DINAMICAS.md).
+- [Skill de dinámicas](.agents/skills/crear-dinamicas-salto-heroes/SKILL.md).
 
 Los otros cinco enemigos conservan sus conceptos, incluido [Nóctilo, el nuevo murciélago volador](art/characters/noctilo/ficha.md). Las animaciones de Terrón y Moflete usan transformaciones de sus sprites existentes; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
+
 
 

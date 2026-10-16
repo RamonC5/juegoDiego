@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "tipo": "nivel",
+  "id": "world_01_level_01",
+  "nombre": "El despertar del bosque · ampliación propuesta",
+  "estado": "propuesta",
+  "fuentes": [
+    {
+      "ruta": "game/data/worlds/world_01/level_01.tres",
+      "revision": "bf72da5541bb77bfee9b4b76d0384ab30973ba32",
+      "observacion": "Usar como base el bosque, sus objetos, patrullas y tres llaves; la ampliación no está implementada."
+    },
+    {
+      "ruta": "encargo:Juego Diego / plan de dinámicas",
+      "revision": "2026-10-16",
+      "observacion": "Diseñar tres aventuras antes del jefe y al menos 15 minutos por aventura para un niño de 10 años."
+    }
+  ],
+  "mundo_id": "world_01",
+  "categoria": "aventura",
+  "orden": 1,
+  "desbloqueo_requiere": [],
+  "dinamicas_nuevas_obligatorias": [
+    "puente_diana"
+  ],
+  "segmentos": [
+    {
+      "id": "entrada_segura",
+      "nombre": "Leer el bosque",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "saltos_plataformas",
+        "tres_llaves_puerta"
+      ],
+      "proposito": "Explorar un claro seguro, reconocer los tres cerrojos y practicar desplazamiento libre."
+    },
+    {
+      "id": "saltos_raices",
+      "nombre": "Cruzar las raíces",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "saltos_plataformas"
+      ],
+      "proposito": "Practicar alturas con suelo de recuperación y un destino visible."
+    },
+    {
+      "id": "patrulla_claro",
+      "nombre": "La patrulla del claro",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "pisoton_patrullas"
+      ],
+      "proposito": "Observar dos encuentros separados y resolverlos mediante pisotón o lanzamiento."
+    },
+    {
+      "id": "primera_llave",
+      "nombre": "La primera rama",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "saltos_plataformas",
+        "tres_llaves_puerta"
+      ],
+      "proposito": "Recorrer tres alturas y conseguir la primera llave con retorno al suelo."
+    },
+    {
+      "id": "reconocer_diana",
+      "nombre": "El puente recogido",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "lanzamiento_objetos",
+        "puente_diana"
+      ],
+      "proposito": "Reconocer diana y puente en la misma vista; coger una piña desde una zona segura."
+    },
+    {
+      "id": "practicar_lanzamiento",
+      "nombre": "La piña y la distancia",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Practicar lanzamientos desde dos posiciones con reposición y sin enemigos simultáneos."
+    },
+    {
+      "id": "abrir_puente",
+      "nombre": "Desplegar las raíces",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "puente_diana"
+      ],
+      "proposito": "Aplicar el lanzamiento aprendido para activar la diana y comprobar el paso abierto."
+    },
+    {
+      "id": "segunda_llave",
+      "nombre": "La segunda rama",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "saltos_plataformas",
+        "tres_llaves_puerta"
+      ],
+      "proposito": "Cruzar el puente y recorrer su ribera hasta la segunda llave manteniendo acceso de vuelta."
+    },
+    {
+      "id": "sendero_alturas",
+      "nombre": "Elegir el apoyo",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "saltos_plataformas"
+      ],
+      "proposito": "Explorar un tramo de alturas moderadas con alternativas claras y recuperación al caer."
+    },
+    {
+      "id": "encuentro_combinado",
+      "nombre": "La senda de patrullas",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "pisoton_patrullas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar dos acciones conocidas frente a patrullas separadas y objetos recuperables."
+    },
+    {
+      "id": "ruta_ultima_llave",
+      "nombre": "Las ramas del arco",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "saltos_plataformas"
+      ],
+      "proposito": "Seguir señales de forma y posición hacia la ruta de la última llave, sin depender de cristales."
+    },
+    {
+      "id": "tercera_llave_salida",
+      "nombre": "La tercera rama y el arco",
+      "principal": true,
+      "minutos_estimados": [
+        1.5,
+        1.8
+      ],
+      "dinamicas": [
+        "tres_llaves_puerta"
+      ],
+      "proposito": "Conseguir la tercera llave, comprobar cerrojos y llegar a la puerta; conservar el retorno si falta alguna."
+    },
+    {
+      "id": "cristales_opcionales",
+      "nombre": "Desvíos de cristales",
+      "principal": false,
+      "minutos_estimados": [
+        4,
+        6
+      ],
+      "dinamicas": [
+        "ruta_secretos"
+      ],
+      "proposito": "Buscar cristales y hojas en desvíos con retorno; no condicionan llaves ni salida."
+    }
+  ],
+  "llaves": [
+    {
+      "ranura": 1,
+      "segmento_id": "primera_llave",
+      "obtencion": "Completar la ruta de plataformas y tocar la llave de ramas con un brote."
+    },
+    {
+      "ranura": 2,
+      "segmento_id": "segunda_llave",
+      "obtencion": "Abrir el puente y recorrer la ribera; tocar la llave con dos brotes."
+    },
+    {
+      "ranura": 3,
+      "segmento_id": "tercera_llave_salida",
+      "obtencion": "Combinar las acciones conocidas y tocar la llave con tres brotes antes del arco."
+    }
+  ],
+  "salida": {
+    "condicion": "tres_llaves",
+    "descripcion": "Abrir al reunir las ranuras 1, 2 y 3 y finalizar una sola vez al entrar; los secretos son opcionales.",
+    "retorno_objetivos_pendientes": true
+  },
+  "puntos_control": [
+    {
+      "id": "farol_1",
+      "despues_de_segmento_id": "saltos_raices"
+    },
+    {
+      "id": "farol_2",
+      "despues_de_segmento_id": "primera_llave"
+    },
+    {
+      "id": "farol_3",
+      "despues_de_segmento_id": "practicar_lanzamiento"
+    },
+    {
+      "id": "farol_4",
+      "despues_de_segmento_id": "segunda_llave"
+    },
+    {
+      "id": "farol_5",
+      "despues_de_segmento_id": "encuentro_combinado"
+    }
+  ],
+  "intervalo_maximo_faroles_minutos": 4,
+  "duracion": {
+    "minimo_primera_partida_minutos": 15,
+    "objetivo_minutos": [
+      18,
+      22
+    ],
+    "estado": "estimada",
+    "muestras": []
+  },
+  "persistencia": {
+    "al_morir": "Conservar las llaves y mecanismos resueltos del intento y reaparecer en el último farol; el puente nuevo requiere su propio estado.",
+    "al_cerrar": "Proponer guardado del intento y restauración segura; el código actual solo guarda resultados al completar, así que esta capacidad está pendiente.",
+    "al_rejugar": "Reponer las tres llaves, puente y objetos del intento; conservar mejores marcas y niveles ya desbloqueados."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Numerar las tres llaves y combinar material, brotes, marcas y estado de cerrojos.",
+    "equivalencia_visual_sonora": "Dar señales visibles y mensajes breves para impactos y objetivos, incluso con sonido silenciado.",
+    "legibilidad_movil": "Comprobar objetivos, enemigos y texto en Android horizontal y tablet Windows; respetar zona segura.",
+    "ajustes_control": "Usar los gestos existentes y conservar sensibilidad, lados intercambiables, salto completo y reasignación."
+  },
+  "validacion": {
+    "funcional": [
+      "Comprobar tres llaves únicas, salida cerrada con cero, una o dos y finalización única con tres.",
+      "Recorrer cada tramo, abrir el puente, perder un objeto y volver a cada farol conservando una solución.",
+      "Rejugar repone objetivos del intento y conserva los resultados anteriores."
+    ],
+    "jugando": [
+      "Cronometrar primeras partidas del público objetivo excluyendo pausas, cargas, cinemáticas, secretos y repeticiones.",
+      "Verificar que las llaves son comprensibles, las pistas bastan y el control táctil resulta preciso.",
+      "Ajustar contenido si una muestra de ruta principal termina antes de 15 minutos; no imponer un reloj de espera."
+    ],
+    "evidencias": []
+  }
+}

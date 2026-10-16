@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "tipo": "nivel",
+  "id": "world_01_level_01",
+  "nombre": "",
+  "estado": "propuesta",
+  "fuentes": [{"ruta": "", "revision": "", "observacion": ""}],
+  "mundo_id": "world_01",
+  "categoria": "aventura",
+  "orden": 1,
+  "desbloqueo_requiere": [],
+  "dinamicas_nuevas_obligatorias": [],
+  "segmentos": [
+    {"id": "reto_1", "nombre": "", "principal": true, "minutos_estimados": [1, 2], "dinamicas": [], "proposito": ""},
+    {"id": "reto_2", "nombre": "", "principal": true, "minutos_estimados": [1, 2], "dinamicas": [], "proposito": ""},
+    {"id": "reto_3", "nombre": "", "principal": true, "minutos_estimados": [1, 2], "dinamicas": [], "proposito": ""}
+  ],
+  "llaves": [
+    {"ranura": 1, "segmento_id": "reto_1", "obtencion": ""},
+    {"ranura": 2, "segmento_id": "reto_2", "obtencion": ""},
+    {"ranura": 3, "segmento_id": "reto_3", "obtencion": ""}
+  ],
+  "salida": {"condicion": "tres_llaves", "descripcion": "", "retorno_objetivos_pendientes": true},
+  "puntos_control": [{"id": "farol_1", "despues_de_segmento_id": "reto_1"}],
+  "intervalo_maximo_faroles_minutos": 4,
+  "duracion": {"minimo_primera_partida_minutos": 15, "objetivo_minutos": [18, 22], "estado": "estimada", "muestras": []},
+  "persistencia": {"al_morir": "", "al_cerrar": "", "al_rejugar": ""},
+  "accesibilidad": {"senales_no_solo_color": "", "equivalencia_visual_sonora": "", "legibilidad_movil": "", "ajustes_control": ""},
+  "validacion": {"funcional": [""], "jugando": [""], "evidencias": []}
+}

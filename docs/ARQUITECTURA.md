@@ -173,3 +173,14 @@ Los PNG HD de fondo, terreno y cuatro elementos de escenario están en `game/ass
 ## Agacharse
 
 La acción `crouch` se integra en InputMap, los gestos, la reasignación y el bloqueo de teclas al reanudar. `DiegoPlayer` intercambia cápsulas propias de 98 y 58 px, conserva la base y comprueba la forma erguida contra las capas del cuerpo antes de levantarse. La consulta se separa del suelo por el margen de seguridad. `PlayerTuning.crouch_height` permite ajustar la altura. El estado frena, mantiene el objeto a menor altura y conserva daño y sensores. [Reglas y controles](PROTAGONISTA.md).
+
+## Skill de dinámicas y progresión prevista
+
+Usar [`crear-dinamicas-salto-heroes`](../.agents/skills/crear-dinamicas-salto-heroes/SKILL.md) al diseñar o revisar mecánicas y recorridos. `AGENTS.md` dirige estos encargos a su inventario, catálogo, reglas, plantillas JSON y comprobador de consistencia. [Criterios y progresión](DINAMICAS.md).
+
+El plan establece tres aventuras antes del jefe de cada uno de los ocho mundos. Cada aventura conserva tres llaves y debe dimensionarse para al menos 15 minutos de ruta principal en primera partida normal, con objetivo inicial estimado de 18–22 minutos. Los secretos y repeticiones no cuentan; la duración se verificará jugando. El encuentro con el jefe mantiene la condición de combate mediante objetos lanzados y no hereda automáticamente el mínimo de las aventuras.
+
+Las fichas futuras se guardarán en `docs/dinamicas/` y `docs/niveles/`; constituyen material de autoría y no sustituyen los recursos `.tres`, señales ni reglas de las funcionalidades. El skill y su comprobador no añaden dependencias al juego. Mantenerlos fuera de la exportación como el resto de `.agents/`.
+
+Avance agachado, plataformas móviles, setas de rebote, placas de peso, conexiones entre dianas y puentes, múltiples faroles y guardado de intentos se registran como propuestas pendientes. La creación de este skill no integra esos sistemas ni modifica el bosque existente.
+
