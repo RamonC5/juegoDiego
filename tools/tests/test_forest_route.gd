@@ -105,9 +105,13 @@ func reach_station(station: RootBridgeDefinition) -> bool:
 			break
 		chain.push_front(previous)
 	if chain[0].position.y >= 485:
-		if not await ground_to(chain[0].position.x + 90):
+		var reached_ground: bool = await ground_to(chain[0].position.x + 90)
+		# El salto más alto sobre el hueco anterior puede aterrizar directamente en
+		# la primera terraza. Ese acceso físico ya ha completado el primer ascenso.
+		var on_first_step: bool = hero.is_on_floor() and absf(hero.position.y - chain[0].position.y) < 4 and hero.position.x >= chain[0].position.x and hero.position.x <= chain[0].end.x
+		if not reached_ground and not on_first_step:
 			return false
-		if not await jump_to(chain[0].position.x + 90, chain[0].position.y):
+		if not on_first_step and not await jump_to(chain[0].position.x + 90, chain[0].position.y):
 			return false
 		for index in range(1, chain.size()):
 			if not await walk_to(chain[index - 1].end.x - 25):
