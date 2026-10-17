@@ -119,7 +119,7 @@ def build():
         else:
             start1 = x + (850 if shape in (0, 1) else 790) + chapter * 70
             count1 = 3 if shape == 1 else 4
-            crest_width = 600 - (chapter * 80 if shape == 4 else 0)
+            crest_width = 350 if i == 4 else 600 - (chapter * 80 if shape == 4 else 0)
             ledge, floor1 = stairs(start1, count1, crest_width)
             pine1 = ledge + 85
             crest1 = (ledge, floor1, crest_width)
