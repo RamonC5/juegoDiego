@@ -163,6 +163,18 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar troncos viajeros y recuperación
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_moving_platforms.gd 2>&1 | tee .godot-logs/moving-platform-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/moving-platform-tests.log; then
+            exit 1
+          fi
+          python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py \
+            docs/dinamicas/puente_diana.json docs/dinamicas/troncos_viajeros.json
+
       - name: Capturar el nivel en móvil y tablet
         shell: bash
         run: |
@@ -246,4 +258,5 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
 

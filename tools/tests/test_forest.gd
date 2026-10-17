@@ -176,6 +176,10 @@ func _run() -> void:
 	hero.controls.automatic_run = true
 	hero.controls.set_virtual_axis(1)
 	for _frame in 2200:
+		if hero.position.x > 6200.0 and not stage.level_keys[2].taken:
+			_check(await preload("res://tools/tests/moving_platform_route.gd").reach_third_key(main), "la tercera llave se alcanza viajando y saltando desde el tronco")
+			hero.controls.automatic_run = true
+			hero.controls.set_virtual_axis(1)
 		if hero.is_on_floor():
 			hero.controls.set_virtual_action(&"jump", false)
 			var needs_jump: bool = false
@@ -257,4 +261,5 @@ func _run() -> void:
 	await _step(2)
 	print("RESULTADO BOSQUE: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+
 

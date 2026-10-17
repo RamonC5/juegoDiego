@@ -49,6 +49,12 @@ Validar la ficha desde la raíz del proyecto:
 python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py docs/dinamicas/puente_diana.json
 ```
 
+### Segunda dinámica del nivel 1 · Troncos viajeros
+
+[Diseño y recuperación](dinamicas/troncos_viajeros.md) · [Ficha JSON](dinamicas/troncos_viajeros.json).
+
+La integración candidata 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascendente que da acceso a la tercera llave, reubicada en una repisa alta. Usa movimiento y salto existentes, viaje sin mantener arrastre, suelo seguro y ciclos que vuelven a sus puestos. La primera dinámica del puente permanece integrada. Los 2–4 minutos iniciales son una estimación de autoría; pruebas físicas de CI y duración observada se registrarán por separado.
+
 ### Ejemplos del skill
 
 Los [ejemplos de autoría](../.agents/skills/crear-dinamicas-salto-heroes/assets/) están marcados como propuestas. El del bosque presupuesta 18–21,6 minutos principales y excluye sus desvíos opcionales; ese cálculo no acredita duración real.
@@ -60,4 +66,5 @@ python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py
 ```
 
 El comprobador usa únicamente Python 3, no modifica archivos y revisa consistencia documental. Para validar un mundo completo, pasar las tres fichas de aventura y la del jefe con `--mundo`. Faltan siempre las comprobaciones físicas, de duración, tacto y rendimiento que aún no se hayan realizado.
+
 

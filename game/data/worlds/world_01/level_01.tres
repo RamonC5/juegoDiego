@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1"]
 [ext_resource type="Resource" path="res://game/features/levels/keys/definitions/ramas.tres" id="2_keys"]
 [ext_resource type="Script" path="res://game/features/levels/mechanisms/root_bridge_definition.gd" id="3_bridge"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/moving_platform_definition.gd" id="4_moving"]
 
 [sub_resource type="Resource" id="BridgePractice"]
 script = ExtResource("3_bridge")
@@ -23,18 +24,41 @@ target_position = Vector2(3710, 530)
 pine_position = Vector2(3430, 574)
 recovery_bounds = Rect2(3270, 200, 740, 800)
 
+[sub_resource type="Resource" id="MovingPractice"]
+script = ExtResource("4_moving")
+platform_id = &"tronco_viajero_ensayo"
+display_name = "Tronco de ensayo"
+start_position = Vector2(5600, 545)
+end_position = Vector2(5900, 545)
+width = 240.0
+travel_seconds = 3.0
+stop_seconds = 1.5
+tutorial = true
+
+[sub_resource type="Resource" id="MovingLift"]
+script = ExtResource("4_moving")
+platform_id = &"tronco_viajero_llave"
+display_name = "Tronco de la tercera llave"
+start_position = Vector2(6460, 545)
+end_position = Vector2(6460, 295)
+width = 260.0
+travel_seconds = 3.0
+stop_seconds = 1.5
+
 [resource]
 script = ExtResource("1")
 key_definition = ExtResource("2_keys")
 checkpoint = Vector2(3390, 600)
 checkpoints = Array[Vector2]([Vector2(2470, 600), Vector2(3390, 600), Vector2(4820, 600)])
 bridges = Array[ExtResource("3_bridge")]([SubResource("BridgePractice"), SubResource("BridgeMain")])
-key_positions = Array[Vector2]([Vector2(820, 550), Vector2(4560, 466), Vector2(6600, 466)])
+moving_platforms = Array[ExtResource("4_moving")]([SubResource("MovingPractice"), SubResource("MovingLift")])
+key_positions = Array[Vector2]([Vector2(820, 550), Vector2(4560, 466), Vector2(6760, 211)])
 ground_sections = Array[Rect2]([Rect2(0, 600, 1700, 520), Rect2(1820, 600, 1030, 520), Rect2(3270, 600, 520, 520), Rect2(4270, 600, 830, 520), Rect2(5220, 600, 1680, 520), Rect2(7020, 600, 1180, 520)])
-raised_platforms = Array[Rect2]([Rect2(650, 515, 250, 64), Rect2(1050, 435, 250, 64), Rect2(2050, 515, 220, 64), Rect2(4450, 515, 240, 64), Rect2(4780, 435, 230, 64), Rect2(5650, 515, 250, 64), Rect2(6040, 435, 240, 64), Rect2(6440, 515, 240, 64), Rect2(7270, 515, 250, 64)])
+raised_platforms = Array[Rect2]([Rect2(650, 515, 250, 64), Rect2(1050, 435, 250, 64), Rect2(2050, 515, 220, 64), Rect2(4450, 515, 240, 64), Rect2(4780, 435, 230, 64), Rect2(6040, 470, 240, 64), Rect2(6630, 260, 260, 64), Rect2(7270, 515, 250, 64)])
 recovery_platforms = Array[Rect2]([Rect2(2850, 820, 420, 300), Rect2(2850, 740, 140, 40), Rect2(2850, 660, 70, 40)])
-enemy_spawns = Array[Vector4]([Vector4(1390, 600, 1310, 1570), Vector4(2150, 600, 2050, 2250), Vector4(4710, 600, 4690, 4740), Vector4(4880, 435, 4840, 4940), Vector4(5540, 600, 5420, 5590), Vector4(6310, 600, 6280, 6340), Vector4(7660, 600, 7570, 7750)])
+enemy_spawns = Array[Vector4]([Vector4(1390, 600, 1310, 1570), Vector4(2150, 600, 2050, 2250), Vector4(4710, 600, 4690, 4740), Vector4(4880, 435, 4840, 4940), Vector4(5310, 600, 5260, 5350), Vector4(7330, 600, 7250, 7410), Vector4(7660, 600, 7570, 7750)])
 enemy_kinds = PackedStringArray("terron", "moflete", "terron", "terron", "moflete", "terron", "moflete")
 object_spawns = Array[Vector3]([Vector3(1130, 574, 0), Vector3(2700, 574, 1), Vector3(4310, 574, 0), Vector3(5370, 574, 3), Vector3(7070, 574, 0)])
 crystal_positions = Array[Vector2]([Vector2(1175, 384), Vector2(4895, 384), Vector2(6160, 384)])
+
 

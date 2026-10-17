@@ -63,6 +63,14 @@ func _capture() -> void:
 	main.player.respawn(Vector2(3960, 600))
 	await _frames(15)
 	_save("preview_bridge_crossing")
+	main.player.respawn(Vector2(5500, 600))
+	main.stage.moving_platforms[0].reset_cycle()
+	await _frames(20)
+	_save("preview_moving_practice")
+	main.stage.moving_platforms[1].reset_cycle()
+	main.player.respawn(Vector2(6460, 515))
+	await _frames(210)
+	_save("preview_moving_lift_mobile")
 	main._open_menu("Pausa y controles")
 	await _frames(3)
 	_save("preview_pause")
@@ -76,6 +84,9 @@ func _capture() -> void:
 	await _frames(45)
 	main.stage._on_bridge_opened(&"puente_diana_principal")
 	_save("preview_bridge_tablet")
+	main.player.respawn(Vector2(6760, 260))
+	await _frames(15)
+	_save("preview_moving_key_tablet")
 	main.player.respawn(Vector2(7460, 515))
 	await _frames(10)
 	main.player.controls.set_virtual_action(&"crouch", true)
@@ -88,6 +99,9 @@ func _capture() -> void:
 	main.player.respawn(Vector2(2600, 435))
 	await _frames(5)
 	_save("preview_mobile_wide")
+	main.player.respawn(Vector2(6460, 600))
+	await _frames(20)
+	_save("preview_moving_wide")
 	root.size = Vector2i(1280, 720)
 	root.content_scale_size = Vector2i(1280, 720)
 	for enemy in main.stage.enemies:
@@ -105,5 +119,6 @@ func _capture() -> void:
 	main.queue_free()
 	await _frames(2)
 	quit()
+
 
 

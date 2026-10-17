@@ -104,6 +104,10 @@ func _travel_to(x: float) -> bool:
 	for _frame in 2400:
 		if hero.dead or stage.completed:
 			break
+		if x > 6800.0 and hero.position.x > 6200.0 and not stage.level_keys[2].taken:
+			if not await preload("res://tools/tests/moving_platform_route.gd").reach_third_key(main):
+				return false
+			hero.controls.automatic_run = true
 		if hero.position.x >= x - 4.0:
 			hero.controls.clear_virtual()
 			await _step(8)
@@ -319,7 +323,7 @@ func _run() -> void:
 	_check(stage.level_keys[1].taken and stage.collected_keys.size() == 2, "la segunda llave se consigue por el recorrido del puente")
 	_check(not stage.exit_door.is_open and not stage.completed, "dos llaves mantienen cerrada la salida")
 	_check(stage.active_checkpoint_index == 2, "el farol posterior conserva el avance de la llave")
-	_check(await _travel_to(stage.DEFINITION.goal.x), "aventura completa con movimiento, gestos, lanzamientos y saltos reales")
+	_check(await _travel_to(stage.DEFINITION.goal.x), "aventura completa con puentes, tronco ascendente y tres llaves mediante entradas reales")
 	_check(stage.completed and stage.collected_keys.size() == 3 and stage.exit_door.is_open,
 		"tercera llave y puerta completan el nivel una sola vez")
 	_check(main.progress.levels.get(stage.DEFINITION.level_id, {}).get("best_keys", 0) == 3,
@@ -330,3 +334,4 @@ func _run() -> void:
 	DirAccess.remove_absolute(STORAGE)
 	print("RESULTADO PUENTES: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+

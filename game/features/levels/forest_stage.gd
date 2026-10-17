@@ -29,6 +29,8 @@ var bridges: Array[RootBridge] = []
 var throw_targets: Array[ForestThrowTarget] = []
 var pine_stations: Array[ThrowableObject] = []
 var activated_mechanisms: Array[StringName] = []
+var moving_platforms: Array[ForestMovingPlatform] = []
+var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
 var _checkpoint_label: Label
@@ -53,6 +55,7 @@ func _ready() -> void:
 	_build_keys()
 	_build_markers()
 	_build_bridges()
+	_build_moving_platforms()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
 		object.definition = ThrowableCatalog.DEFINITIONS[int(spec.z)]
@@ -99,6 +102,24 @@ func _build_bridges() -> void:
 		add_child(pine)
 		pine_stations.append(pine)
 		_world_label("PIÑA · COGE Y LANZA", definition.pine_position + Vector2(0, -116), 260)
+
+
+func _build_moving_platforms() -> void:
+	for definition in DEFINITION.moving_platforms:
+		var route := Line2D.new()
+		route.points = PackedVector2Array([definition.start_position + Vector2(0, 38), definition.end_position + Vector2(0, 38)])
+		route.width = 3.0
+		route.default_color = Color("d1c39b")
+		route.z_index = -3
+		add_child(route)
+		var platform := ForestMovingPlatform.new()
+		platform.definition = definition
+		add_child(platform)
+		moving_platforms.append(platform)
+		var caption: String = "TRONCO 1 · SUBE Y VIAJA ↔" if definition.tutorial else "TRONCO 2 · SUBE A LA LLAVE ↑"
+		_world_label(caption, definition.start_position + Vector2(-60, -180), 370)
+		if not definition.tutorial:
+			_world_label("LLAVE 3 · SALTA A LA REPISA →", definition.end_position + Vector2(170, -180), 390)
 
 
 func _on_mechanism_activated(mechanism_id: StringName) -> void:
@@ -334,6 +355,8 @@ func respawn_player() -> void:
 			bridges[index].restore_open()
 			throw_targets[index].restore_activated()
 	player.respawn(respawn_position)
+	for platform in moving_platforms:
+		platform.reset_cycle()
 	# La reaparición suelta primero cualquier objeto. Cada puesto conserva su instancia.
 	for pine in pine_stations:
 		pine.reset_to_spawn()
@@ -346,6 +369,10 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player) or player.dead or completed:
 		return
 	seconds += delta
+	for platform in moving_platforms:
+		if not _platform_hints_shown.has(platform.definition.platform_id) and platform.carries(player):
+			_platform_hints_shown.append(platform.definition.platform_id)
+			hint_requested.emit("¡El tronco te lleva! Suelta el arrastre para viajar. Salta cuando llegues a la repisa." if platform.definition.tutorial else "Deja que el tronco suba. Acércate a su borde derecho y salta a la repisa de la llave 3.")
 	if _throw_hint_seconds > 0.0:
 		_throw_hint_seconds = maxf(0.0, _throw_hint_seconds - delta)
 		if is_zero_approx(_throw_hint_seconds) and is_instance_valid(_throw_hint_target) and _throw_hint_target.active:
@@ -361,10 +388,12 @@ func _physics_process(delta: float) -> void:
 		3330: "Activa el farol. Repite el lanzamiento a la segunda diana para abrir el puente hacia la llave 2.",
 		4380: "La llave de ramas 2 está en la plataforma. Puedes volver por los puentes abiertos si falta otra llave.",
 		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
-		6400: "La tercera llave está en la plataforma. Con las tres podrás abrir la puerta del bosque.",
+		5450: "TRONCOS VIAJEROS · Salta sobre el tronco y suelta el arrastre: te llevará. Si caes, vuelve a probar desde el suelo.",
+		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa para conseguir la tercera llave.",
 	}
 	for x in hints:
 		if player.position.x >= float(x) and not _hints_passed.has(x):
 			_hints_passed[x] = true
 			hint_requested.emit(hints[x])
+
 

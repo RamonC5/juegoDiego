@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "tipo": "dinamica",
+  "id": "troncos_viajeros",
+  "nombre": "Troncos viajeros · segunda dinámica del Bosque Esmeralda 1-1",
+  "estado": "ampliacion",
+  "fuentes": [
+    {
+      "ruta": "encargo:Juego Diego / segunda dinámica del primer nivel",
+      "revision": "2026-10-17",
+      "observacion": "Añadir otra dinámica al nivel 1, que ya contiene puente_diana. Autoriza su integración."
+    },
+    {
+      "ruta": "RamonC5/juegoDiego",
+      "revision": "main@b0d8753ee73517962251f6b8c3f2e3d74706f9af",
+      "observacion": "Inventario contrastado: puentes, tres llaves, tres faroles, movimiento y gestos existentes; no había plataformas móviles."
+    },
+    {
+      "ruta": "game/data/worlds/world_01/level_01.tres",
+      "revision": "candidato 0.4.0",
+      "observacion": "Añade ensayo horizontal y ascensor; traslada únicamente la tercera llave a una repisa alta."
+    }
+  ],
+  "objetivo": "Aprender a embarcar en una plataforma en movimiento, dejarse transportar y saltar a una repisa para alcanzar la tercera llave.",
+  "dependencias": [
+    {
+      "id": "movimiento_salto",
+      "estado": "implementada",
+      "detalle": "CharacterBody2D y las acciones actuales; sin un nuevo gesto ni cambios en Diego."
+    },
+    {
+      "id": "transporte_fisico",
+      "estado": "ampliacion",
+      "detalle": "ForestMovingPlatform usa AnimatableBody2D, colisión superior atravesable desde abajo y recorridos de datos. Pendiente de CI física."
+    },
+    {
+      "id": "llaves_puerta",
+      "estado": "implementada",
+      "detalle": "Tres ranuras automáticas y puerta ya existentes; la tercera cambia de posición."
+    },
+    {
+      "id": "pausa_faroles",
+      "estado": "implementada",
+      "detalle": "Pausa del nivel y reaparición existentes; el ciclo del tronco se reinicia después de trasladar a Diego al farol."
+    }
+  ],
+  "controles": {
+    "tactil": "Arrastrar para acercarse, deslizar arriba para saltar al tronco y soltar el arrastre para viajar. Al llegar, acercarse al borde y saltar a la repisa. Se conservan lados intercambiados.",
+    "teclado": "A/D o flechas para situarse y Espacio para saltar; dejar de moverse para viajar. Se conserva la reasignación.",
+    "mando": "Eje o cruceta para situarse y acción jump para saltar. No se incorpora una acción de interacción."
+  },
+  "aprendizaje": {
+    "presentacion": "Rótulo TRONCO 1, recorrido horizontal visible, parada de 1,5 s en ambos extremos y suelo firme inferior.",
+    "practica": "Embarcar en el tronco horizontal, soltar el movimiento, viajar y saltar a la plataforma opcional. El suelo permite repetir sin daño.",
+    "combinacion": "Aplicar la misma acción al tronco vertical, ganar altura y saltar desde su borde derecho a la repisa de la tercera llave."
+  },
+  "reglas": {
+    "activacion": "El tronco se mueve de forma cíclica. El transporte empieza al aterrizar sobre su superficie; no requiere tocar ni llevar objetos.",
+    "exito": "Recoger automáticamente la tercera llave en la repisa. La salida sigue exigiendo las tres ranuras diferentes.",
+    "fallo": "Perder el tronco o fallar el salto devuelve al suelo, sin daño propio de la mecánica. La llave sigue disponible.",
+    "recuperacion": "Ambos ciclos regresan a los puestos por sí solos. El suelo de y=600 permite volver; las superficies atraviesan desde abajo y no aplastan. Al morir se vuelve al farol y los ciclos reinician abajo sin instancias nuevas."
+  },
+  "feedback": [
+    "Movimiento visible y guía de recorrido",
+    "Rótulos numerados, flechas de dirección y marca de apoyo, además del color",
+    "Pista al entrar y al embarcar por primera vez",
+    "Contador y marca de la tercera llave en el HUD"
+  ],
+  "recompensa": "Tercera llave de ramas obligatoria; hojas y cristal de la ruta de ensayo permanecen opcionales.",
+  "minutos_estimados": [
+    2,
+    4
+  ],
+  "dificultad": "Baja progresiva: superficies de 240/260 px, viaje de 3 s con aceleración suave y parada de 1,5 s; suelo seguro. No se añade precisión de apuntado. Presupuesto pendiente de medir con el público objetivo.",
+  "persistencia": {
+    "al_morir": "Conservar las llaves, coleccionables y puentes abiertos del intento; volver al farol activo y situar los dos troncos en el puesto inicial después de retirar al pasajero.",
+    "al_cerrar": "El intento se pierde como en el juego actual; se conservan resultados completados y ajustes. No se añade guardado intermedio.",
+    "al_rejugar": "Crear dos ciclos nuevos y reponer las tres llaves y puentes. Mantener desbloqueos y mejores resultados."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Forma de raíz, movimiento, rótulos TRONCO 1/2, flechas, guía y marca de apoyo.",
+    "equivalencia_visual_sonora": "Toda la información esencial es visual; no se exige audio. Lector de pantalla y audio aún pendientes.",
+    "legibilidad_movil": "Rótulos breves del sistema existente, cámara que muestra el ascensor y la repisa; capturas móvil, tablet y panorámico previstas en CI.",
+    "ajustes_control": "Mantener sensibilidad, lados intercambiados, salto completo, carrera opcional y reasignación. Viaje automático sin mantener pulsado."
+  },
+  "validacion": {
+    "funcional": [
+      "Transporte físico horizontal y vertical sin arrastre",
+      "Pausa y reanudación con pasajero",
+      "Descenso sin aplastar, caída segura y retorno",
+      "Reaparición, reinicio sin duplicación y conservación de llaves/puentes",
+      "Tercera llave accesible con embarque y salto reales, sin teletransportes durante ese recorrido",
+      "Aventura completa con las dos dinámicas, tres llaves y salida"
+    ],
+    "jugando": [
+      "Pendiente: observar comprensión y duración en primeras partidas de un niño de 10 años",
+      "Pendiente: tacto y 60 FPS en Android y Windows físicos",
+      "Pendiente: revisión de capturas de CI en móvil, tablet y panorámico"
+    ],
+    "evidencias": []
+  }
+}

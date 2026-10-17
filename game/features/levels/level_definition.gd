@@ -16,6 +16,7 @@ extends Resource
 @export var raised_platforms: Array[Rect2] = []
 @export var recovery_platforms: Array[Rect2] = []
 @export var bridges: Array[RootBridgeDefinition] = []
+@export var moving_platforms: Array[MovingPlatformDefinition] = []
 ## x, y, límite izquierdo y límite derecho de cada patrulla.
 @export var enemy_spawns: Array[Vector4] = []
 @export var enemy_kinds: PackedStringArray = []
@@ -25,4 +26,5 @@ extends Resource
 ## Exactamente tres llaves por intento. El arte se elige por entorno, no por color.
 @export var key_definition: LevelKeyDefinition
 @export var key_positions: Array[Vector2] = []
+
 

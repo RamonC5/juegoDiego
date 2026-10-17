@@ -101,6 +101,12 @@ El progreso se guardará bajo `user://` con una versión de esquema, escritura a
 - Objetivo de 60 FPS a validar en dispositivos reales; física configurada a 60 pasos por segundo. Es un objetivo, no una medición del entrenamiento en un móvil.
 - Texturas con filtrado lineal como base para recursos 2D de alta resolución. La selección final de compresión, atlas y tamaños se medirá al incorporar arte.
 
+## Plataformas de raíces móviles
+
+La segunda dinámica del bosque compone `MovingPlatformDefinition` y `ForestMovingPlatform` en `game/features/levels/mechanisms/`. El recurso define extremos, ancho y tiempos; el cuerpo `AnimatableBody2D` actualiza su posición en física y transporta a Diego mediante su `CharacterBody2D` existente, sin reparentarlo ni modificar su controlador. La colisión de entorno es atravesable desde abajo. `ForestStage` proporciona datos, pistas y reinicio del ciclo después de trasladar al jugador al farol. El suelo inferior y el retorno de los ciclos evitan perder acceso a la tercera llave.
+
+El ensayo horizontal y el ascensor de la llave son dos usos de una misma dinámica. Se reutiliza el PNG de raíces del puente. [Ficha y límites de validación](dinamicas/troncos_viajeros.md).
+
 ## Skill de creación de personajes
 
 Utilizar el skill del repositorio [`generar-personajes-salto-heroes`](../.agents/skills/generar-personajes-salto-heroes/SKILL.md) para los futuros protagonistas, enemigos y jefes. Invocarlo como `$generar-personajes-salto-heroes`; `AGENTS.md` también dirige las tareas de personajes a este flujo.
@@ -189,4 +195,5 @@ Avance agachado, plataformas móviles, setas de rebote, placas de peso y guardad
 `RootBridgeDefinition` separa los datos de estación; `ForestThrowTarget` valida impactos y emite una activación única; `RootBridge` despliega la imagen durante 0,6 segundos y después habilita suelo estático. `ForestStage` compone referencias y conserva `activated_mechanisms` durante el intento. Al reaparecer restaura abiertos los mecanismos resueltos y recupera las piñas; no guarda el intento en disco. Las dianas usan la capa 7 de interacción y los arrojadizos la incluyen en sus barridos; Diego no colisiona con ellas. El puente usa la capa de entorno.
 
 Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la segunda llave y tres faroles. La reaparición solo avanza a índices de farol posteriores. La cámara aumenta suavemente la anticipación en las estaciones y sigue la recuperación inferior. Las texturas raster tienen límites de importación de 1024 y 256 píxeles. [Diseño, evidencia y pendientes](dinamicas/puente_diana.md).
+
 
