@@ -33,6 +33,7 @@ var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
 var vine_crossings: Array[ForestVineCrossing] = []
 var secret_grove: ForestSecretGrove
+var secret_totem: ForestSecretTotem
 var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
@@ -79,6 +80,8 @@ func start(hero: DiegoPlayer) -> void:
 	player.position = DEFINITION.spawn
 	if is_instance_valid(secret_grove):
 		secret_grove.hero = hero
+	if is_instance_valid(secret_totem):
+		secret_totem.hero = hero
 	player.object_released.connect(_on_object_released)
 	for crossing in vine_crossings:
 		crossing.attach_player(hero)
@@ -196,6 +199,10 @@ func _build_secret() -> void:
 	secret_grove.position = DEFINITION.secret_grove
 	secret_grove.bonus_collected.connect(_on_secret_life_collected)
 	add_child(secret_grove)
+	# Tótem a la izquierda, sobre suelo firme. Es decorativo, sin colisiones.
+	secret_totem = ForestSecretTotem.new()
+	secret_totem.position = DEFINITION.secret_grove + Vector2(-180, 0)
+	add_child(secret_totem)
 	# Hojarasca densa sobre la trampilla y suelo de la cámara inferior.
 	for x in [-83.0, 0.0, 83.0]:
 		var bush: Sprite2D = _prop(1, DEFINITION.secret_grove + Vector2(x, 5), 89.0, 3)
