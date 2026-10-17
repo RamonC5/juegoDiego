@@ -58,7 +58,12 @@ func run() -> void:
 			widths.append(bounds.size.x)
 			unique_shapes[str(roundf(bounds.size.x / 10.0)) + ":" + str(piece.polygon.size())] = true
 	check(unique_shapes.size() >= 8, "los trozos tienen geometrías variadas, no sectores idénticos")
-	check(widths.max() > widths.min() * 1.6, "los trozos tienen tamaños claramente distintos")
+	var narrowest: float = INF
+	var widest: float = 0.0
+	for width in widths:
+		narrowest = minf(narrowest, width)
+		widest = maxf(widest, width)
+	check(widest > narrowest * 1.6, "los trozos tienen tamaños claramente distintos")
 	target.receive_thrown_hit(object)
 	check(activations[0] == 1, "el mismo impacto no activa dos veces la diana rota")
 	await step(4)
