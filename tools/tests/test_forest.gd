@@ -175,6 +175,14 @@ func _run() -> void:
 	_check(not hero.dead and hero.health == 3 and hero.position.distance_to(stage.respawn_position) < 3, "reanudar vuelve al farol con energía completa")
 	_check(stage.leaves == collected_before_death, "reintentar conserva lo recogido en el intento")
 	_check(stage.collected_keys.size() == 2 and stage.level_keys[0].taken and stage.level_keys[1].taken, "volver al farol conserva las dos llaves sin duplicarlas")
+	_check(stage.bridges.all(func(b: RootBridge): return b.state == RootBridge.State.CLOSED), "tras morir se recogen todos los puentes")
+	_check(stage.activated_mechanisms.is_empty(), "las dianas se pueden reactivar después de morir")
+	# Este ensayo aísla la ruta geométrica: las dianas físicas ya se verificaron arriba.
+	# Se resuelven de nuevo ambos mecanismos antes de repetir el recorrido completo.
+	for bridge in stage.bridges:
+		stage._on_mechanism_activated(bridge.definition.mechanism_id)
+	await _step(45)
+	_check(stage.bridges.all(func(b: RootBridge): return b.state == RootBridge.State.OPEN), "repetir los mecanismos permite cruzar otra vez")
 	var clock: float = stage.seconds
 	main._toggle_pause()
 	await _step(8)
