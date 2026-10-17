@@ -168,32 +168,70 @@ func throw_station(station: RootBridgeDefinition) -> bool:
 
 
 func cross_vine_ravine() -> bool:
-	# Prueba el gesto real de subir, soltar y correr; los discos rebotan solos.
+	# Recorrido sin teletransporte: cada salto suelta una cuerda y engancha otra.
 	var crossing: ForestVineCrossing = stage.vine_crossings[0]
-	hero.respawn(crossing.global_position + Vector2(ForestVineCrossing.VINE_X, 600))
+	var first: ForestSwingingVine = crossing.vines[0]
+	hero.respawn(crossing.global_position + Vector2(ForestVineCrossing.FIRST_VINE_X - 85.0, 600))
 	hero.invulnerability = 100000.0
+	hero.controls.set_virtual_axis(1.0)
 	hero.controls.set_virtual_action(&"jump", true)
-	var reached_top: bool = false
-	for frame in 150:
+	var grabbed: bool = false
+	for frame in 125:
 		await step(1)
-		if hero.global_position.y < 318:
-			reached_top = true
+		if hero.attached_vine == first:
+			grabbed = true
 			break
-	if not reached_top:
+	hero.controls.set_virtual_action(&"jump", false)
+	if not grabbed:
 		hero.controls.clear_virtual()
 		return false
-	# La salida de la liana añade impulso para el primer disco.
-	hero.controls.set_virtual_action(&"jump", false)
-	hero.controls.set_virtual_axis(1.0)
-	var shattered: int = 0
-	for frame in 460:
-		await step(1)
-		for target in crossing.targets:
-			if not target.intact:
-				shattered = maxi(shattered, crossing.targets.find(target) + 1)
-		if hero.global_position.x > crossing.global_position.x + 3275:
+
+	for index in range(1, crossing.vines.size()):
+		var current: ForestSwingingVine = crossing.vines[index - 1]
+		var following: ForestSwingingVine = crossing.vines[index]
+		var launched: bool = false
+		# Esperar a que la oscilación apunte a la cuerda siguiente.
+		for frame in 340:
+			if hero.attached_vine != current:
+				break
+			var gap: float = following.grip_global_position().x - current.grip_global_position().x
+			if current.grip_velocity.x > 65.0 and current.angle > 0.02 and gap < 355.0:
+				hero.controls.set_virtual_action(&"jump", true)
+				await step(1)
+				hero.controls.set_virtual_action(&"jump", false)
+				launched = true
+				break
+			await step(1)
+		if not launched:
 			hero.controls.clear_virtual()
-			return shattered >= 3 and hero.is_on_floor()
+			return false
+		var caught: bool = false
+		for frame in 145:
+			await step(1)
+			if hero.attached_vine == following:
+				caught = true
+				break
+			if hero.dead:
+				break
+		if not caught:
+			hero.controls.clear_virtual()
+			return false
+		await step(14)
+
+	# Desde la última liana Diego salta hasta la orilla de enfrente.
+	var final_vine: ForestSwingingVine = crossing.vines[crossing.vines.size() - 1]
+	for frame in 340:
+		if final_vine.grip_velocity.x > 60.0 and final_vine.angle > 0.14:
+			break
+		await step(1)
+	hero.controls.set_virtual_action(&"jump", true)
+	await step(1)
+	hero.controls.set_virtual_action(&"jump", false)
+	for frame in 200:
+		await step(1)
+		if hero.is_on_floor() and hero.global_position.x > crossing.global_position.x + ForestVineCrossing.RAVINE_RIGHT + 55:
+			hero.controls.clear_virtual()
+			return true
 		if hero.dead:
 			break
 	hero.controls.clear_virtual()
