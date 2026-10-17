@@ -66,6 +66,18 @@ class ReglasDeDiseno(unittest.TestCase):
         doc["llaves"][0]["segmento_id"] = "cristales_opcionales"
         self.assert_error(doc, "segmento principal")
 
+    def test_excepcion_duracion_debe_estar_autorizada(self):
+        doc = leer("ejemplo-nivel-bosque.json")
+        doc["duracion"]["minimo_primera_partida_minutos"] = 9
+        self.assert_error(doc, "el mínimo de aventura es 15 minutos")
+        doc["duracion"]["excepcion_duracion_usuario"] = {
+            "fecha": "2026-10-17",
+            "solicitud": "El usuario ha solicitado acortar este nivel a la mitad del tiempo anterior."
+        }
+        self.assertEqual(comprobador.validar(doc)[0], [])
+        doc["duracion"]["excepcion_duracion_usuario"]["solicitud"] = ""
+        self.assert_error(doc, "petición explícita del usuario")
+
     def test_opcionales_no_inflan_minimo(self):
         doc = leer("ejemplo-nivel-bosque.json")
         for segmento in doc["segmentos"]:
