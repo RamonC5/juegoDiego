@@ -32,6 +32,7 @@ var activated_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
 var vine_crossings: Array[ForestVineCrossing] = []
+var secret_grove: ForestSecretGrove
 var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
@@ -62,6 +63,7 @@ func _ready() -> void:
 	_build_root_gates()
 	_build_moving_platforms()
 	_build_vine_crossings()
+	_build_secret()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
 		object.definition = ThrowableCatalog.DEFINITIONS[int(spec.z)]
@@ -75,6 +77,8 @@ func start(hero: DiegoPlayer) -> void:
 	player = hero
 	player.fall_limit_y = 980.0
 	player.position = DEFINITION.spawn
+	if is_instance_valid(secret_grove):
+		secret_grove.hero = hero
 	player.object_released.connect(_on_object_released)
 	for crossing in vine_crossings:
 		crossing.attach_player(hero)
@@ -183,6 +187,28 @@ func _build_vine_crossings() -> void:
 		crossing.fell.connect(_on_vine_fall.bind(crossing))
 		add_child(crossing)
 		vine_crossings.append(crossing)
+
+
+func _build_secret() -> void:
+	if DEFINITION.secret_grove.x < 0.0:
+		return
+	secret_grove = ForestSecretGrove.new()
+	secret_grove.position = DEFINITION.secret_grove
+	secret_grove.bonus_collected.connect(_on_secret_life_collected)
+	add_child(secret_grove)
+	# Hojarasca densa sobre la trampilla y suelo de la cámara inferior.
+	for x in [-83.0, 0.0, 83.0]:
+		var bush: Sprite2D = _prop(1, DEFINITION.secret_grove + Vector2(x, 605), 89.0, 3)
+		bush.modulate = Color(0.69, 0.88, 0.63, 0.90)
+	for x in [11397.0, 11939.0]:
+		_prop(1, Vector2(x, 1087), 116.0, 2)
+	for x in [11410.0, 11475.0, 11530.0, 11680.0, 11755.0, 11835.0, 11910.0]:
+		_add_collectible(Vector2(x, 1030))
+
+
+func _on_secret_life_collected() -> void:
+	if is_instance_valid(player) and player.gain_bonus_heart():
+		hint_requested.emit("¡Brote de vida! Ahora tienes cuatro corazones de energía durante este intento.")
 
 
 func _on_vine_fall(crossing: ForestVineCrossing) -> void:
@@ -417,6 +443,7 @@ func _on_goal(body: Node2D) -> void:
 		"leaves": leaves, "crystals": crystals, "seconds": seconds,
 		"enemies": defeated_enemies, "total_leaves": total_leaves,
 		"keys": collected_keys.size(),
+		"secret_life": is_instance_valid(secret_grove) and secret_grove.reward_taken,
 	})
 
 
@@ -438,6 +465,8 @@ func respawn_player() -> void:
 	player.respawn(respawn_position)
 	for platform in moving_platforms:
 		platform.reset_cycle()
+	if is_instance_valid(secret_grove):
+		secret_grove.lift.reset_cycle()
 	# La reaparición suelta primero cualquier objeto. Cada puesto conserva su instancia.
 	for pine in pine_stations:
 		pine.reset_to_spawn()
@@ -462,6 +491,8 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player) or player.dead or completed:
 		return
 	seconds += delta
+	# Un pozo seguro solo existe bajo la trampilla: no cambia las caídas de otros barrancos.
+	player.fall_limit_y = 1280.0 if is_instance_valid(secret_grove) and secret_grove.contains_underworld(player.global_position) else 980.0
 	_activity_seconds -= delta
 	if _activity_seconds <= 0.0:
 		_activity_seconds = 0.25
@@ -501,6 +532,8 @@ func _physics_process(delta: float) -> void:
 func _update_activity() -> void:
 	if not is_instance_valid(player):
 		return
+	if is_instance_valid(secret_grove):
+		secret_grove.set_process(absf(secret_grove.position.x - player.position.x) < 1650.0)
 	for collectible in collectibles:
 		if collectible.taken:
 			continue
