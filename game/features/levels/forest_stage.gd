@@ -379,7 +379,7 @@ func _physics_process(delta: float) -> void:
 			hint_requested.emit("Acércate a la piña, mira hacia la diana y vuelve a lanzar. Las piñas regresan a su puesto.")
 			_throw_hint_target = null
 	var hints: Dictionary = {
-		350: "Consigue las tres llaves de ramas para abrir la salida. Se recogen al tocarlas.",
+		350: "Consigue tres llaves de ramas para abrir la salida. Salta encima de Terrón para eliminarlo; tocarlo de lado hace daño.",
 		950: "Toca para coger el barril. Otro toque lo lanza en la dirección que miras.",
 		1490: "Las hojas dibujan el salto sobre el hueco. Puedes caminar o correr.",
 		2240: "Busca llaves también en las plataformas. Los cristales son opcionales. Más adelante practicarás con una piña.",

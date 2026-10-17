@@ -55,6 +55,10 @@ python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py
 
 La versión 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascendente que da acceso a la tercera llave, reubicada en una repisa alta. Usa movimiento y salto existentes, viaje sin mantener arrastre, suelo seguro y ciclos que vuelven a sus puestos. La primera dinámica del puente permanece integrada. Los 2–4 minutos iniciales son una estimación de autoría; la CI supera 292 comprobaciones, incluidas 27 de troncos. La duración observada sigue pendiente.
 
+### Refuerzo de combate del nivel 1 · 0.4.1
+
+Se añaden dos encuentros de la dinámica conocida `pisoton_patrullas`: Terrón antes de la primera llave y Moflete en el tramo final. El bosque pasa a nueve patrullas, con las tres llaves como única condición de la puerta. [Posiciones, recuperación y tiempo informado por el usuario](BOSQUE_ESMERALDA.md). No se introduce una tercera dinámica obligatoria ni se atribuyen 15 minutos a este ajuste.
+
 ### Ejemplos del skill
 
 Los [ejemplos de autoría](../.agents/skills/crear-dinamicas-salto-heroes/assets/) están marcados como propuestas. El del bosque presupuesta 18–21,6 minutos principales y excluye sus desvíos opcionales; ese cálculo no acredita duración real.

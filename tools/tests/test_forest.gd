@@ -34,7 +34,7 @@ func _run() -> void:
 	var hero: DiegoPlayer = main.player
 	var stage: ForestStage = main.stage
 	_check(hero.is_on_floor() and not hero.dead, "Diego aparece sobre suelo sólido")
-	_check(stage.enemies.size() == 7, "siete patrullas de Terrón y Moflete")
+	_check(stage.enemies.size() == 9, "nueve patrullas de Terrón y Moflete")
 	_check(stage.total_leaves > 50 and stage.collectibles.size() == stage.total_leaves + 3, "hojas y tres cristales opcionales")
 	_check(stage.DEFINITION.level_id == "world_01_level_01", "identificador estable del primer mundo")
 	_check(not stage.checkpoint_active and not stage.completed, "nivel nuevo sin completar")
@@ -82,6 +82,14 @@ func _run() -> void:
 	await _step(35)
 	_check(not is_instance_valid(first) or not first.active, "pisotón elimina la patrulla")
 	_check(bounces[0] == 1 and hero.health == 3, "pisotón produce un solo rebote y conserva energía")
+	# Los dos encuentros añadidos también deben ser alcanzables por pisotón físico.
+	for index in [7, 8]:
+		var extra: ForestEnemy = stage.enemies[index]
+		hero.respawn(extra.position + Vector2(0, -155))
+		hero.velocity.y = 150.0
+		await _step(35)
+		_check((not is_instance_valid(extra) or not extra.active) and hero.health == 3,
+			"el encuentro adicional %d se elimina por un pisotón real sin daño lateral" % (index - 6))
 	# Aproximación lateral: el contacto debe causar daño una vez, con protección.
 	var second: ForestEnemy = stage.enemies[1]
 	second.set_physics_process(true)

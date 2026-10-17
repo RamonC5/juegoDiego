@@ -8,7 +8,7 @@
 
 | Tramo en píxeles lógicos | Experiencia |
 | --- | --- |
-| 0–1700 | Espacio seguro inicial, primera llave de ramas en x=820, hojas, barril y primer Terrón |
+| 0–1700 | Espacio seguro inicial, primera llave de ramas en x=820, hojas, barril y dos encuentros de Terrón |
 | 1820–2850 | Moflete, plataforma opcional y farol de ensayo en x=2470; piña en x=2540 y diana en x=2780 |
 | 2850–3270 | Pasarela de ensayo de 420 px, suelo inferior y escalones de retorno |
 | 3270–3790 | Farol en x=3390, piña en x=3430 y diana principal en x=3710 |
@@ -16,7 +16,7 @@
 | 4270–5100 | Llave 2 en x=4560, farol en x=4820, patrulla y ruta opcional al cristal alto |
 | 5220–6280 | Vasija, ensayo de tronco horizontal sobre suelo seguro y ruta opcional al cristal |
 | 6330–6900 | Tronco ascendente, repisa y tercera llave en `(6760,211)`; suelo inferior para reintentar |
-| 7020–8200 | Último hueco de salto, patrulla y puerta en x=7900, que exige tres llaves |
+| 7020–8200 | Último hueco de salto, tres patrullas y puerta en x=7900, que exige tres llaves |
 
 Las tres brechas normales miden 120 px; los dos pasos amplios requieren activar sus dianas. La [dinámica del puente de raíces](dinamicas/puente_diana.md) reutiliza la recogida y el lanzamiento: un toque coge una piña y otro la lanza. La diana acepta cualquier arrojadizo válido. El ensayo ofrece suelo inferior y apoyos de retorno, probados con saltos reales. Las piñas perdidas vuelven a sus puestos.
 
@@ -25,6 +25,17 @@ Volver al farol conserva llaves, hojas, cristales y puentes resueltos del intent
 La segunda dinámica, [Troncos viajeros](dinamicas/troncos_viajeros.md), enseña a embarcar, dejarse transportar y saltar a una repisa. Un ensayo horizontal precede al ascensor de la tercera llave. Las plataformas tienen paradas amplias y se atraviesan desde abajo; caer permite volver desde el suelo. Al reaparecer, los ciclos vuelven al puesto inicial después de trasladar a Diego al farol.
 
 Se mantienen ocho identificadores de mundo. Esta entrega incorpora solo `world_01_level_01`; no crea los otros siete mundos ni un jefe del bosque.
+
+## Dos encuentros adicionales · versión 0.4.1
+
+| Enemigo | Puesto y patrulla | Papel |
+| --- | --- | --- |
+| Terrón | `(540,600)`, x=500–580 | Introducir el pisotón antes de la primera llave, con espacio desde el inicio. |
+| Moflete | `(7180,600)`, x=7160–7200 | Recuperar el combate después de las dinámicas y antes del arco de salida. |
+
+El nivel pasa de siete a nueve instancias de los dos enemigos ya integrados. Se ajusta el límite izquierdo de la patrulla de Terrón del tramo final a x=7310 para separar los cuerpos. Las patrullas nuevas permanecen sobre suelo firme y no ocupan dianas, piñas, apoyos de recuperación, faroles ni puestos de embarque. No se exige derrotarlas para abrir la puerta: conserva las tres llaves como condición.
+
+El usuario informó el 17 de octubre de 2026 de una partida completa de **45 segundos** en la versión anterior. Se registra como observación del usuario, sin una nueva medición ni una atribución de edad o metodología. Esta entrega añade dos encuentros; ampliar el recorrido hasta el mínimo de 15 minutos continúa pendiente.
 
 ## Controles
 
@@ -47,7 +58,7 @@ Prompts exactos: [material de producción](../art/levels/bosque_esmeralda/prompt
 
 `user://progress.json` guarda el estado completado, número de finalizaciones, máximos de hojas, cristales y llaves y mejor tiempo por identificador. Se escribe primero un temporal; rejugar conserva los mejores resultados y el acceso al nivel. Los ajustes de control se guardan por separado.
 
-La CI exige 292 comprobaciones: 88 del protagonista, 63 de objetos, 59 del bosque, 55 de puentes y 27 de troncos viajeros. Incluyen ruta completa, gestos normales e intercambiados, teclado, impactos físicos, recuperación por escalones, pérdida y daño con piñas, pausa durante la apertura, reaparición, tres llaves y resultados rejugables. Captura el escenario real con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720.
+La CI exige 294 comprobaciones: 88 del protagonista, 63 de objetos, 61 del bosque, 55 de puentes y 27 de troncos viajeros. Incluyen ruta completa, gestos normales e intercambiados, teclado, impactos físicos, recuperación por escalones, pérdida y daño con piñas, pausa durante la apertura, reaparición, tres llaves y resultados rejugables. Captura el escenario real con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720.
 
 El tiempo con un niño de 10 años y el mínimo de 15 minutos de aventura no están medidos. La integración amplía el prototipo actual; el recorrido largo sigue requiriendo contenido y pruebas.
 

@@ -2,9 +2,11 @@
 
 Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
 
-## Bosque Esmeralda 1-1 · versión 0.4.0
+## Bosque Esmeralda 1-1 · versión 0.4.1
 
-El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda. Incluye fondo raster con parallax, suelo con musgo, árboles, helechos, plataformas, tres brechas de salto, dos puentes de raíces, siete patrullas de Terrón y Moflete, objetos arrojadizos, hojas doradas, tres cristales, tres faroles de control y arco de salida.
+El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda. Incluye fondo raster con parallax, suelo con musgo, árboles, helechos, plataformas, tres brechas de salto, dos puentes de raíces, nueve patrullas de Terrón y Moflete, objetos arrojadizos, hojas doradas, tres cristales, tres faroles de control y arco de salida.
+
+**Dos encuentros adicionales en 0.4.1:** un Terrón antes de la primera llave y un Moflete en el tramo final. Ambos usan el pisotón y los lanzamientos existentes. Los puestos de diana, recuperación y troncos quedan fuera de sus patrullas.
 
 **Nueva dinámica: El puente de raíces.** Recoge una piña y lánzala a la diana para desplegar una pasarela de ensayo; repite después en el puente principal para alcanzar la segunda llave. Las piñas se recuperan y los puentes abiertos se conservan al volver al farol. El ensayo tiene suelo inferior y escalones de regreso. [Diseño e integración](docs/dinamicas/puente_diana.md).
 
@@ -46,7 +48,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_bridges.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platforms.gd
 ```
 
-292 comprobaciones: 88 de protagonista y controles, 63 de objetos, 59 de nivel y llaves, 55 de dianas y puentes y 27 de troncos viajeros. Incluyen recorridos completos con entradas reales, lanzamientos táctiles y de teclado, recuperación por escalones, pausa durante la apertura, pérdida de piñas, reaparición y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos. La duración con un niño de 10 años y el mínimo de 15 minutos de la aventura completa siguen pendientes de medición.
+294 comprobaciones previstas: 88 de protagonista y controles, 63 de objetos, 61 de nivel y llaves, 55 de dianas y puentes y 27 de troncos viajeros. Incluyen recorridos completos con entradas reales, lanzamientos táctiles y de teclado, recuperación por escalones, pausa durante la apertura, pérdida de piñas, reaparición y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos. La duración con un niño de 10 años y el mínimo de 15 minutos de la aventura completa siguen pendientes de medición.
 
 ## Estructura y documentación
 
