@@ -1,7 +1,7 @@
 """Compone el bosque de autoría; la ejecución consume únicamente level_01.tres.
 
 Edición breve solicitada: prólogo y nueve tramos (antes dieciocho), tres llaves
-repartidas y un barranco de liana con cinco dianas elásticas. No compactar
+repartidas y un barranco de cinco lianas que oscilan con fases propias. No compactar
 simplemente las coordenadas: los saltos conservarán amplitud y recuperación.
 """
 from pathlib import Path
@@ -86,7 +86,7 @@ def build():
         shape = ((0, 1, 2, 3, 4, 5), (3, 2, 4, 0, 1, 5), (2, 4, 3, 1, 0, 5))[chapter][i % 6]
         if i == 4:
             # Barranco largo: no puede saltarse de orilla a orilla.
-            # El nuevo nodo coloca liana y cinco dianas entre las dos orillas.
+            # El nuevo nodo coloca cinco lianas móviles sobre el barranco.
             values['ground_sections'] += [(x, 600, 1900, 520), (x + 3260, 600, 740, 520)]
         elif shape in (1, 4):
             gap = x + 2300
