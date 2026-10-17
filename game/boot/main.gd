@@ -1,6 +1,8 @@
 extends "res://game/boot/practice.gd"
 ## Entrada del primer nivel. Reutiliza pausa, opciones y controles del entrenamiento.
 
+@export var level_definition: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_01.tres")
+
 var stage: ForestStage
 var progress: LevelProgress
 var backdrop: ForestBackdrop
@@ -26,6 +28,7 @@ func _ready() -> void:
 	backdrop = ForestBackdrop.new()
 	background_layer.add_child(backdrop)
 	stage = ForestStage.new()
+	stage.DEFINITION = level_definition
 	stage.name = "BosqueEsmeralda"
 	add_child(stage)
 	player = PLAYER_SCENE.instantiate()
@@ -70,7 +73,7 @@ func _process(delta: float) -> void:
 	_camera.position.x = clampf(player.position.x + _look_ahead, half_width,
 		maxf(half_width, stage.DEFINITION.width - half_width))
 	# El ascensor necesita aire sobre la repisa para dejar al personaje fuera del HUD y las pistas.
-	var camera_top: float = 260.0 if player.position.x >= 6250.0 and player.position.x <= 7200.0 else 360.0
+	var camera_top: float = -170.0
 	var desired_camera_y: float = clampf(player.position.y - 240.0, camera_top, 580.0)
 	if not get_tree().paused:
 		_camera.position.y = move_toward(_camera.position.y, desired_camera_y, delta * 260.0)

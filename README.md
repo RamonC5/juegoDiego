@@ -2,15 +2,13 @@
 
 Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
 
-## Bosque Esmeralda 1-1 · versión 0.4.1
+## Bosque Esmeralda 1-1 · versión 0.5.0
 
-El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda. Incluye fondo raster con parallax, suelo con musgo, árboles, helechos, plataformas, tres brechas de salto, dos puentes de raíces, nueve patrullas de Terrón y Moflete, objetos arrojadizos, hojas doradas, tres cristales, tres faroles de control y arco de salida.
+El primer bosque se amplía a **19 tramos y tres rutas de llaves**, con **81 enemigos**: 41 Terrones y 40 Mofletes. Los del suelo detectan, avisan y persiguen a Diego; los 38 guardianes de plataforma se mantienen dentro de sus bordes. Se conservan pisotones y lanzamientos.
 
-**Dos encuentros adicionales en 0.4.1:** un Terrón después de la primera llave y un Moflete en el tramo final. Ambos usan el pisotón y los lanzamientos existentes. Los puestos de diana, recuperación y troncos quedan fuera de sus patrullas.
+El recorrido combina terrazas, barrancos, ocho puentes, ocho troncos móviles y 19 pasos de dos dianas. Las rutas posteriores cambian el orden y las alturas, e incluyen viajes diagonales. Los 21 faroles recuperan energía al activarse. Piñas y apoyos permiten volver a intentar cada reto; los pasos resueltos permanecen abiertos durante el intento.
 
-**Nueva dinámica: El puente de raíces.** Recoge una piña y lánzala a la diana para desplegar una pasarela de ensayo; repite después en el puente principal para alcanzar la segunda llave. Las piñas se recuperan y los puentes abiertos se conservan al volver al farol. El ensayo tiene suelo inferior y escalones de regreso. [Diseño e integración](docs/dinamicas/puente_diana.md).
-
-**Segunda dinámica: Troncos viajeros.** Salta sobre un tronco horizontal y suelta el movimiento para viajar. Después, sube en el tronco ascendente y salta a la repisa de la tercera llave. El suelo inferior permite reintentar y los ciclos vuelven a sus puestos. Se conservan los controles por gestos. [Recorrido y recuperación](docs/dinamicas/troncos_viajeros.md).
+Las llaves están separadas en las tres rutas. La duración prevista de **18–22 minutos** es una estimación de autoría, pendiente de medir con el público objetivo. No hay un reloj que retrase la salida y los secretos son opcionales. [Recorrido, recuperación y límites de validación](docs/BOSQUE_ESMERALDA.md).
 
 Para completar cada intento hay que recoger **tres llaves de ramas** y abrir la puerta del bosque. El HUD y los tres cerrojos muestran el progreso; volver al farol conserva las llaves y reiniciar las repone. [Diseños temáticos y reglas de las llaves](docs/LLAVES_Y_PUERTAS.md).
 
@@ -46,9 +44,13 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_throwables.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_bridges.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platforms.gd
+godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest_expansion.gd
+godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest_route.gd
 ```
 
-294 comprobaciones: 88 de protagonista y controles, 63 de objetos, 61 de nivel y llaves, 55 de dianas y puentes y 27 de troncos viajeros. Incluyen recorridos completos con entradas reales, lanzamientos táctiles y de teclado, recuperación por escalones, pausa durante la apertura, pérdida de piñas, reaparición y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos. La duración con un niño de 10 años y el mínimo de 15 minutos de la aventura completa siguen pendientes de medición.
+La CI reúne **474 comprobaciones**: 88 de protagonista, 63 de objetos, 61 de bosque, 55 de puentes, 27 de troncos, 105 de ampliación/persecución, 70 de ruta continua y cinco de los datos binarios extraídos del APK. Instala el APK ARM64 en emulador Android API 35 y conserva capturas y auditoría.
+
+Las suites antiguas de mecanismos usan un fixture estable; las nuevas cargan el bosque completo. La ruta geométrica continua usa controles y lanzamientos reales y excluye la colisión enemiga para aislar geometría; el combate se prueba aparte. Su tiempo simulado no mide una primera partida del público objetivo. `capture_forest.gd` captura móvil, tablet, panorámico y viaje diagonal. El tacto, el objetivo de 60 FPS y la duración con un niño de 10 años requieren comprobación física.
 
 ## Estructura y documentación
 
@@ -56,7 +58,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platfo
 | --- | --- |
 | `game/boot/` | Composición del nivel y base del entrenamiento, pausa y opciones |
 | `game/features/levels/` | Construcción del bosque, terreno, coleccionables y fondo |
-| `game/features/enemies/` | Patrullas de Terrón y Moflete y contratos de combate |
+| `game/features/enemies/` | Percepción, persecución, bordes y contratos de combate |
 | `game/features/player/` | Diego, animaciones, entrada y entrenamiento |
 | `game/features/objects/` | Seis arrojadizos y sus definiciones |
 | `game/core/services/` | Ajustes y progreso local separado |

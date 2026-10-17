@@ -4,9 +4,9 @@ Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un
 
 ## Estado y alcance
 
-El bosque experimental contiene movimiento, salto, agacharse sin avanzar, pisotones, lanzamientos, Terrón y Moflete, tres llaves de ramas, puerta, dos estaciones de diana y puente, dos troncos viajeros y tres faroles. El guardado actual conserva resultados completados; no guarda un intento al cerrar a mitad de nivel. No hay una medición de 15 minutos en el perfil objetivo.
+El bosque 0.5.0 contiene 19 tramos, 81 enemigos con persecución (38 guardianes de plataforma), tres llaves repartidas en tres rutas, 19 pasos de dos marcas, ocho puentes, ocho troncos y 21 faroles. El guardado conserva resultados completados; cerrar reinicia el intento. La ampliación está integrada y la duración de 18–22 minutos sigue siendo estimada, sin medición del público objetivo.
 
-La ampliación hasta el recorrido largo, los otros niveles y los jefes son trabajo pendiente. El skill aporta herramientas de autoría; la integración 0.3.0 añadió la primera dinámica y la 0.4.0 incorpora los troncos viajeros. El [inventario del prototipo](../.agents/skills/crear-dinamicas-salto-heroes/references/estado-prototipo.md) conserva la instantánea previa a los puentes; contrastarlo con esta ficha y el código al usarlo.
+[Recorrido actual](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json) · [Contenido y evidencia](BOSQUE_ESMERALDA.md). Las fichas antiguas del puente y los troncos conservan su contexto de integración inicial. Los otros niveles y jefes siguen pendientes. El inventario del skill es una instantánea anterior; contrastarlo con el código actual.
 
 ## Duración y recuperación
 
@@ -20,7 +20,7 @@ Los nombres y la distribución nueva son propuestas de diseño, no niveles ya im
 
 | Etapa | Dinámicas nuevas previstas | Progresión |
 | --- | --- | --- |
-| 1-1 · El despertar del bosque ampliado | Puente de diana y troncos viajeros | Llave 1 en plataformas, llave 2 tras el puente y llave 3 en la repisa del tronco ascendente. Ampliación larga pendiente. |
+| 1-1 · El despertar del bosque ampliado | Puente de diana y troncos viajeros | Integrado: prólogo y tres rutas de seis retos con llaves separadas, dos marcas y persecución. Duración pendiente de medir. |
 | 1-2 · Las copas inquietas | Setas de rebote; combinar con plataformas móviles ya conocidas | Explorar alturas. Introducir Nóctilo cuando tenga comportamiento jugable, primero de forma opcional si añade una tercera dinámica nueva. |
 | 1-3 · El corazón de las raíces | Avanzar agachado y placas de peso | Resolver pasos estrechos y mecanismos; practicar lanzamientos antes del jefe. |
 | Jefe del bosque | Patrones y vulnerabilidad a objetos lanzados | Desbloquear tras completar las tres aventuras; ofrecer objetos de reposición y repetición del combate. |

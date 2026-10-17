@@ -84,7 +84,7 @@ El flujo realiza estas operaciones:
 2. Descarga Godot con la versión de `.godot-version` y comprueba el SHA-512 registrado en `tools/godot-linux-x86_64.sha512`.
 3. Descarga las plantillas de esa misma versión, comprueba `tools/godot-export-templates.sha256` e instala las plantillas APK Android. El checksum procede del campo `digest` de la [publicación oficial de Godot 4.7.2](https://github.com/godotengine/godot-builds/releases/tag/4.7.2-stable).
 4. Recupera o crea una clave de depuración fuera del repositorio y configura las rutas de Java, SDK y firma en un directorio temporal mediante `tools/ci/configure_android.py`.
-5. Importa el proyecto, comprueba el arranque, ejecuta las 88 pruebas del protagonista, 63 de objetos, 58 del bosque y 55 de puentes y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
+5. Importa el proyecto, comprueba el arranque, ejecuta las suites del protagonista, objetos, mecanismos, persecución y recorrido ampliado (469 comprobaciones) y exporta con `--headless --export-debug Android`. Falla ante errores de Godot y pruebas fallidas.
 6. Verifica el APK con `apksigner`, comprueba el paquete `com.ramonc5.saltoheroes` y la biblioteca ARM64, y calcula el SHA-256 del archivo.
 7. Publica el APK, su checksum y los metadatos de compilación durante 30 días. Si falla la compilación, conserva los registros disponibles durante 7 días.
 
@@ -102,7 +102,7 @@ El resumen de cada ejecución también enlaza directamente al artefacto. La desc
 | `salto-heroes.apk.sha256` | Comprobación de integridad del APK |
 | `build-info.json` | Versión de Godot, versión Android, commit y ejecución de origen |
 
-El código de versión del APK es `1000 + GITHUB_RUN_NUMBER`. El nombre toma `config/version` del proyecto y añade `-ci.<número>`, actualmente `0.1.0-ci.<número>`. Solo se modifica la copia del perfil dentro del runner. Una repetición conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
+El código de versión del APK es `1000 + GITHUB_RUN_NUMBER`. El nombre toma `config/version` del proyecto y añade `-ci.<número>`, actualmente `0.5.0-ci.<número>`. Solo se modifica la copia del perfil dentro del runner. Una repetición conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
 
 ### Firma de pruebas y actualizaciones
 
@@ -110,7 +110,7 @@ No hace falta configurar secretos para generar e instalar estos APK. Se usa una 
 
 La caché permite reutilizar la firma en ejecuciones posteriores cuando está disponible. No es un almacén permanente: si GitHub elimina la caché o una rama no puede recuperarla, se genera otra clave. Android no permite actualizar una aplicación con otra firma; en ese caso será necesario desinstalar la versión anterior antes de instalar la nueva, lo que puede borrar el progreso local. Para distribución estable se configurará una clave permanente respaldada y almacenada como secreto.
 
-El APK abre el entrenamiento de Diego. La CI verifica importación, arranque, 118 comprobaciones de comportamiento, exportación y firma; el tacto y rendimiento deben comprobarse en Android y tablet Windows físicos.
+El APK abre el Bosque Esmeralda ampliado; Entrenamiento permanece en Pausa. La CI verifica importación, arranque, 469 comprobaciones de comportamiento y cinco del recurso binario extraído del APK, exportación, firma e instalación Android en emulador. El tacto, rendimiento y duración del público objetivo deben comprobarse en dispositivos físicos.
 
 ### Actualizar Godot
 
@@ -120,3 +120,10 @@ Al cambiar `.godot-version`, actualiza el checksum del editor y el de las planti
 ## Dianas y puentes del bosque
 
 La versión 0.3.0 integra dos estaciones en el nivel 1. Ejecutar también `godot --headless --fixed-fps 60 --path . --script tools/tests/test_bridges.gd`. Sus 55 comprobaciones cubren control táctil y teclado, recuperación, pausa, reaparición y recorrido completo con las tres llaves. La CI ejecuta esta suite antes de las capturas y exportación. Los presupuestos de duración y las pruebas en dispositivos físicos siguen pendientes.
+
+
+## Bosque ampliado y enemigos · 0.5.0
+
+Ejecutar `test_forest_expansion.gd` para visión, persecución, pausa, límites de plataformas, pasos dobles y recuperación. Ejecutar `test_forest_route.gd` para la ruta geométrica continua con entradas reales, transporte y lanzamientos; esta suite excluye colisión enemiga y no mide la duración del público objetivo. El combate conserva sus pruebas separadas.
+
+El `.tres` completo se recompone con `python3 tools/authoring/build_forest_level.py`. El fixture estable de `tools/tests/fixtures/forest_mechanics.tres` mantiene las regresiones antiguas y no se usa dentro del juego ni se exporta. Los JSON en `docs/niveles/` y `docs/dinamicas/` documentan autoría y estimaciones. Consultar la [evidencia de 0.5.0](pruebas/bosque-0.5.0.json).

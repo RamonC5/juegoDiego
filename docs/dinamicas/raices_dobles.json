@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "tipo": "dinamica",
+  "id": "raices_dobles",
+  "nombre": "Raíces de dos marcas",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "encargo:ampliación del primer bosque y persecución",
+      "revision": "2026-10-17",
+      "observacion": "El usuario pide más duración, complejidad y enemigos de ambos tipos, persecución y guardianes que permanezcan en plataformas."
+    },
+    {
+      "ruta": "RamonC5/juegoDiego",
+      "revision": "main@43bb7dc91e44e04b2f29da3b040255944a9c500f",
+      "observacion": "Inventario contrastado: nueve patrullas, dos puentes, dos troncos, tres faroles y tres llaves; el recorrido observado por el usuario era demasiado corto."
+    },
+    {
+      "ruta": "https://github.com/RamonC5/juegoDiego/actions/runs/39017850472",
+      "revision": "a160e9825cee34727a03480099d72067c34bd83d",
+      "observacion": "474 comprobaciones correctas; APK 0.5.0-ci.41 instalado en emulador Android API 35 y capturas revisadas. La duración del público objetivo sigue pendiente."
+    }
+  ],
+  "objetivo": "Explorar ambas alturas de cada tramo, activar dos dianas con lanzamientos y abrir un paso permanente que permite regresar.",
+  "dependencias": [
+    {
+      "id": "lanzar_diana",
+      "estado": "implementada",
+      "detalle": "Recogida y lanzamiento físicos existentes, piñas reutilizables y mismo contrato de impacto."
+    },
+    {
+      "id": "paso_dos_marcas",
+      "estado": "implementada",
+      "detalle": "ForestRootGate y ForestRootGateDefinition acumulan dos identificadores, muestran 1/2 y retiran la colisión al completar ambos."
+    },
+    {
+      "id": "plataformas_troncos",
+      "estado": "implementada",
+      "detalle": "Terrazas de 85 px por salto, troncos móviles y puentes conocidos; rutas de recuperación y retorno."
+    }
+  ],
+  "controles": {
+    "tactil": "Arrastrar y deslizar arriba para subir; toque para coger y lanzar la piña mirando a la diana. No incorpora gestos.",
+    "teclado": "Movimiento, Espacio y E existentes; se mantiene reasignación.",
+    "mando": "Movimiento, jump y grab_throw existentes."
+  },
+  "aprendizaje": {
+    "presentacion": "El primer paso enseña dos marcas, una sobre una repisa baja y otra en suelo, con piñas propias y rótulos numerados.",
+    "practica": "Variar las alturas con escaleras y troncos, conservando las dos marcas y el retorno.",
+    "combinacion": "Alternar ambos tipos de enemigos, puentes sobre barrancos y estaciones altas, sin exigir secretos ni tiempos de espera."
+  },
+  "reglas": {
+    "activacion": "Cada diana acepta un impacto de objeto lanzado válido y activa una sola marca del paso correspondiente.",
+    "exito": "Ambas marcas abren permanentemente las raíces; cada sexta ruta entrega una de las tres llaves.",
+    "fallo": "Un lanzamiento perdido mantiene la marca pendiente. Un solo impacto no abre el paso.",
+    "recuperacion": "Piñas propias retornan a los cuatro segundos; sostenerlas no las duplica. Suelo inferior y peldaños recuperan los barrancos; faroles antes de cada combinación. Puentes y marcas se conservan en el intento."
+  },
+  "feedback": [
+    "Dianas 1/2 y marcas ○/✓",
+    "RAÍCES · DOS DIANAS y PASO ABIERTO",
+    "Carteles con número y nombre de tramo",
+    "Signo ! y aviso de persecución"
+  ],
+  "recompensa": "Pasos permanentes y tres llaves de ramas separadas en las rutas; coleccionables opcionales.",
+  "minutos_estimados": [
+    0.5,
+    1.0
+  ],
+  "dificultad": "Baja progresiva. Terrazas anchas y 85 px de desnivel; cada farol recupera energía una vez. Variaciones nuevas de dos dinámicas ya aprendidas.",
+  "persistencia": {
+    "al_morir": "Conservar llaves, hojas, cristales, puentes y marcas activadas del intento. Regresar al último farol con energía; devolver piñas y ciclos, y reiniciar la alerta de los enemigos vivos sin duplicarlos.",
+    "al_cerrar": "El intento se reinicia. Se conservan los resultados completados y ajustes; no existe guardado intermedio.",
+    "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Signo ! y pausa de aviso antes de perseguir, marcas numeradas 1/2 con ✓, carteles de tramo y texto de farol.",
+    "equivalencia_visual_sonora": "La información necesaria es visual; no se exige audio. Audio y lector de pantalla pendientes.",
+    "legibilidad_movil": "Textos grandes, cámara que acompaña las alturas y mismos controles táctiles. Capturas y Android nativo se verifican antes de entregar.",
+    "ajustes_control": "Se mantienen sensibilidad, lados intercambiados, salto completo, carrera opcional y reasignación."
+  },
+  "validacion": {
+    "funcional": [
+      "Dos marcas diferentes por paso; primera insuficiente y contacto repetido sin duplicación",
+      "Recuperación de piñas, conservación al reintentar y retorno por el paso abierto",
+      "Ruta física continua con saltos, transporte y lanzamientos reales; combate aislado en suites separadas"
+    ],
+    "jugando": [
+      "Pendiente: duración y comprensión de primeras partidas del público objetivo",
+      "Pendiente: tacto y rendimiento en dispositivos Android y Windows físicos"
+    ],
+    "evidencias": [
+      "tools/tests/test_forest_expansion.gd",
+      "tools/tests/test_forest_route.gd",
+      "tools/tests/test_bridges.gd y tools/tests/test_moving_platforms.gd; fixture de mecanismos anterior para regresión",
+      "docs/pruebas/bosque-0.5.0.json · checksum, 474 comprobaciones, auditoría Android y límites de validación"
+    ]
+  }
+}

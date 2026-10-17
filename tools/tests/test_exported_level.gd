@@ -16,9 +16,11 @@ func _initialize() -> void:
 	var exported := ResourceLoader.load("res://.godot-logs/apk-level_01.res", "", ResourceLoader.CACHE_MODE_IGNORE) as ForestLevelDefinition
 	_check(exported != null, "el recurso real del APK se puede cargar")
 	if exported != null:
-		_check(exported.enemy_spawns == ForestStage.DEFINITION.enemy_spawns,
-			"las nueve posiciones y patrullas sobreviven a la exportación binaria")
-		_check(exported.enemy_kinds == ForestStage.DEFINITION.enemy_kinds and exported.enemy_kinds.size() == 9,
-			"los nueve tipos de enemigos sobreviven a la exportación binaria")
+		_check(exported.enemy_spawns == preload("res://game/data/worlds/world_01/level_01.tres").enemy_spawns,
+			"las posiciones y patrullas sobreviven a la exportación binaria")
+		_check(exported.enemy_kinds == preload("res://game/data/worlds/world_01/level_01.tres").enemy_kinds and exported.enemy_kinds.size() == exported.enemy_spawns.size(),
+			"los tipos de enemigos sobreviven a la exportación binaria")
+		_check(exported.root_gates.size() == 19 and exported.root_gates[18].stations.size() == 2, "los pasos dobles y sus estaciones sobreviven al APK")
+		_check(exported.key_positions == preload("res://game/data/worlds/world_01/level_01.tres").key_positions, "las tres llaves repartidas sobreviven al APK")
 	print("RESULTADO DATOS APK: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)

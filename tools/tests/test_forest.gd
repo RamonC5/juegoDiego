@@ -26,6 +26,7 @@ func _check(condition: bool, description: String) -> void:
 func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.level_definition = preload("res://tools/tests/fixtures/forest_mechanics.tres")
 	root.add_child(main)
 	main.progress = LevelProgress.new("user://forest-test-progress.json")
 	DirAccess.remove_absolute("user://forest-test-progress.json")

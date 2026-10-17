@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 
 PACKAGE = "com.ramonc5.saltoheroes"
 OUTPUT = Path("art/android")
-MARKER = "SALTO_FOREST_READY level=world_01_level_01 enemies=9 art=9"
+MARKER = "SALTO_FOREST_READY level=world_01_level_01 enemies=81 art=81"
 
 
 def adb(*args: str, check: bool = True) -> subprocess.CompletedProcess:
@@ -92,7 +92,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
         if adb("shell", "pidof", PACKAGE, check=False).returncode != 0:
             raise RuntimeError(f"{prefix}: la aplicación no sigue ejecutándose.")
         if require_marker and MARKER not in collected:
-            raise RuntimeError("El APK no confirmó las nueve patrullas con sus texturas.")
+            raise RuntimeError("El APK no confirmó los 81 enemigos con sus texturas.")
         if not ready:
             raise RuntimeError(f"{prefix}: no se obtuvo un fotograma del bosque tras la carga.")
         dismiss_fullscreen_hint()

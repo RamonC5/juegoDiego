@@ -10,6 +10,8 @@ var definition: RootBridgeDefinition
 var active: bool = true
 var _caption: Label
 var _sprite: Sprite2D
+var caption: String = ""
+var show_connection: bool = true
 
 
 func _ready() -> void:
@@ -31,6 +33,8 @@ func _ready() -> void:
 	add_child(_sprite)
 	_caption = Label.new()
 	_caption.text = "ENSAYO · LANZA AQUÍ" if definition.tutorial else "PUENTE · LANZA AQUÍ"
+	if not caption.is_empty():
+		_caption.text = caption
 	_caption.position = Vector2(-145, -116)
 	_caption.size = Vector2(290, 40)
 	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -66,7 +70,9 @@ func _draw() -> void:
 	# Poste y raíz de conexión: la relación con el puente se ve incluso sin audio.
 	draw_line(Vector2(0, 54), Vector2(0, 72), Color("382b1c"), 13, true)
 	var connection: Vector2 = definition.bridge_rect.position - position + Vector2(14, 13)
-	draw_polyline(PackedVector2Array([Vector2(0, 65), Vector2(32, 76), connection]), Color("59482d"), 7, true)
+	if show_connection:
+		draw_polyline(PackedVector2Array([Vector2(0, 65), Vector2(32, 76), connection]), Color("59482d"), 7, true)
 	if not active:
 		draw_circle(Vector2.ZERO, 27, Color("12382e"))
 		draw_polyline(PackedVector2Array([Vector2(-15, 0), Vector2(-3, 12), Vector2(18, -14)]), Color("fff3cb"), 6, true)
+

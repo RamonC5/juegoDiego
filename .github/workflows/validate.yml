@@ -159,6 +159,21 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar la ampliación y la persecución
+        shell: bash
+        run: |
+          set -euo pipefail
+          for suite in test_forest_expansion test_forest_route; do
+            "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+              --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
+            if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
+              exit 1
+            fi
+          done
+          python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py \
+            docs/dinamicas/raices_dobles.json docs/dinamicas/persecucion_bosque.json \
+            docs/niveles/world_01_level_01.json
+
       - name: Comprobar dianas y puentes de raíces
         shell: bash
         run: |

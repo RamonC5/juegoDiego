@@ -303,6 +303,13 @@ func celebrate() -> void:
 	_begin_action(&"victory")
 
 
+func recover_energy() -> void:
+	if dead or celebrating:
+		return
+	health = maximum_health
+	health_changed.emit(health)
+
+
 func respawn(at: Vector2) -> void:
 	_drop_object()
 	_set_crouching(false)
@@ -335,4 +342,5 @@ func _draw() -> void:
 	# Protección continua y visible: sin parpadeos ni destellos.
 	if invulnerability > 0.0:
 		draw_arc(Vector2(0, -52), 62.0, 0.0, TAU, 48, Color("ffe4a8"), 3.0, true)
+
 

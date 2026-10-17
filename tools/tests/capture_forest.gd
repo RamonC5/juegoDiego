@@ -62,6 +62,26 @@ func _capture() -> void:
 	await _frames(45)
 	_save("preview_bridge_main_closed")
 	_save("preview_checkpoint")
+	# Capturas de la ampliación antes de resolver los pasos para el resto de vistas.
+	main.player.respawn(Vector2(7480, 600))
+	await _frames(45)
+	_save("preview_roots_two_marks")
+	main.player.respawn(Vector2(9950, 260))
+	await _frames(30)
+	_save("preview_terraces_guard")
+	main.player.respawn(Vector2(8200 + 2 * 4000 + 1350, 600))
+	await _frames(35)
+	_save("preview_canopy_lift")
+	main.player.respawn(Vector2(8200 + 5 * 4000 + 3750, 600))
+	await _frames(20)
+	_save("preview_first_key_route")
+	# Última ruta: el transporte diagonal lleva hasta la copa y deja el objetivo legible.
+	var diagonal: ForestMovingPlatform = main.stage.moving_platforms[6]
+	diagonal.reset_cycle()
+	main.player.respawn(diagonal.definition.start_position - Vector2(0, 28))
+	await _frames(260)
+	_save("preview_diagonal_canopy")
+	main.player.respawn(Vector2(3430, 600))
 	for target in main.stage.throw_targets:
 		main.stage._on_mechanism_activated(target.definition.mechanism_id)
 		target.restore_activated()

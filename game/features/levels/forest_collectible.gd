@@ -23,6 +23,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if taken or not body is DiegoPlayer or body.dead:
 		return
 	taken = true
+	set_process(false)
 	set_deferred("monitoring", false)
 	visible = false
 	collected.emit(self)
@@ -52,3 +53,4 @@ func _draw() -> void:
 			points[index] += bob
 		draw_colored_polygon(points, Color("f4c85e"))
 		draw_line(bob + Vector2(-12, 13), bob + Vector2(11, -13), Color("fff4b7"), 2.5, true)
+

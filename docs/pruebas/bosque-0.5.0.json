@@ -1,0 +1,62 @@
+{
+  "source_commit": "a160e9825cee34727a03480099d72067c34bd83d",
+  "workflow_run": 39017850472,
+  "version_expected": "0.5.0-ci.41",
+  "local_suites": {
+    "player": 88,
+    "objects": 63,
+    "forest_fixture": 61,
+    "bridges_fixture": 55,
+    "moving_fixture": 27,
+    "expansion": 105,
+    "continuous_geometry_route": 70
+  },
+  "geometry_route_seconds_simulated": 545.0,
+  "geometry_combat_enabled": false,
+  "target_first_play_duration": "18–22 minutos estimados; no medidos con el público objetivo",
+  "physical_device": false,
+  "android_native_validation": "passed",
+  "visual_review": {
+    "desktop": "Revisadas las capturas de ambas especies, pasos dobles, terrazas, primera ruta de llave y viaje diagonal; dianas legibles y conexiones largas eliminadas.",
+    "android": "Terrón visible con su rótulo en actual_enemigo.png; movimiento táctil observado y menú real de Pausa con versión 0.5.0-ci.41. El aviso del sistema ya no tapa las capturas."
+  },
+  "version": "0.5.0-ci.41",
+  "apk_sha256": "28499b1c539ec47420a456644e1f348b9a140a69778e13d79c13a81dfc1958b0",
+  "apk_bytes": 46714222,
+  "binary_export_checks": 5,
+  "total_automated_checks": 474,
+  "workflow_url": "https://github.com/RamonC5/juegoDiego/actions/runs/39017850472",
+  "workflow_conclusion": "success",
+  "android_audit": {
+    "device": "sdk_gphone64_x86_64",
+    "android_api": "35",
+    "device_abis": "x86_64,arm64-v8a",
+    "baseline": null,
+    "candidate": {
+      "apk_sha256": "28499b1c539ec47420a456644e1f348b9a140a69778e13d79c13a81dfc1958b0",
+      "installed_version": "0.5.0-ci.41",
+      "screen": [
+        1280,
+        720
+      ],
+      "enemy_art_marker": true,
+      "screenshots": [
+        "actual_inicio.png",
+        "actual_enemigo.png",
+        "actual_pausa.png"
+      ]
+    },
+    "physical_device_test": false,
+    "visual_review": "pending"
+  },
+  "native_artifact_id": 12094748953,
+  "apk_artifact_id": 12095571430,
+  "desktop_capture_artifact_id": 12096015150,
+  "limitations": [
+    "Android se comprueba en emulador API 35, no en teléfono físico.",
+    "La prueba nativa recorre el inicio; IA y ruta completa se verifican en suites físicas de Godot separadas.",
+    "La ruta automatizada excluye colisión de enemigos para aislar geometría.",
+    "18–22 minutos sigue siendo una estimación de autoría, sin muestra del público objetivo.",
+    "Tacto y rendimiento en Android y Windows físicos pendientes."
+  ]
+}
