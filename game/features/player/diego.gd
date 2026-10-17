@@ -383,7 +383,6 @@ func _die() -> void:
 	health = 0
 	velocity.x = 0.0
 	controls.clear_virtual()
-	_was_climbing_vine = false
 	_drop_object()
 	_begin_action(&"defeated")
 	health_changed.emit(health)
