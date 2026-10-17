@@ -83,6 +83,12 @@ func _physics_process(_delta: float) -> void:
 		and local.y > -75.0 and local.y < 44.0 and hero.controls.held(&"crouch")
 	if hatch_shape.disabled != open_hatch:
 		hatch_shape.set_deferred("disabled", open_hatch)
+	# El cuerpo puede aparecer ya dentro del área tras un ascensor o reaparición:
+	# la proximidad 2D complementa body_entered sin conceder premio en superficie.
+	if not reward_taken and not hero.dead and is_instance_valid(reward_zone):
+		var torso: Vector2 = hero.global_position + Vector2(0, -46)
+		if torso.distance_to(reward_zone.global_position) < 82.0:
+			_on_reward_body_entered(hero)
 
 
 func _on_reward_body_entered(body: Node2D) -> void:
