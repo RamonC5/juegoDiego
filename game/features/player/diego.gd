@@ -341,6 +341,16 @@ func celebrate() -> void:
 	_begin_action(&"victory")
 
 
+## Un único brote secreto amplía la energía del intento hasta cuatro corazones.
+func gain_bonus_heart() -> bool:
+	if dead or celebrating or maximum_health >= 4:
+		return false
+	maximum_health += 1
+	health = mini(health + 1, maximum_health)
+	health_changed.emit(health)
+	return true
+
+
 func recover_energy() -> void:
 	if dead or celebrating:
 		return
