@@ -135,6 +135,13 @@ def build():
             ledge2, floor2 = stairs(start2, count2, 560)
             pine2 = ledge2 + 85
             crest2 = (ledge2, floor2, 560)
+        if i == 4:
+            # La segunda estación debe quedar en la orilla alcanzada, no suspendida
+            # sobre el vacío. Eliminar los escalones previos que eludían las dianas.
+            values['raised_platforms'] = [r for r in values['raised_platforms']
+                                           if not (x + 2600 <= r[0] <= x + 3120)]
+            pine2, floor2 = x + 3390, 600
+            crest2 = (x + 3320, 600, 500)
         gate(i + 1, gate_x, [station(f'Ruta{i:02d}Diana1', pine1, floor1, gate_x, name + ' · marca 1'),
                                 station(f'Ruta{i:02d}Diana2', pine2, floor2, gate_x, name + ' · marca 2')], name)
 
@@ -142,7 +149,7 @@ def build():
         other_kind = 'moflete' if first_kind == 'terron' else 'terron'
         enemy(x + 440, 600, x + 330, x + 520, first_kind)
         # Un segundo perseguidor en una orilla firme; no sobre el hueco ni junto al farol.
-        gx = x + (3000 if shape in (1, 4) else 2420)
+        gx = x + (3530 if i == 4 else (3000 if shape in (1, 4) else 2420))
         enemy(gx, 600, gx - 90, gx + 90, other_kind)
         for n, crest in enumerate([crest1, crest2]):
             left, y, width = crest
