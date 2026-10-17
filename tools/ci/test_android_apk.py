@@ -185,8 +185,12 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
         if width <= height:
             raise RuntimeError("El juego no está en orientación horizontal.")
         # Movimiento táctil real, sin teletransporte ni escena alternativa de pruebas.
-        adb("shell", "input", "swipe", str(int(width * .16)), str(int(height * .72)),
-            str(int(width * .30)), str(int(height * .72)), "2200")
+        adb("shell", "input", "tap", str(int(width * .20)), str(int(height * .50)))
+        time.sleep(.15)
+        adb("shell", "input", "tap", str(int(width * .20)), str(int(height * .50)))
+        screenshot(f"{prefix}_doble_salto.png")
+        adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .72)),
+            str(int(width * .80)), str(int(height * .72)), "2200")
         time.sleep(1)
         screenshot(f"{prefix}_enemigo.png")
         adb("shell", "input", "tap", str(int(width * .94)), str(int(height * .067)))

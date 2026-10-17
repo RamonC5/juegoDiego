@@ -222,11 +222,11 @@ func _build_menu() -> void:
 	box.add_theme_constant_override("separation", 13)
 	scroll.add_child(box)
 	var instructions := Label.new()
-	instructions.text = "GESTOS SIN BOTONES\nEn cualquier punto de la mitad de movimiento, arrastra ← →. Un arrastre corto camina; uno largo corre. Suelta para parar.\nEn la otra mitad, desliza ↑ para saltar y mantén el dedo para ganar altura. Desliza ↓ y mantén para agacharte; suelta para levantarte cuando haya espacio. Un toque corto coge o lanza. Puedes usar varios dedos a la vez.\nTeclado inicial: A / D, Espacio, S / ↓ y E. Mando: A salta, abajo agacha, X actúa, Start pausa."
+	instructions.text = "GESTOS SIN BOTONES\nPulsa una vez en cualquier punto libre de la mitad izquierda para saltar y otra vez durante el vuelo para el doble salto. Cada toque da un salto completo, sin mantener.\nEn la mitad derecha, arrastra ← → para moverte. Un arrastre corto camina; uno largo corre. Suelta para frenar. Desliza ↓ y mantén para agacharte. Un toque corto coge o lanza. Puedes mover y saltar a la vez, e intercambiar los lados en los ajustes.\nEn una liana, pulsa en la zona de salto para soltarte; puedes hacer un salto aéreo antes de agarrar otra.\nTeclado inicial: A / D, Espacio (dos pulsaciones para doble salto), S / ↓ y E. Mando: A salta, abajo agacha, X actúa, Start pausa."
 	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(instructions)
 	for spec in [["Correr también con arrastres cortos / teclado", "automatic_run"],
-		["Salto completo sin mantener", "full_jump"],
+		["Salto completo en teclado y mando", "full_jump"],
 		["Activar gestos táctiles y de ratón en Windows", "show_touch"],
 		["Intercambiar las zonas izquierda y derecha", "left_handed"]]:
 		var checkbox := CheckBox.new()

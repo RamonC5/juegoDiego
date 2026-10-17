@@ -48,3 +48,10 @@ Cuatro poses nuevas de respiración en postura baja, manteniendo gafas, vestuari
 
 ![Diego agachado en el Bosque Esmeralda, con los pies apoyados y la guía de deslizar hacia abajo.](preview_crouch.png)
 
+
+
+## Doble salto y pose de agarre · 17 de octubre de 2026
+
+![Diego suspendido con ambas manos cerradas por encima de la cabeza, gafas negras, pañuelo amarillo y botas, preparado para el agarre de liana.](vine_hang_source_v001.png)
+
+La nueva pose mantiene el rostro, pelo, ropa, luz y proporciones de las hojas anteriores. El juego dibuja la liana por separado y alinea las manos del raster con su nudo, girando alrededor del agarre. Las doce imágenes suman 49 poses y 16 estados; `double_jump` reutiliza las dos poses ascendentes y reinicia el gesto de impulso. La marcha acompaña la velocidad real. [Prompt exacto y parámetros](prompts-movement-2026-10-17.md).

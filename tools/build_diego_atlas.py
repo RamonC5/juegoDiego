@@ -24,6 +24,8 @@ ANIMATIONS = {
     "walk": ("walk", list(range(6)), 9, True),
     "run": ("run", list(range(6)), 13, True),
     "jump_up": ("jump", [0, 1], 10, False),
+    "double_jump": ("jump", [0, 1], 10, False),
+    "vine_hang": ("vine_hang", [0], 6, True),
     "fall": ("jump", [2], 8, True),
     "land": ("jump", [3], 10, False),
     "carry_idle": ("grab", [3], 6, True),
@@ -82,11 +84,14 @@ def build(layout):
     resources, atlas_ids, external = [], {}, []
     for number, (name, sheet) in enumerate(sheets.items(), 1):
         external.append(f'[ext_resource type="Texture2D" path="res://{sheet["path"]}" id="{number}"]')
+        if sheet.get("direct_texture"):
+            atlas_ids[name, 0] = f'ExtResource("{number}")'
+            continue
         for i, frame in enumerate(sheet["frames"]):
             x, y, width, height = frame["region"]
             px, py = frame["pivot_source"]
             atlas_id = f"Atlas_{name}_{i}"
-            atlas_ids[name, i] = atlas_id
+            atlas_ids[name, i] = f'SubResource("{atlas_id}")'
             resources.append(
                 f'[sub_resource type="AtlasTexture" id="{atlas_id}"]\n'
                 f'atlas = ExtResource("{number}")\n'
@@ -95,7 +100,7 @@ def build(layout):
                 'filter_clip = true\n')
     animations, scales = [], {}
     for name, (source, indices, fps, loop) in ANIMATIONS.items():
-        frames = ',\n'.join('{"duration": 1.0, "texture": SubResource("'+atlas_ids[source, i]+'")}'
+        frames = ',\n'.join('{"duration": 1.0, "texture": '+atlas_ids[source, i]+'}'
                             for i in indices)
         animations.append('{"frames": [\n'+frames+'\n], "loop": '+str(loop).lower()+
                           ', "name": &"'+name+'", "speed": '+str(float(fps))+'}')

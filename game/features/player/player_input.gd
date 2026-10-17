@@ -9,6 +9,8 @@ var _held: Dictionary = {}
 var _presses: Dictionary = {}
 var _blocked_physical: Dictionary = {}
 var _virtual_axis: float = 0.0
+var _tap_jumps: int = 0
+var consumed_tap_jump: bool = false
 
 
 func set_virtual_axis(value: float) -> void:
@@ -26,10 +28,28 @@ func held(action: StringName) -> bool:
 
 
 func consume(action: StringName) -> bool:
+	if action == &"jump":
+		consumed_tap_jump = enabled and _tap_jumps > 0
+		if consumed_tap_jump:
+			_tap_jumps -= 1
+			return true
 	var virtual_press: bool = bool(_presses.get(action, false))
 	_presses.erase(action)
 	var physical_press: bool = _physical_held(action) and Input.is_action_just_pressed(action)
 	return enabled and (virtual_press or physical_press)
+
+
+## Una pulsación táctil es un salto completo; no exige mantener ni esperar al doble toque.
+## Dos contactos sucesivos entre pasos físicos conservan sus dos órdenes.
+func request_tap_jump() -> void:
+	if enabled:
+		_tap_jumps = mini(_tap_jumps + 1, 2)
+
+
+func discard_jumps() -> void:
+	_tap_jumps = 0
+	_presses.erase(&"jump")
+	consumed_tap_jump = false
 
 
 func horizontal() -> float:
@@ -44,6 +64,7 @@ func horizontal() -> float:
 
 
 func clear_virtual() -> void:
+	discard_jumps()
 	_held.clear()
 	_presses.clear()
 	_virtual_axis = 0.0

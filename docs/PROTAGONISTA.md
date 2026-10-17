@@ -8,16 +8,16 @@ La escena de arranque abre **Bosque Esmeralda 1-1**, y Pausa permite volver a la
 
 | Acción | Android y tablet Windows | Teclado inicial | Mando |
 | --- | --- | --- | --- |
-| Moverse | Arrastrar horizontalmente desde cualquier punto de la mitad izquierda; soltar para parar | A / D o flechas | Cruceta o palanca izquierda |
-| Saltar | Deslizar hacia arriba en cualquier punto de la mitad derecha; mantener para mayor altura | Espacio | A |
+| Moverse | Arrastrar horizontalmente desde cualquier punto de la mitad derecha; soltar para parar | A / D o flechas | Cruceta o palanca izquierda |
+| Saltar / doble salto | Pulsar una vez en la mitad izquierda y otra vez durante el vuelo | Espacio, dos pulsaciones | A, dos pulsaciones |
 | Agacharse | Deslizar hacia abajo en la mitad de acciones y mantener; soltar para levantarse | S / flecha abajo (reasignable) | Cruceta abajo o palanca izquierda hacia abajo |
 | Recoger / lanzar | Toque corto en cualquier punto de la mitad derecha | E | X |
 | Correr | Arrastre largo; carrera con arrastre corto opcional | Mayús o carrera automática | B o carrera automática |
 | Pausar / ajustar | Botón Pausa | Escape | Start |
 
-En **Pausa y controles** se pueden cambiar las teclas, activar carrera con arrastres cortos, usar salto completo sin mantener el dedo después del gesto, intercambiar las mitades y ajustar el recorrido de los gestos. Los ajustes se guardan en `user://controls.cfg`, separados del futuro progreso. Android siempre permite gestos; en Windows están activados de inicio y también se pueden probar con el ratón. El ajuste anterior de tamaño se migra a recorrido, conservando las demás preferencias.
+En **Pausa y controles** se pueden cambiar las teclas, activar carrera con arrastres cortos, usar salto completo en teclado y mando, intercambiar las mitades y ajustar el recorrido de los gestos. Los ajustes se guardan en `user://controls.cfg`, separados del futuro progreso. Android siempre permite gestos; en Windows están activados de inicio y también se pueden probar con el ratón. El ajuste anterior de tamaño se migra a recorrido, conservando las demás preferencias.
 
-No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centro; se puede mover, saltar y actuar simultáneamente. El origen horizontal sigue al dedo en arrastres largos para facilitar invertir la dirección. Cancelar un contacto, pausar o perder el foco libera la entrada correspondiente. Los trazos solo aparecen al tocar y la guía inicial desaparece a los diez segundos; se puede desactivar en pausa. Se respetan el área segura y la relación de aspecto. El menú conserva contraste alto, foco de teclado, navegación de mando y desplazamiento. [Referencias y detalle de los gestos](CONTROLES_TACTILES.md).
+No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centro; se puede mover, saltar y actuar simultáneamente. El origen horizontal sigue al dedo en arrastres largos para facilitar invertir la dirección. Cancelar un contacto, pausar o perder el foco libera la entrada correspondiente. Los trazos solo aparecen al tocar y las guías superpuestas permanecen ocultas y las instrucciones se consultan en pausa. Se respetan el área segura y la relación de aspecto. El menú conserva contraste alto, foco de teclado, navegación de mando y desplazamiento. [Referencias y detalle de los gestos](CONTROLES_TACTILES.md).
 
 ## Movimiento inicial
 
@@ -27,7 +27,7 @@ No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centr
 | Aceleración en suelo / aire | 1900 / 1100 px/s² |
 | Frenado en suelo | 2400 px/s² |
 | Gravedad / límite de caída | 1700 px/s² / 900 px/s |
-| Impulso de salto / rebote | 680 / 470 px/s hacia arriba |
+| Impulso inicial / segundo salto / rebote | 680 / 590 / 470 px/s hacia arriba |
 | Tolerancia al abandonar un borde | 0,12 s |
 | Anticipación antes de aterrizar | 0,14 s |
 | Energía / protección tras daño | 3 / 1,2 s |
@@ -45,6 +45,8 @@ Agacharse se activa sobre el suelo y frena el movimiento horizontal. Mantener ab
 | `walk` | walk, 0–5 | 9 | Caminar, bucle |
 | `run` | run, 0–5 | 13 | Correr, bucle |
 | `jump_up` | jump, 0–1 | 10 | Impulso y ápice; mantiene última pose |
+| `double_jump` | jump, 0–1 | 10 | Reinicio del impulso aéreo durante 0,18 s |
+| `vine_hang` | vine_hang, pose única | 6 | Ambas manos elevadas y ancladas al nudo; giro alrededor del agarre |
 | `fall` | jump, 2 | 8 | Pose de descenso |
 | `land` | jump, 3 | 10 | Pose de aterrizaje durante 0,10 s |
 | `carry_idle` | grab, 3 | 6 | Pose de sostener en reposo o en el aire |
@@ -56,7 +58,7 @@ Agacharse se activa sobre el suelo y frena el movimiento horizontal. Mantener ab
 | `victory` | victory, 0–3 | 8 | Celebración y pose final |
 | `crouch` | crouch, 0–3 | 5 | Postura baja con respiración, bucle |
 
-Son once hojas y 48 poses fuente, con 14 estados. Los estados que contienen una pose se identifican como tales. Las hojas cuadradas miden 1254 × 1254; caminar, correr y agacharse miden 1536 × 1024. El pivote virtual es [512, 900] en 1024 × 1024, con escala uniforme por hoja y regiones explícitas que conservan las poses completas. `AtlasTexture.filter_clip` evita mezclar bordes vecinos; el shader de alfa descarta ruido de baja opacidad. El presupuesto RGBA8 sin compresión de las once hojas ronda 66 MiB; no es una medición de VRAM en un teléfono.
+Son doce imágenes y 49 poses fuente, con 16 estados. La pose `vine_hang` reutiliza la identidad de Diego y añade un PNG RGBA de 1254 × 1254, pivote [697, 1137], manos [697, 149] y escala 0,12. El dibujo gira alrededor de las manos y compensa la aproximación del cuerpo, también al orientarse a la izquierda. Los estados que contienen una pose se identifican como tales. Las hojas cuadradas miden 1254 × 1254; caminar, correr y agacharse miden 1536 × 1024. El pivote virtual es [512, 900] en 1024 × 1024, con escala uniforme por hoja y regiones explícitas que conservan las poses completas. `AtlasTexture.filter_clip` evita mezclar bordes vecinos; el shader de alfa descarta ruido de baja opacidad. El presupuesto RGBA8 sin compresión de las once hojas ronda 66 MiB; no es una medición de VRAM en un teléfono.
 
 ## Piezas reutilizables
 
@@ -80,7 +82,7 @@ python tools/build_diego_atlas.py
 
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
-Las 88 pruebas cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+Las 91 pruebas de controles y 27 de movimientos cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
 
 
 

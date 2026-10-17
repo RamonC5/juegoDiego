@@ -10,6 +10,7 @@ extends Resource
 @export var gravity: float = 1700.0
 @export var maximum_fall_speed: float = 900.0
 @export var jump_speed: float = 680.0
+@export var air_jump_speed: float = 590.0
 @export var short_jump_factor: float = 0.45
 @export var coyote_seconds: float = 0.12
 @export var jump_buffer_seconds: float = 0.14

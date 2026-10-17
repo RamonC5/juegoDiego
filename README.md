@@ -116,3 +116,8 @@ Corregidas las coordenadas de recorte de las mallas y ampliado el recorrido de e
 ### Diana de cristal, puentes reiniciados y nueva zancada · 0.6.3
 
 Las dianas se rompen en 19 fragmentos irregulares de aspecto vítreo con destello y caída. Al volver al farol tras perder toda la energía, puentes y barreras se cierran y las dianas vuelven a estar intactas para repetir los lanzamientos; se conservan llaves y coleccionables. Moflete alterna el apoyo y la elevación de sus dos pies al patrullar y perseguir. [Arquitectura](docs/ARQUITECTURA.md#cristales-irregulares-reinicio-de-puentes-y-pisada-de-moflete--063).
+
+
+### Movimiento de Diego · 0.7.3
+
+Pulsa en la mitad izquierda para saltar y otra vez durante el vuelo para hacer un doble salto. Arrastra en la derecha para moverte; desliza abajo para agacharte o da un toque corto para coger/lanzar. Puedes intercambiar los lados en pausa. Diego se agarra a las lianas con ambas manos y conserva una corrección aérea al soltarse. [Controles](docs/CONTROLES_TACTILES.md) · [Animaciones y pruebas](docs/PROTAGONISTA.md).

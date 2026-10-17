@@ -413,5 +413,53 @@
   },
   "integration_status": "godot_checked",
   "scene": "game/features/player/diego.tscn",
-  "authoring_preview": "art/characters/diego/preview_animations.png"
+  "authoring_preview": "art/characters/diego/preview_animations.png",
+  "movement_revision": {
+    "version": "0.7.3",
+    "date": "2026-10-17",
+    "source_identity": "game/assets/textures/characters/diego/idle_v001.png",
+    "technique": "Nuevo raster de agarre y reproducción de las poses de salto existentes; giro visual alrededor de las manos",
+    "vine_hang": {
+      "path": "game/assets/textures/characters/diego/vine_hang_v001.png",
+      "source": "art/characters/diego/vine_hang_source_v001.png",
+      "frame_size": [
+        1254,
+        1254
+      ],
+      "pivot_px": [
+        697,
+        1137
+      ],
+      "grip_px": [
+        697,
+        149
+      ],
+      "display_scale": 0.12,
+      "frames": 1,
+      "loop": true,
+      "fps": 6
+    },
+    "double_jump": {
+      "source": "jump",
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 10,
+      "loop": false,
+      "restart_on_air_impulse": true
+    },
+    "generation": {
+      "tool": "image_gen",
+      "prompt": "art/characters/diego/prompts-movement-2026-10-17.md"
+    },
+    "validation": {
+      "godot": "4.7.2",
+      "movement_checks": 27,
+      "control_checks": 91,
+      "hand_anchor_error_limit_px": 0.1,
+      "hand_anchor_frames": 480,
+      "physical_android_windows": "pending"
+    }
+  }
 }

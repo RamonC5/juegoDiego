@@ -106,3 +106,8 @@ Un lanzamiento válido rompe la diana en fragmentos; morir reconstruye todas las
 ## Revisión del barranco · Lianas oscilantes (17-10-2026)
 
 Se sustituye la liana fija que hacía ascender automáticamente y los cinco discos de rebote: ahora hay **cinco lianas oscilantes**, con fases independientes. Diego **salta** para agarrarse automáticamente al nudo visible, se **balancea** y pulsa de nuevo **salto** para soltarse y alcanzar la siguiente liana. Arrastrar horizontalmente ayuda a orientar el movimiento; se mantienen controles táctiles sin botones y equivalencia con teclado/mando. La caída vuelve a dejar el agarre libre y permite reintentar desde la orilla inicial. [Ficha actualizada](dinamicas/lianas_dianas_barranco.json).
+
+
+## Controles y reserva aérea · 0.7.3
+
+Una pulsación en la mitad izquierda inicia un salto completo y otra en el aire añade un único segundo impulso. El arrastre pasa a la derecha junto con agacharse y recoger/lanzar; las mitades siguen siendo intercambiables. Al soltarse de una liana queda un salto aéreo, y el siguiente agarre renueva la reserva. La pose de manos elevadas gira alrededor del contacto con la cuerda; las colisiones y las reglas de recuperación se conservan. [Controles y pruebas](CONTROLES_TACTILES.md).

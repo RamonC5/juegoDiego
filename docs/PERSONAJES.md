@@ -125,3 +125,8 @@ Guardar únicamente los recursos de juego preparados en `game/assets/textures/ch
 ## Movimiento revisado · 0.7.2
 
 Terrón y Moflete avanzan y frenan progresivamente, sincronizan su zancada con el desplazamiento y alternan apoyo plano y recuperación en arco. Las manos acompañan a los brazos con menor traslación, sin deformar la proporción del cuerpo. Los siete perfiles conservan el PNG, pausa, espejo y anatomía; cinco mantienen su alcance de visor. [Detalles y verificación](ANIMACION_ENEMIGOS.md#marcha-natural-y-anatomía-estable--072).
+
+
+### Diego: doble salto y lianas (0.7.3)
+
+Nueva [pose de agarre con ambas manos](../art/characters/diego/vine_hang_source_v001.png), con texto alternativo y parámetros en [su ficha](../art/characters/diego/ficha.md). `vine_hang` fija las manos al nudo mientras se balancea; `double_jump` reinicia la animación de impulso. El conjunto suma 49 poses fuente y 16 estados.

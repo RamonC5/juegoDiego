@@ -1,6 +1,6 @@
 class_name HeroTouchControls
 extends Control
-## Zonas amplias sin botones: arrastre horizontal, arriba/abajo y toque.
+## Izquierda: pulsar para saltar. Derecha: arrastrar, agacharse y coger/lanzar.
 ## Cada contacto conserva su función aunque cruce la mitad de la pantalla.
 
 const NO_POINTER: int = -2
@@ -28,9 +28,9 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_move_hint = _hint_label("←  ●  →")
-	_action_hint = _hint_label("↑  ·  ↓  ·  ◉")
-	_move_hint.accessibility_name = "Arrastra a izquierda o derecha para moverte"
-	_action_hint.accessibility_name = "Desliza arriba para saltar, abajo para agacharte y toca para coger o lanzar"
+	_action_hint = _hint_label("Salta · Salta otra vez")
+	_move_hint.accessibility_name = "Arrastra para moverte, desliza abajo para agacharte o toca para coger o lanzar"
+	_action_hint.accessibility_name = "Pulsa una vez para saltar y otra vez en el aire para hacer un doble salto"
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
 	refresh()
@@ -80,8 +80,8 @@ func refresh() -> void:
 		var width: float = _play_area.size.x / 2.0 - 24.0
 		var left := Vector2(_play_area.position.x+12, _play_area.end.y-90)
 		var right := left + Vector2(_play_area.size.x/2.0, 0)
-		_move_hint.position = right if settings.left_handed else left
-		_action_hint.position = left if settings.left_handed else right
+		_move_hint.position = left if settings.left_handed else right
+		_action_hint.position = right if settings.left_handed else left
 		_move_hint.size = Vector2(width, 76)
 		_action_hint.size = Vector2(width, 76)
 	_guide_time = GUIDE_SECONDS
@@ -146,18 +146,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _begin_pointer(index: int, point: Vector2) -> bool:
-	if not _play_area.has_point(point):
+	if not _play_area.has_point(point) or _pointers.has(index):
 		return false
 	for control in excluded_controls:
 		if is_instance_valid(control) and control.is_visible_in_tree() and control.get_global_rect().has_point(point):
 			return false
-	var movement_side: bool = (point.x < _play_area.get_center().x) != settings.left_handed
-	if movement_side and _movement_pointer != NO_POINTER:
-		return false
+	var movement_side: bool = (point.x >= _play_area.get_center().x) != settings.left_handed
 	_pointers[index] = {"origin": point, "start": point, "point": point,
-		"max_distance": 0.0, "age": 0.0, "mode": &"move" if movement_side else &"pending"}
-	if movement_side:
-		_movement_pointer = index
+		"max_distance": 0.0, "age": 0.0, "mode": &"pending" if movement_side else &"jump"}
+	if not movement_side:
+		input_source.request_tap_jump()
 	queue_redraw()
 	return true
 
@@ -166,6 +164,18 @@ func _move_pointer(index: int, point: Vector2) -> void:
 	var pointer: Dictionary = _pointers[index]
 	pointer.point = point
 	pointer.max_distance = maxf(pointer.max_distance, point.distance_to(pointer.start))
+	if pointer.mode == &"pending":
+		var offset: Vector2 = point - pointer.start
+		if offset.y >= _jump_threshold and offset.y > absf(offset.x) * 0.65:
+			pointer.mode = &"crouch"
+		elif absf(offset.x) > _dead_zone and absf(offset.x) >= absf(offset.y):
+			if _movement_pointer == NO_POINTER:
+				_movement_pointer = index
+				pointer.mode = &"move"
+			else:
+				pointer.mode = &"ignored"
+		elif -offset.y >= _jump_threshold:
+			pointer.mode = &"ignored"
 	if pointer.mode == &"move":
 		var offset: float = point.x-pointer.origin.x
 		if absf(offset) > _travel:
@@ -173,12 +183,6 @@ func _move_pointer(index: int, point: Vector2) -> void:
 			pointer.origin.x = point.x-signf(offset)*_travel
 			offset = point.x-pointer.origin.x
 		_axis = signf(offset) * clampf((absf(offset)-_dead_zone)/(_travel-_dead_zone), 0, 1)
-	elif pointer.mode == &"pending":
-		var offset: Vector2 = point-pointer.start
-		if -offset.y >= _jump_threshold and -offset.y > absf(offset.x)*0.65:
-			pointer.mode = &"jump"
-		elif offset.y >= _jump_threshold and offset.y > absf(offset.x)*0.65:
-			pointer.mode = &"crouch"
 	_sync_virtual()
 	queue_redraw()
 
@@ -202,12 +206,9 @@ func _end_pointer(index: int, point: Vector2, canceled: bool) -> void:
 func _sync_virtual() -> void:
 	input_source.set_virtual_axis(_axis)
 	input_source.set_virtual_action(&"run", absf(_axis) >= 0.95)
-	var jumping: bool = false
 	var crouching: bool = false
 	for pointer in _pointers.values():
-		jumping = jumping or pointer.mode == &"jump"
 		crouching = crouching or pointer.mode == &"crouch"
-	input_source.set_virtual_action(&"jump", jumping)
 	input_source.set_virtual_action(&"crouch", crouching)
 
 

@@ -12,31 +12,34 @@ Revisión del 15 de octubre de 2026, solicitada tras probar los botones del entr
 
 Esta distribución es una adaptación para las acciones existentes de Diego, no una reproducción exacta de otro juego. Los valores de sensibilidad requieren valoración jugando en los dispositivos físicos.
 
-## Distribución inicial
+## Distribución actual · doble salto (17 de octubre de 2026)
 
 | Zona | Gesto | Resultado |
 | --- | --- | --- |
-| Cualquier punto de la mitad izquierda | Apoyar y arrastrar ← / → | Eje de movimiento analógico. Poco recorrido camina; mucho recorrido corre. |
-| Mitad de movimiento | Soltar | Detener la orden de movimiento y frenar. |
-| Cualquier punto de la mitad derecha | Deslizar ↑ | Saltar en cuanto se supera el umbral, sin esperar a soltar. |
-| Cualquier punto de la mitad de acciones | Deslizar ↓ y mantener | Agacharse en el suelo; soltar permite levantarse si hay espacio. |
-| Tras iniciar el salto | Mantener / soltar | Salto más alto / corto. Con salto completo activado basta el gesto. |
-| Cualquier punto de la mitad derecha | Toque corto | Coger el objeto cercano o lanzar el que se lleva, una vez al soltar. |
-| Botón Pausa | Pulsar | Abrir ajustes, liberar contactos y pausar la física. |
+| Cualquier punto libre de la mitad izquierda | Pulsar una vez | Primer salto inmediato y completo, sin mantener. |
+| Mitad izquierda durante el vuelo | Pulsar otra vez | Un segundo impulso aéreo. No exige un intervalo de doble clic. |
+| Mitad izquierda mientras está colgado | Pulsar | Soltarse con el impulso de la liana; queda un salto aéreo disponible. |
+| Cualquier punto libre de la mitad derecha | Arrastrar ← / → | Movimiento analógico: poco recorrido camina; mucho recorrido corre. |
+| Mitad derecha | Soltar el arrastre | Frenar. |
+| Mitad derecha | Deslizar ↓ y mantener | Agacharse en el suelo; soltar permite levantarse si hay espacio. |
+| Mitad derecha | Toque corto | Coger o lanzar, una vez al soltar. |
+| Botón Pausa | Pulsar | Abrir ajustes y liberar contactos. |
 
-Se pueden intercambiar las mitades. La función queda fijada al apoyar cada dedo y se conserva al cruzar el centro. Los contactos de movimiento, salto y acción pueden coexistir. Los gestos de salto y agacharse nunca producen un lanzamiento al soltar. Abajo se mantiene hasta soltar o cancelar el contacto; si coinciden arriba y abajo, agacharse tiene prioridad en el suelo. El pisotón sigue siendo aterrizar sobre un enemigo válido; no requiere otro gesto.
+Se pueden intercambiar las mitades. Cada contacto conserva su función al cruzar el centro. Un arrastre de movimiento o agacharse nunca dispara un salto o un lanzamiento. Se puede mover, saltar y actuar simultáneamente. Mantener el contacto de salto no repite impulsos; dos pulsaciones entre pasos físicos se conservan como dos órdenes. Se ignora el ratón emulado desde touch para evitar duplicados.
+
+Hay un máximo de dos impulsos antes de aterrizar. Al salir andando de un borde queda un salto aéreo, además de la tolerancia inicial de borde. Aterrizar o agarrarse a una liana renueva la reserva; un pisotón deja un salto aéreo después del rebote. Agacharse tiene prioridad en el suelo y descarta saltos acumulados. Daño, pausa y reaparición limpian las órdenes que ya no corresponden. Teclado y mando usan dos pulsaciones de su botón de salto; conservan altura variable o el ajuste de salto completo.
 
 ## Respuesta y ayuda
 
 El eje horizontal parte del punto de apoyo. Tiene zona muerta, recorrido limitado y origen que sigue al dedo cuando se sobrepasa el recorrido. No hay botones ni palancas fijas. Solo se dibujan un trazo horizontal, una flecha de salto o agacharse o un pequeño aro durante el contacto.
 
-La guía textual dura diez segundos al entrar o cambiar los ajustes y se puede desactivar. Pausa permite cambiar el recorrido de los gestos, intercambiar lados, usar salto completo y decidir si los arrastres cortos también permiten correr. El ajuste anterior `button_scale` migra a `gesture_scale` si todavía no existe el nuevo valor. Las teclas y los eventos de mando se conservan.
+El escenario conserva las guías superpuestas ocultas; las instrucciones y los nombres accesibles están disponibles en pausa. Pausa permite cambiar el recorrido de los gestos, intercambiar lados, usar salto completo en teclado/mando y decidir si los arrastres cortos también permiten correr. El ajuste anterior `button_scale` migra a `gesture_scale` si todavía no existe el nuevo valor. Las teclas y los eventos de mando se conservan.
 
 Los contactos nuevos se procesan después de la interfaz. Los ya capturados se liberan aunque terminen fuera de la pantalla. Cancelar, pausar, cambiar de ventana o modificar los ajustes limpia las entradas pendientes. El ratón emulado desde un toque se ignora para evitar acciones duplicadas. Se emplean coordenadas del lienzo y umbrales proporcionales al área visible, con adaptación a la zona segura de Android.
 
 ## Comprobación
 
-`tools/tests/test_player.gd` ejecuta 88 comprobaciones de comportamiento, incluidas las mecánicas previas y regresiones de gestos, simultaneidad, interfaz, tablet 4:3 y persistencia. La CI las ejecuta antes de exportar el APK.
+`tools/tests/test_player.gd` ejecuta 91 comprobaciones de comportamiento, incluidas las mecánicas previas y regresiones de gestos, simultaneidad, interfaz, tablet 4:3 y persistencia. La CI las ejecuta antes de exportar el APK. `test_player_movement.gd` añade 27 comprobaciones de doble salto, límite de impulsos, caída, daño, reaparición, pausa y agarre visual durante dos ciclos.
 
 `tools/tests/capture_player.gd` captura el entrenamiento, dos contactos activos, el menú y la proporción 4:3 mediante el renderizador real. Las capturas y el registro se encuentran en [la revisión de Diego](../art/characters/diego/qa.md).
 

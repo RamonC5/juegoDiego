@@ -136,7 +136,12 @@ jobs:
           set -euo pipefail
           "$GODOT_BIN" --headless --fixed-fps 60 --path . \
             --script tools/tests/test_player.gd 2>&1 | tee .godot-logs/player-tests.log
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_player_movement.gd 2>&1 | tee .godot-logs/player-movement-tests.log
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/player-tests.log; then
+            exit 1
+          fi
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/player-movement-tests.log; then
             exit 1
           fi
 
@@ -239,6 +244,25 @@ jobs:
         with:
           name: enemigos-animaciones-${{ github.run_number }}
           path: art/characters/motion_preview/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Capturar el agarre y el doble salto de Diego
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
+            --script tools/tests/capture_player_movement.gd 2>&1 | tee .godot-logs/player-movement-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/player-movement-render.log; then
+            exit 1
+          fi
+
+      - name: Guardar el agarre y el doble salto
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: diego-movimientos-${{ github.run_number }}
+          path: art/characters/diego/movement_preview/
           if-no-files-found: error
           retention-days: 30
 

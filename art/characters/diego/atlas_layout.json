@@ -994,6 +994,44 @@
           ]
         }
       ]
+    },
+    "vine_hang": {
+      "path": "game/assets/textures/characters/diego/vine_hang_v001.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "reference_height": 933.3333333333334,
+      "display_scale": 0.12,
+      "direct_texture": true,
+      "pivot_source": [
+        697,
+        1137
+      ],
+      "grip_source": [
+        697,
+        149
+      ],
+      "frames": [
+        {
+          "region": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "pivot_source": [
+            697,
+            1137
+          ],
+          "visible_bounds": [
+            363,
+            90,
+            868,
+            1137
+          ]
+        }
+      ]
     }
   }
 }

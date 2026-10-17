@@ -18,7 +18,7 @@
     {
       "ruta": "game/features/player/diego.gd",
       "revision": "main · 2026-10-17",
-      "observacion": "Agarre por barrido de manos, aproximación amortiguada al nudo, salto con velocidad tangencial real e impulso aéreo conservado."
+      "observacion": "Agarre por barrido de manos, aproximación del cuerpo con las manos del raster ancladas al nudo desde el primer fotograma, salto con velocidad tangencial real y segundo salto aéreo disponible."
     },
     {
       "ruta": "encargo:corregir movilidad de lianas",
@@ -36,7 +36,7 @@
     {
       "id": "gestos_tactiles",
       "estado": "implementada",
-      "detalle": "Arrastre horizontal para dirigir el salto y empujar el balanceo; deslizamiento arriba para saltar y soltarse."
+      "detalle": "Arrastre horizontal para dirigir el salto y empujar el balanceo; pulsación en la zona de salto para saltar y soltarse."
     },
     {
       "id": "lianas_oscilantes",
@@ -45,7 +45,7 @@
     }
   ],
   "controles": {
-    "tactil": "Desliza hacia arriba para saltar desde la orilla: Diego se agarra automáticamente cuando las manos alcanzan un nudo. Mientras está colgado, arrastra lateralmente para orientar el balanceo. Suelta el gesto y vuelve a deslizar arriba para impulsarte hacia la siguiente liana.",
+    "tactil": "Pulsa en la mitad izquierda para saltar desde la orilla: Diego se agarra automáticamente cuando las manos alcanzan un nudo. Mientras está colgado, arrastra lateralmente para orientar el balanceo. Pulsa de nuevo en la zona de salto para impulsarte hacia la siguiente liana. Otra pulsación durante el vuelo permite un salto aéreo; cada agarre renueva la reserva.",
     "teclado": "Salta desde la orilla. Al alcanzar el nudo de una liana, Diego se agarra. Mientras estás colgado usa izquierda/derecha para balancearte; vuelve a pulsar salto para pasar a la siguiente.",
     "mando": "Salta y acércate al nudo. Pulsa dirección para orientar el balanceo; vuelve a pulsar el botón de salto para cambiar de liana."
   },
@@ -81,7 +81,7 @@
     "senales_no_solo_color": "El lazo de raíz, la silueta de las hojas y el balanceo hacen legibles los agarres sin texto, círculos flotantes ni audio obligatorio.",
     "equivalencia_visual_sonora": "Las señales imprescindibles son visuales; no se exige escuchar sonidos.",
     "legibilidad_movil": "Cuerdas raster, lazos terminales y rama texturada; cámara con seguimiento vertical.",
-    "ajustes_control": "Se reutiliza el salto, mando y gesto de deslizamiento hacia arriba. La zona amplia de captura reduce precisión táctil; no se añade otro botón."
+    "ajustes_control": "Se reutiliza el salto, mando y pulsaciones en una mitad amplia de pantalla. La zona amplia de captura reduce precisión táctil; no se añade otro botón."
   },
   "validacion": {
     "funcional": [

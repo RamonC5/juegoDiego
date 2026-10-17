@@ -60,7 +60,7 @@ func _ready() -> void:
 	_layout_hud()
 	_update_counts(0, 0)
 	_update_keys(0, KeyExitDoor.REQUIRED_KEYS)
-	_show_hint("BOSQUE ESMERALDA · Reúne tres llaves de ramas para abrir la salida. Arrastra para moverte y desliza ↑ en la otra mitad para saltar.")
+	_show_hint("BOSQUE ESMERALDA · Reúne tres llaves de ramas para abrir la salida. Pulsa a la izquierda para saltar y otra vez en el aire para el doble salto. Arrastra a la derecha para moverte. Puedes intercambiar los lados en pausa.")
 
 
 func _process(delta: float) -> void:

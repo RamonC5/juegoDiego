@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=60 format=3]
+[gd_resource type="SpriteFrames" load_steps=61 format=3]
 
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/idle_v001.png" id="1"]
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/walk_v001.png" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/defeated_v001.png" id="9"]
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/victory_v001.png" id="10"]
 [ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/crouch_v001.png" id="11"]
+[ext_resource type="Texture2D" path="res://game/assets/textures/characters/diego/vine_hang_v001.png" id="12"]
 
 [sub_resource type="AtlasTexture" id="Atlas_idle_0"]
 atlas = ExtResource("1")
@@ -328,6 +329,13 @@ animations = [
 {"duration": 1.0, "texture": SubResource("Atlas_jump_0")},
 {"duration": 1.0, "texture": SubResource("Atlas_jump_1")}
 ], "loop": false, "name": &"jump_up", "speed": 10.0},
+{"frames": [
+{"duration": 1.0, "texture": SubResource("Atlas_jump_0")},
+{"duration": 1.0, "texture": SubResource("Atlas_jump_1")}
+], "loop": false, "name": &"double_jump", "speed": 10.0},
+{"frames": [
+{"duration": 1.0, "texture": ExtResource("12")}
+], "loop": true, "name": &"vine_hang", "speed": 6.0},
 {"frames": [
 {"duration": 1.0, "texture": SubResource("Atlas_jump_2")}
 ], "loop": true, "name": &"fall", "speed": 8.0},

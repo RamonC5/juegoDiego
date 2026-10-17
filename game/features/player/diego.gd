@@ -31,6 +31,10 @@ var motion_state: StringName = &"idle"
 var _coyote: float = 0.0
 var _buffer: float = 0.0
 var _jump_cut_allowed: bool = false
+## El impulso inicial y una única corrección aérea se renuevan al apoyar o agarrar.
+var jumps_used: int = 0
+var _buffered_tap_jump: bool = false
+var _air_jump_pose: float = 0.0
 var _action: StringName = &""
 var _action_time: float = 0.0
 var _pending_object: ThrowableObject
@@ -51,7 +55,9 @@ var _vine_regrab_seconds: float = 0.0
 var _vine_jump_lock: float = 0.0
 var _vine_attach_offset: Vector2 = Vector2.ZERO
 var _vine_momentum_seconds: float = 0.0
-const VINE_HAND_OFFSET: Vector2 = Vector2(0, -88)
+const VINE_HAND_OFFSET: Vector2 = Vector2(0, -118.56)
+const VINE_SPRITE_GRIP: Vector2 = Vector2(697, 149)
+const VINE_SPRITE_PIVOT: Vector2 = Vector2(697, 1137)
 
 
 func _ready() -> void:
@@ -73,6 +79,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	invulnerability = maxf(0.0, invulnerability - delta)
 	_landing = maxf(0.0, _landing - delta)
+	_air_jump_pose = maxf(0.0, _air_jump_pose - delta)
 	queue_redraw()
 	if celebrating:
 		if crouching and can_stand():
@@ -101,15 +108,20 @@ func _physics_process(delta: float) -> void:
 	var previous_feet: Vector2 = global_position
 	_update_crouch(was_grounded)
 	if was_grounded:
+		jumps_used = 0
 		_coyote = tuning.coyote_seconds
 	else:
 		_coyote = maxf(0.0, _coyote - delta)
+		if _coyote <= 0.0:
+			jumps_used = maxi(jumps_used, 1)
 	_buffer = maxf(0.0, _buffer - delta)
 	if controls.consume(&"jump"):
 		_buffer = tuning.jump_buffer_seconds
+		_buffered_tap_jump = controls.consumed_tap_jump
 	if crouching:
 		# Mantener abajo no acumula saltos para cuando se suelte el gesto.
 		_buffer = 0.0
+		controls.discard_jumps()
 	var axis: float = controls.horizontal()
 	if _action.is_empty():
 		if not is_zero_approx(axis):
@@ -129,16 +141,14 @@ func _physics_process(delta: float) -> void:
 			if is_zero_approx(axis) or signf(axis) == signf(velocity.x):
 				target_speed = velocity.x if absf(velocity.x) > absf(target_speed) else target_speed
 		velocity.x = move_toward(velocity.x, target_speed, acceleration * delta)
-		if _buffer > 0.0 and _coyote > 0.0:
-			velocity.y = -tuning.jump_speed
-			_buffer = 0.0
-			_coyote = 0.0
-			_jump_cut_allowed = true
-			_landing = 0.0
-			jumped.emit()
+		if _buffer > 0.0 and (_coyote > 0.0 or jumps_used < 2):
+			_start_jump(_coyote <= 0.0)
 		if controls.consume(&"grab_throw") and not crouching:
 			_interact()
 	else:
+		# Un golpe o una acción no deja un salto esperando para ejecutarse después.
+		_buffer = 0.0
+		controls.discard_jumps()
 		controls.consume(&"grab_throw")
 		if _action != &"hurt":
 			velocity.x = move_toward(velocity.x, 0.0, tuning.braking * delta)
@@ -156,6 +166,8 @@ func _physics_process(delta: float) -> void:
 	for area in foot_sensor.get_overlapping_areas():
 		if area is StompTarget and area.receive_stomp(self, previous_feet, falling_speed):
 			velocity.y = -tuning.stomp_bounce
+			jumps_used = 1
+			_air_jump_pose = 0.0
 			_jump_cut_allowed = false
 			_coyote = 0.0
 			bounced.emit()
@@ -166,6 +178,8 @@ func _physics_process(delta: float) -> void:
 			var contact: KinematicCollision2D = get_slide_collision(index)
 			if contact.get_normal().y < -0.7 and contact.get_collider() is ForestVineTarget:
 				if (contact.get_collider() as ForestVineTarget).bounce(self):
+					jumps_used = 1
+					_air_jump_pose = 0.0
 					_coyote = 0.0
 					_jump_cut_allowed = false
 					break
@@ -173,11 +187,31 @@ func _physics_process(delta: float) -> void:
 		_try_grab_swinging_vine(previous_feet + VINE_HAND_OFFSET)
 	if is_on_floor() and not was_grounded and falling_speed > 160.0:
 		_landing = 0.10
+	if is_on_floor():
+		jumps_used = 0
+		_air_jump_pose = 0.0
 	if is_on_ceiling():
 		_jump_cut_allowed = false
+		_air_jump_pose = 0.0
 	_update_animation()
 	if global_position.y > fall_limit_y:
 		_die()
+
+
+func _start_jump(in_air: bool) -> void:
+	jumps_used = 2 if in_air else 1
+	velocity.y = -tuning.air_jump_speed if in_air else -tuning.jump_speed
+	_buffer = 0.0
+	_coyote = 0.0
+	_jump_cut_allowed = not _buffered_tap_jump
+	_landing = 0.0
+	_air_jump_pose = 0.18 if in_air else 0.0
+	# Reiniciar las poses de impulso incluso si el salto anterior sigue ascendiendo.
+	if not is_instance_valid(held_object):
+		_play(&"double_jump" if in_air else &"jump_up")
+		sprite.set_frame_and_progress(0, 0.0)
+		sprite.play()
+	jumped.emit()
 
 
 func _try_grab_swinging_vine(previous_hand: Vector2 = Vector2.INF) -> void:
@@ -212,11 +246,14 @@ func _try_grab_swinging_vine(previous_hand: Vector2 = Vector2.INF) -> void:
 	_buffer = 0.0
 	_coyote = 0.0
 	_jump_cut_allowed = false
-	controls.consume(&"jump")
+	jumps_used = 0
+	_air_jump_pose = 0.0
+	controls.discard_jumps()
 	_vine_attach_offset = global_position - (nearest.grip_global_position() - VINE_HAND_OFFSET)
 	velocity = nearest.grip_velocity
 	facing_node.rotation = 0.0
-	_play(&"jump_up")
+	_play(&"vine_hang")
+	_update_vine_pose(nearest)
 	bounced.emit()
 
 
@@ -227,26 +264,50 @@ func _swing_on_vine(delta: float) -> void:
 	if absf(axis) > 0.15:
 		facing = signf(axis)
 	facing_node.scale.x = facing
-	facing_node.rotation = -vine.angle * 0.14
 	var last_position: Vector2 = global_position
 	_vine_attach_offset = _vine_attach_offset.move_toward(Vector2.ZERO, delta * 800.0)
 	global_position = vine.grip_global_position() - VINE_HAND_OFFSET + _vine_attach_offset
 	velocity = (global_position - last_position) / maxf(delta, 0.001)
-	_play(&"jump_up")
-	# Un segundo salto, nueva pulsación o deslizamiento hacia arriba, lo suelta.
-	if _vine_jump_lock <= 0.0 and controls.consume(&"jump"):
+	_play(&"vine_hang")
+	_update_vine_pose(vine)
+	controls.consume(&"grab_throw")
+	if controls.consume(&"jump"):
+		_buffer = maxf(tuning.jump_buffer_seconds, _vine_jump_lock + delta)
+	else:
+		_buffer = maxf(0.0, _buffer - delta)
+	# Un toque durante el breve ajuste del agarre se conserva hasta poder soltar.
+	if _vine_jump_lock <= 0.0 and _buffer > 0.0:
 		var direction: float = signf(axis) if absf(axis) > 0.15 else facing
 		var impulse: float = clampf(direction * 320.0 + vine.grip_velocity.x * 0.75, -510.0, 510.0)
 		_recent_vine = vine
 		_vine_regrab_seconds = 0.72
 		attached_vine = null
 		facing_node.rotation = 0.0
+		facing_node.position = Vector2.ZERO
 		velocity = Vector2(impulse, -510.0 + minf(vine.grip_velocity.y * 0.35, 0.0))
 		_vine_momentum_seconds = 0.85
 		_buffer = 0.0
 		_coyote = 0.0
 		_jump_cut_allowed = false
+		jumps_used = 1
+		_air_jump_pose = 0.0
+		# Renovar los contactos físicos al soltar; el estado de suelo anterior al
+		# agarre no puede regalar otro impulso ni mostrar una pose de caminar.
+		move_and_slide()
+		_update_animation()
+		sprite.set_frame_and_progress(0, 0.0)
+		sprite.play()
 		jumped.emit()
+
+
+func _update_vine_pose(vine: ForestSwingingVine) -> void:
+	# Girar alrededor de las manos, nunca alrededor de los pies: el contacto no deriva.
+	facing_node.rotation = -vine.angle * 0.35
+	facing_node.position = VINE_HAND_OFFSET - VINE_HAND_OFFSET.rotated(facing_node.rotation) - _vine_attach_offset
+
+
+func vine_hand_global_position() -> Vector2:
+	return sprite.to_global(VINE_SPRITE_GRIP + sprite.offset)
 
 
 func release_vine_on_failure() -> void:
@@ -257,6 +318,10 @@ func release_vine_on_failure() -> void:
 	_vine_attach_offset = Vector2.ZERO
 	_vine_momentum_seconds = 0.0
 	facing_node.rotation = 0.0
+	facing_node.position = Vector2.ZERO
+	_air_jump_pose = 0.0
+	_buffer = 0.0
+	controls.discard_jumps()
 
 
 func _apply_gravity(delta: float) -> void:
@@ -347,7 +412,7 @@ func _update_animation() -> void:
 		if is_instance_valid(held_object):
 			_play(&"carry_idle")
 		else:
-			_play(&"jump_up" if velocity.y < -50.0 else &"fall")
+			_play(&"double_jump" if _air_jump_pose > 0.0 else (&"jump_up" if velocity.y < -50.0 else &"fall"))
 	elif _landing > 0.0 and not is_instance_valid(held_object):
 		_play(&"land")
 	elif absf(velocity.x) < 12.0:
@@ -356,6 +421,12 @@ func _update_animation() -> void:
 		_play(&"carry_run")
 	else:
 		_play(&"run" if absf(velocity.x) > tuning.walk_speed + 12.0 else &"walk")
+	# Ajustar el paso a la velocidad real evita pies rápidos al acelerar o frenar.
+	if sprite.animation in [&"walk", &"run", &"carry_run"]:
+		var reference_speed: float = tuning.run_speed if sprite.animation == &"run" else tuning.walk_speed
+		sprite.speed_scale = clampf(absf(velocity.x) / reference_speed, 0.55, 1.25)
+	else:
+		sprite.speed_scale = 1.0
 
 
 func _play(animation: StringName) -> void:
@@ -365,6 +436,8 @@ func _play(animation: StringName) -> void:
 	if sprite.animation == animation and not sprite.sprite_frames.get_animation_loop(animation):
 		return
 	sprite.scale = Vector2.ONE * float(_visual_scales.get(String(animation), 0.19))
+	sprite.offset = -VINE_SPRITE_PIVOT if animation == &"vine_hang" else Vector2(-512, -900)
+	sprite.speed_scale = 1.0
 	sprite.play(animation)
 	if motion_state != animation:
 		motion_state = animation
@@ -451,6 +524,8 @@ func respawn(at: Vector2) -> void:
 	_action = &""
 	_action_time = 0.0
 	_jump_cut_allowed = false
+	jumps_used = 0
+	_buffered_tap_jump = false
 	_defeat_notified = false
 	controls.clear_virtual()
 	controls.enabled = true
