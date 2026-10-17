@@ -1,55 +1,64 @@
 class_name ForestVineCrossing
 extends Node2D
-## Barranco obligatorio: liana ascendente y cinco dianas elásticas.
-## La salida no se desbloquea con temporizadores ni indicadores flotantes.
+## Cinco lianas independientes oscilan sobre el barranco.
+## Diego salta, se agarra al nudo, se balancea y vuelve a saltar entre ellas.
 
 signal fell
 
-const VINE_X: float = 1780.0
-const TARGETS: Array[Vector2] = [
-	Vector2(2040, 390), Vector2(2300, 345), Vector2(2560, 400),
-	Vector2(2820, 355), Vector2(3080, 405),
-]
-var targets: Array[ForestVineTarget] = []
+const FIRST_VINE_X: float = 1700.0
+const ANCHOR_XS: Array[float] = [1700.0, 2050.0, 2400.0, 2750.0, 3100.0]
+const ANCHOR_Y: float = 110.0
+const RAVINE_LEFT: float = 1900.0
+const RAVINE_RIGHT: float = 3260.0
+
+var vines: Array[ForestSwingingVine] = []
 var player: DiegoPlayer
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	z_index = -2
-	for point in TARGETS:
-		var target := ForestVineTarget.new()
-		target.position = point
-		add_child(target)
-		targets.append(target)
+	for index in ANCHOR_XS.size():
+		var vine := ForestSwingingVine.new()
+		vine.position = Vector2(ANCHOR_XS[index], ANCHOR_Y)
+		# Fases distintas: las lianas vecinas nunca se mueven como un bloque.
+		vine.phase_offset = float(index) * 0.83
+		add_child(vine)
+		vines.append(vine)
 	queue_redraw()
+
 
 func attach_player(hero: DiegoPlayer) -> void:
 	player = hero
-	# El gesto de saltar mantenido trepa; soltarlo libera la liana.
-	hero.vine_climb_zone = Rect2(global_position.x + VINE_X - 85.0, 285, 170, 355)
+	for vine in vines:
+		if not hero.swinging_vines.has(vine):
+			hero.swinging_vines.append(vine)
+
 
 func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(player) or player.dead or player.celebrating:
 		return
-	if player.global_position.x > global_position.x + 1880.0 \
-			and player.global_position.x < global_position.x + 3260.0 \
+	if player.global_position.x > global_position.x + RAVINE_LEFT \
+			and player.global_position.x < global_position.x + RAVINE_RIGHT \
 			and player.global_position.y > 775.0:
 		fell.emit()
 
-func reset_targets() -> void:
-	for target in targets:
-		target.reset_target()
+
+func reset_vines() -> void:
+	for vine in vines:
+		vine.reset_cycle()
+
 
 func _draw() -> void:
-	# Liana visible desde el suelo; relieve natural sin caracteres ni UI flotante.
-	draw_line(Vector2(VINE_X, 110), Vector2(VINE_X, 622), Color("35462a"), 18.0, true)
-	draw_line(Vector2(VINE_X - 4, 110), Vector2(VINE_X - 4, 622), Color("84a85b"), 5.0, true)
-	for j in 9:
-		var y: float = 160.0 + float(j) * 51.0
-		var side: float = -1.0 if j % 2 == 0 else 1.0
-		draw_line(Vector2(VINE_X, y), Vector2(VINE_X + side * 29, y - 19), Color("547a47"), 5.0, true)
-		draw_circle(Vector2(VINE_X + side * 29, y - 19), 9.0, Color("8eaf67"))
-	# Dos ramas altas indican la continuidad entre las dianas suspendidas.
-	draw_line(Vector2(1510, 110), Vector2(3260, 110), Color("455c35"), 16.0, true)
-	for point in TARGETS:
-		draw_line(Vector2(point.x, 110), Vector2(point.x, point.y - 112), Color("557749"), 8.0, true)
+	# Rama superior y hojas: continuidad reconocible sobre las cinco cuerdas.
+	draw_line(Vector2(1430, ANCHOR_Y - 8), Vector2(3330, ANCHOR_Y - 8),
+		Color("354c32"), 18.0, true)
+	draw_line(Vector2(1430, ANCHOR_Y - 13), Vector2(3330, ANCHOR_Y - 13),
+		Color("75924d"), 5.0, true)
+	for index in 11:
+		var x: float = 1530.0 + float(index) * 162.0
+		var side: float = -1.0 if index % 2 == 0 else 1.0
+		draw_line(Vector2(x, ANCHOR_Y - 10), Vector2(x + side * 30, ANCHOR_Y + 15),
+			Color("4a7747"), 7.0, true)
+		draw_circle(Vector2(x + side * 30, ANCHOR_Y + 15), 13.0,
+			Color("88b265"))
