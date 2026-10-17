@@ -43,9 +43,13 @@ var _crouching_shape: CapsuleShape2D
 var _standing_body_position: Vector2
 var _standing_hand_position: Vector2
 var _standing_pickup_position: Vector2
-## Zona del ascenso de liana, sin otro botón táctil.
-var vine_climb_zone: Rect2 = Rect2()
-var _was_climbing_vine: bool = false
+## Agarre aéreo y salto entre lianas móviles, sin botones añadidos.
+var swinging_vines: Array[ForestSwingingVine] = []
+var attached_vine: ForestSwingingVine
+var _recent_vine: ForestSwingingVine
+var _vine_regrab_seconds: float = 0.0
+var _vine_jump_lock: float = 0.0
+const VINE_HAND_OFFSET: Vector2 = Vector2(0, -88)
 
 
 func _ready() -> void:
@@ -84,30 +88,11 @@ func _physics_process(delta: float) -> void:
 			defeated.emit()
 		return
 
-	# Deslizar arriba y mantener (salto) trepa junto a la liana.
-	# Soltar el gesto devuelve inmediatamente el movimiento horizontal.
-	if vine_climb_zone.has_area() and vine_climb_zone.has_point(global_position) \
-			and controls.held(&"jump") and not is_instance_valid(held_object) and _action.is_empty():
-		if crouching and can_stand():
-			_set_crouching(false)
-		_was_climbing_vine = true
-		controls.consume(&"jump")
-		velocity.x = move_toward(velocity.x, 0.0, tuning.braking * delta)
-		velocity.y = -285.0
-		global_position.x = move_toward(global_position.x, vine_climb_zone.get_center().x, 200.0 * delta)
-		_buffer = 0.0
-		_coyote = 0.0
-		_jump_cut_allowed = false
-		move_and_slide()
-		_play(&"jump_up")
+	_vine_regrab_seconds = maxf(0.0, _vine_regrab_seconds - delta)
+	_vine_jump_lock = maxf(0.0, _vine_jump_lock - delta)
+	if is_instance_valid(attached_vine):
+		_swing_on_vine(delta)
 		return
-
-	if _was_climbing_vine:
-		# Impulso al soltar la liana para alcanzar la primera diana.
-		_was_climbing_vine = false
-		velocity.y = -560.0
-		velocity.x = controls.horizontal() * tuning.run_speed
-		_buffer = 0.0
 
 	var was_grounded: bool = is_on_floor()
 	var previous_feet: Vector2 = global_position
@@ -176,6 +161,8 @@ func _physics_process(delta: float) -> void:
 					_coyote = 0.0
 					_jump_cut_allowed = false
 					break
+	if not is_on_floor() and not dead and not celebrating:
+		_try_grab_swinging_vine()
 	if is_on_floor() and not was_grounded and falling_speed > 160.0:
 		_landing = 0.10
 	if is_on_ceiling():
@@ -183,6 +170,74 @@ func _physics_process(delta: float) -> void:
 	_update_animation()
 	if global_position.y > fall_limit_y:
 		_die()
+
+
+func _try_grab_swinging_vine() -> void:
+	# Al saltar cerca del nudo de una liana, Diego se cuelga sin botón extra.
+	if is_instance_valid(attached_vine) or crouching or not _action.is_empty() \
+			or is_instance_valid(held_object) or swinging_vines.is_empty():
+		return
+	var hand_position: Vector2 = global_position + VINE_HAND_OFFSET
+	var nearest: ForestSwingingVine
+	var nearest_distance: float = INF
+	for vine in swinging_vines:
+		if not is_instance_valid(vine):
+			continue
+		if vine == _recent_vine and _vine_regrab_seconds > 0.0:
+			continue
+		var distance: float = hand_position.distance_to(vine.grip_global_position())
+		if distance <= ForestSwingingVine.HAND_REACH and distance < nearest_distance:
+			nearest = vine
+			nearest_distance = distance
+	if nearest == null:
+		return
+	attached_vine = nearest
+	_recent_vine = null
+	_vine_jump_lock = 0.19
+	_buffer = 0.0
+	_coyote = 0.0
+	_jump_cut_allowed = false
+	controls.consume(&"jump")
+	global_position = nearest.grip_global_position() - VINE_HAND_OFFSET
+	velocity = nearest.grip_velocity
+	facing_node.rotation = 0.0
+	_play(&"jump_up")
+	bounced.emit()
+
+
+func _swing_on_vine(delta: float) -> void:
+	var vine: ForestSwingingVine = attached_vine
+	var axis: float = controls.horizontal()
+	vine.push(axis, delta)
+	if absf(axis) > 0.15:
+		facing = signf(axis)
+	facing_node.scale.x = facing
+	facing_node.rotation = -vine.angle * 0.14
+	var last_position: Vector2 = global_position
+	global_position = vine.grip_global_position() - VINE_HAND_OFFSET
+	velocity = (global_position - last_position) / maxf(delta, 0.001)
+	_play(&"jump_up")
+	# Un segundo salto, nueva pulsación o deslizamiento hacia arriba, lo suelta.
+	if _vine_jump_lock <= 0.0 and controls.consume(&"jump"):
+		var direction: float = signf(axis) if absf(axis) > 0.15 else facing
+		var impulse: float = direction * (255.0 + minf(absf(vine.grip_velocity.x) * 0.5, 200.0))
+		_recent_vine = vine
+		_vine_regrab_seconds = 0.72
+		attached_vine = null
+		facing_node.rotation = 0.0
+		velocity = Vector2(impulse, -490.0)
+		_buffer = 0.0
+		_coyote = 0.0
+		_jump_cut_allowed = false
+		jumped.emit()
+
+
+func release_vine_on_failure() -> void:
+	attached_vine = null
+	_recent_vine = null
+	_vine_regrab_seconds = 0.0
+	_vine_jump_lock = 0.0
+	facing_node.rotation = 0.0
 
 
 func _apply_gravity(delta: float) -> void:
@@ -302,6 +357,7 @@ func take_damage(source: Vector2) -> bool:
 		return false
 	health -= 1
 	health_changed.emit(health)
+	release_vine_on_failure()
 	_drop_object()
 	if health <= 0:
 		_die()
@@ -323,6 +379,7 @@ func _die() -> void:
 	if dead:
 		return
 	dead = true
+	release_vine_on_failure()
 	health = 0
 	velocity.x = 0.0
 	controls.clear_virtual()
@@ -336,6 +393,7 @@ func celebrate() -> void:
 	if dead or celebrating:
 		return
 	celebrating = true
+	release_vine_on_failure()
 	_drop_object()
 	controls.clear_virtual()
 	_begin_action(&"victory")
@@ -361,9 +419,9 @@ func recover_energy() -> void:
 func respawn(at: Vector2) -> void:
 	_drop_object()
 	_set_crouching(false)
+	release_vine_on_failure()
 	global_position = at
 	velocity = Vector2.ZERO
-	_was_climbing_vine = false
 	health = maximum_health
 	dead = false
 	celebrating = false
