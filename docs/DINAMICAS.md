@@ -4,9 +4,9 @@ Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un
 
 ## Estado y alcance
 
-El bosque experimental contiene movimiento, salto, agacharse sin avanzar, pisotones, lanzamientos, Terrón y Moflete, tres llaves de ramas, puerta, dos estaciones de diana y puente y tres faroles. El guardado actual conserva resultados completados; no guarda un intento al cerrar a mitad de nivel. No hay una medición de 15 minutos en el perfil objetivo.
+El bosque experimental contiene movimiento, salto, agacharse sin avanzar, pisotones, lanzamientos, Terrón y Moflete, tres llaves de ramas, puerta, dos estaciones de diana y puente, dos troncos viajeros y tres faroles. El guardado actual conserva resultados completados; no guarda un intento al cerrar a mitad de nivel. No hay una medición de 15 minutos en el perfil objetivo.
 
-La ampliación hasta el recorrido largo, los otros niveles y los jefes son trabajo pendiente. El skill aporta herramientas de autoría; la integración 0.3.0 añade la primera dinámica al bosque actual. El [inventario del prototipo](../.agents/skills/crear-dinamicas-salto-heroes/references/estado-prototipo.md) conserva la instantánea previa a los puentes; contrastarlo con esta ficha y el código al usarlo.
+La ampliación hasta el recorrido largo, los otros niveles y los jefes son trabajo pendiente. El skill aporta herramientas de autoría; la integración 0.3.0 añadió la primera dinámica y la 0.4.0 incorpora los troncos viajeros. El [inventario del prototipo](../.agents/skills/crear-dinamicas-salto-heroes/references/estado-prototipo.md) conserva la instantánea previa a los puentes; contrastarlo con esta ficha y el código al usarlo.
 
 ## Duración y recuperación
 
@@ -53,7 +53,7 @@ python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py
 
 [Diseño y recuperación](dinamicas/troncos_viajeros.md) · [Ficha JSON](dinamicas/troncos_viajeros.json).
 
-La integración candidata 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascendente que da acceso a la tercera llave, reubicada en una repisa alta. Usa movimiento y salto existentes, viaje sin mantener arrastre, suelo seguro y ciclos que vuelven a sus puestos. La primera dinámica del puente permanece integrada. Los 2–4 minutos iniciales son una estimación de autoría; pruebas físicas de CI y duración observada se registrarán por separado.
+La versión 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascendente que da acceso a la tercera llave, reubicada en una repisa alta. Usa movimiento y salto existentes, viaje sin mantener arrastre, suelo seguro y ciclos que vuelven a sus puestos. La primera dinámica del puente permanece integrada. Los 2–4 minutos iniciales son una estimación de autoría; la CI supera 291 comprobaciones, incluidas 26 de troncos. La duración observada sigue pendiente.
 
 ### Ejemplos del skill
 

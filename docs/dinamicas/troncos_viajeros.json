@@ -3,7 +3,7 @@
   "tipo": "dinamica",
   "id": "troncos_viajeros",
   "nombre": "Troncos viajeros · segunda dinámica del Bosque Esmeralda 1-1",
-  "estado": "ampliacion",
+  "estado": "implementada",
   "fuentes": [
     {
       "ruta": "encargo:Juego Diego / segunda dinámica del primer nivel",
@@ -17,8 +17,13 @@
     },
     {
       "ruta": "game/data/worlds/world_01/level_01.tres",
-      "revision": "candidato 0.4.0",
+      "revision": "0.4.0, implementación 8f57b67b9fa392261037375aaec859bcb2d29002",
       "observacion": "Añade ensayo horizontal y ascensor; traslada únicamente la tercera llave a una repisa alta."
+    },
+    {
+      "ruta": "https://github.com/RamonC5/juegoDiego/actions/runs/39006909148",
+      "revision": "8f57b67b9fa392261037375aaec859bcb2d29002",
+      "observacion": "CI con suites de protagonista, objetos, bosque, puentes y troncos superadas; capturas y exportación se comprueban en la misma ejecución."
     }
   ],
   "objetivo": "Aprender a embarcar en una plataforma en movimiento, dejarse transportar y saltar a una repisa para alcanzar la tercera llave.",
@@ -30,8 +35,8 @@
     },
     {
       "id": "transporte_fisico",
-      "estado": "ampliacion",
-      "detalle": "ForestMovingPlatform usa AnimatableBody2D, colisión superior atravesable desde abajo y recorridos de datos. Pendiente de CI física."
+      "estado": "implementada",
+      "detalle": "ForestMovingPlatform con AnimatableBody2D, colisión superior y recorridos de datos. CI supera transporte horizontal/vertical, descenso, pausa y recuperación."
     },
     {
       "id": "llaves_puerta",
@@ -97,6 +102,12 @@
       "Pendiente: tacto y 60 FPS en Android y Windows físicos",
       "Pendiente: revisión de capturas de CI en móvil, tablet y panorámico"
     ],
-    "evidencias": []
+    "evidencias": [
+      "https://github.com/RamonC5/juegoDiego/actions/runs/39006909148 · suites físicas correctas sobre 8f57b67",
+      "tools/tests/test_moving_platforms.gd · 26 comprobaciones, incluidos gestos normales e intercambiados",
+      "tools/tests/test_bridges.gd · aventura completa con ambas dinámicas y tres llaves mediante entradas reales",
+      "tools/tests/test_forest.gd · recorrido completo, tercera llave y persistencia de resultados",
+      "Comprobador JSON ejecutado: consistencia documental correcta; no acredita duración ni dispositivos físicos"
+    ]
   }
 }

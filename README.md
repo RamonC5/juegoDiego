@@ -46,7 +46,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_bridges.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platforms.gd
 ```
 
-264 comprobaciones: 88 de protagonista y controles, 63 de objetos, 58 de nivel y llaves y 55 de dianas y puentes. Incluyen recorridos completos con entradas reales, lanzamientos táctiles y de teclado, recuperación por escalones, pausa durante la apertura, pérdida de piñas, reaparición y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos. La duración con un niño de 10 años y el mínimo de 15 minutos de la aventura completa siguen pendientes de medición.
+291 comprobaciones: 88 de protagonista y controles, 63 de objetos, 59 de nivel y llaves, 55 de dianas y puentes y 26 de troncos viajeros. Incluyen recorridos completos con entradas reales, lanzamientos táctiles y de teclado, recuperación por escalones, pausa durante la apertura, pérdida de piñas, reaparición y guardado rejugable. `capture_forest.gd` captura móvil, tablet y panorámico con renderizado Compatibility real. El objetivo de 60 FPS y el tacto deben comprobarse también en dispositivos físicos. La duración con un niño de 10 años y el mínimo de 15 minutos de la aventura completa siguen pendientes de medición.
 
 ## Estructura y documentación
 

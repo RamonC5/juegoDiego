@@ -1,0 +1,32 @@
+CI: https://github.com/RamonC5/juegoDiego/actions/runs/39006909148
+Commit: 8f57b67b9fa392261037375aaec859bcb2d29002
+Godot 4.7.2 · --headless --fixed-fps 60 · tools/tests/test_moving_platforms.gd
+
+OK dos estaciones de una única mecánica nueva
+OK se conservan tres llaves distintas
+OK las superficies permiten atravesarlas desde abajo
+OK aterrizar conecta al pasajero con el tronco horizontal
+OK el tronco transporta a Diego sin mantener arrastre
+OK el pasajero conserva su posición relativa al viajar
+OK pausar congela plataforma y pasajero
+OK pausar también congela el tiempo del nivel
+OK reanudar conserva el transporte
+OK caer del ensayo termina en suelo seguro
+OK deslizar arriba permite saltar del tronco con lados normales
+OK deslizar arriba permite saltar del tronco con lados intercambiados
+OK un salto desde el suelo embarca atravesando el tronco por debajo
+OK el ascensor eleva al pasajero hasta la repisa
+OK el descenso transporta sin aplastar ni herir
+OK morir devuelve al farol en suelo firme
+OK el reintento conserva llave y puente resueltos
+OK los dos troncos reinician su ciclo sin duplicarse
+OK viajar o recoger una llave no inventa guardado de intento
+OK la tercera llave requiere ganar altura usando el tronco
+OK embarcar, subir, saltar y recoger la tercera llave con entradas reales
+OK repetir contacto no duplica llaves ni abre con dos
+OK la repisa permite regresar hacia el tronco y las llaves pendientes
+OK el retorno desde la repisa es seguro
+OK reiniciar repone las tres llaves y cierra la salida
+OK la rejugada crea dos ciclos nuevos sin instancias extra
+RESULTADO TRONCOS: 26 comprobaciones, 0 fallos
+

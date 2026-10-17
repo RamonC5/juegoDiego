@@ -117,9 +117,8 @@ func _build_moving_platforms() -> void:
 		add_child(platform)
 		moving_platforms.append(platform)
 		var caption: String = "TRONCO 1 · SUBE Y VIAJA ↔" if definition.tutorial else "TRONCO 2 · SUBE A LA LLAVE ↑"
-		_world_label(caption, definition.start_position + Vector2(-60, -180), 370)
-		if not definition.tutorial:
-			_world_label("LLAVE 3 · SALTA A LA REPISA →", definition.end_position + Vector2(170, -180), 390)
+		var caption_offset := Vector2(-60, -180) if definition.tutorial else Vector2(-310, -210)
+		_world_label(caption, definition.start_position + caption_offset, 370)
 
 
 func _on_mechanism_activated(mechanism_id: StringName) -> void:
