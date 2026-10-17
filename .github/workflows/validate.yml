@@ -224,6 +224,19 @@ jobs:
           grep -q "native-code: 'arm64-v8a'" .godot-logs/apk-package.log
           (cd builds/android && sha256sum salto-heroes.apk > salto-heroes.apk.sha256)
 
+      - name: Guardar el APK para descargar
+        id: apk
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: salto-heroes-android-${{ github.run_number }}
+          path: |
+            builds/android/salto-heroes.apk
+            builds/android/salto-heroes.apk.sha256
+            builds/android/build-info.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
       - name: Recuperar el APK anterior para comparar en Android
         continue-on-error: true # La referencia es temporal; el APK actual siempre se prueba.
         env:
@@ -251,6 +264,7 @@ jobs:
           profile: pixel_5
           cores: 4
           disk-size: 2048M
+          ram-size: 4096M
           emulator-boot-timeout: 240
           emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu software -noaudio -no-boot-anim -camera-back none -camera-front none
           disable-animations: true
@@ -264,19 +278,6 @@ jobs:
           path: art/android/
           if-no-files-found: ignore
           retention-days: 30
-
-      - name: Guardar el APK para descargar
-        id: apk
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: salto-heroes-android-${{ github.run_number }}
-          path: |
-            builds/android/salto-heroes.apk
-            builds/android/salto-heroes.apk.sha256
-            builds/android/build-info.json
-          if-no-files-found: error
-          retention-days: 30
-          compression-level: 0
 
       - name: Mostrar la descarga y las instrucciones
         env:

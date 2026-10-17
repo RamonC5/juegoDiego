@@ -20,9 +20,13 @@ MARKER = "SALTO_FOREST_READY level=world_01_level_01 enemies=9 art=9"
 
 
 def adb(*args: str, check: bool = True) -> subprocess.CompletedProcess:
-    return subprocess.run(
-        ["adb", *args], check=check, capture_output=True, timeout=120
+    result = subprocess.run(
+        ["adb", *args], check=False, capture_output=True, timeout=120
     )
+    if check and result.returncode:
+        raise RuntimeError(f"adb {' '.join(args)}: " +
+                           (result.stdout + result.stderr).decode("utf-8", "replace"))
+    return result
 
 
 def screenshot(name: str) -> tuple[int, int]:
@@ -34,7 +38,13 @@ def screenshot(name: str) -> tuple[int, int]:
 
 
 def logs() -> str:
-    return adb("logcat", "-d", "-v", "threadtime").stdout.decode("utf-8", "replace")
+    # El arranque del sistema genera mucho ruido; logcat puede terminar con EOF
+    # temporal (255) aunque haya devuelto registros válidos. Conservarlos y reintentar.
+    result = adb("logcat", "-d", "-v", "threadtime", "godot:V", "Godot:V",
+                 "AndroidRuntime:E", "*:S", check=False)
+    if result.returncode not in (0, 255):
+        raise RuntimeError(result.stderr.decode("utf-8", "replace"))
+    return result.stdout.decode("utf-8", "replace")
 
 
 def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
@@ -45,19 +55,28 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
     adb("shell", "pm", "clear", PACKAGE)
     adb("logcat", "-c")
     adb("shell", "monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1")
+    collected = ""
     try:
-        deadline = time.monotonic() + 60
+        deadline = time.monotonic() + 180
+        ready = False
         while time.monotonic() < deadline:
             time.sleep(2)
-            if require_marker and MARKER in logs():
-                break
-            if not require_marker and adb("shell", "pidof", PACKAGE, check=False).returncode == 0:
-                time.sleep(6)
+            collected += logs()
+            if require_marker and MARKER not in collected:
+                continue
+            screenshot(f"{prefix}_inicio.png")
+            # El bosque raster ocupa bastante más que el splash o una pantalla negra.
+            # Esta comprobación evita repetir la falsa captura de arranque; después
+            # se revisan las imágenes manualmente para comprobar los enemigos.
+            if (OUTPUT / f"{prefix}_inicio.png").stat().st_size > 250_000:
+                ready = True
                 break
         if adb("shell", "pidof", PACKAGE, check=False).returncode != 0:
             raise RuntimeError(f"{prefix}: la aplicación no sigue ejecutándose.")
-        if require_marker and MARKER not in logs():
+        if require_marker and MARKER not in collected:
             raise RuntimeError("El APK no confirmó las nueve patrullas con sus texturas.")
+        if not ready:
+            raise RuntimeError(f"{prefix}: no se obtuvo un fotograma del bosque tras la carga.")
         time.sleep(2)
         width, height = screenshot(f"{prefix}_inicio.png")
         if width <= height:
@@ -76,11 +95,11 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
             "apk_sha256": hashlib.sha256(apk.read_bytes()).hexdigest(),
             "installed_version": version.group(1) if version else "unknown",
             "screen": [width, height],
-            "enemy_art_marker": MARKER in logs(),
+            "enemy_art_marker": MARKER in collected,
             "screenshots": [f"{prefix}_{suffix}.png" for suffix in ("inicio", "enemigo", "pausa")],
         }
     finally:
-        content = logs()
+        content = collected + logs()
         (OUTPUT / f"{prefix}_logcat.txt").write_text(content, encoding="utf-8")
         adb("shell", "am", "force-stop", PACKAGE, check=False)
         errors = [line for line in content.splitlines()
