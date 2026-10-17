@@ -2,7 +2,7 @@
   "schema_version": 1,
   "tipo": "nivel",
   "id": "world_01_level_01",
-  "nombre": "Bosque Esmeralda · El barranco de las lianas",
+  "nombre": "Bosque Esmeralda · Barranco de las lianas oscilantes",
   "estado": "implementada",
   "fuentes": [
     {
@@ -24,6 +24,11 @@
       "ruta": "encargo:reducir duración a la mitad y añadir liana y dianas",
       "revision": "2026-10-17",
       "observacion": "Excepción expresa al objetivo anterior de 15–22 min: eliminar repeticiones y añadir ascenso, rebotes y recuperación en el barranco."
+    },
+    {
+      "ruta": "encargo:reemplazar trepa automática por lianas oscilantes",
+      "revision": "2026-10-17",
+      "observacion": "El jugador salta, se cuelga de las lianas oscilantes y cambia de una a otra mediante nuevos saltos."
     }
   ],
   "mundo_id": "world_01",
@@ -70,8 +75,13 @@
       "id": "gruta_hojas_vida",
       "nombre": "Gruta secreta bajo las terrazas",
       "principal": false,
-      "minutos_estimados": [0.4, 0.8],
-      "dinamicas": ["gruta_hojas_vida"],
+      "minutos_estimados": [
+        0.4,
+        0.8
+      ],
+      "dinamicas": [
+        "gruta_hojas_vida"
+      ],
       "proposito": "Secreto opcional bajo la hojarasca: agacharse para descender, recoger un cuarto corazón y volver mediante un ascensor."
     },
     {
@@ -121,7 +131,7 @@
     },
     {
       "id": "tramo_05",
-      "nombre": "Barranco de las lianas",
+      "nombre": "Barranco de las lianas oscilantes",
       "principal": true,
       "minutos_estimados": [
         1.2,
@@ -131,7 +141,7 @@
         "lianas_dianas_barranco",
         "raices_dobles"
       ],
-      "proposito": "Subir por una liana con el gesto de salto mantenido, soltar para impulsarse y enlazar cinco dianas rebotadoras sobre el vacío. Una caída cuesta energía y reinicia las dianas del tramo."
+      "proposito": "Saltar desde la orilla, agarrarse a nudos de cinco lianas que oscilan independientemente, balancearse y encadenar saltos hasta alcanzar la otra orilla. No hay trepa automática."
     },
     {
       "id": "tramo_06",
@@ -270,31 +280,31 @@
   },
   "persistencia": {
     "secreto_opcional": "El brote suma un corazón hasta cuatro por partida; recogida única, no se pierde al reaparecer. El ascensor reinicia su ciclo y las hojas quedan recogidas.",
-    "al_morir": "Se conservan las llaves, hojas y cristales; puentes, barreras y dianas convencionales se reconstruyen al perder toda la energía. Las cinco dianas elásticas vuelven a estar disponibles al reaparecer; la caída aislada del barranco regresa a la entrada y resta una unidad de energía.",
+    "al_morir": "Se conservan las llaves, hojas y cristales; puentes, barreras y dianas convencionales se reconstruyen al perder toda la energía. Las cinco lianas reinician el balanceo y Diego queda desenganchado al reaparecer; la caída aislada del barranco regresa a la entrada y resta una unidad de energía.",
     "al_cerrar": "El intento se reinicia. Se conservan los resultados completados y ajustes; no existe guardado intermedio.",
     "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes."
   },
   "accesibilidad": {
-    "senales_no_solo_color": "La liana presenta hojas y trenzado vertical; las dianas son discos de anillos concéntricos, se rompen y regeneran con animación. Sin letras ni insignias sobre el escenario.",
+    "senales_no_solo_color": "Cinco lianas naturales con nudos visibles, oscilaciones desfasadas y seguimiento del protagonista al colgarse, sin texto ni iconos en el escenario.",
     "equivalencia_visual_sonora": "La información necesaria es visual; no se exige audio. Audio y lector de pantalla pendientes.",
     "legibilidad_movil": "Textos grandes, cámara que acompaña las alturas y mismos controles táctiles. Capturas y Android nativo se verifican antes de entregar.",
-    "ajustes_control": "Ascenso: mantener el deslizamiento hacia arriba, equivalente a mantener salto; soltar y arrastrar horizontalmente para impulsar. Se mantienen sensibilidad, inversión de lado y salto completo."
+    "ajustes_control": "Saltar para agarrarse automáticamente al nudo próximo en el aire; dirigir el balanceo con el arrastre horizontal y repetir salto para soltarse. Teclado, mando y gesto hacia arriba equivalentes."
   },
   "validacion": {
     "funcional": [
-      "10 segmentos contando el prólogo, 45 enemigos, 10 pasos dobles, 4 puentes, 5 troncos, 3 llaves y 1 barranco con cinco dianas elásticas",
+      "10 segmentos contando el prólogo, 45 enemigos, 10 pasos dobles, 4 puentes, 5 troncos, 3 llaves y 1 barranco con cinco lianas oscilantes",
       "Comprobar ascenso por gesto sostenido, rebotes consecutivos, caída con recuperación local, reparación al reaparecer y llegada a la puerta con 3 llaves"
     ],
     "jugando": [
       "9,2–10,94 minutos es una estimación de autoría basada en el recorte de nueve tramos repetidos; no es una medición de la primera partida.",
-      "Pendiente: comprobar la cadena de cinco rebotes con mando, teclado, móvil Android y tableta Windows; medir tiempo real sin reintentos ni pausas."
+      "Pendiente: comprobar la cadena de cinco saltos entre lianas con mando, teclado, móvil Android y tableta Windows; medir tiempo real sin reintentos ni pausas."
     ],
     "evidencias": [
       "tools/authoring/build_forest_level.py",
       "game/data/worlds/world_01/level_01.tres",
       "game/features/levels/mechanisms/vine_crossing.gd",
-      "game/features/levels/mechanisms/vine_target.gd",
-      "tools/tests/test_lianas_dianas.gd (prueba incorporada, ejecución CI pendiente)"
+      "tools/tests/test_lianas_dianas.gd (prueba incorporada, ejecución CI pendiente)",
+      "game/features/levels/mechanisms/swinging_vine.gd"
     ]
   }
 }
