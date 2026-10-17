@@ -125,7 +125,7 @@ func _run() -> void:
 	_check(main._camera.position.y < 300.0, "la cámara deja al pasajero alto fuera del HUD y de las pistas")
 	await _step(260)
 	_check(lift.carries(hero) and hero.position.y > 530.0 and hero.health == 3, "el descenso transporta sin aplastar ni herir")
-	# Muerte y retorno al farol: llaves y puentes resueltos permanecen; los troncos vuelven abajo.
+	# Muerte y retorno al farol: llave conservada, puente cerrado y troncos abajo.
 	stage.level_keys[0]._on_body_entered(hero)
 	stage._on_mechanism_activated(&"puente_diana_ensayo")
 	stage._on_checkpoint(hero, 2)
@@ -134,7 +134,7 @@ func _run() -> void:
 	main._resume()
 	await _step(4)
 	_check(not hero.dead and hero.position.distance_to(stage.respawn_position) < 4.0, "morir devuelve al farol en suelo firme")
-	_check(stage.collected_keys == [0] and stage.bridges[0].state == RootBridge.State.OPEN, "el reintento conserva llave y puente resueltos")
+	_check(stage.collected_keys == [0] and stage.bridges[0].state == RootBridge.State.CLOSED and stage.activated_mechanisms.is_empty(), "el reintento conserva la llave, recoge el puente y rearma las dianas")
 	_check(lift.position.distance_to(lift.definition.start_position) < 2.0 and stage.moving_platforms.size() == 2, "los dos troncos reinician su ciclo sin duplicarse")
 	_check(LevelProgress.new(STORAGE).levels.is_empty(), "viajar o recoger una llave no inventa guardado de intento")
 	# El salto normal desde abajo no alcanza la llave alta.
