@@ -46,7 +46,8 @@ La lista de segmentos expresa el recorrido en orden. Para alternativas, registra
 
 En `duracion`, incluir:
 
-- `minimo_primera_partida_minutos`: número positivo, al menos 15 para aventuras; no trasladar ese mínimo automáticamente al jefe.
+- `minimo_primera_partida_minutos`: número positivo, al menos 15 por defecto para aventuras; la petición posterior y explícita del usuario permite excepción documentada. No trasladar ese mínimo automáticamente al jefe.
+- `excepcion_duracion_usuario` (opcional en aventuras): objeto `{fecha: "YYYY-MM-DD", solicitud: "texto explícito del usuario"}` para justificar un mínimo inferior a 15. Sin excepción se mantiene la validación estricta.
 - `objetivo_minutos`: intervalo ordenado con mínimo igual o superior al mínimo exigido; usar inicialmente `[18, 22]` para aventuras.
 - `estado`: `estimada` o `medida`.
 - `muestras`: lista de objetos anónimos con `id`, `perfil`: `primera_partida_publico_objetivo`, `minutos_ruta_principal` y booleanos verdaderos `pausas_cargas_excluidas`, `reintentos_excluidos`, `opcionales_excluidos`. Excluir también cinemáticas.
