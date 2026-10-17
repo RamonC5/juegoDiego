@@ -90,12 +90,12 @@ func _capture() -> void:
 	_save("preview_first_key_route")
 	# Barranco de lianas: capturas reales del nuevo gesto y los discos.
 	# Se retira la referencia histórica a moving_platforms[6] (solo hay cinco).
-	main.player.respawn(Vector2(25980, 445))
+	main.player.respawn(Vector2(25900, 520))
 	await _frames(24)
-	_save("preview_vine_climb")
-	main.player.respawn(Vector2(26760, 340))
+	_save("preview_swinging_vines")
+	main.player.respawn(Vector2(26600, 515))
 	await _frames(24)
-	_save("preview_vine_targets")
+	_save("preview_vine_transfer")
 	main.player.respawn(Vector2(3430, 600))
 	for target in main.stage.throw_targets:
 		main.stage._on_mechanism_activated(target.definition.mechanism_id)
