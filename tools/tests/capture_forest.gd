@@ -75,6 +75,13 @@ func _capture() -> void:
 	main.player.respawn(Vector2(9950, 260))
 	await _frames(30)
 	_save("preview_terraces_guard")
+	# Gruta opcional antes del primer portón: encuadre real bajo tierra.
+	main.player.respawn(Vector2(11825, 1080))
+	await _frames(16)
+	_save("preview_secret_grove")
+	main.player.respawn(Vector2(11610, 600))
+	await _frames(8)
+	_save("preview_secret_leaves")
 	main.player.respawn(Vector2(8200 + 2 * 4000 + 1350, 600))
 	await _frames(35)
 	_save("preview_canopy_lift")
