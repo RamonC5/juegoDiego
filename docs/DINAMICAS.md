@@ -2,6 +2,12 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Gruta secreta de hojas · 0.7.1
+
+La primera ruta del bosque contiene una trampilla de hojarasca alrededor de x=11.610. Al mantener el gesto de agacharse sobre ella, Diego desciende a una cámara subterránea con hojas opcionales y un brote de vida. El brote concede un cuarto corazón de energía (máximo cuatro), una sola vez durante el intento; el ascensor de madera permite regresar a la superficie. No sustituye ninguna llave, no aumenta la duración obligatoria y se reinicia el ascensor al reaparecer. La cámara acompaña el descenso.
+
+[Especificación del secreto](dinamicas/gruta_hojas_vida.json) · [Datos del bosque](niveles/world_01_level_01.json) · [Regresión](../tools/tests/test_secret_grove.gd).
+
 ## Estado y alcance
 
 **Actualización 0.7.0 (prioritaria):** el bosque ahora consta de un prólogo y nueve tramos, 45 enemigos y tres llaves. La duración objetivo es **9,2–10,94 minutos estimados**, aproximadamente la mitad de la versión larga, por petición expresa del 17-10-2026. Se incorpora el [barranco de lianas y dianas](dinamicas/lianas_dianas_barranco.json): gesto de salto mantenido para subir, lanzamiento al soltar y cinco rebotes con rotura y restauración. Véase el [recorrido actualizado](niveles/world_01_level_01.json). Los valores de 19 tramos y 18–22 minutos descritos a continuación son **históricos (0.5.0)**, no el nivel que se exporta actualmente.
