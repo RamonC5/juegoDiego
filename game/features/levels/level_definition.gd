@@ -19,6 +19,8 @@ extends Resource
 @export var bridges: Array[RootBridgeDefinition] = []
 @export var moving_platforms: Array[MovingPlatformDefinition] = []
 @export var root_gates: Array[ForestRootGateDefinition] = []
+## Orígenes de pasos de liana y dianas rebotadoras sobre barrancos.
+@export var vine_crossings: Array[Vector2] = []
 ## Inicio de cada tramo y nombre para orientar el recorrido largo.
 @export var region_starts: Array[Vector2] = []
 @export var region_names: Array[String] = []
