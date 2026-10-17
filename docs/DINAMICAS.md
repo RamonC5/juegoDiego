@@ -2,15 +2,17 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
-## Gruta secreta de hojas · 0.7.1
+## Gruta secreta de hojas · 0.7.2
 
-La primera ruta del bosque contiene una trampilla de hojarasca alrededor de x=11.610. Al mantener el gesto de agacharse sobre ella, Diego desciende a una cámara subterránea con hojas opcionales y un brote de vida. El brote concede un cuarto corazón de energía (máximo cuatro), una sola vez durante el intento; el ascensor de madera permite regresar a la superficie. No sustituye ninguna llave, no aumenta la duración obligatoria y se reinicia el ascensor al reaparecer. La cámara acompaña el descenso.
+Junto al tótem de madera y musgo, alrededor de x=11610, agacharse abre la trampilla. El túnel permite caminar realmente por debajo del bosque: sigue las hojas hacia la izquierda, recoge el brote de vida y sal por el ascensor de x=10340. La galería mide 1890 px; el ascensor está separado de la entrada. Su cuarto corazón se concede una sola vez por intento y se conserva al reaparecer. El desvío es opcional y mantiene accesibles las tres llaves y los portones.
 
-[Especificación del secreto](dinamicas/gruta_hojas_vida.json) · [Datos del bosque](niveles/world_01_level_01.json) · [Regresión](../tools/tests/test_secret_grove.gd).
+El tótem y las lianas tienen acabado raster coherente con el escenario. Las lianas conservan la velocidad del balanceo al saltar y el agarre se aproxima suavemente al nudo. El recorrido continuo de pruebas supera el barranco sin trasladar a Diego entre las cuerdas.
+
+[Especificación del secreto](dinamicas/gruta_hojas_vida.json) · [Barranco de lianas](dinamicas/lianas_dianas_barranco.json) · [Datos del bosque](niveles/world_01_level_01.json).
 
 ## Estado y alcance
 
-**Actualización 0.7.0 (prioritaria):** el bosque ahora consta de un prólogo y nueve tramos, 45 enemigos y tres llaves. La duración objetivo es **9,2–10,94 minutos estimados**, aproximadamente la mitad de la versión larga, por petición expresa del 17-10-2026. Se incorpora el [barranco de lianas y dianas](dinamicas/lianas_dianas_barranco.json): gesto de salto mantenido para subir, lanzamiento al soltar y cinco rebotes con rotura y restauración. Véase el [recorrido actualizado](niveles/world_01_level_01.json). Los valores de 19 tramos y 18–22 minutos descritos a continuación son **históricos (0.5.0)**, no el nivel que se exporta actualmente.
+**Actualización 0.7.0 (prioritaria):** el bosque ahora consta de un prólogo y nueve tramos, 45 enemigos y tres llaves. La duración objetivo es **9,2–10,94 minutos estimados**, aproximadamente la mitad de la versión larga, por petición expresa del 17-10-2026. Se incorpora el [barranco de lianas y dianas](dinamicas/lianas_dianas_barranco.json): cinco lianas oscilantes que se enlazan saltando, con agarre automático aéreo y recuperación desde la orilla. Véase el [recorrido actualizado](niveles/world_01_level_01.json). Los valores de 19 tramos y 18–22 minutos descritos a continuación son **históricos (0.5.0)**, no el nivel que se exporta actualmente.
 
 El bosque histórico 0.5.0 contenía 19 tramos, 81 enemigos con persecución (38 guardianes de plataforma), tres llaves repartidas en tres rutas, 19 pasos de dos marcas, ocho puentes, ocho troncos y 21 faroles. El guardado conserva resultados completados; cerrar reinicia el intento. La ampliación está integrada y la duración de 18–22 minutos sigue siendo estimada, sin medición del público objetivo.
 

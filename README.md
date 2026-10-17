@@ -2,6 +2,8 @@
 
 Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
 
+La versión **0.7.2** integra un tótem raster de corteza y musgo, un túnel transitable bajo el bosque con brote de vida y ascensor en otro extremo, lianas texturadas con impulso conservado y una marcha de enemigos ligada a su velocidad. [Recorrido y reglas actuales](docs/ARQUITECTURA.md#tótem-y-recorrido-bajo-el-bosque--072). Las referencias a versiones anteriores que siguen son históricas.
+
 La versión **0.5.1** estrena el nombre **Super Diego** y un icono original con el protagonista, sus gafas y el Bosque Esmeralda. Conserva las partidas y ajustes de Salto Heroes cuando se instala como actualización con la misma firma. [Diseño del icono y compatibilidad](docs/IDENTIDAD_VISUAL.md).
 
 La versión **0.5.2** permite que Terrón y Moflete bajen de estructuras al perseguir, presenta energía, llaves, hojas y cristales con **iconos y cantidades**, aumenta el impulso del salto a **680 px/s** y sincroniza la cámara vertical con Diego. [Cambios y validación](docs/PULIDO_0.5.2.md).

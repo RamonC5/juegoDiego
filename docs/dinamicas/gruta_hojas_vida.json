@@ -16,7 +16,7 @@
       "observacion": "Trampilla, gruta, plataforma móvil y recogida única integradas."
     }
   ],
-  "objetivo": "Descubrir una trampilla disimulada con hojas, descender a una gruta y recoger un brote que aumenta la energía máxima del intento.",
+  "objetivo": "Descubrir la trampilla junto al tótem, recorrer el sendero subterráneo de hojas hacia el oeste, recoger el brote y salir mediante el ascensor situado en el otro extremo.",
   "dependencias": [
     {
       "id": "gestos_tactiles",
@@ -35,23 +35,23 @@
     }
   ],
   "controles": {
-    "tactil": "Mantén el gesto de bajar sobre el manto espeso para caer por la trampilla. Muévete hasta el brote y salta sobre la plataforma de madera ascendente para salir.",
-    "teclado": "Mantén abajo sobre la cubierta; camina hasta el brote y usa salto para subir al ascensor.",
-    "mando": "Stick hacia abajo sobre las hojas; stick horizontal y salto para volver sobre el ascensor."
+    "tactil": "Mantén el gesto de bajar sobre las hojas junto al tótem para descender. Camina hacia la izquierda siguiendo las hojas, recoge el brote y salta al tronco cuando llegue abajo; te lleva hasta la superficie.",
+    "teclado": "Abajo en la trampilla; izquierda para recorrer el túnel; salto para subir al ascensor del extremo oeste.",
+    "mando": "Stick abajo en la trampilla, izquierda para explorar bajo el bosque y salto para subir al ascensor occidental."
   },
   "aprendizaje": {
-    "presentacion": "La acumulación de hojas destaca por volumen y movimiento suave, sin carteles ni iconos sobre el escenario.",
+    "presentacion": "El tótem de corteza y musgo señala la hojarasca, sin texto ni iconos de interfaz. Bajo tierra, las hojas trazan el camino hasta el brote y el ascensor.",
     "practica": "Una sola trampilla ancha, sin enemigos en la gruta y con suelo de recuperación continuo.",
     "combinacion": "El ascensor devuelve a la ruta principal; el secreto no guarda llaves ni bloquea el avance."
   },
   "reglas": {
     "activacion": "Agacharse en el centro de la cubierta; la trampilla es firme al caminar normalmente.",
-    "exito": "Tocar el brote luminoso, sumar un corazón hasta un máximo de cuatro y regresar al sendero en el ascensor.",
+    "exito": "Recorrer el túnel bajo el bosque, tocar el brote (máximo cuatro corazones) y regresar a la superficie por el ascensor occidental, sin saltarse ningún portón obligatorio.",
     "fallo": "Puede abandonarse sin recoger el premio; no hay trampa mortal ni dependencia de otro objeto.",
     "recuperacion": "El ascensor se reinicia al reaparecer en un farol. El brote se recoge solo una vez y la energía máxima obtenida dura el intento."
   },
   "feedback": [
-    "Hojarasca más densa sobre la entrada, raíces y suelo de tierra bajo el nivel.",
+    "Tótem raster iluminado como los árboles del bosque, hojarasca en la entrada y helechos de su atlas dentro del túnel.",
     "Brote de dos hojas luminosas que flota y desaparece cuando se recoge.",
     "Plataforma grande que asciende con paradas automáticas, sin botones nuevos."
   ],
@@ -69,7 +69,7 @@
   "accesibilidad": {
     "senales_no_solo_color": "La cubierta tiene volumen de hojas, el brote forma de dos hojas y el ascensor una silueta de tronco reconocible.",
     "equivalencia_visual_sonora": "La entrada, el premio y el ascensor pueden reconocerse visualmente sin audio obligatorio.",
-    "legibilidad_movil": "Trampilla de 220 px, ascensor de 170 px y recompensa brillante; seguimiento de cámara ampliado en altura.",
+    "legibilidad_movil": "Tótem raster con talla de hojas y marcas descendentes; entrada de 220 px, túnel de 1890 px de ancho y 416 px de altura libre, ascensor de 170 px; cámara acompaña el trayecto.",
     "ajustes_control": "No hay botones adicionales; respeta gesto de agacharse, desplazamiento y salto en Android/Windows."
   },
   "validacion": {
@@ -79,12 +79,11 @@
       "Verificar ascensor, cámara subterránea, reaparición y recorrido de tres llaves."
     ],
     "jugando": [
-      "Pendiente ejecutar Godot y probar el secreto físicamente en Android y tablet Windows.",
-      "Pendiente comprobar que la entrada resulta descubrible sin ser obligatoria."
+      "Pendiente validar descubrimiento, tacto y rendimiento en Android y tablet Windows físicos."
     ],
     "evidencias": [
       "game/features/levels/mechanisms/secret_grove.gd",
-      "tools/tests/test_secret_grove.gd (suite añadida a CI, ejecución pendiente)"
+      "tools/tests/test_secret_grove.gd: 21 comprobaciones correctas, incluye descenso, paseo real de más de 1100 px, recogida y salida en ascensor sin teletransporte entre ellos."
     ]
   }
 }

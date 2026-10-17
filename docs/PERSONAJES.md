@@ -122,5 +122,6 @@ Guardar únicamente los recursos de juego preparados en `game/assets/textures/ch
 
 **Terrón y Moflete** ya aparecen como enemigos jugables de Bosque Esmeralda 1-1: siete patrullas entre ambos. Se reutilizan los conceptos raster existentes, con animación por transformación de patrulla y aplastamiento. Se eliminan por pisotón y admiten el contrato de objetos lanzados. Las hojas de fotogramas propias de estos enemigos siguen pendientes; los otros cinco enemigos continúan como conceptos, incluido Nóctilo. Los metadatos y fichas de Terrón y Moflete registran esta integración.
 
+## Movimiento revisado · 0.7.2
 
-
+Terrón y Moflete avanzan y frenan progresivamente, sincronizan su zancada con el desplazamiento y alternan apoyo plano y recuperación en arco. Las manos acompañan a los brazos con menor traslación, sin deformar la proporción del cuerpo. Los siete perfiles conservan el PNG, pausa, espejo y anatomía; cinco mantienen su alcance de visor. [Detalles y verificación](ANIMACION_ENEMIGOS.md#marcha-natural-y-anatomía-estable--072).

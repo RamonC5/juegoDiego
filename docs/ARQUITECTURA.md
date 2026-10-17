@@ -53,11 +53,19 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 5. Las señales notifican hechos, como `level_completed`, y las llamadas explícitas solicitan acciones. Evitar un bus global para todos los eventos.
 6. No añadir autoloads hasta que un servicio necesite persistir entre escenas. No hay autoloads registrados en esta base.
 
-## Gruta secreta opcional · 0.7.1
+## Tótem y recorrido bajo el bosque · 0.7.2
 
-`ForestLevelDefinition.secret_grove` define el centro de la trampilla del primer tramo. `ForestSecretGrove` genera una cubierta unilateral de hojas, una cámara bajo el suelo y un ascensor `ForestMovingPlatform` independiente de los cinco troncos de la ruta principal; `ForestStage` conecta su señal `bonus_collected` con `DiegoPlayer.gain_bonus_heart()`. El máximo de energía crece de tres a cuatro en el intento, se conserva al reaparecer y no se puede duplicar. La gruta contiene hojas opcionales, no llaves ni pasos obligatorios. `ForestStage` limita la profundidad extra únicamente a la zona del secreto y `main.gd` desplaza la cámara para mantener visible el descenso. Los recursos procedurales 2D se complementan con la vegetación raster del atlas existente.
+`ForestLevelDefinition.secret_grove` conserva la entrada en (11610, 600). `ForestStage._add_ground_with_tunnel` divide el terreno que coincide con la gruta: conserva el suelo profundo fuera y una cubierta de 64 px atravesable desde abajo dentro. Así existe un pasillo físico de **1890 px** entre x=10110 y x=12000, con suelo en y=1080 y extremos cerrados; no es una cueva superpuesta sobre tierra todavía sólida. Caminar por arriba mantiene la ruta anterior y agacharse sobre las hojas abre la trampilla.
 
-[Dinámica y reglas](dinamicas/gruta_hojas_vida.json) · [prueba nueva](../tools/tests/test_secret_grove.gd). Android y Windows físicos pendientes de comprobar.
+El rastro opcional lleva a la izquierda hasta el brote en (10880, 1020) y el ascensor en x=10340. `ForestSecretGrove` usa `ForestMovingPlatform` con paradas amplias y colisión unilateral para regresar a la superficie por otro punto, sin saltarse los portones de la ruta principal. La cámara acompaña el trayecto y el límite de caída ampliado solo se aplica dentro del secreto. El premio aumenta de tres a cuatro corazones una sola vez por intento y se conserva al volver al farol; cerrar o rejugar lo reinicia. Ninguna llave está bajo tierra.
+
+El tótem utiliza `secret_totem_v001.png`: corteza, musgo, helechos, talla y luz lateral coherentes con el bosque. No tiene colisiones, botones ni rótulos. El interior reutiliza la vegetación y la roca raster del atlas, con iluminación atenuada. El ascensor se dibuja por delante del fondo subterráneo. Las lianas usan `swinging_vine_v001.png` y la rama de raíces existente, con un lazo orgánico que identifica el agarre. Prompts exactos en `art/levels/bosque_esmeralda/prompts-pulido-2026-10-17.md`.
+
+El agarre reduce el radio de 148 a 70 px, añade barrido relativo entre mano y nudo y aproxima el cuerpo durante varios pasos físicos. El arrastre aporta impulso a un resorte amortiguado; al saltar se transmite la velocidad horizontal real de la cuerda y se conserva el impulso durante 0,85 segundos con dirección aérea disponible. Caída, muerte y reaparición limpian el agarre y el impulso. `test_forest_route.gd` cruza las cinco lianas con entradas reales.
+
+La marcha de enemigos avanza según distancia recorrida, con zancadas de 96 px para Terrón y 70 px para los otros perfiles terrestres. Pie plano durante el apoyo, arco durante el balanceo, muñecas con recorrido corto y respiración secundaria suave. El shader rota en píxeles del recorte para respetar la proporción del raster. El controlador acelera y frena, mientras el dibujo mezcla velocidad, alerta y caída. Las colisiones y los sensores mantienen su contrato. [Animaciones](ANIMACION_ENEMIGOS.md).
+
+[Dinámica del secreto](dinamicas/gruta_hojas_vida.json) · [Lianas](dinamicas/lianas_dianas_barranco.json) · [Pruebas de recorrido](../tools/tests/test_secret_grove.gd). Android y Windows físicos pendientes.
 
 ## Contratos para las mecánicas
 

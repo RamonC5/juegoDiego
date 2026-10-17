@@ -142,7 +142,11 @@ func _physics_process(delta: float) -> void:
 			_direction *= -1.0
 		else:
 			speed = 0.0
-	velocity.x = _direction * speed
+	# Acelerar y frenar antes de correr evita cambios instantáneos de velocidad.
+	var acceleration: float = 600.0 if behaviour == Behaviour.CHASE else 380.0
+	velocity.x = move_toward(velocity.x, _direction * speed, acceleration * delta)
+	if not _can_step(signf(velocity.x), absf(velocity.x) * delta):
+		velocity.x = 0.0
 	velocity.y = minf(velocity.y + 1700.0 * delta, 900.0)
 	move_and_slide()
 	_update_support()
@@ -157,7 +161,7 @@ func _physics_process(delta: float) -> void:
 		_last_floor_y = position.y
 	if is_on_wall() and behaviour == Behaviour.PATROL:
 		_direction *= -1.0
-	_visual.face_left(_direction < 0.0)
+	_visual.face_left(velocity.x < 0.0 if absf(velocity.x) > 5.0 else _direction < 0.0)
 	_visual.advance(delta, get_real_velocity().x, is_on_floor(), behaviour == Behaviour.NOTICE or behaviour == Behaviour.CHASE)
 	if is_instance_valid(player) and not player.dead and _contact.overlaps_body(player):
 		if player.global_position.y > global_position.y - _height + 16.0:

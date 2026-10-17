@@ -66,18 +66,26 @@ func _run() -> void:
 	var joints: Array[Dictionary] = feet.profile.joints
 	check(joints[4].mode == "foot" and joints[5].mode == "foot", "ambos pies tienen movimiento de apoyo y elevación")
 	feet._gait = 1.0
-	feet.phase = PI * 0.5
+	feet.phase = PI * 0.75
 	feet.advance(0.0, 140.0, true)
-	check(feet.pose_offsets[5].y < -0.06 and feet.pose_offsets[4].y >= 0.0, "el pie delantero se eleva y el trasero apoya")
+	check(feet.pose_offsets[5].y < -0.02 and feet.pose_offsets[4].y >= 0.0, "el pie delantero se eleva y el trasero apoya")
 	var forward: Vector2 = feet.pose_offsets[5]
-	feet.phase = PI * 1.5
+	feet.phase = PI * 1.75
 	feet.advance(0.0, 140.0, true)
-	check(feet.pose_offsets[4].y < -0.06 and feet.pose_offsets[5].y >= 0.0, "el pie trasero se eleva en la fase contraria")
+	check(feet.pose_offsets[4].y < -0.02 and feet.pose_offsets[5].y >= 0.0, "el pie trasero se eleva en la fase contraria")
 	check(forward.x > 0.0 and feet.pose_offsets[5].x < 0.0, "los pies alternan también su desplazamiento horizontal")
 	feet._gait = 0.0
 	feet.phase = PI * 0.5
 	feet.advance(0.0, 0.0, true)
 	check(feet.pose_offsets[5].length() < forward.length() * 0.3, "la zancada se amortigua cuando deja de avanzar")
+	feet.phase = PI * 1.5
+	feet._gait = 1.0
+	feet.advance(0.0, 0.0, true)
+	check(is_zero_approx(feet.pose_offsets[5].y), "el pie apoyado permanece plano sobre el suelo")
+	var stopped_phase: float = feet.phase
+	for frame in 60:
+		feet.advance(1.0 / 60.0, 0.0, true)
+	check(feet.phase == stopped_phase and is_zero_approx(feet._gait), "al parar se detiene la marcha y se amortigua la zancada")
 	feet.queue_free()
 	await process_frame
 	var enemy := ForestEnemy.new()

@@ -55,3 +55,13 @@ Se amplió la comprobación automática para validar UV de recorte, continuidad 
 ## Pisada expresiva de Moflete · 0.6.3
 
 Los pies de Moflete pasan al modo `foot`, con un desfase de PI radianes: uno eleva su extremo en el balanceo mientras el otro está apoyado. La traslación longitudinal y la elevación aumentan al perseguir y se amortiguan en reposo y en el aire. Se comprueba la alternancia de apoyo y elevación en `test_enemy_motion.gd`. La deformación no mueve sensores ni colisiones, y no se modifica el PNG.
+
+## Marcha natural y anatomía estable · 0.7.2
+
+Se reduce el movimiento elástico de manos y pies. La fase de la marcha depende de la distancia real: Terrón usa 96 px por ciclo y Moflete 70 px, de modo que correr acelera la zancada y detenerse la amortigua hasta dejar los apoyos quietos. El pie apoyado queda plano; el otro vuelve por un arco de 4,5 % de la altura del recorte (2,2 % en raíces). Las muñecas siguen el desfase del brazo con desplazamiento de 0,3 % del ancho, en vez del 6 % anterior. El giro se calcula en píxeles para no estirar un recorte rectangular.
+
+La alerta y el estado aéreo se mezclan progresivamente, la caída reduce la marcha y repliega los apoyos, y el cuerpo transfiere suavemente el peso entre ellos. La respiración es secundaria, con 0,6 % de escala y raíz estable. El aleteo conserva su frecuencia armónica y el retraso de las puntas. El controlador físico acelera a 600 px/s² durante persecución y 380 px/s² durante patrulla, conservando la comprobación de bordes y caídas seguras.
+
+`test_enemy_motion.gd`: **198 comprobaciones correctas**, incluidos cierre de ciclo, apoyo plano, parada, reducción, espejo, pausa, derrota y sensores. Terrón y Moflete están en el bosque; los otros cinco siguen en el visor. Prueba física en Android/Windows pendiente.
+
+La captura Compatibility de esta revisión verifica 24 fotogramas (dos ciclos) y cambios reales en el raster, congelando el balanceo global: Terrón 290 píxeles de muestra, Moflete 402 y Nóctilo 2205 entre las poses comparadas. Se revisaron las capturas del reparto y del nivel con Mesa llvmpipe; la revisión no sustituye la prueba de dispositivo físico.

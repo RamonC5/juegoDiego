@@ -5,6 +5,7 @@ extends Node2D
 
 signal fell
 
+const BRANCH: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/mechanisms/root_bridge_v001.png")
 const FIRST_VINE_X: float = 1700.0
 const ANCHOR_XS: Array[float] = [1700.0, 2050.0, 2400.0, 2750.0, 3100.0]
 const ANCHOR_Y: float = 110.0
@@ -50,15 +51,6 @@ func reset_vines() -> void:
 
 
 func _draw() -> void:
-	# Rama superior y hojas: continuidad reconocible sobre las cinco cuerdas.
-	draw_line(Vector2(1430, ANCHOR_Y - 8), Vector2(3330, ANCHOR_Y - 8),
-		Color("354c32"), 18.0, true)
-	draw_line(Vector2(1430, ANCHOR_Y - 13), Vector2(3330, ANCHOR_Y - 13),
-		Color("75924d"), 5.0, true)
-	for index in 11:
-		var x: float = 1530.0 + float(index) * 162.0
-		var side: float = -1.0 if index % 2 == 0 else 1.0
-		draw_line(Vector2(x, ANCHOR_Y - 10), Vector2(x + side * 30, ANCHOR_Y + 15),
-			Color("4a7747"), 7.0, true)
-		draw_circle(Vector2(x + side * 30, ANCHOR_Y + 15), 13.0,
-			Color("88b265"))
+	# Rama de raíces y musgo del mismo atlas que puentes y plataformas.
+	var source := Rect2(BRANCH.get_size() * Vector2(0.007, 0.26), BRANCH.get_size() * Vector2(0.987, 0.52))
+	draw_texture_rect_region(BRANCH, Rect2(1430, ANCHOR_Y - 28, 1900, 72), source)

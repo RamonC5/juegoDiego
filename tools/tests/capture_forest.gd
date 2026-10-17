@@ -79,6 +79,13 @@ func _capture() -> void:
 	main.player.respawn(Vector2(11460, 1080))
 	await _frames(16)
 	_save("preview_secret_grove")
+	main.player.respawn(Vector2(11150, 1080))
+	await _frames(16)
+	_save("preview_secret_tunnel")
+	main.player.respawn(Vector2(10340, 1035))
+	main.stage.secret_grove.lift.reset_cycle()
+	await _frames(16)
+	_save("preview_secret_lift")
 	main.player.respawn(Vector2(11610, 600))
 	await _frames(8)
 	_save("preview_secret_leaves")
@@ -92,7 +99,7 @@ func _capture() -> void:
 	main.player.respawn(Vector2(8200 + 5 * 4000 + 3750, 600))
 	await _frames(20)
 	_save("preview_first_key_route")
-	# Barranco de lianas: capturas reales del nuevo gesto y los discos.
+	# Barranco de lianas: cuerda raster, balanceo y salto entre agarres.
 	# Se retira la referencia histórica a moving_platforms[6] (solo hay cinco).
 	main.player.respawn(Vector2(25900, 520))
 	await _frames(24)

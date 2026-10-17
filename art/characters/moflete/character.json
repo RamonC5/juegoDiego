@@ -141,7 +141,17 @@
     "preview_scene": "game/features/enemies/enemy_gallery.tscn",
     "validation": {
       "automated_suite": "tools/tests/test_enemy_motion.gd",
-      "physical_android_windows": "pending"
+      "physical_android_windows": "pending",
+      "automated_result": "198 comprobaciones correctas en test_enemy_motion.gd; combate y persecución sin fallos."
+    },
+    "revision": "0.7.2 · 2026-10-17",
+    "gait": {
+      "clock": "distance_travelled",
+      "stride_px": 70,
+      "support": "stance_flat_swing_arc",
+      "idle": "subtle_breathing_no_stepping",
+      "fall": "blended_tuck",
+      "rotation_space": "texture_pixels"
     }
   }
 }

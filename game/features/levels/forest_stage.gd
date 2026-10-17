@@ -49,7 +49,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	respawn_position = DEFINITION.spawn
 	for section in DEFINITION.ground_sections:
-		_add_platform(section, true)
+		_add_ground_with_tunnel(section)
 	for section in DEFINITION.raised_platforms:
 		_add_platform(section, false)
 	for section in DEFINITION.recovery_platforms:
@@ -203,14 +203,16 @@ func _build_secret() -> void:
 	secret_totem = ForestSecretTotem.new()
 	secret_totem.position = DEFINITION.secret_grove + Vector2(-180, 0)
 	add_child(secret_totem)
-	# Hojarasca densa sobre la trampilla y suelo de la cámara inferior.
+	# Hojarasca sobre la trampilla y un rastro inferior hacia el extremo oeste.
 	for x in [-83.0, 0.0, 83.0]:
 		var bush: Sprite2D = _prop(1, DEFINITION.secret_grove + Vector2(x, 5), 89.0, 3)
 		bush.modulate = Color(0.69, 0.88, 0.63, 0.90)
-	for x in [11397.0, 11939.0]:
-		_prop(1, Vector2(x, 1087), 116.0, 2)
-	for x in [11410.0, 11475.0, 11530.0, 11680.0, 11755.0, 11835.0, 11910.0]:
-		_add_collectible(Vector2(x, 1030))
+	for index in 17:
+		var local_x: float = ForestSecretGrove.CAVE_LEFT + 75.0 + index * 105.0
+		var bush: Sprite2D = _prop(1, DEFINITION.secret_grove + Vector2(local_x, 486), 58.0 + (index % 3) * 9.0, -1)
+		bush.modulate = Color(0.70, 0.86, 0.72, 0.90)
+	for index in 9:
+		_add_collectible(DEFINITION.secret_grove + Vector2(-1170.0 + index * 145.0, 426.0))
 
 
 func _on_secret_life_collected() -> void:
@@ -269,6 +271,25 @@ func _on_object_released() -> void:
 			_throw_hint_target = target
 			_throw_hint_seconds = 1.2
 			return
+
+
+func _add_ground_with_tunnel(rect: Rect2) -> void:
+	# Vaciar la tierra: una cueva dibujada encima del bloque dejaba a Diego atrapado.
+	var origin: Vector2 = DEFINITION.secret_grove
+	var left: float = origin.x + ForestSecretGrove.CAVE_LEFT
+	var right: float = origin.x + ForestSecretGrove.CAVE_RIGHT
+	if origin.x < 0.0 or not is_equal_approx(rect.position.y, origin.y) \
+			or rect.end.x <= left or rect.position.x >= right:
+		_add_platform(rect, true)
+		return
+	if rect.position.x < left:
+		_add_platform(Rect2(rect.position, Vector2(left - rect.position.x, rect.size.y)), true)
+	var roof_left: float = maxf(left, rect.position.x)
+	var roof_right: float = minf(right, rect.end.x)
+	# La cubierta permite salir desde abajo en el ascensor sin aplastamiento.
+	_add_platform(Rect2(roof_left, origin.y, roof_right - roof_left, 64.0), false)
+	if rect.end.x > right:
+		_add_platform(Rect2(right, origin.y, rect.end.x - right, rect.size.y), true)
 
 
 func _add_platform(rect: Rect2, ground: bool, visible_art: bool = true) -> void:

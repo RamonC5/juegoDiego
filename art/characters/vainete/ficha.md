@@ -53,3 +53,7 @@ Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).
 El raster existente tiene animación por malla 2D con perfiles propios de anatomía. Alterna sus seis raíces con balanceo coordinado. No hay hojas de fotogramas nuevas.
 
 La animación se revisa en `enemy_gallery.tscn`; su IA, combate y colocación en niveles siguen pendientes. Los sensores permanecen independientes del dibujo. [Contrato, visor y verificación](../../../docs/ANIMACION_ENEMIGOS.md).
+
+### Revisión del movimiento · 0.7.2
+
+El rig conserva el PNG y la anatomía. La marcha sigue la distancia real, los apoyos alternan suelo y arco, las muñecas acompañan al brazo con desplazamientos menores y las rotaciones respetan la proporción del recorte en píxeles. Reposo, frenado, persecución y caída se mezclan sin reiniciar el ciclo; el aleteo conserva su frecuencia común. La suite `test_enemy_motion.gd` supera 198 comprobaciones. Integración jugable solo para Terrón y Moflete; los otros cinco mantienen su alcance de visor. Pruebas físicas Android/Windows pendientes.

@@ -15,6 +15,9 @@ var reduced_motion: bool = false
 var _mesh: MeshInstance2D
 var _motion_material: ShaderMaterial
 var _gait: float = 0.0
+var _breath_phase: float = 0.0
+var _air_blend: float = 0.0
+var _alert_blend: float = 0.0
 
 
 func configure(id: String, source: Texture2D) -> void:
@@ -84,10 +87,15 @@ static func _build_mesh(rect: Rect2, source_size: Vector2) -> ArrayMesh:
 
 
 func advance(delta: float, horizontal_speed: float, grounded: bool, alert: bool = false) -> void:
-	var moving: float = clampf(absf(horizontal_speed) / 90.0, 0.0, 1.0) if grounded else 0.0
-	_gait = move_toward(_gait, moving, delta * 5.0)
-	# Fase continua al cambiar de patrulla a persecución; alas sincronizadas por ciclo.
-	var frequency: float = float(profile.frequency) * (1.0 + _gait * 0.35)
+	var moving: float = clampf(absf(horizontal_speed) / 110.0, 0.0, 1.0) if grounded else 0.0
+	_gait = move_toward(_gait, moving, delta * 3.5)
+	_air_blend = move_toward(_air_blend, 0.0 if grounded else 1.0, delta * 6.0)
+	_alert_blend = move_toward(_alert_blend, 1.0 if alert else 0.0, delta * 4.0)
+	_breath_phase = fposmod(_breath_phase + delta * TAU * 0.38, TAU)
+	# La marcha sigue la distancia real, no un metrónomo que corre al estar quieto.
+	var frequency: float = absf(horizontal_speed) / float(profile.stride) if grounded else 0.0
+	if profile.flying:
+		frequency = float(profile.frequency)
 	phase = fposmod(phase + delta * TAU * frequency, TAU)
 	_apply_pose(not grounded, alert)
 
@@ -97,43 +105,52 @@ func face_left(left: bool) -> void:
 	_mesh.scale.x = -1.0 if left else 1.0
 
 
-func _apply_pose(airborne: bool, alert: bool) -> void:
+func _support_offset(cycle: float, root: bool) -> Vector2:
+	var t: float = fposmod(cycle, TAU) / TAU
+	var reach: float = 0.026 if root else 0.033
+	var lift: float = 0.022 if root else 0.045
+	if t < 0.5:
+		var u: float = t * 2.0
+		# El apoyo vuelve hacia delante en arco; elevación sin esquinas en los extremos.
+		return Vector2(lerpf(-reach, reach, smoothstep(0.0, 1.0, u)), -pow(sin(PI * u), 2.0) * lift)
+	# Durante el apoyo el pie se mantiene plano y retrocede respecto al cuerpo.
+	return Vector2(lerpf(reach, -reach, (t - 0.5) * 2.0), 0.0)
+
+
+func _apply_pose(_airborne: bool, _alert: bool) -> void:
 	var strength: float = 0.45 if reduced_motion else 1.0
 	for index in profile.joints.size():
 		var item: Dictionary = profile.joints[index]
+		var cycle: float = phase + float(item.phase)
+		var wave: float = sin(cycle)
 		var amplitude: float = float(item.amplitude) * strength
-		var wave: float = sin(phase + float(item.phase))
-		var activity: float = 0.55 + _gait * 0.45
-		var travel: float = 0.042
-		if item.mode == "wing" or item.mode == "tip":
-			# Aleteo armónico en el plano: punta retrasada respecto del ala.
-			activity = 1.0 if profile.flying else 0.65 + _gait * 0.35
-			travel = 0.075 if item.mode == "tip" else 0.064
-		elif item.mode == "soft":
-			activity = 0.80 + _gait * 0.20
-			travel = 0.034
-		elif item.mode == "hand":
-			travel = 0.060
-		elif item.mode == "root":
-			travel = 0.052
-		elif item.mode == "foot":
-			# Apoyo firme media zancada; la otra mitad eleva el pie.
-			# El cambio es local al raster y mantiene estable el sensor de pisotón.
-			activity = 0.12 + _gait * 0.88
-			if airborne:
-				activity *= 0.25
-			pose_angles[index] = wave * amplitude * activity
-			pose_offsets[index] = Vector2(wave * 0.088, -maxf(0.0, wave) * 0.105 + maxf(0.0, -wave) * 0.008) * activity * strength
+		var activity: float = _gait
+		var travel: float = 0.006
+		if item.mode == "foot" or item.mode == "root":
+			var support: Vector2 = _support_offset(cycle, item.mode == "root")
+			pose_offsets[index] = support * activity * strength + Vector2(0, -0.012 * _air_blend * strength)
+			# El pie de apoyo no gira como una hélice; solo flexiona durante el vuelo.
+			pose_angles[index] = maxf(0.0, sin(cycle)) * amplitude * activity * 0.45
 			continue
-		if airborne and item.mode != "wing" and item.mode != "tip" and item.mode != "soft":
-			activity *= 0.60
-		if alert and item.mode == "hand":
-			activity *= 1.16
+		if item.mode == "wing" or item.mode == "tip":
+			activity = 1.0 if profile.flying else 0.30 + _gait * 0.70
+			travel = 0.012 if item.mode == "tip" else 0.008
+		elif item.mode == "soft":
+			activity = 0.45 + _gait * 0.40
+			travel = 0.010
+		elif item.mode == "hand":
+			# Las muñecas acompañan al brazo; no se trasladan como miembros sueltos.
+			travel = 0.003
+			activity = 0.12 + _gait * 0.70 + _alert_blend * 0.08
+		else:
+			activity = 0.08 + _gait * 0.82
+		activity *= 1.0 - _air_blend * 0.55 if not profile.flying else 1.0
 		pose_angles[index] = wave * amplitude * activity
-		# Traslación local visible a escala móvil, sin desplazar colisiones.
-		pose_offsets[index] = Vector2(wave * travel, cos(phase + float(item.phase)) * travel * 0.30) * activity * strength
+		pose_offsets[index] = Vector2(wave * travel, cos(cycle) * travel * 0.20) * activity * strength
 	_motion_material.set_shader_parameter("angles", pose_angles)
 	_motion_material.set_shader_parameter("translations", pose_offsets)
-	# Solo presentación; nunca mover el cuerpo físico ni los sensores.
-	position.y = -sin(phase) * (2.0 if profile.flying else _gait * 1.2) * strength
-	rotation = sin(phase) * (0.016 if profile.flying else 0.008) * strength
+	# Dos transferencias de peso por ciclo, respiración secundaria con raíz estable.
+	position.y = -sin(phase) * 1.5 * strength if profile.flying else -pow(sin(phase), 2.0) * _gait * 1.3 * strength
+	var direction: float = signf(_mesh.scale.x)
+	rotation = direction * (_gait * 0.025 + _alert_blend * 0.012) * strength
+	_mesh.scale.y = 1.0 + sin(_breath_phase) * 0.006 * strength

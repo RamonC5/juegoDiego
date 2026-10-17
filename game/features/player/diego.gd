@@ -49,6 +49,8 @@ var attached_vine: ForestSwingingVine
 var _recent_vine: ForestSwingingVine
 var _vine_regrab_seconds: float = 0.0
 var _vine_jump_lock: float = 0.0
+var _vine_attach_offset: Vector2 = Vector2.ZERO
+var _vine_momentum_seconds: float = 0.0
 const VINE_HAND_OFFSET: Vector2 = Vector2(0, -88)
 
 
@@ -90,6 +92,7 @@ func _physics_process(delta: float) -> void:
 
 	_vine_regrab_seconds = maxf(0.0, _vine_regrab_seconds - delta)
 	_vine_jump_lock = maxf(0.0, _vine_jump_lock - delta)
+	_vine_momentum_seconds = maxf(0.0, _vine_momentum_seconds - delta)
 	if is_instance_valid(attached_vine):
 		_swing_on_vine(delta)
 		return
@@ -120,7 +123,12 @@ func _physics_process(delta: float) -> void:
 		var acceleration: float = tuning.acceleration if was_grounded else tuning.air_acceleration
 		if is_zero_approx(axis) or crouching:
 			acceleration = tuning.braking if was_grounded else tuning.air_acceleration
-		velocity.x = move_toward(velocity.x, axis * speed, acceleration * delta)
+		# Conservar el impulso de la cuerda durante el salto sin quitar control aéreo.
+		var target_speed: float = axis * speed
+		if _vine_momentum_seconds > 0.0 and not was_grounded:
+			if is_zero_approx(axis) or signf(axis) == signf(velocity.x):
+				target_speed = velocity.x if absf(velocity.x) > absf(target_speed) else target_speed
+		velocity.x = move_toward(velocity.x, target_speed, acceleration * delta)
 		if _buffer > 0.0 and _coyote > 0.0:
 			velocity.y = -tuning.jump_speed
 			_buffer = 0.0
@@ -162,7 +170,7 @@ func _physics_process(delta: float) -> void:
 					_jump_cut_allowed = false
 					break
 	if not is_on_floor() and not dead and not celebrating:
-		_try_grab_swinging_vine()
+		_try_grab_swinging_vine(previous_feet + VINE_HAND_OFFSET)
 	if is_on_floor() and not was_grounded and falling_speed > 160.0:
 		_landing = 0.10
 	if is_on_ceiling():
@@ -172,12 +180,14 @@ func _physics_process(delta: float) -> void:
 		_die()
 
 
-func _try_grab_swinging_vine() -> void:
+func _try_grab_swinging_vine(previous_hand: Vector2 = Vector2.INF) -> void:
 	# Al saltar cerca del nudo de una liana, Diego se cuelga sin botón extra.
 	if is_instance_valid(attached_vine) or crouching or not _action.is_empty() \
 			or is_instance_valid(held_object) or swinging_vines.is_empty():
 		return
 	var hand_position: Vector2 = global_position + VINE_HAND_OFFSET
+	if previous_hand == Vector2.INF:
+		previous_hand = hand_position
 	var nearest: ForestSwingingVine
 	var nearest_distance: float = INF
 	for vine in swinging_vines:
@@ -185,7 +195,12 @@ func _try_grab_swinging_vine() -> void:
 			continue
 		if vine == _recent_vine and _vine_regrab_seconds > 0.0:
 			continue
-		var distance: float = hand_position.distance_to(vine.grip_global_position())
+		# Barrido relativo mano/nudo: no perder un agarre entre dos pasos físicos.
+		var from: Vector2 = previous_hand - vine.previous_grip
+		var to: Vector2 = hand_position - vine.grip_global_position()
+		var segment: Vector2 = to - from
+		var fraction: float = clampf(-from.dot(segment) / maxf(segment.length_squared(), 0.0001), 0.0, 1.0)
+		var distance: float = (from + segment * fraction).length()
 		if distance <= ForestSwingingVine.HAND_REACH and distance < nearest_distance:
 			nearest = vine
 			nearest_distance = distance
@@ -198,7 +213,7 @@ func _try_grab_swinging_vine() -> void:
 	_coyote = 0.0
 	_jump_cut_allowed = false
 	controls.consume(&"jump")
-	global_position = nearest.grip_global_position() - VINE_HAND_OFFSET
+	_vine_attach_offset = global_position - (nearest.grip_global_position() - VINE_HAND_OFFSET)
 	velocity = nearest.grip_velocity
 	facing_node.rotation = 0.0
 	_play(&"jump_up")
@@ -214,18 +229,20 @@ func _swing_on_vine(delta: float) -> void:
 	facing_node.scale.x = facing
 	facing_node.rotation = -vine.angle * 0.14
 	var last_position: Vector2 = global_position
-	global_position = vine.grip_global_position() - VINE_HAND_OFFSET
+	_vine_attach_offset = _vine_attach_offset.move_toward(Vector2.ZERO, delta * 800.0)
+	global_position = vine.grip_global_position() - VINE_HAND_OFFSET + _vine_attach_offset
 	velocity = (global_position - last_position) / maxf(delta, 0.001)
 	_play(&"jump_up")
 	# Un segundo salto, nueva pulsación o deslizamiento hacia arriba, lo suelta.
 	if _vine_jump_lock <= 0.0 and controls.consume(&"jump"):
 		var direction: float = signf(axis) if absf(axis) > 0.15 else facing
-		var impulse: float = direction * (255.0 + minf(absf(vine.grip_velocity.x) * 0.5, 200.0))
+		var impulse: float = clampf(direction * 320.0 + vine.grip_velocity.x * 0.75, -510.0, 510.0)
 		_recent_vine = vine
 		_vine_regrab_seconds = 0.72
 		attached_vine = null
 		facing_node.rotation = 0.0
-		velocity = Vector2(impulse, -490.0)
+		velocity = Vector2(impulse, -510.0 + minf(vine.grip_velocity.y * 0.35, 0.0))
+		_vine_momentum_seconds = 0.85
 		_buffer = 0.0
 		_coyote = 0.0
 		_jump_cut_allowed = false
@@ -237,6 +254,8 @@ func release_vine_on_failure() -> void:
 	_recent_vine = null
 	_vine_regrab_seconds = 0.0
 	_vine_jump_lock = 0.0
+	_vine_attach_offset = Vector2.ZERO
+	_vine_momentum_seconds = 0.0
 	facing_node.rotation = 0.0
 
 

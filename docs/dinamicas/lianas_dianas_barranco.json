@@ -13,12 +13,12 @@
     {
       "ruta": "game/features/levels/mechanisms/vine_crossing.gd",
       "revision": "main · 2026-10-17",
-      "observacion": "Una liana, cinco dianas elásticas y sensor de caída local."
+      "observacion": "Cinco lianas independientes oscilantes y recuperación de caída local."
     },
     {
       "ruta": "game/features/player/diego.gd",
       "revision": "main · 2026-10-17",
-      "observacion": "Ascenso por gesto de salto mantenido, impulso al soltar y rebote en el contacto físico."
+      "observacion": "Agarre por barrido de manos, aproximación amortiguada al nudo, salto con velocidad tangencial real e impulso aéreo conservado."
     },
     {
       "ruta": "encargo:corregir movilidad de lianas",
@@ -50,7 +50,7 @@
     "mando": "Salta y acércate al nudo. Pulsa dirección para orientar el balanceo; vuelve a pulsar el botón de salto para cambiar de liana."
   },
   "aprendizaje": {
-    "presentacion": "Primera liana visible desde la orilla segura. Movimiento pendular y nudo dibujado; la cámara muestra la siguiente cuerda antes de saltar.",
+    "presentacion": "Primera liana visible desde tierra firme; madera trenzada con hojas y un lazo natural, sin discos o círculos de interfaz.",
     "practica": "Cinco lianas se balancean con distintas fases. Los agarres tienen tolerancia amplia y el jugador conserva libertad de movimiento cuando suelta.",
     "combinacion": "El impulso del péndulo y la dirección del salto permiten alcanzar sucesivamente los otros nudos y la orilla final."
   },
@@ -61,7 +61,7 @@
     "recuperacion": "La caída libera cualquier agarre, restablece el ciclo de oscilación y deja repetir el tramo. El salto no consume objetos; un bloqueo breve evita agarrar instantáneamente la liana que se acaba de soltar."
   },
   "feedback": [
-    "Las cinco lianas oscilan permanentemente de forma independiente y sus nudos tienen un aro natural legible.",
+    "Cinco lianas raster, con fibras y hojas, cuelgan de una rama de raíces del atlas del bosque y oscilan con fases independientes.",
     "Diego sigue físicamente el nudo mientras está colgado y gira levemente con el péndulo; no se mueve verticalmente de forma automática.",
     "La velocidad del nudo y la dirección del jugador influyen en el impulso al soltarse.",
     "El agarre siguiente sucede al aproximar las manos; caer resta energía y devuelve a la orilla inicial."
@@ -71,16 +71,16 @@
     1.2,
     1.5
   ],
-  "dificultad": "Media y ajustable para 10 años: cinco saltos, agarre automático tolerante de 148 px, balanceo autónomo y reintentos cortos.",
+  "dificultad": "Media, pendiente de evaluación con 10 años: agarre automático tolerante de 70 px con barrido continuo, aproximación suave, impulso conservado y reintentos desde la orilla.",
   "persistencia": {
     "al_morir": "Se libera el agarre, se reinician las oscilaciones y los puentes/dianas convencionales se rearman según las reglas existentes; las llaves se conservan.",
     "al_cerrar": "El intento reinicia desde el comienzo, no se guarda el punto de mitad de nivel.",
     "al_rejugar": "Las cinco lianas vuelven a su fase inicial. Las tres llaves siguen siendo necesarias."
   },
   "accesibilidad": {
-    "senales_no_solo_color": "Las lianas se distinguen por su oscilación y hojas; los nudos terminales tienen círculos claros, sin texto ni símbolos flotantes. El balanceo tiene retroalimentación visual incluso sin sonido.",
+    "senales_no_solo_color": "El lazo de raíz, la silueta de las hojas y el balanceo hacen legibles los agarres sin texto, círculos flotantes ni audio obligatorio.",
     "equivalencia_visual_sonora": "Las señales imprescindibles son visuales; no se exige escuchar sonidos.",
-    "legibilidad_movil": "Liana y discos grandes, cámara con seguimiento vertical y sin etiquetas flotantes ni iconos de objetivo.",
+    "legibilidad_movil": "Cuerdas raster, lazos terminales y rama texturada; cámara con seguimiento vertical.",
     "ajustes_control": "Se reutiliza el salto, mando y gesto de deslizamiento hacia arriba. La zona amplia de captura reduce precisión táctil; no se añade otro botón."
   },
   "validacion": {
@@ -100,7 +100,8 @@
       "game/features/levels/mechanisms/vine_crossing.gd",
       "game/features/player/diego.gd",
       "tools/tests/test_lianas_dianas.gd",
-      "tools/tests/test_forest_route.gd"
+      "tools/tests/test_forest_route.gd",
+      "test_forest_route.gd: cruce real de las cinco lianas, sin teletransporte entre saltos; suite completa con 40 comprobaciones correctas."
     ]
   }
 }

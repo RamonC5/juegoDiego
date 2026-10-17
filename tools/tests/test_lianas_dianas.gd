@@ -83,8 +83,14 @@ func _run() -> void:
 		await step(2)
 		check(hero.attached_vine == null and hero.velocity.y < -300.0,
 			"otro salto libera la liana y da impulso vertical")
-		check(hero.velocity.x > 240, "la dirección y la oscilación dan impulso horizontal")
+		check(hero.velocity.x > 110, "la dirección se combina con la velocidad real de la oscilación")
 		hero.controls.set_virtual_action(&"jump", false)
+		var released_speed: float = hero.velocity.x
+		hero.controls.set_virtual_axis(0.0)
+		await step(5)
+		check(absf(hero.velocity.x - released_speed) < 1.0,
+			"soltar el arrastre durante el vuelo conserva el impulso de la liana")
+		hero.controls.set_virtual_axis(1.0)
 		# Segunda liana: aproximarse en vuelo para verificar un nuevo agarre.
 		hero.global_position = next.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET + Vector2(-35, 6)
 		hero.velocity = Vector2(180, -80)
@@ -92,6 +98,12 @@ func _run() -> void:
 		check(hero.attached_vine == next, "es posible enganchar la siguiente liana durante el salto")
 		hero.controls.clear_virtual()
 
+	# Un nudo lejano ya no atrae al personaje con un salto de posición.
+	hero.respawn(first.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET + Vector2(118, 0))
+	var before_grab: Vector2 = hero.global_position
+	hero._try_grab_swinging_vine(hero.global_position + DiegoPlayer.VINE_HAND_OFFSET)
+	check(hero.attached_vine == null and hero.global_position == before_grab,
+		"una liana fuera del alcance de las manos no teletransporta al jugador")
 	stage.respawn_player()
 	check(hero.attached_vine == null, "reaparecer suelta la liana sin dejar al jugador bloqueado")
 	check(first.grip_velocity == Vector2.ZERO and next.grip_velocity == Vector2.ZERO,

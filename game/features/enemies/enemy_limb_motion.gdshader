@@ -23,11 +23,13 @@ void vertex() {
 		}
 		vec2 local = (rest - zones[i].xy) / max(zones[i].zw, vec2(0.00001));
 		float weight = 1.0 - smoothstep(0.30, 1.08, length(local));
-		vec2 relative = rest - pivots[i];
+		// Rotar en píxeles conserva la anatomía aunque el recorte no sea cuadrado.
+		vec2 region_pixels = region_extent * source_size;
+		vec2 relative = (rest - pivots[i]) * region_pixels;
 		float s = sin(angles[i]);
 		float c = cos(angles[i]);
 		vec2 rotated = vec2(c * relative.x - s * relative.y, s * relative.x + c * relative.y);
-		displacement += ((rotated - relative) + translations[i]) * weight;
+		displacement += ((rotated - relative) / region_pixels + translations[i]) * weight;
 	}
 	VERTEX += displacement * region_extent * source_size;
 }
