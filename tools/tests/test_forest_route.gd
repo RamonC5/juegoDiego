@@ -167,6 +167,39 @@ func throw_station(station: RootBridgeDefinition) -> bool:
 	return stage.activated_mechanisms.has(station.mechanism_id)
 
 
+func cross_vine_ravine() -> bool:
+	# Prueba el gesto real de subir, soltar y correr; los discos rebotan solos.
+	var crossing: ForestVineCrossing = stage.vine_crossings[0]
+	hero.respawn(crossing.global_position + Vector2(ForestVineCrossing.VINE_X, 600))
+	hero.invulnerability = 100000.0
+	hero.controls.set_virtual_action(&"jump", true)
+	var reached_top: bool = false
+	for frame in 150:
+		await step(1)
+		if hero.global_position.y < 318:
+			reached_top = true
+			break
+	if not reached_top:
+		hero.controls.clear_virtual()
+		return false
+	# La salida de la liana añade impulso para el primer disco.
+	hero.controls.set_virtual_action(&"jump", false)
+	hero.controls.set_virtual_axis(1.0)
+	var shattered: int = 0
+	for frame in 460:
+		await step(1)
+		for target in crossing.targets:
+			if not target.intact:
+				shattered = maxi(shattered, crossing.targets.find(target) + 1)
+		if hero.global_position.x > crossing.global_position.x + 3275:
+			hero.controls.clear_virtual()
+			return shattered >= 3 and hero.is_on_floor()
+		if hero.dead:
+			break
+	hero.controls.clear_virtual()
+	return false
+
+
 func _run() -> void:
 	main = load("res://game/boot/main.tscn").instantiate()
 	root.add_child(main)
@@ -191,6 +224,10 @@ func _run() -> void:
 		if not check(await throw_station(gate.definition.stations[0]), "tramo %d: ascenso y primera diana" % index):
 			_finish()
 			return
+		if index == 5:
+			if not check(await cross_vine_ravine(), "barranco: subir liana y rebotar por las dianas para alcanzar tierra firme"):
+				_finish()
+				return
 		for bridge in stage.bridges:
 			if bridge.state == RootBridge.State.CLOSED and bridge.definition.pine_position.x > gate.definition.stations[0].pine_position.x and bridge.definition.pine_position.x < gate.position.x:
 				if not check(await throw_station(bridge.definition), "tramo %d: puente intermedio" % index):
@@ -202,8 +239,8 @@ func _run() -> void:
 		if not check(gate.is_open and await ground_to(gate.position.x + 105), "tramo %d: cruzar las raíces abiertas" % index):
 			_finish()
 			return
-		if index in [6, 12, 18]:
-			check(stage.collected_keys.size() == index / 6, "llave de la ruta %d recogida físicamente" % (index / 6))
+		if index in [3, 6, 9]:
+			check(stage.collected_keys.size() == index / 3, "llave de la ruta %d recogida físicamente" % (index / 6))
 	check(await ground_to(stage.DEFINITION.goal.x - 20), "recorrido continuo hasta la puerta")
 	check(stage.completed and stage.collected_keys.size() == 3 and not hero.dead, "salida y resultado de las tres rutas")
 	print("RUTA GEOMÉTRICA: %.1f s simulados con protección; no es una primera partida del público objetivo" % stage.seconds)
