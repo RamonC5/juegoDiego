@@ -2,7 +2,7 @@
 
 Diego salta sobre una plataforma de raíces, suelta el movimiento para viajar y vuelve a saltar al llegar. Primero lo aprende en un trayecto horizontal sobre suelo seguro; después utiliza un tronco ascendente para alcanzar la tercera llave de ramas.
 
-Esta entrega añade `troncos_viajeros` a `puente_diana` en el mismo nivel `world_01_level_01`. Son dos dinámicas nuevas: las dos estaciones de cada una enseñan y practican la misma acción. La ficha [troncos_viajeros.json](troncos_viajeros.json) conserva fuentes, recuperación, controles, accesibilidad y validación. Estado: **implementada en 0.4.0**. La [CI inicial de la implementación](https://github.com/RamonC5/juegoDiego/actions/runs/39006909148) superó 291 comprobaciones. La cámara del ascensor añade una comprobación más: 292 previstas en las cinco suites, incluidas 27 de troncos viajeros.
+Esta entrega añade `troncos_viajeros` a `puente_diana` en el mismo nivel `world_01_level_01`. Son dos dinámicas nuevas: las dos estaciones de cada una enseñan y practican la misma acción. La ficha [troncos_viajeros.json](troncos_viajeros.json) conserva fuentes, recuperación, controles, accesibilidad y validación. Estado: **implementada en 0.4.0**. La [CI de la implementación](https://github.com/RamonC5/juegoDiego/actions/runs/39007441949) supera 292 comprobaciones en las cinco suites, incluidas 27 de troncos viajeros y el encuadre del ascensor.
 
 | Tramo | Datos | Propósito |
 | --- | --- | --- |

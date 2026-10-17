@@ -1,5 +1,5 @@
-CI: https://github.com/RamonC5/juegoDiego/actions/runs/39006909148
-Commit: 8f57b67b9fa392261037375aaec859bcb2d29002
+CI: https://github.com/RamonC5/juegoDiego/actions/runs/39007441949
+Commit: 5fe9087edf1520c61ede6b67a862e3cf30b8e0e0
 Godot 4.7.2 · --headless --fixed-fps 60 · tools/tests/test_moving_platforms.gd
 
 OK dos estaciones de una única mecánica nueva
@@ -16,6 +16,7 @@ OK deslizar arriba permite saltar del tronco con lados normales
 OK deslizar arriba permite saltar del tronco con lados intercambiados
 OK un salto desde el suelo embarca atravesando el tronco por debajo
 OK el ascensor eleva al pasajero hasta la repisa
+OK la cámara deja al pasajero alto fuera del HUD y de las pistas
 OK el descenso transporta sin aplastar ni herir
 OK morir devuelve al farol en suelo firme
 OK el reintento conserva llave y puente resueltos
@@ -28,5 +29,4 @@ OK la repisa permite regresar hacia el tronco y las llaves pendientes
 OK el retorno desde la repisa es seguro
 OK reiniciar repone las tres llaves y cierra la salida
 OK la rejugada crea dos ciclos nuevos sin instancias extra
-RESULTADO TRONCOS: 26 comprobaciones, 0 fallos
-
+RESULTADO TRONCOS: 27 comprobaciones, 0 fallos

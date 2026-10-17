@@ -17,13 +17,13 @@
     },
     {
       "ruta": "game/data/worlds/world_01/level_01.tres",
-      "revision": "0.4.0, implementación 8f57b67b9fa392261037375aaec859bcb2d29002",
+      "revision": "0.4.0, implementación 5fe9087edf1520c61ede6b67a862e3cf30b8e0e0",
       "observacion": "Añade ensayo horizontal y ascensor; traslada únicamente la tercera llave a una repisa alta."
     },
     {
-      "ruta": "https://github.com/RamonC5/juegoDiego/actions/runs/39006909148",
-      "revision": "8f57b67b9fa392261037375aaec859bcb2d29002",
-      "observacion": "CI con suites de protagonista, objetos, bosque, puentes y troncos superadas; capturas y exportación se comprueban en la misma ejecución."
+      "ruta": "https://github.com/RamonC5/juegoDiego/actions/runs/39007441949",
+      "revision": "5fe9087edf1520c61ede6b67a862e3cf30b8e0e0",
+      "observacion": "CI con 292 comprobaciones correctas: protagonista 88, objetos 63, bosque 59, puentes 55 y troncos 27, incluida cámara. Capturas y APK en la misma ejecución."
     }
   ],
   "objetivo": "Aprender a embarcar en una plataforma en movimiento, dejarse transportar y saltar a una repisa para alcanzar la tercera llave.",
@@ -100,11 +100,12 @@
     "jugando": [
       "Pendiente: observar comprensión y duración en primeras partidas de un niño de 10 años",
       "Pendiente: tacto y 60 FPS en Android y Windows físicos",
-      "Pendiente: revisión de capturas de CI en móvil, tablet y panorámico"
+      "Capturas reales de CI en móvil, tablet y panorámico revisadas para la lectura del ensayo, ascensor y llave. No sustituyen pruebas de tacto en dispositivos físicos."
     ],
     "evidencias": [
-      "https://github.com/RamonC5/juegoDiego/actions/runs/39006909148 · suites físicas correctas sobre 8f57b67",
-      "tools/tests/test_moving_platforms.gd · 26 comprobaciones, incluidos gestos normales e intercambiados",
+      "https://github.com/RamonC5/juegoDiego/actions/runs/39007441949 · 292 comprobaciones físicas correctas sobre 5fe9087edf1520c61ede6b67a862e3cf30b8e0e0",
+      "tools/tests/test_moving_platforms.gd · 27 comprobaciones, incluidos gestos normales e intercambiados y encuadre del ascensor",
+      "art/levels/bosque_esmeralda/qa-moving-tests.txt · registro de la suite",
       "tools/tests/test_bridges.gd · aventura completa con ambas dinámicas y tres llaves mediante entradas reales",
       "tools/tests/test_forest.gd · recorrido completo, tercera llave y persistencia de resultados",
       "Comprobador JSON ejecutado: consistencia documental correcta; no acredita duración ni dispositivos físicos"
