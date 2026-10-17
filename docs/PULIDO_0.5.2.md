@@ -19,3 +19,5 @@ Petición del 17 de octubre de 2026, aplicada sobre `main@3adf995db526fb06585e6d
 `test_gameplay_polish.gd` comprueba seguimiento vertical sin retraso, pausa, actualización de los cuatro contadores, descripciones de llaves, paso de gestos y HUD sin solapamiento en móvil, tablet 4:3 y pantalla panorámica. `capture_forest.gd` genera vistas reales con Compatibility para revisar el diseño.
 
 La CI importa, arranca, ejecuta las suites, exporta el APK ARM64 y lo instala en emulador Android API 35. El enlace de la ejecución confirmada se entrega con el resultado. El tacto y el rendimiento en dispositivos físicos, el equilibrio con un niño de 10 años y la duración de la aventura permanecen pendientes de medición.
+
+La comprobación de identidad Android espera la ficha real de la aplicación, tolera dumps XML aún no disponibles durante el splash de Ajustes y conserva XML y captura como evidencia. Solo cierra el diálogo de bloqueo de Pixel Launcher en el emulador desechable. No omite el nombre, el arranque del juego, la auditoría de sprites ni los errores del juego. La emulación usa dos CPU, de acuerdo con las disponibles en el runner.

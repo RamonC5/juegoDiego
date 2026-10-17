@@ -48,21 +48,79 @@ def logs() -> str:
     return result.stdout.decode("utf-8", "replace")
 
 
+def window_xml(path: str = "/sdcard/salto-window.xml") -> ET.Element | None:
+    """Una pantalla que aún carga puede no producir XML; nunca usar un dump anterior."""
+    adb("shell", "rm", "-f", path)
+    result = adb("shell", "uiautomator", "dump", path, check=False)
+    if result.returncode:
+        return None
+    result = adb("exec-out", "cat", path, check=False)
+    if result.returncode:
+        return None
+    document = result.stdout
+    start = document.find(b"<?xml")
+    if start < 0:
+        start = document.find(b"<hierarchy")
+    if start < 0:
+        return None
+    try:
+        return ET.fromstring(document[start:])
+    except ET.ParseError:
+        return None
+
+
+def tap_node(node: ET.Element) -> bool:
+    bounds = [int(value) for value in re.findall(r"\d+", node.get("bounds", ""))]
+    if len(bounds) != 4:
+        return False
+    adb("shell", "input", "tap", str((bounds[0] + bounds[2]) // 2),
+        str((bounds[1] + bounds[3]) // 2))
+    return True
+
+
 def dismiss_fullscreen_hint() -> None:
     # Aviso del sistema observado en el primer arranque: tapa Pausa y sus capturas.
-    result = adb("shell", "uiautomator", "dump", "/sdcard/salto-window.xml", check=False)
-    if result.returncode:
+    document = window_xml()
+    if document is None:
         return
-    document = adb("exec-out", "cat", "/sdcard/salto-window.xml").stdout
-    for node in ET.fromstring(document).iter("node"):
-        if node.get("package") not in ("android", "com.android.systemui") or node.get("text") != "Got it":
-            continue
-        bounds = [int(value) for value in re.findall(r"\d+", node.get("bounds", ""))]
-        if len(bounds) == 4:
-            adb("shell", "input", "tap", str((bounds[0] + bounds[2]) // 2),
-                str((bounds[1] + bounds[3]) // 2))
-            time.sleep(1)
+    for node in document.iter("node"):
+        if node.get("package") in ("android", "com.android.systemui") and node.get("text") == "Got it":
+            if tap_node(node):
+                time.sleep(1)
             break
+
+
+def verify_installed_identity(prefix: str) -> None:
+    # El emulador recién iniciado puede mostrar aún el splash de Ajustes o un ANR
+    # de Pixel Launcher. Solo se cierra ese diálogo del lanzador, nunca uno del juego.
+    def open_details() -> None:
+        adb("shell", "am", "start", "-W", "-a", "android.settings.APPLICATION_DETAILS_SETTINGS",
+            "-d", f"package:{PACKAGE}")
+
+    open_details()
+    deadline = time.monotonic() + 90
+    last_document = None
+    while time.monotonic() < deadline:
+        document = window_xml("/sdcard/super-diego-identidad.xml")
+        if document is not None:
+            last_document = document
+            nodes = list(document.iter("node"))
+            if any(node.get("package") == "com.android.settings" and node.get("text", "").strip() == "Super Diego" for node in nodes):
+                (OUTPUT / f"{prefix}_identidad.xml").write_bytes(ET.tostring(document, encoding="utf-8"))
+                screenshot(f"{prefix}_identidad.png")
+                return
+            launcher_anr = any("Pixel Launcher" in node.get("text", "") and "isn't responding" in node.get("text", "") for node in nodes)
+            if launcher_anr:
+                for node in nodes:
+                    if node.get("text") == "Close app" and tap_node(node):
+                        time.sleep(1)
+                        open_details()
+                        break
+        time.sleep(2)
+    screenshot(f"{prefix}_identidad.png")
+    if last_document is not None:
+        (OUTPUT / f"{prefix}_identidad.xml").write_bytes(ET.tostring(last_document, encoding="utf-8"))
+    raise RuntimeError("Android no mostró la ficha Super Diego tras esperar a que terminase de cargar.")
 
 
 def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
@@ -71,15 +129,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
     if b"Success" not in result.stdout:
         raise RuntimeError(result.stdout.decode("utf-8", "replace"))
     if require_marker:
-        # El panel del sistema confirma el nombre y permite revisar el icono instalado.
-        adb("shell", "am", "start", "-a", "android.settings.APPLICATION_DETAILS_SETTINGS",
-            "-d", f"package:{PACKAGE}")
-        time.sleep(2)
-        screenshot(f"{prefix}_identidad.png")
-        adb("shell", "uiautomator", "dump", "/sdcard/super-diego-identidad.xml")
-        document = adb("exec-out", "cat", "/sdcard/super-diego-identidad.xml").stdout
-        if not any(node.get("text") == "Super Diego" for node in ET.fromstring(document).iter("node")):
-            raise RuntimeError("Android no muestra el nombre Super Diego en la aplicación instalada.")
+        verify_installed_identity(prefix)
     adb("shell", "pm", "clear", PACKAGE)
     adb("logcat", "-c")
     adb("shell", "monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1")
