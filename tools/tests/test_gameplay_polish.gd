@@ -74,5 +74,66 @@ func _run() -> void:
 	main.queue_free()
 	paused = false
 	await step(3)
+	await _test_descents()
 	print("RESULTADO PULIDO: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(0 if failures == 0 else 1)
+
+
+func _test_descents() -> void:
+	var arena := Node2D.new()
+	root.add_child(arena)
+	var floor := ForestPlatform.new()
+	floor.position = Vector2(-100, 600)
+	floor.dimensions = Vector2(1200, 64)
+	floor.is_ground = true
+	arena.add_child(floor)
+	var ledge := ForestPlatform.new()
+	ledge.position = Vector2(350, 400)
+	ledge.dimensions = Vector2(300, 64)
+	arena.add_child(ledge)
+	var hero: DiegoPlayer = load("res://game/features/player/diego.tscn").instantiate()
+	arena.add_child(hero)
+	hero.set_physics_process(false)
+	for kind in ["terron", "moflete"]:
+		var enemy := ForestEnemy.new()
+		enemy.kind = kind
+		enemy.position = Vector2(500, 400)
+		enemy.patrol = Vector2(420, 580)
+		enemy.movement_bounds = Vector2(410, 590)
+		enemy.pursuit_bounds = Vector2(-40, 1040)
+		enemy.platform_guard = true
+		enemy.player = hero
+		arena.add_child(enemy)
+		for direction in [-1.0, 1.0]:
+			enemy.reset_awareness()
+			var target_x: float = 500.0 + direction * 350.0
+			hero.respawn(Vector2(target_x, 400))
+			hero.invulnerability = 99
+			await step(35)
+			check(enemy.behaviour == ForestEnemy.Behaviour.CHASE, "%s avisa y persigue por el lado %s" % [kind, direction])
+			hero.position.y = 600
+			await step(240)
+			print("DESCENSO ", kind, " lado=", direction, " posición=", enemy.position, " estado=", enemy.behaviour)
+			check(absf(enemy.position.y - 600.0) < 2 and enemy.is_on_floor(), "%s abandona la estructura y aterriza por el lado %s" % [kind, direction])
+			check(absf(enemy.position.x - target_x) < 35 and enemy.behaviour == ForestEnemy.Behaviour.CHASE, "%s sigue persiguiendo tras bajar" % kind)
+			hero.dead = true
+			await step(100)
+			check(absf(enemy.position.y - 600.0) < 2, "%s sigue en el suelo al perder al jugador" % kind)
+			hero.dead = false
+			enemy.reset_awareness()
+			check(enemy.position == Vector2(500, 400), "el farol restablece a %s" % kind)
+		enemy.queue_free()
+		await step(2)
+	floor.queue_free()
+	await step(2)
+	var cautious := ForestEnemy.new()
+	cautious.position = Vector2(500, 400)
+	cautious.patrol = Vector2(420, 580)
+	cautious.movement_bounds = Vector2(410, 590)
+	cautious.player = hero
+	arena.add_child(cautious)
+	hero.respawn(Vector2(850, 400))
+	await step(240)
+	check(absf(cautious.position.y - 400.0) < 2 and cautious.is_on_floor(), "perseguir no hace caer al enemigo en un vacío sin apoyo")
+	arena.queue_free()
+	await step(2)

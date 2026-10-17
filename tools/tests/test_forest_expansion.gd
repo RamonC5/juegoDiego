@@ -84,7 +84,7 @@ func _run() -> void:
 	check(first.behaviour == ForestEnemy.Behaviour.NOTICE, "retirar la pared permite detectar de nuevo")
 	first.set_physics_process(false)
 	first.reset_awareness()
-	# Los dos tipos mantienen una patrulla segura y pueden bajar por ambos extremos al perseguir.
+	# Las patrullas tranquilas conservan los apoyos originales del nivel real.
 	for index in [3, 4]:
 		var guard: ForestEnemy = stage.enemies[index]
 		guard.set_physics_process(true)
@@ -93,21 +93,6 @@ func _run() -> void:
 		await step(180)
 		check(guard.position.x >= guard.movement_bounds.x - 0.1 and guard.position.x <= guard.movement_bounds.y + 0.1 and absf(guard.position.y - guard._home.y) < 2, "%s patrulla sin caerse al estar tranquilo" % guard.kind)
 		hero.dead = false
-		for direction in [-1.0, 1.0]:
-			guard.reset_awareness()
-			var destination_x: float = guard.movement_bounds.x - 130.0 if direction < 0 else guard.movement_bounds.y + 130.0
-			hero.respawn(Vector2(destination_x, guard._home.y))
-			hero.invulnerability = 99
-			await step(35)
-			check(guard.behaviour == ForestEnemy.Behaviour.CHASE, "%s detecta a Diego fuera de su plataforma hacia %s" % [guard.kind, direction])
-			hero.position.y = 600.0
-			await step(180)
-			check(guard.position.y > guard._home.y + 60.0 and guard.is_on_floor(), "%s baja del borde %s y aterriza en el suelo" % [guard.kind, direction])
-			check(absf(guard.position.x - destination_x) < 85.0 and guard.behaviour == ForestEnemy.Behaviour.CHASE, "%s continúa persiguiendo después del descenso" % guard.kind)
-			hero.dead = true
-			await step(100)
-			check(guard.position.y > guard._home.y + 60.0, "perder al jugador no teletransporta al enemigo a la plataforma")
-			hero.dead = false
 		guard.set_physics_process(false)
 		guard.reset_awareness()
 		check(guard.position == guard._home and not guard._has_pursued, "el farol restablece el origen y la patrulla de %s" % guard.kind)

@@ -39,6 +39,8 @@ var _roaming_patrol: Vector2
 var _last_floor_y: float = 0.0
 var _last_seen_y: float = 0.0
 var _drop_direction: float = 0.0
+var _support_span: Vector2
+var _support_rid: RID
 
 
 func _ready() -> void:
@@ -161,7 +163,8 @@ func _physics_process(delta: float) -> void:
 			_notice_seconds = 0.42
 	elif behaviour == Behaviour.CHASE:
 		_lost_seconds += delta
-		if _lost_seconds > 1.3 or absf(position.x - _home.x) > 950.0:
+		var search_seconds: float = 3.5 if _last_seen_y > position.y + 64.0 else 1.3
+		if _lost_seconds > search_seconds or absf(position.x - _home.x) > 950.0:
 			behaviour = Behaviour.RETURN
 	var speed: float = 58.0 if kind == "moflete" else 43.0
 	match behaviour:
@@ -179,6 +182,7 @@ func _physics_process(delta: float) -> void:
 			_direction = signf(_return_x - position.x)
 			if absf(position.x - _return_x) < 12.0:
 				behaviour = Behaviour.PATROL
+				_direction = 1.0 if is_zero_approx(_direction) else _direction
 		Behaviour.PATROL:
 			if position.x <= _roaming_patrol.x:
 				_direction = 1.0
@@ -193,6 +197,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x = _direction * speed
 	velocity.y = minf(velocity.y + 1700.0 * delta, 900.0)
 	move_and_slide()
+	_update_support()
 	var bounds: Vector2 = pursuit_bounds if _has_pursued else movement_bounds
 	position.x = clampf(position.x, bounds.x, bounds.y)
 	if is_on_floor() and position.y > _last_floor_y + 32.0:
@@ -243,20 +248,59 @@ func _can_step(direction: float, advance: float) -> bool:
 		return true
 	if behaviour != Behaviour.CHASE or _last_seen_y < position.y - 24.0:
 		return false
-	# El sondeo largo permite bajar estructuras y evita lanzarse a un vacío sin suelo.
-	query.to = probe + Vector2(0, 720)
+	return _has_lower_landing(direction, advance)
+
+
+func _has_lower_landing(direction: float, advance: float) -> bool:
+	if not _support_rid.is_valid():
+		return false
+	# El centro debe superar todo el borde antes de caer. El apoyo actual no cuenta
+	# como aterrizaje; así se admiten terrazas estrechas sin confundirlas con un vacío.
+	var landing_x: float = _support_span.y + _half_width + advance + 2.0 if direction > 0.0 else _support_span.x - _half_width - advance - 2.0
+	if landing_x < pursuit_bounds.x or landing_x > pursuit_bounds.y:
+		return false
+	var from := Vector2(landing_x, global_position.y - 12.0)
+	var query := PhysicsRayQueryParameters2D.create(from, from + Vector2(0, 720), 1)
+	query.exclude = [get_rid(), _support_rid]
 	return not get_world_2d().direct_space_state.intersect_ray(query).is_empty()
 
 
+func _update_support() -> void:
+	if not is_on_floor():
+		return
+	for index in get_slide_collision_count():
+		var collision: KinematicCollision2D = get_slide_collision(index)
+		if collision.get_normal().y > -0.7:
+			continue
+		var collider := collision.get_collider() as CollisionObject2D
+		if collider == null:
+			continue
+		var shape_owner: int = collider.shape_find_owner(collision.get_collider_shape())
+		var shape_node := collider.shape_owner_get_owner(shape_owner) as CollisionShape2D
+		if shape_node == null or not shape_node.shape is RectangleShape2D:
+			continue
+		var rectangle := shape_node.shape as RectangleShape2D
+		var rect: Rect2 = shape_node.global_transform * Rect2(-rectangle.size / 2.0, rectangle.size)
+		if _support_rid != collider.get_rid():
+			_drop_direction = 0.0
+		_support_rid = collider.get_rid()
+		_support_span = Vector2(rect.position.x, rect.end.x)
+		return
+
+
 func _chase_direction() -> float:
-	if platform_guard and _last_seen_y > position.y + 64.0 and position.y <= _home.y + 24.0:
+	if not is_on_floor() and not is_zero_approx(_drop_direction):
+		return _drop_direction
+	if _last_seen_y > position.y + 64.0 and _support_rid.is_valid():
 		if is_zero_approx(_drop_direction):
-			if _last_seen_x < movement_bounds.x:
+			if _last_seen_x < _support_span.x:
 				_drop_direction = -1.0
-			elif _last_seen_x > movement_bounds.y:
+			elif _last_seen_x > _support_span.y:
 				_drop_direction = 1.0
 			else:
-				_drop_direction = -1.0 if position.x - movement_bounds.x < movement_bounds.y - position.x else 1.0
+				_drop_direction = -1.0 if position.x - _support_span.x < _support_span.y - position.x else 1.0
+			if not _has_lower_landing(_drop_direction, 3.0) and _has_lower_landing(-_drop_direction, 3.0):
+				_drop_direction *= -1.0
 		return _drop_direction
 	return signf(_last_seen_x - position.x)
 
@@ -266,6 +310,8 @@ func reset_awareness() -> void:
 	position = _home
 	velocity = Vector2.ZERO
 	_has_pursued = false
+	_support_rid = RID()
+	_support_span = Vector2.ZERO
 	_return_x = _home.x
 	_last_floor_y = _home.y
 	_roaming_patrol = patrol

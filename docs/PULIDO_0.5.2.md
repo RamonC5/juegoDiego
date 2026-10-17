@@ -4,7 +4,7 @@ Petición del 17 de octubre de 2026, aplicada sobre `main@3adf995db526fb06585e6d
 
 ## Cambios implementados
 
-- **Persecución:** Terrón y Moflete pueden dejar las plataformas y bajar hacia Diego. Mantienen el aviso de 0,42 s y los contratos de pisotón y lanzamiento. La visión alcanza 440 px hacia abajo y sigue comprobando obstáculos. Un sondeo de 720 px bajo el borde comprueba que existe apoyo inferior antes de bajar. No hay saltos entre estructuras ni navegación para subirlas.
+- **Persecución:** Terrón y Moflete pueden dejar las plataformas y bajar hacia Diego. Mantienen el aviso de 0,42 s y los contratos de pisotón y lanzamiento. La visión alcanza 440 px hacia abajo y sigue comprobando obstáculos. Un sondeo de 720 px bajo el borde comprueba que existe apoyo inferior antes de bajar, excluyendo el cuerpo de la plataforma actual. El enemigo reconoce su apoyo actual, incluidos los troncos, y puede elegir el otro extremo cuando la primera salida no tiene suelo. Conserva la última posición vista hasta 3,5 s al investigar un descenso, sin ver a través de obstáculos. No hay saltos entre estructuras ni navegación para subirlas.
 - **Después de bajar:** si pierden a Diego, patrullan desde el nuevo suelo. Volver al farol reinicia los enemigos vivos en sus orígenes. La patrulla tranquila frena ante los bordes.
 - **HUD:** una fila compacta con corazón + energía, llave de ramas + cantidad, hoja dorada + cantidad y cristal esmeralda + cantidad. Textos de 26 px, contraste alto, pausa de 60 × 54 px con foco y nombre accesible, zona segura y título que se oculta cuando falta ancho. Las descripciones conservan el estado individual de las tres llaves. Todos los contadores dejan pasar los gestos y carecen de animaciones intermitentes. El corazón representa energía; no se ha añadido un sistema de vidas.
 - **Salto:** impulso de 620 a 680 px/s con gravedad de 1.700 px/s². La altura balística teórica pasa de 113,1 a 136 px, aproximadamente un 20 %. La física discreta se mide en la suite del protagonista. Se conservan salto corto, salto completo accesible, tolerancia al borde, anticipación y rebote de pisotón de 470 px/s.
@@ -12,7 +12,7 @@ Petición del 17 de octubre de 2026, aplicada sobre `main@3adf995db526fb06585e6d
 
 ## Validación
 
-`test_forest_expansion.gd` comprueba patrulla tranquila, detección fuera de las plataformas, descenso por ambos lados de ambas especies, aterrizaje, continuación de persecución, pérdida del jugador y reinicio al farol. Conserva paredes, vacío, pausa y mecanismos.
+`test_forest_expansion.gd` comprueba patrulla tranquila y reinicio de los enemigos de las plataformas reales, además de paredes, vacío, pausa y mecanismos. `test_gameplay_polish.gd` añade una arena física sin obstáculos móviles que permite comprobar detección, descenso bilateral de ambas especies, aterrizaje, continuación de persecución, pérdida del jugador, reinicio al farol y freno ante vacío sin apoyo.
 
 `test_player.gd` mide el salto mantenido en el motor y exige 125–142 px, además de conservar el salto corto y la opción de salto completo. Las suites de recorrido continuo comprueban el bosque con el nuevo salto.
 

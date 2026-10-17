@@ -465,7 +465,7 @@ func _physics_process(delta: float) -> void:
 		2240: "Las tres llaves están repartidas por las tres rutas del bosque. Los cristales son opcionales. Más adelante practicarás con una piña.",
 		2460: "EL PUENTE DE RAÍCES · Toca para coger la piña. Mira a la diana y toca otra vez para lanzar.",
 		3330: "Activa el farol. Repite el lanzamiento a la segunda diana para abrir el puente hacia las rutas del bosque.",
-		4380: "Combina saltos y pisotones. Los enemigos del suelo te perseguirán al verte.",
+		4380: "Combina saltos y pisotones. Los enemigos te perseguirán al verte, también desde las plataformas.",
 		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
 		5450: "TRONCOS VIAJEROS · Salta sobre el tronco y suelta el arrastre: te llevará. Si caes, vuelve a probar desde el suelo.",
 		7150: "RAÍCES · DOS MARCAS: activa DIANA 1 en la repisa y DIANA 2 en el suelo. Cada una tiene su piña. Al abrir el paso podrás regresar.",
