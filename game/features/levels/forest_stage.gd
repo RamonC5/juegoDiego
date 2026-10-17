@@ -80,6 +80,13 @@ func start(hero: DiegoPlayer) -> void:
 		enemy.defeated.connect(_on_enemy_defeated)
 		add_child(enemy)
 		enemies.append(enemy)
+	# El primer encuentro se presenta por nombre y acción, además de su aspecto.
+	if not enemies.is_empty():
+		var first_enemy: ForestEnemy = enemies[0]
+		for enemy in enemies:
+			if enemy.position.x < first_enemy.position.x:
+				first_enemy = enemy
+		first_enemy.show_intro_hint()
 	if OS.has_feature("android") and OS.is_debug_build():
 		var visible_art: int = 0
 		for enemy in enemies:

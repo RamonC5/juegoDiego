@@ -9,6 +9,7 @@ Los APK 0.4.1-ci.28 y 0.4.1-ci.29 contienen el script de enemigos, las dos textu
 ## Cambios de diagnóstico
 
 - Referencias `preload` explícitas para Terrón y Moflete, conservando arte, dimensiones, físicas y posiciones.
+- Primer enemigo señalado con «Enemigo · Terrón / Salta encima». Su arte de roca cubierta de musgo se parece al terreno; es una mejora de reconocimiento, no una causa confirmada del caso del teléfono.
 - Versión de compilación visible al abrir Pausa, leída del `build-info.json` empaquetado; alternativa a la versión de proyecto en escritorio.
 - Instalación del APK ARM64 real en emulador Android y movimiento mediante arrastre táctil. Capturas del inicio, acercamiento al primer enemigo y pausa, junto con logcat y checksum del APK instalado.
 - Registro de arranque de depuración con el número de patrullas y sprites cargados. Este registro no sustituye la revisión visual.

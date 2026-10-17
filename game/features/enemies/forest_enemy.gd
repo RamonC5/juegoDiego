@@ -20,6 +20,7 @@ var _scale: float = 1.0
 var _height: float = 58.0
 var _stomp: StompTarget
 var _contact: Area2D
+var _intro_hint: Label
 
 
 func _ready() -> void:
@@ -71,6 +72,25 @@ func _ready() -> void:
 	add_child(_contact)
 
 
+func show_intro_hint() -> void:
+	# Terrón comparte colores con el suelo: presentar el primer combate con texto.
+	_intro_hint = Label.new()
+	_intro_hint.text = "ENEMIGO · TERRÓN\nSalta encima"
+	_intro_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_intro_hint.position = Vector2(-110, -_height - 72)
+	_intro_hint.size = Vector2(220, 60)
+	_intro_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_intro_hint.add_theme_font_size_override("font_size", 20)
+	_intro_hint.add_theme_color_override("font_color", Color("fff2c9"))
+	var background := StyleBoxFlat.new()
+	background.bg_color = Color(0.025, 0.12, 0.10, 0.94)
+	background.set_corner_radius_all(8)
+	background.content_margin_top = 4
+	background.content_margin_bottom = 4
+	_intro_hint.add_theme_stylebox_override("normal", background)
+	add_child(_intro_hint)
+
+
 func has_visible_art() -> bool:
 	if not is_instance_valid(_visual) or not _visual.is_visible_in_tree():
 		return false
@@ -116,6 +136,8 @@ func defeat(by_throw: bool) -> void:
 	if not active:
 		return
 	active = false
+	if is_instance_valid(_intro_hint):
+		_intro_hint.hide()
 	_stomp.enabled = false
 	set_deferred("collision_layer", 0)
 	_contact.set_deferred("monitoring", false)
