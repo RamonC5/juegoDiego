@@ -4,11 +4,15 @@ Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un
 
 ## Estado y alcance
 
-El bosque 0.5.0 contiene 19 tramos, 81 enemigos con persecución (38 guardianes de plataforma), tres llaves repartidas en tres rutas, 19 pasos de dos marcas, ocho puentes, ocho troncos y 21 faroles. El guardado conserva resultados completados; cerrar reinicia el intento. La ampliación está integrada y la duración de 18–22 minutos sigue siendo estimada, sin medición del público objetivo.
+**Actualización 0.7.0 (prioritaria):** el bosque ahora consta de un prólogo y nueve tramos, 45 enemigos y tres llaves. La duración objetivo es **9,2–10,94 minutos estimados**, aproximadamente la mitad de la versión larga, por petición expresa del 17-10-2026. Se incorpora el [barranco de lianas y dianas](dinamicas/lianas_dianas_barranco.json): gesto de salto mantenido para subir, lanzamiento al soltar y cinco rebotes con rotura y restauración. Véase el [recorrido actualizado](niveles/world_01_level_01.json). Los valores de 19 tramos y 18–22 minutos descritos a continuación son **históricos (0.5.0)**, no el nivel que se exporta actualmente.
+
+El bosque histórico 0.5.0 contenía 19 tramos, 81 enemigos con persecución (38 guardianes de plataforma), tres llaves repartidas en tres rutas, 19 pasos de dos marcas, ocho puentes, ocho troncos y 21 faroles. El guardado conserva resultados completados; cerrar reinicia el intento. La ampliación está integrada y la duración de 18–22 minutos sigue siendo estimada, sin medición del público objetivo.
 
 [Recorrido actual](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json) · [Contenido y evidencia](BOSQUE_ESMERALDA.md). Las fichas antiguas del puente y los troncos conservan su contexto de integración inicial. Los otros niveles y jefes siguen pendientes. El inventario del skill es una instantánea anterior; contrastarlo con el código actual.
 
 ## Duración y recuperación
+
+Para el **primer bosque** prevalece la reducción específica autorizada a unos 9–11 minutos. El objetivo general de 15 minutos para futuras aventuras sigue vigente si el usuario no decide lo contrario. Las medidas están pendientes de partidas reales.
 
 Dimensionar cada aventura para al menos 15 minutos de ruta principal en primera partida normal. Usar inicialmente un presupuesto de 18–22 minutos y comprobarlo jugando; descontar pausas, cargas, cinemáticas, secretos y repeticiones por derrota. Las rejugadas expertas pueden ser más cortas. No imponer un tiempo de espera para abrir la puerta.
 
