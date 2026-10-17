@@ -277,3 +277,10 @@ Al reaparecer, `ForestStage` llama a `reset_to_intact` para **todas** las dianas
 ## Cambio de mecánica: balanceo y transferencia entre lianas · 0.7.2
 
 El sistema anterior de trepa automática de `DiegoPlayer.vine_climb_zone` se ha retirado. `ForestSwingingVine` es un nodo 2D que calcula el nudo de agarre y la velocidad tangencial del péndulo; cinco instancias bajo `ForestVineCrossing` tienen fases independientes y siguen moviéndose aunque Diego no esté sujeto. `DiegoPlayer` mantiene referencias a lianas cercanas, se agarra automáticamente cuando alcanza un nudo en el aire, sigue el movimiento mientras está colgado y responde a un nuevo `jump` desprendiéndose con impulso direccional. El bloqueo temporal impide reenganche accidental inmediato al mismo nudo y se limpia en muerte, caída, celebración y reaparición. La colisión de terreno no se modifica y la transición no requiere nuevos botones, textos flotantes ni consumo de lanzables. La prueba de ruta y la suite de interacción cubren salto/agarrar/balancear/soltar y recuperación; el comportamiento táctil debe revisarse en dispositivos físicos.
+
+
+## Señalización diegética de secretos · Tótem del bosque
+
+`ForestSecretTotem` es un `Node2D` independiente, sin `CollisionObject2D`, que dibuja un tótem original de madera, raíces, cara tallada y hojas. Su representación usa `_draw()` y anima únicamente con `_process()` dentro de un radio de 390 px respecto a `DiegoPlayer`: hojas oscilantes, tres hojas flotantes y luz suave. La pausa del árbol de escena interrumpe el ciclo. Evita textos, carteles, controles nuevos y materiales compartidos.
+
+`ForestStage._build_secret()` lo instancia una sola vez a 180 px a la izquierda del centro de la trampilla definido en `ForestLevelDefinition.secret_grove`; `start()` inyecta la referencia del jugador para la proximidad. La señalización no modifica el acceso (agacharse), la geometría, la recompensa ni el retorno en ascensor. `test_secret_grove.gd` cubre ubicación, ausencia de colisión y animación en proximidad, y `capture_forest.gd` guarda `preview_secret_totem.png` durante la CI. El dibujo requiere revisión visual del PNG producido por Godot.
