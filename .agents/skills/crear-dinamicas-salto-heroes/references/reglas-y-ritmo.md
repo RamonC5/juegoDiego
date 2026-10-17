@@ -12,7 +12,7 @@
 
 ## Duración
 
-Exigir al menos 15 minutos de ruta principal en primera partida normal del perfil objetivo. Usar como presupuesto inicial 18–22 minutos. El encuentro con el jefe es separado y no hereda automáticamente ese mínimo.
+Exigir por defecto al menos 15 minutos de ruta principal en primera partida normal del perfil objetivo. **Si existe petición posterior explícita de acortar un nivel**, documentar la excepción con fecha y texto del encargo y recalcular segmentos, sin imponer el mínimo anterior. Usar como presupuesto inicial 18–22 minutos. El encuentro con el jefe es separado y no hereda automáticamente ese mínimo.
 
 Definir tiempos exclusivos por segmento ordenado. Sumar solo los segmentos principales y contar una sola vez acciones simultáneas. No sumar a esa duración las fichas individuales de dinámicas ya incluidas, rutas opcionales ni alternativas mutuamente excluyentes. Para una bifurcación obligatoria, presupuestar el recorrido válido más corto y comprobarlo jugando.
 
