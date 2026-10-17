@@ -167,11 +167,20 @@ def build():
             values['raised_platforms'].append((x + 3700, 515, 180, 64))
             crystals.append((x + 3790, 468))
 
+    # El sendero sigue transitándose: el tramo bajo la hojarasca se sostiene con
+    # tres cubiertas unidireccionales construidas por ForestSecretGrove.
+    # Solo agacharse en el centro permite acceder a la gruta inferior.
+    cave_rect = (8960.0, 600.0, 3240.0, 520.0)
+    cave_index = values['ground_sections'].index(cave_rect)
+    values['ground_sections'][cave_index:cave_index + 1] = [
+        (8960, 600, 2390, 520), (12000, 600, 200, 520),
+    ]
     fields.update(width='44600.0', goal='Vector2(44400, 600)', subtitle='"Las tres rutas del corazón del bosque"',
                   enemy_kinds='Array[String](' + json.dumps(kinds) + ')', key_positions=array('Vector2', keys),
                   crystal_positions=array('Vector2', crystals), region_starts=array('Vector2', starts),
                   region_names='Array[String](' + json.dumps(names, ensure_ascii=False) + ')',
-                   vine_crossings=array('Vector2', [(24200, 0)]))
+                   vine_crossings=array('Vector2', [(24200, 0)]),
+                   secret_grove='Vector2(11610, 600)')
     for key, kind in [('ground_sections', 'Rect2'), ('raised_platforms', 'Rect2'), ('recovery_platforms', 'Rect2'),
                       ('enemy_spawns', 'Vector4'), ('object_spawns', 'Vector3'), ('checkpoints', 'Vector2')]:
         fields[key] = array(kind, values[key])
