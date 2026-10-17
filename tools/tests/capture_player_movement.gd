@@ -41,7 +41,7 @@ func _capture() -> void:
 	await frames(18)
 	save("vine_hang_mobile")
 	# Acercar la cámara permite revisar dedos, cuerda, espejo y raíz visual.
-	main.camera.zoom = Vector2(2, 2)
+	main._camera.zoom = Vector2(2, 2)
 	await frames(8)
 	save("vine_hang_detail")
 	hero.controls.set_virtual_axis(-1.0)
@@ -54,7 +54,7 @@ func _capture() -> void:
 	hero.controls.request_tap_jump()
 	await frames(2)
 	save("double_jump")
-	main.camera.zoom = Vector2.ONE
+	main._camera.zoom = Vector2.ONE
 	root.size = Vector2i(1024, 768)
 	root.content_scale_size = Vector2i(1280, 960)
 	hero.respawn(vine.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET)

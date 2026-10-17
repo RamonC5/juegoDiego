@@ -45,23 +45,17 @@ func _new_level() -> void:
 	await _step(6)
 
 
-func _swipe_jump(left_handed: bool) -> void:
+func _tap_jump(left_handed: bool) -> void:
 	main.settings.left_handed = left_handed
 	main.touch.refresh()
-	var point := Vector2(root.size.x * (0.25 if left_handed else 0.75), root.size.y * 0.72)
+	var point := Vector2(root.size.x * (0.75 if left_handed else 0.25), root.size.y * 0.72)
 	var press := InputEventScreenTouch.new()
 	press.index = 81
 	press.position = point
 	press.pressed = true
 	main.touch._unhandled_input(press)
-	var drag := InputEventScreenDrag.new()
-	drag.index = 81
-	drag.position = point - Vector2(0, 90)
-	drag.relative = Vector2(0, -90)
-	main.touch._input(drag)
 	await _step(3)
 	press = press.duplicate()
-	press.position = drag.position
 	press.pressed = false
 	main.touch._input(press)
 
@@ -107,8 +101,8 @@ func _run() -> void:
 		practice.reset_cycle()
 		hero.respawn(practice.definition.start_position - Vector2(0, 28))
 		await _step(22)
-		await _swipe_jump(left_handed)
-		_check(hero.velocity.y < -300.0 and not practice.carries(hero), "deslizar arriba permite saltar del tronco con lados %s" % ("intercambiados" if left_handed else "normales"))
+		await _tap_jump(left_handed)
+		_check(hero.velocity.y < -300.0 and not practice.carries(hero), "pulsar permite saltar del tronco con lados %s" % ("intercambiados" if left_handed else "normales"))
 	main.settings.left_handed = false
 	main.touch.refresh()
 	# Ascensor: atravesar desde abajo y comprobar ambos sentidos con pasajero quieto.
