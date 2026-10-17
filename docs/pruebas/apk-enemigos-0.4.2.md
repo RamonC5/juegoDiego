@@ -8,6 +8,7 @@ Los APK 0.4.1-ci.28 y 0.4.1-ci.29 contienen el script de enemigos, las dos textu
 
 ## Cambios de diagnóstico
 
+- Fallo reproducido en Android: `ForestStage.start` intenta leer `enemy_kinds[0]`, pero el `PackedStringArray` se ha guardado vacío en el recurso binario del APK. La excepción interrumpe la creación de enemigos y la interfaz del bosque continúa. Los nombres «terron» y «moflete» tampoco aparecen en ese recurso binario, aunque sí hay nueve posiciones. Se sustituye por `Array[String]` tanto en el contrato como en el `.tres` y se comprueba el recurso extraído del APK.
 - Referencias `preload` explícitas para Terrón y Moflete, conservando arte, dimensiones, físicas y posiciones.
 - Primer enemigo señalado con «Enemigo · Terrón / Salta encima». Su arte de roca cubierta de musgo se parece al terreno; es una mejora de reconocimiento, no una causa confirmada del caso del teléfono.
 - Versión de compilación visible al abrir Pausa, leída del `build-info.json` empaquetado; alternativa a la versión de proyecto en escritorio.
@@ -17,4 +18,10 @@ Los APK 0.4.1-ci.28 y 0.4.1-ci.29 contienen el script de enemigos, las dos textu
 
 ## Validación
 
-Pendiente de completar con el resultado de CI y la revisión de las capturas Android. La comprobación en el teléfono del usuario sigue pendiente. El recorrido de 45 segundos es una observación del usuario; no hay una nueva medición de duración.
+El código de juego de `9b400a3bc2d97102489990f164d041dd93e6b767` supera 294 comprobaciones: 88 del protagonista, 63 de objetos, 61 del bosque, 55 de puentes y 27 de plataformas móviles. La exportación y la firma Android son correctas.
+
+APK de diagnóstico: **0.4.2-ci.35**, código Android **1035**, paquete `com.ramonc5.saltoheroes`, ARM64. SHA-256: `859fe7b1ea6bd0d37ec8e2d8b5bcc0d312b0173326a79e1f0c56092987d5057b`. Reproduce el fallo; no distribuir como solución. El checksum coincide con el artefacto de Actions y los scripts compilados difieren de 0.4.1.
+
+[Diagnóstico que reproduce el fallo](https://github.com/RamonC5/juegoDiego/actions/runs/39013148592). Pendiente de validar el APK corregido y revisar sus capturas.
+
+La comprobación en el teléfono del usuario sigue pendiente. El recorrido de 45 segundos es una observación del usuario; no hay una nueva medición de duración.
