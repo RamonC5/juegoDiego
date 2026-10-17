@@ -20,8 +20,8 @@ Los nombres y la distribución nueva son propuestas de diseño, no niveles ya im
 
 | Etapa | Dinámicas nuevas previstas | Progresión |
 | --- | --- | --- |
-| 1-1 · El despertar del bosque ampliado | Puente activado por una diana y un lanzamiento | Repartir las llaves entre plataformas, mecanismo del puente y un recorrido combinado. |
-| 1-2 · Las copas inquietas | Plataformas móviles y setas de rebote | Explorar alturas. Introducir Nóctilo cuando tenga comportamiento jugable, primero de forma opcional si añade una tercera dinámica nueva. |
+| 1-1 · El despertar del bosque ampliado | Puente de diana y troncos viajeros | Llave 1 en plataformas, llave 2 tras el puente y llave 3 en la repisa del tronco ascendente. Ampliación larga pendiente. |
+| 1-2 · Las copas inquietas | Setas de rebote; combinar con plataformas móviles ya conocidas | Explorar alturas. Introducir Nóctilo cuando tenga comportamiento jugable, primero de forma opcional si añade una tercera dinámica nueva. |
 | 1-3 · El corazón de las raíces | Avanzar agachado y placas de peso | Resolver pasos estrechos y mecanismos; practicar lanzamientos antes del jefe. |
 | Jefe del bosque | Patrones y vulnerabilidad a objetos lanzados | Desbloquear tras completar las tres aventuras; ofrecer objetos de reposición y repetición del combate. |
 

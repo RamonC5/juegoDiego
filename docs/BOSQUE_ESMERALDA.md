@@ -14,12 +14,15 @@
 | 3270–3790 | Farol en x=3390, piña en x=3430 y diana principal en x=3710 |
 | 3790–4270 | Puente de raíces de 480 px, abierto mediante lanzamiento |
 | 4270–5100 | Llave 2 en x=4560, farol en x=4820, patrulla y ruta opcional al cristal alto |
-| 5220–6900 | Vasija lanzable, dos patrullas, tercera llave en x=6600 y último cristal |
+| 5220–6280 | Vasija, ensayo de tronco horizontal sobre suelo seguro y ruta opcional al cristal |
+| 6330–6900 | Tronco ascendente, repisa y tercera llave en `(6760,211)`; suelo inferior para reintentar |
 | 7020–8200 | Último hueco de salto, patrulla y puerta en x=7900, que exige tres llaves |
 
 Las tres brechas normales miden 120 px; los dos pasos amplios requieren activar sus dianas. La [dinámica del puente de raíces](dinamicas/puente_diana.md) reutiliza la recogida y el lanzamiento: un toque coge una piña y otro la lanza. La diana acepta cualquier arrojadizo válido. El ensayo ofrece suelo inferior y apoyos de retorno, probados con saltos reales. Las piñas perdidas vuelven a sus puestos.
 
 Volver al farol conserva llaves, hojas, cristales y puentes resueltos del intento. Un despliegue interrumpido se restaura abierto al reaparecer. Volver a un farol anterior no hace retroceder la reaparición. Reiniciar rearma las dianas y repone las tres llaves. El intento aún no se guarda al cerrar la aplicación. [Reglas de llaves](LLAVES_Y_PUERTAS.md).
+
+La segunda dinámica, [Troncos viajeros](dinamicas/troncos_viajeros.md), enseña a embarcar, dejarse transportar y saltar a una repisa. Un ensayo horizontal precede al ascensor de la tercera llave. Las plataformas tienen paradas amplias y se atraviesan desde abajo; caer permite volver desde el suelo. Al reaparecer, los ciclos vuelven al puesto inicial después de trasladar a Diego al farol.
 
 Se mantienen ocho identificadores de mundo. Esta entrega incorpora solo `world_01_level_01`; no crea los otros siete mundos ni un jefe del bosque.
 
@@ -49,4 +52,5 @@ La CI exige 264 comprobaciones: 88 del protagonista, 63 de objetos, 58 del bosqu
 El tiempo con un niño de 10 años y el mínimo de 15 minutos de aventura no están medidos. La integración amplía el prototipo actual; el recorrido largo sigue requiriendo contenido y pruebas.
 
 El objetivo es 60 FPS. Las pruebas automatizadas y las capturas no son una medición de rendimiento en un teléfono físico. Queda pendiente la prueba física de instalación, tacto y rendimiento en el móvil del usuario.
+
 
