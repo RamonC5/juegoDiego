@@ -202,7 +202,17 @@ def nivel(doc, r):
     duracion = r.objeto(doc.get("duracion"), "duracion")
     minimo = r.numero(duracion.get("minimo_primera_partida_minutos"), "duracion.minimo_primera_partida_minutos")
     if aventura:
-        r.exigir(minimo >= 15, "duracion", "el mínimo de aventura es 15 minutos")
+        # Solo un pedido posterior y explícito del usuario puede exceptuar los 15 min.
+        excepcion = duracion.get("excepcion_duracion_usuario")
+        if excepcion is not None:
+            excepcion = r.objeto(excepcion, "duracion.excepcion_duracion_usuario")
+            r.exigir(isinstance(excepcion.get("solicitud"), str) and len(excepcion.get("solicitud", "").strip()) >= 20,
+                     "duracion.excepcion_duracion_usuario", "documentar petición explícita del usuario")
+            r.exigir(isinstance(excepcion.get("fecha"), str) and bool(re.fullmatch(r"20\\d{2}-\\d{2}-\\d{2}", excepcion.get("fecha", ""))),
+                     "duracion.excepcion_duracion_usuario", "indicar fecha YYYY-MM-DD")
+            r.exigir(minimo >= 1, "duracion", "la excepción no admite mínimo nulo")
+        else:
+            r.exigir(minimo >= 15, "duracion", "el mínimo de aventura es 15 minutos")
     objetivo = r.intervalo(duracion.get("objetivo_minutos"), "duracion.objetivo_minutos")
     bajo = math.fsum(t[0] for _, t in principales)
     alto = math.fsum(t[1] for _, t in principales)
