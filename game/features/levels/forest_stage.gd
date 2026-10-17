@@ -31,6 +31,7 @@ var pine_stations: Array[ThrowableObject] = []
 var activated_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
+var vine_crossings: Array[ForestVineCrossing] = []
 var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
@@ -60,6 +61,7 @@ func _ready() -> void:
 	_build_bridges()
 	_build_root_gates()
 	_build_moving_platforms()
+	_build_vine_crossings()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
 		object.definition = ThrowableCatalog.DEFINITIONS[int(spec.z)]
@@ -74,6 +76,8 @@ func start(hero: DiegoPlayer) -> void:
 	player.fall_limit_y = 980.0
 	player.position = DEFINITION.spawn
 	player.object_released.connect(_on_object_released)
+	for crossing in vine_crossings:
+		crossing.attach_player(hero)
 	for index in DEFINITION.enemy_spawns.size():
 		enemies.append(_spawn_enemy(index))
 	_update_activity()
@@ -171,6 +175,27 @@ func _build_moving_platforms() -> void:
 		add_child(platform)
 		moving_platforms.append(platform)
 
+
+func _build_vine_crossings() -> void:
+	for origin in DEFINITION.vine_crossings:
+		var crossing := ForestVineCrossing.new()
+		crossing.position = origin
+		crossing.fell.connect(_on_vine_fall.bind(crossing))
+		add_child(crossing)
+		vine_crossings.append(crossing)
+
+
+func _on_vine_fall(crossing: ForestVineCrossing) -> void:
+	if player.dead or completed:
+		return
+	# La caída cuesta energía; si es mortal, boot realiza la reaparición habitual.
+	player.take_damage(crossing.global_position + Vector2(1940, 650))
+	crossing.reset_targets()
+	if not player.dead:
+		player.global_position = crossing.global_position + Vector2(1590, 600)
+		player.velocity = Vector2.ZERO
+		player.reset_physics_interpolation()
+		hint_requested.emit("Prueba otra vez: sube por la liana manteniendo salto y enlaza las dianas del barranco.")
 
 
 func _on_mechanism_activated(mechanism_id: StringName) -> void:
@@ -408,6 +433,8 @@ func respawn_player() -> void:
 	_throw_hint_seconds = 0.0
 	for target in throw_targets:
 		target.reset_to_intact()
+	for crossing in vine_crossings:
+		crossing.reset_targets()
 	player.respawn(respawn_position)
 	for platform in moving_platforms:
 		platform.reset_cycle()
@@ -460,6 +487,7 @@ func _physics_process(delta: float) -> void:
 		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
 		5450: "TRONCOS VIAJEROS · Salta sobre el tronco y suelta el arrastre: te llevará. Si caes, vuelve a probar desde el suelo.",
 		7150: "RAÍCES · DOS MARCAS: activa DIANA 1 en la repisa y DIANA 2 en el suelo. Cada una tiene su piña. Al abrir el paso podrás regresar.",
+		25000: "LIANAS: mantén el gesto de salto junto a la liana para subir; suéltalo y corre hacia las dianas que rebotan.",
 		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa alta. Más adelante combinarás este viaje con dianas.",
 	}
 	for x in hints:
