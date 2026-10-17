@@ -99,3 +99,8 @@ Las derrotas posteriores al farol se repiten al morir, incluidas las de enemigos
 ## Dianas destructibles y escenario despejado · 0.6.1
 
 Un lanzamiento válido rompe la diana en fragmentos; morir reconstruye todas las dianas, incluidas las anteriores al farol. Los mecanismos y las llaves ya resueltos se conservan, y romper una diana reparada no duplica el progreso. Esta regla sustituye la diana activada permanente. Se retiran los iconos flotantes de escenario; las instrucciones permanecen en pausa. El nuevo tema de plataformas **Esmeralda en marcha** usa batería, bajo y sintetizadores a 128 BPM. [Contrato actual](ARQUITECTURA.md#rotura-y-reconstrucción-de-dianas--061).
+
+
+## Revisión del barranco · Lianas oscilantes (17-10-2026)
+
+Se sustituye la liana fija que hacía ascender automáticamente y los cinco discos de rebote: ahora hay **cinco lianas oscilantes**, con fases independientes. Diego **salta** para agarrarse automáticamente al nudo visible, se **balancea** y pulsa de nuevo **salto** para soltarse y alcanzar la siguiente liana. Arrastrar horizontalmente ayuda a orientar el movimiento; se mantienen controles táctiles sin botones y equivalencia con teclado/mando. La caída vuelve a dejar el agarre libre y permite reintentar desde la orilla inicial. [Ficha actualizada](dinamicas/lianas_dianas_barranco.json).
