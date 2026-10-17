@@ -19,7 +19,7 @@ func step(frames: int) -> void:
 		await process_frame
 
 func _run() -> void:
-	var main := preload("res://game/boot/main.tscn").instantiate()
+	var main = preload("res://game/boot/main.tscn").instantiate()
 	root.add_child(main)
 	await step(7)
 	var stage: ForestStage = main.stage
@@ -46,7 +46,10 @@ func _run() -> void:
 	target.reset_target()
 	check(target.intact, "el cristal se recompone al recuperar el tramo")
 	stage.respawn_player()
-	check(crossing.targets.all(func(t: ForestVineTarget) -> bool: return t.intact), "la muerte rearma todas las dianas del barranco")
+	var restored: bool = true
+	for disc in crossing.targets:
+		restored = restored and disc.intact
+	check(restored, "la muerte rearma todas las dianas del barranco")
 	main.queue_free()
 	await step(3)
 	print("LIANAS Y DIANAS: %d comprobaciones, %d fallos" % [checks, failures])
