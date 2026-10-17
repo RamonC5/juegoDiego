@@ -113,7 +113,7 @@ jobs:
               -keypass "$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
               -alias "$GODOT_ANDROID_KEYSTORE_DEBUG_USER" \
               -keyalg RSA -keysize 2048 -validity 10000 \
-              -dname "CN=Salto Heroes Debug,O=Juego Diego,C=ES"
+              -dname "CN=Super Diego Debug,O=Juego Diego,C=ES"
           fi
           python3 tools/ci/configure_android.py
 
@@ -224,12 +224,12 @@ jobs:
         run: |
           set -euo pipefail
           "$GODOT_BIN" --headless --path . --export-debug Android \
-            "$GITHUB_WORKSPACE/builds/android/salto-heroes.apk" \
+            "$GITHUB_WORKSPACE/builds/android/super-diego.apk" \
             2>&1 | tee .godot-logs/export-android.log
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/export-android.log; then
             exit 1
           fi
-          test -s builds/android/salto-heroes.apk
+          test -s builds/android/super-diego.apk
 
       - name: Comprobar los datos del nivel dentro del APK
         shell: bash
@@ -238,7 +238,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
-          with zipfile.ZipFile('builds/android/salto-heroes.apk') as apk:
+          with zipfile.ZipFile('builds/android/super-diego.apk') as apk:
               names = [name for name in apk.namelist() if name.endswith('-level_01.res')]
               assert len(names) == 1, names
               Path('.godot-logs/apk-level_01.res').write_bytes(apk.read(names[0]))
@@ -255,21 +255,22 @@ jobs:
           set -euo pipefail
           build_tools="$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
           "$build_tools/apksigner" verify --verbose --print-certs \
-            builds/android/salto-heroes.apk | tee .godot-logs/apk-signature.log
-          "$build_tools/aapt" dump badging builds/android/salto-heroes.apk \
+            builds/android/super-diego.apk | tee .godot-logs/apk-signature.log
+          "$build_tools/aapt" dump badging builds/android/super-diego.apk \
             > .godot-logs/apk-package.log
           grep -q "package: name='com.ramonc5.saltoheroes'" .godot-logs/apk-package.log
+          grep -q "application-label:'Super Diego'" .godot-logs/apk-package.log
           grep -q "native-code: 'arm64-v8a'" .godot-logs/apk-package.log
-          (cd builds/android && sha256sum salto-heroes.apk > salto-heroes.apk.sha256)
+          (cd builds/android && sha256sum super-diego.apk > super-diego.apk.sha256)
 
       - name: Guardar el APK para descargar
         id: apk
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: salto-heroes-android-${{ github.run_number }}
+          name: super-diego-android-${{ github.run_number }}
           path: |
-            builds/android/salto-heroes.apk
-            builds/android/salto-heroes.apk.sha256
+            builds/android/super-diego.apk
+            builds/android/super-diego.apk.sha256
             builds/android/build-info.json
           if-no-files-found: error
           retention-days: 30
@@ -308,7 +309,7 @@ jobs:
           # Mesa evita el fallo GLSL de SwiftShader observado en godotengine/godot#109550.
           emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu lavapipe -noaudio -no-boot-anim -camera-back none -camera-front none
           disable-animations: true
-          script: python3 tools/ci/test_android_apk.py --apk builds/android/salto-heroes.apk --baseline "$RUNNER_TEMP/salto-baseline/salto-heroes.apk"
+          script: python3 tools/ci/test_android_apk.py --apk builds/android/super-diego.apk --baseline "$RUNNER_TEMP/salto-baseline/salto-heroes.apk"
 
       - name: Guardar pruebas del APK instalado en Android
         if: always()
@@ -326,8 +327,8 @@ jobs:
         run: |
           {
             printf '## APK Android generado\n\n'
-            printf '[Descargar el APK de Salto Heroes](%s)\n\n' "$APK_ARTIFACT_URL"
-            printf 'Descomprime el ZIP y abre salto-heroes.apk en un móvil Android ARM64.\n\n'
+            printf '[Descargar el APK de Super Diego](%s)\n\n' "$APK_ARTIFACT_URL"
+            printf 'Descomprime el ZIP y abre super-diego.apk en un móvil Android ARM64.\n\n'
             printf 'Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.\n\n'
             printf 'Versión de pruebas: Bosque Esmeralda 1-1, protagonista Diego y entrenamiento. El artefacto se conserva durante 30 días.\n'
           } >> "$GITHUB_STEP_SUMMARY"
@@ -341,5 +342,6 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
 
 

@@ -1,6 +1,8 @@
-# Salto Heroes · Juego Diego
+# Super Diego · Juego Diego
 
 Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
+
+La versión **0.5.1** estrena el nombre **Super Diego** y un icono original con el protagonista, sus gafas y el Bosque Esmeralda. Conserva las partidas y ajustes de Salto Heroes cuando se instala como actualización con la misma firma. [Diseño del icono y compatibilidad](docs/IDENTIDAD_VISUAL.md).
 
 ## Bosque Esmeralda 1-1 · versión 0.5.0
 
@@ -21,7 +23,7 @@ Diego mantiene sus movimientos, 14 estados de animación y controles por gestos 
 ## Descargar el APK e instalarlo
 
 1. Abre [Actions → Validar y generar APK Android](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml) y entra en la ejecución verde del commit más reciente.
-2. Descarga el artefacto `salto-heroes-android-<número>`, descomprime el ZIP y abre `salto-heroes.apk` en el móvil Android ARM64.
+2. Descarga el artefacto `super-diego-android-<número>`, descomprime el ZIP y abre `super-diego.apk` en el móvil Android ARM64.
 3. Si Android lo solicita, permite instalar aplicaciones desde el navegador o gestor de archivos utilizado.
 
 El APK es una compilación de pruebas firmada, con versión y commit en `build-info.json`, y se conserva durante 30 días. La CI comprueba su firma, paquete y arquitectura. Las capturas de la escena real se descargan en `bosque-esmeralda-capturas-<número>`. Las claves y binarios no se incluyen en Git.
@@ -78,6 +80,7 @@ Las suites antiguas de mecanismos usan un fixture estable; las nuevas cargan el 
 - [Skill de dinámicas](.agents/skills/crear-dinamicas-salto-heroes/SKILL.md).
 
 Los otros cinco enemigos conservan sus conceptos, incluido [Nóctilo, el nuevo murciélago volador](art/characters/noctilo/ficha.md). Las animaciones de Terrón y Moflete usan transformaciones de sus sprites existentes; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
+
 
 
 

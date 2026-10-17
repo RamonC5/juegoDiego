@@ -1,4 +1,4 @@
-# Nóctilo · enemigo volador de Salto Heroes
+# Nóctilo · enemigo volador de Super Diego
 
 **ID:** `noctilo` · **Rol:** enemigo normal volador, eliminable por pisotón.  
 **Diseño:** propuesto · **Versión visual:** 002 · **Fecha:** 16 de octubre de 2026. Sin mundo exclusivo asignado.
@@ -50,3 +50,4 @@ El personaje conserva el contexto 2D HD para Android y Windows, ocho mundos y ni
 - [Revisión visual](qa.md), [informe técnico final](qa-technical.json) e [informe de la fuente](qa-source-v001.json).
 
 Volver al [catálogo de personajes](../../../docs/PERSONAJES.md).
+

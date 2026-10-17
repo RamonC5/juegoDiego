@@ -4,7 +4,7 @@ Revisión del 15 de octubre de 2026, solicitada tras probar los botones del entr
 
 ## Referencias consultadas
 
-| Juego | Evidencia consultada | Aplicación a Salto Heroes |
+| Juego | Evidencia consultada | Aplicación a Super Diego |
 | --- | --- | --- |
 | [Oddmar — soporte de Mobge](https://mobge.net/support/1/12/controls-controllers) | El desarrollador distingue los controles deslizantes y la alternativa de botones en ajustes. | Tomar los gestos y las zonas amplias como base. |
 | [Leo’s Fortune — entrevista con sus desarrolladores](http://www.steveparis.net/2014/05/leos-fortune-interview-with-1337-senri.html) | La entrevista describe movimiento horizontal a la izquierda y movimiento vertical a la derecha; el programador explica el ajuste iterativo de respuesta e inercia. | Mantener movimiento libre, precisión horizontal y funciones independientes para cada dedo. |
@@ -41,4 +41,5 @@ Los contactos nuevos se procesan después de la interfaz. Los ya capturados se l
 `tools/tests/capture_player.gd` captura el entrenamiento, dos contactos activos, el menú y la proporción 4:3 mediante el renderizador real. Las capturas y el registro se encuentran en [la revisión de Diego](../art/characters/diego/qa.md).
 
 Queda por comprobar la sensación del arrastre, el multitoque del hardware y el rendimiento en el móvil Android y la tablet Windows del usuario.
+
 

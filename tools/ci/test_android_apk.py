@@ -70,6 +70,16 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
     result = adb("install", "-r", str(apk))
     if b"Success" not in result.stdout:
         raise RuntimeError(result.stdout.decode("utf-8", "replace"))
+    if require_marker:
+        # El panel del sistema confirma el nombre y permite revisar el icono instalado.
+        adb("shell", "am", "start", "-a", "android.settings.APPLICATION_DETAILS_SETTINGS",
+            "-d", f"package:{PACKAGE}")
+        time.sleep(2)
+        screenshot(f"{prefix}_identidad.png")
+        adb("shell", "uiautomator", "dump", "/sdcard/super-diego-identidad.xml")
+        document = adb("exec-out", "cat", "/sdcard/super-diego-identidad.xml").stdout
+        if not any(node.get("text") == "Super Diego" for node in ET.fromstring(document).iter("node")):
+            raise RuntimeError("Android no muestra el nombre Super Diego en la aplicación instalada.")
     adb("shell", "pm", "clear", PACKAGE)
     adb("logcat", "-c")
     adb("shell", "monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1")
@@ -113,6 +123,8 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
         return {
             "apk_sha256": hashlib.sha256(apk.read_bytes()).hexdigest(),
             "installed_version": version.group(1) if version else "unknown",
+            "display_name_verified": "Super Diego" if require_marker else None,
+            "identity_screenshot": f"{prefix}_identidad.png" if require_marker else None,
             "screen": [width, height],
             "enemy_art_marker": MARKER in collected,
             "screenshots": [f"{prefix}_{suffix}.png" for suffix in ("inicio", "enemigo", "pausa")],
@@ -162,3 +174,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

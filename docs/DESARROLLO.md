@@ -8,7 +8,7 @@ Las plantillas de exportación deben corresponder exactamente a la versión del 
 
 ## Qué debe ocurrir al ejecutar
 
-F5 abre el entrenamiento de Diego, con plataformas, seis objetos arrojadizos, dianas, controles táctiles, HUD y pausa. Mundos, niveles definitivos, enemigos jugables y música se implementarán después. [Guía del protagonista](PROTAGONISTA.md).
+F5 abre Super Diego en el Bosque Esmeralda ampliado, con 81 enemigos, tres llaves, mecanismos, controles táctiles, HUD y pausa. El entrenamiento de los seis objetos está disponible desde Pausa. [Guía del protagonista](PROTAGONISTA.md).
 
 ## Acciones de entrada configuradas
 
@@ -38,14 +38,14 @@ La primera orden importa y analiza el proyecto; la segunda inicia el entrenamien
 El perfil **Windows** genera un ejecutable x86_64 con el paquete de recursos integrado. Crea antes `builds/windows/` y ejecuta:
 
 ```sh
-godot --headless --path . --export-debug Windows builds/windows/salto-heroes.exe
+godot --headless --path . --export-debug Windows builds/windows/super-diego.exe
 ```
 
-La modificación de recursos del ejecutable y la firma están desactivadas en esta base; antes de distribuir una versión se configurarán el icono, los metadatos y la firma según corresponda.
+La modificación de recursos está activada para incorporar el icono ICO y los metadatos de Super Diego. El ICO contiene los seis tamaños de 16 a 256 px y también se registra como icono nativo de Windows. La firma de distribución permanece pendiente. La CI actual valida Android; la exportación y revisión física en Windows se realizan aparte.
 
 ## Android
 
-El perfil **Android** prepara un APK ARM64 con el identificador `com.ramonc5.saltoheroes`, versión `0.1.0` y código de versión `2`. El identificador queda reservado para este proyecto y debe revisarse antes de publicar. No se solicita permiso de Internet.
+El perfil **Android** prepara un APK ARM64 con el nombre visible **Super Diego**, versión base `0.5.1` y código local `9`; en CI el código es `1000 + GITHUB_RUN_NUMBER`. Se conserva el identificador `com.ramonc5.saltoheroes` para actualizar la instalación anterior con la misma firma. También se conserva `config/custom_user_dir_name="SaltoHeroes"` para no cambiar la ubicación de progreso y ajustes. No se solicita permiso de Internet.
 
 1. Instala OpenJDK 17 y el SDK Android con los paquetes requeridos por [la guía oficial](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 2. En los ajustes del editor configura **Export → Android → Java SDK Path** y **Android SDK Path**.
@@ -54,14 +54,14 @@ El perfil **Android** prepara un APK ARM64 con el identificador `com.ramonc5.sal
 5. Crea `builds/android/` y exporta:
 
 ```sh
-godot --headless --path . --export-debug Android builds/android/salto-heroes.apk
+godot --headless --path . --export-debug Android builds/android/super-diego.apk
 ```
 
 El perfil usa las plantillas APK precompiladas, sin Gradle. Los campos de SDK mínimo y objetivo quedan vacíos para utilizar los valores de dichas plantillas. Las versiones de Android y GPU admitidas deben comprobarse con las plantillas y dispositivos elegidos.
 
 El proyecto activa la importación ETC2/ASTC requerida por Android y S3TC/BPTC para Windows. Estas opciones están en `Rendering → Textures → VRAM Compression` dentro de los ajustes del proyecto.
 
-`game/assets/icon.svg` proporciona un icono provisional con las iniciales SH para la aplicación. Se registra en `Application → Config → Icon` para que Godot exporte el APK sin errores de metadatos; no forma parte de la escena de juego.
+`game/assets/branding/super_diego_icon.png` proporciona el icono original del protagonista. Android tiene un icono clásico de 192 px y una composición adaptativa de 432 px con más margen y fondo esmeralda propio. Los prompts y los dos originales de 1254 px se conservan fuera de la exportación, bajo `art/branding/super_diego/`. [Diseño y verificación](IDENTIDAD_VISUAL.md).
 
 La distribución por Google Play necesitará una configuración posterior de Gradle, exportación AAB, firma de publicación y los requisitos vigentes de la tienda. Esta base no publica ninguna aplicación.
 
@@ -92,17 +92,17 @@ Se usan las plantillas APK precompiladas, sin compilar código nativo ni ejecuta
 
 ### Descargar el resultado
 
-Abre [el workflow del repositorio](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml), selecciona una ejecución verde y descarga **Artifacts → salto-heroes-android-<número>**. Debes iniciar sesión en GitHub con acceso al repositorio privado. Descomprime el ZIP y abre `salto-heroes.apk` en el móvil. Android puede pedir que habilites la instalación desde el navegador o gestor de archivos utilizado.
+Abre [el workflow del repositorio](https://github.com/RamonC5/juegoDiego/actions/workflows/validate.yml), selecciona una ejecución verde y descarga **Artifacts → super-diego-android-<número>**. Debes iniciar sesión en GitHub con acceso al repositorio privado. Descomprime el ZIP y abre `super-diego.apk` en el móvil. Android puede pedir que habilites la instalación desde el navegador o gestor de archivos utilizado.
 
 El resumen de cada ejecución también enlaza directamente al artefacto. La descarga incluye:
 
 | Archivo | Uso |
 | --- | --- |
-| `salto-heroes.apk` | Instalador Android ARM64 de pruebas |
-| `salto-heroes.apk.sha256` | Comprobación de integridad del APK |
+| `super-diego.apk` | Instalador Android ARM64 de pruebas |
+| `super-diego.apk.sha256` | Comprobación de integridad del APK |
 | `build-info.json` | Versión de Godot, versión Android, commit y ejecución de origen |
 
-El código de versión del APK es `1000 + GITHUB_RUN_NUMBER`. El nombre toma `config/version` del proyecto y añade `-ci.<número>`, actualmente `0.5.0-ci.<número>`. Solo se modifica la copia del perfil dentro del runner. Una repetición conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
+El código de versión del APK es `1000 + GITHUB_RUN_NUMBER`. El nombre toma `config/version` del proyecto y añade `-ci.<número>`, actualmente `0.5.1-ci.<número>`. `build-info.json` incluye también `game_name: Super Diego`. Solo se modifica la copia del perfil dentro del runner. Una repetición conserva el mismo código y puede reinstalarse. Al preparar la primera publicación habrá que revisar esta numeración.
 
 ### Firma de pruebas y actualizaciones
 
@@ -127,3 +127,4 @@ La versión 0.3.0 integra dos estaciones en el nivel 1. Ejecutar también `godot
 Ejecutar `test_forest_expansion.gd` para visión, persecución, pausa, límites de plataformas, pasos dobles y recuperación. Ejecutar `test_forest_route.gd` para la ruta geométrica continua con entradas reales, transporte y lanzamientos; esta suite excluye colisión enemiga y no mide la duración del público objetivo. El combate conserva sus pruebas separadas.
 
 El `.tres` completo se recompone con `python3 tools/authoring/build_forest_level.py`. El fixture estable de `tools/tests/fixtures/forest_mechanics.tres` mantiene las regresiones antiguas y no se usa dentro del juego ni se exporta. Los JSON en `docs/niveles/` y `docs/dinamicas/` documentan autoría y estimaciones. Consultar la [evidencia de 0.5.0](pruebas/bosque-0.5.0.json).
+

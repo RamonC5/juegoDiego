@@ -160,7 +160,7 @@ func _build_ui() -> void:
 	row.add_theme_constant_override("separation", 18)
 	header.add_child(row)
 	var title := Label.new()
-	title.text = "SALTO HEROES · Diego"
+	title.text = "SUPER DIEGO · Entrenamiento"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size", 25)
 	row.add_child(title)
@@ -376,5 +376,6 @@ func _restart() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(touch):
 		_open_menu("Partida en pausa", not player.dead)
+
 
 

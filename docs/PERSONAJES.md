@@ -1,4 +1,4 @@
-# Personajes de Salto Heroes
+# Personajes de Super Diego
 
 Catálogo del **protagonista Diego y los siete enemigos normales** de Juego Diego. Fecha de actualización: **16 de octubre de 2026**.
 
@@ -117,4 +117,5 @@ Guardar únicamente los recursos de juego preparados en `game/assets/textures/ch
 ## Integración del primer nivel · 0.2.0
 
 **Terrón y Moflete** ya aparecen como enemigos jugables de Bosque Esmeralda 1-1: siete patrullas entre ambos. Se reutilizan los conceptos raster existentes, con animación por transformación de patrulla y aplastamiento. Se eliminan por pisotón y admiten el contrato de objetos lanzados. Las hojas de fotogramas propias de estos enemigos siguen pendientes; los otros cinco enemigos continúan como conceptos, incluido Nóctilo. Los metadatos y fichas de Terrón y Moflete registran esta integración.
+
 

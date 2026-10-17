@@ -213,7 +213,7 @@ func _build_ui() -> void:
 	_menu_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_menu_title.add_theme_font_size_override("font_size", 27)
 	var version := Label.new()
-	version.text = "Versión " + _build_version()
+	version.text = "Super Diego · Versión " + _build_version()
 	version.add_theme_font_size_override("font_size", 18)
 	version.add_theme_color_override("font_color", Color("d6dfcf"))
 	var menu_column: Container = _menu_title.get_parent()
@@ -292,5 +292,6 @@ func _completion_text() -> String:
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+
 
 

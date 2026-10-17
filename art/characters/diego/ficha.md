@@ -1,5 +1,7 @@
 # Diego · protagonista 2D
 
+Desde el 17 de octubre de 2026 da nombre al juego **Super Diego**. Su retrato y vestuario existentes sirven de referencia para el [icono original de la aplicación](../../../docs/IDENTIDAD_VISUAL.md); sus sprites y su identidad jugable se mantienen.
+
 **ID:** `diego` · **Rol:** protagonista compartido entre mundos · **Revisión:** 001 · **Fecha:** 15 de octubre de 2026.
 
 Nombre y vestuario propuestos. La referencia del usuario determina la identidad visual; esta adaptación queda disponible para su valoración.
@@ -45,3 +47,4 @@ La integración se ha comprobado en **Godot 4.7.2**, con 88 pruebas de comportam
 Cuatro poses nuevas de respiración en postura baja, manteniendo gafas, vestuario y acabado. Desliza abajo y mantén en la mitad de acciones; también S, flecha abajo y mando. El cuerpo baja a 58 px y no se levanta bajo un techo. [Hoja de agacharse](../../../game/assets/textures/characters/diego/crouch_v001.png), [prompt exacto](crouch-prompt.txt).
 
 ![Diego agachado en el Bosque Esmeralda, con los pies apoyados y la guía de deslizar hacia abajo.](preview_crouch.png)
+

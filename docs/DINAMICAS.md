@@ -1,4 +1,4 @@
-# Dinámicas y progresión de Salto Heroes
+# Dinámicas y progresión de Super Diego
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
@@ -70,5 +70,6 @@ python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py
 ```
 
 El comprobador usa únicamente Python 3, no modifica archivos y revisa consistencia documental. Para validar un mundo completo, pasar las tres fichas de aventura y la del jefe con `--mundo`. Faltan siempre las comprobaciones físicas, de duración, tacto y rendimiento que aún no se hayan realizado.
+
 
 

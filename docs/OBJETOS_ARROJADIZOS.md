@@ -1,4 +1,4 @@
-# Objetos arrojadizos de Salto Heroes
+# Objetos arrojadizos de Super Diego
 
 Seis propuestas originales integradas en el entrenamiento de Diego. Se pueden recoger, transportar y lanzar con el toque corto de acción, con **E** o con **X** del mando. La suelta sigue sincronizada con su animación.
 
@@ -15,7 +15,7 @@ Nombres, materiales y parámetros son propuestas de esta entrega. Los objetos so
 
 ## Vista conjunta
 
-![Seis objetos originales de Salto Heroes sobre fondos claros y oscuros: barril, piedra, piña, vasija, hielo y vaina](../art/objects/preview_catalog.png)
+![Seis objetos originales de Super Diego sobre fondos claros y oscuros: barril, piedra, piña, vasija, hielo y vaina](../art/objects/preview_catalog.png)
 
 ## Integración
 
@@ -38,3 +38,4 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_player.gd
 ```
 
 63 comprobaciones físicas de objetos y las 55 existentes del protagonista y controles. La CI ejecuta ambos grupos antes de exportar el APK. [Informe y límites de validación](../art/objects/qa.md).
+

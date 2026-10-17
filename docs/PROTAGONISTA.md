@@ -1,6 +1,6 @@
 # Protagonista: Diego
 
-Diego es la propuesta de protagonista de Salto Heroes basada en la fotografía aportada por el usuario. Tiene pelo oscuro y gafas negras, con ropa de aventura adaptada al acabado raster 2D del reparto. [Ficha e imagen](../art/characters/diego/ficha.md).
+Diego es la propuesta de protagonista de Super Diego basada en la fotografía aportada por el usuario. Tiene pelo oscuro y gafas negras, con ropa de aventura adaptada al acabado raster 2D del reparto. [Ficha e imagen](../art/characters/diego/ficha.md).
 
 La escena de arranque abre **Bosque Esmeralda 1-1**, y Pausa permite volver a la **zona de entrenamiento** con el protagonista, plataformas, [seis objetos arrojadizos](OBJETOS_ARROJADIZOS.md) y dos dianas geométricas. Permite comprobar controles, salto, pisotón y lanzamiento. El bosque integra a Terrón y Moflete y guarda resultados rejugables; los otros niveles, mundos, enemigos y jefes siguen pendientes.
 
@@ -81,5 +81,6 @@ python tools/build_diego_atlas.py
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
 Las 88 pruebas cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+
 
 

@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-17",
+  "tool": "image_gen (integrada)",
+  "reference": "art/characters/diego/concept_v001.png",
+  "source_dimensions": [
+    1254,
+    1254
+  ],
+  "packaging": "ImageMagick: escalado y conversión ICO; sin redibujar el arte",
+  "assets": [
+    {
+      "path": "game/assets/branding/super_diego.ico",
+      "sha256": "0858ae6707fcf6674f79da91cf0483fb9a67955410d9c2fe13bef8f77c0bb708",
+      "bytes": 224761,
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGB",
+      "ico_sizes": [
+        [
+          16,
+          16
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          128,
+          128
+        ],
+        [
+          256,
+          256
+        ]
+      ]
+    },
+    {
+      "path": "game/assets/branding/super_diego_adaptive.png",
+      "sha256": "8332e3af6f5c01cd0b6d2387faa34f97e0194334a057b99eccedb92099d7bc60",
+      "bytes": 300587,
+      "size": [
+        432,
+        432
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "game/assets/branding/super_diego_background.svg",
+      "sha256": "d14ecfbeeae4b17e377fc0174f4b6b52cca6397bdea532d5d1599c742d88ea9b",
+      "bytes": 206
+    },
+    {
+      "path": "game/assets/branding/super_diego_icon.png",
+      "sha256": "8516831a38bb872890ed0d24403d9359063c46322156b70ca9f6fd19d8bc6c48",
+      "bytes": 429829,
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "game/assets/branding/super_diego_launcher.png",
+      "sha256": "57cf825f018b111d420c8d92c37cf84944b0278a2dad34669259ace6e5bf84b7",
+      "bytes": 75219,
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "local_checks": "PNG, SVG, ICO, configuración, sintaxis Python y YAML correctos",
+  "visual_review": "Identidad de Diego, gafas y sonrisa reconocibles; revisar también APK instalado",
+  "android_ci": "Se verifica en la ejecución asociada al commit",
+  "windows_export": "Pendiente; preset e ICO configurados",
+  "physical_devices": "Pendiente"
+}

@@ -1,17 +1,19 @@
-; Salto Heroes: primer nivel Bosque Esmeralda.
+; Super Diego: primer nivel Bosque Esmeralda.
 ; Modificar preferentemente desde el editor Godot 4.7.2 estándar.
 
 config_version=5
 
 [application]
 
-config/name="Salto Heroes"
-config/icon="res://game/assets/icon.svg"
-config/description="Juego de plataformas 2D HD para Android y Windows. Bosque Esmeralda: El despertar del bosque."
-config/version="0.5.0"
+config/name="Super Diego"
+config/icon="res://game/assets/branding/super_diego_icon.png"
+config/windows_native_icon="res://game/assets/branding/super_diego.ico"
+config/description="Super Diego: aventura de plataformas 2D HD para Android y Windows. Bosque Esmeralda: El despertar del bosque."
+config/version="0.5.1"
 run/main_scene="res://game/boot/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/use_custom_user_dir=true
+; Identificador de datos estable para conservar progreso y ajustes anteriores.
 config/custom_user_dir_name="SaltoHeroes"
 boot_splash/show_image=false
 
@@ -90,5 +92,6 @@ textures/vram_compression/import_etc2_astc=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
 environment/defaults/default_clear_color=Color(0.08, 0.09, 0.12, 1)
+
 
 

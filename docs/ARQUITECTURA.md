@@ -1,10 +1,10 @@
-# Arquitectura de Salto Heroes
+# Arquitectura de Super Diego
 
 ## Alcance y estado
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 14 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cinco enemigos siguen como conceptos. Se conserva el icono provisional SH.
+`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 14 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cinco enemigos siguen como conceptos. Desde 0.5.1 el nombre visible es Super Diego y el icono original del protagonista está en `game/assets/branding/`. El paquete Android `com.ramonc5.saltoheroes`, el directorio de datos `SaltoHeroes` y los identificadores internos se mantienen para conservar actualizaciones y guardados. [Identidad visual](IDENTIDAD_VISUAL.md).
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -207,3 +207,4 @@ Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la
 `boot/main.gd` acepta un recurso de nivel configurable antes de entrar en el árbol. El juego usa el bosque completo; las suites antiguas de mecanismos inyectan un fixture estable para mantener sus pruebas físicas. Las suites nuevas prueban el recurso completo, IA y ruta geométrica continua. `tools/authoring/build_forest_level.py` recompone el `.tres` de autoría; no se ejecuta ni se exporta dentro del juego. Los JSON de diseño permanecen separados.
 
 La CI suma 474 comprobaciones, exige las suites nuevas y verifica 81 enemigos con arte en el APK instalado, además de conservar los contratos anteriores. La ruta automatizada de geometría excluye el combate y no acredita duración del público objetivo. Consultar [el recorrido](BOSQUE_ESMERALDA.md) para los límites de validación y el presupuesto estimado.
+

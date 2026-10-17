@@ -60,6 +60,7 @@ def main() -> None:
     output_dir = root / "builds/android"
     output_dir.mkdir(parents=True, exist_ok=True)
     metadata = {
+        "game_name": options["package/name"].strip('"'),
         "godot_version": godot_version,
         "package": options["package/unique_name"].strip('"'),
         "version_code": version_code,
@@ -83,3 +84,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

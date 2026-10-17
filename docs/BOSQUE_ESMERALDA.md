@@ -1,6 +1,6 @@
 # Bosque Esmeralda · 1-1 · 0.5.0
 
-El bosque se amplía a tres rutas de llaves, tras un prólogo que enseña salto, lanzamiento, puentes y troncos viajeros. Sigue siendo el primer nivel de Salto Heroes y se abre al iniciar; Entrenamiento permanece en Pausa.
+El bosque se amplía a tres rutas de llaves, tras un prólogo que enseña salto, lanzamiento, puentes y troncos viajeros. Sigue siendo el primer nivel de Super Diego y se abre al iniciar; Entrenamiento permanece en Pausa.
 
 ## Contenido actual
 
@@ -53,3 +53,4 @@ La corrección de los enemigos ausentes en APK 0.4.2 se conserva: `enemy_kinds` 
 ## Entrega validada
 
 [CI de 0.5.0-ci.41](https://github.com/RamonC5/juegoDiego/actions/runs/39017850472), sobre `a160e9825cee34727a03480099d72067c34bd83d`: **474 comprobaciones correctas**, exportación y firma verificadas e instalación Android API 35 terminada correctamente. Revisadas las capturas finales de escritorio, Terrón visible en Android y Pausa mostrando la versión correcta. [Auditoría, checksum y límites](pruebas/bosque-0.5.0.json). La duración de 18–22 minutos conserva el estado estimado.
+
