@@ -21,6 +21,8 @@ extends Resource
 @export var root_gates: Array[ForestRootGateDefinition] = []
 ## Orígenes de pasos de liana y dianas rebotadoras sobre barrancos.
 @export var vine_crossings: Array[Vector2] = []
+## Centro de la trampilla opcional (x, altura de la superficie); x < 0 la desactiva.
+@export var secret_grove: Vector2 = Vector2(-1, -1)
 ## Inicio de cada tramo y nombre para orientar el recorrido largo.
 @export var region_starts: Array[Vector2] = []
 @export var region_names: Array[String] = []
