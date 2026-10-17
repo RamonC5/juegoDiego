@@ -296,7 +296,7 @@ func _run() -> void:
 	await _step(3)
 	_check(stage.bridges[1].state == RootBridge.State.OPEN and not stage.bridges[1]._shape.disabled,
 		"morir durante el despliegue restaura el puente abierto y seguro")
-	_check(not stage.throw_targets[1].active and _objects() == total, "restaurar sincroniza diana y objetos sin duplicación")
+	_check(stage.throw_targets[1].active and stage.throw_targets[1]._sprite.visible and _objects() == total, "reaparecer reconstruye la diana y conserva los objetos sin duplicación")
 	hero.respawn(stage.checkpoint_positions()[0])
 	await _step(5)
 	_check(stage.active_checkpoint_index == 1, "volver a un farol anterior no hace retroceder la reaparición")
@@ -338,4 +338,5 @@ func _run() -> void:
 	DirAccess.remove_absolute(STORAGE)
 	print("RESULTADO PUENTES: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+
 

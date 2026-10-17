@@ -103,10 +103,6 @@ func _add_goal(stage: Node2D) -> void:
 	shape.shape = rectangle
 	goal.add_child(shape)
 	stage.add_child(goal)
-	var cue := WorldCue.new()
-	cue.kind = WorldCue.Kind.EXIT
-	cue.position = Vector2(0, -110)
-	goal.add_child(cue)
 	goal.body_entered.connect(func(body: Node2D):
 		if body == player:
 			player.celebrate()
@@ -150,7 +146,7 @@ func _build_ui() -> void:
 	row.add_theme_constant_override("separation", 18)
 	header.add_child(row)
 	var title := Label.new()
-	title.text = "↔  ↑  ↓  ◉"
+	title.text = ""
 	title.accessibility_name = "Super Diego, entrenamiento"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size", 25)
@@ -232,8 +228,7 @@ func _build_menu() -> void:
 	for spec in [["Correr también con arrastres cortos / teclado", "automatic_run"],
 		["Salto completo sin mantener", "full_jump"],
 		["Activar gestos táctiles y de ratón en Windows", "show_touch"],
-		["Intercambiar las zonas izquierda y derecha", "left_handed"],
-		["Mostrar guía de gestos al empezar (10 segundos)", "show_gesture_hints"]]:
+		["Intercambiar las zonas izquierda y derecha", "left_handed"]]:
 		var checkbox := CheckBox.new()
 		checkbox.text = spec[0]
 		checkbox.button_pressed = settings.get(spec[1])

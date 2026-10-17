@@ -16,7 +16,6 @@ var _icons: Array[Texture2D] = []
 var _barrier: CollisionShape2D
 var _sensor: Area2D
 var _panel: Node2D
-var _status: WorldCue
 
 
 func _ready() -> void:
@@ -57,10 +56,6 @@ func _ready() -> void:
 	_sensor.add_child(sensor_shape)
 	_sensor.body_entered.connect(func(actor: Node2D): entry_requested.emit(actor))
 	add_child(_sensor)
-	_status = WorldCue.new()
-	_status.kind = WorldCue.Kind.EXIT
-	_status.position = Vector2(0, -255)
-	add_child(_status)
 	for index in REQUIRED_KEYS:
 		_icons.append(key_definition.icon_for(index) if key_definition != null else null)
 		var number := Label.new()
@@ -89,7 +84,6 @@ func _refresh(animate: bool) -> void:
 	if _barrier == null:
 		return
 	_barrier.set_deferred("disabled", is_open)
-	_status.activated = is_open
 	if is_open and not was_open and animate:
 		var tween := create_tween()
 		tween.set_parallel(true)

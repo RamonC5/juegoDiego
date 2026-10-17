@@ -84,3 +84,8 @@ La petición posterior permite a todos los enemigos perseguir y bajar de estruct
 ## Recuperación y presentación · 0.6.0
 
 Las derrotas posteriores al farol se repiten al morir, incluidas las de enemigos encontrados al volver atrás. Activar el siguiente farol consolida las anteriores. Las llaves y mecanismos siguen conservándose. La música de bosque es ambiental y ajustable; ninguna condición jugable depende de escucharla. Dianas, pasos, troncos y faroles usan símbolos sin letras, con instrucciones en pausa. [Implementación](ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).
+
+
+## Dianas destructibles y escenario despejado · 0.6.1
+
+Un lanzamiento válido rompe la diana en fragmentos; morir reconstruye todas las dianas, incluidas las anteriores al farol. Los mecanismos y las llaves ya resueltos se conservan, y romper una diana reparada no duplica el progreso. Esta regla sustituye la diana activada permanente. Se retiran los iconos flotantes de escenario; las instrucciones permanecen en pausa. El nuevo tema de plataformas **Esmeralda en marcha** usa batería, bajo y sintetizadores a 128 BPM. [Contrato actual](ARQUITECTURA.md#rotura-y-reconstrucción-de-dianas--061).

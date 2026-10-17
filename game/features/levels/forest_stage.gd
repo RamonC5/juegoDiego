@@ -35,7 +35,6 @@ var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
-var _checkpoint_cues: Array[WorldCue] = []
 ## Índices de datos estables; las instancias derrotadas pueden haberse liberado.
 var _defeated_since_checkpoint: Array[int] = []
 var _throw_hint_target: ForestThrowTarget
@@ -78,13 +77,6 @@ func start(hero: DiegoPlayer) -> void:
 	for index in DEFINITION.enemy_spawns.size():
 		enemies.append(_spawn_enemy(index))
 	_update_activity()
-	# El primer encuentro muestra una flecha de pisotón sin letras.
-	if not enemies.is_empty():
-		var first_enemy: ForestEnemy = enemies[0]
-		for enemy in enemies:
-			if enemy.position.x < first_enemy.position.x:
-				first_enemy = enemy
-		first_enemy.show_intro_hint()
 	if OS.has_feature("android") and OS.is_debug_build():
 		var visible_art: int = 0
 		for enemy in enemies:
@@ -178,8 +170,7 @@ func _build_moving_platforms() -> void:
 		platform.definition = definition
 		add_child(platform)
 		moving_platforms.append(platform)
-		var cue_kind: WorldCue.Kind = WorldCue.Kind.HORIZONTAL if is_equal_approx(definition.start_position.y, definition.end_position.y) else WorldCue.Kind.VERTICAL
-		_world_cue(cue_kind, definition.start_position + Vector2(0, -68))
+
 
 
 func _on_mechanism_activated(mechanism_id: StringName) -> void:
@@ -338,19 +329,10 @@ func _marker(at: Vector2, size: Vector2, callback: Callable) -> void:
 	add_child(area)
 
 
-func _world_cue(kind: WorldCue.Kind, at: Vector2) -> WorldCue:
-	var cue := WorldCue.new()
-	cue.kind = kind
-	cue.position = at
-	add_child(cue)
-	return cue
-
-
 func _build_markers() -> void:
 	var positions: Array[Vector2] = checkpoint_positions()
 	for index in positions.size():
 		var at: Vector2 = positions[index]
-		_checkpoint_cues.append(_world_cue(WorldCue.Kind.CHECKPOINT, at + Vector2(0, -205)))
 		_marker(at + Vector2(0, -80), Vector2(115, 190), _on_checkpoint.bind(index))
 	exit_door = KeyExitDoor.new()
 	exit_door.key_definition = DEFINITION.key_definition
@@ -391,7 +373,6 @@ func _on_checkpoint(body: Node2D, index: int = 0) -> void:
 	checkpoint_active = true
 	active_checkpoint_index = index
 	respawn_position = checkpoint_positions()[index] + Vector2(55, 0)
-	_checkpoint_cues[index].activated = true
 	# Las derrotas anteriores al nuevo farol quedan consolidadas en el intento.
 	_defeated_since_checkpoint.clear()
 	player.recover_energy()
@@ -418,7 +399,9 @@ func respawn_player() -> void:
 	for index in bridges.size():
 		if activated_mechanisms.has(bridges[index].definition.mechanism_id):
 			bridges[index].restore_open()
-			throw_targets[index].restore_activated()
+	# Se reconstruyen todas las dianas, incluidas las de tramos anteriores.
+	for target in throw_targets:
+		target.reset_to_intact()
 	player.respawn(respawn_position)
 	for platform in moving_platforms:
 		platform.reset_cycle()

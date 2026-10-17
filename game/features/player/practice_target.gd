@@ -5,7 +5,6 @@ signal completed
 
 @export var kind: StringName = &"stomp"
 var active: bool = true
-var _cue: WorldCue
 
 
 func _ready() -> void:
@@ -17,10 +16,6 @@ func _ready() -> void:
 	body.shape = rectangle
 	body.position.y = -rectangle.size.y / 2.0
 	add_child(body)
-	_cue = WorldCue.new()
-	_cue.kind = WorldCue.Kind.STOMP if kind == &"stomp" else WorldCue.Kind.THROW
-	_cue.position = Vector2(0, -80 if kind == &"stomp" else -140)
-	add_child(_cue)
 	if kind == &"stomp":
 		var sensor := StompTarget.new()
 		sensor.position.y = -40.0
@@ -46,12 +41,13 @@ func _complete() -> void:
 		return
 	active = false
 	set_deferred("collision_layer", 0)
-	_cue.activated = true
 	queue_redraw()
 	completed.emit()
 
 
 func _draw() -> void:
+	if not active:
+		return
 	var height: float = 40.0 if kind == &"stomp" else 100.0
 	var rectangle := Rect2(-40, -height, 80, height)
 	draw_rect(rectangle, Color("e7b969") if active else Color("a1c4ae"))
@@ -62,8 +58,4 @@ func _draw() -> void:
 	elif active:
 		draw_arc(Vector2(0, -50), 27, 0, TAU, 32, Color("23474a"), 4.0, true)
 		draw_circle(Vector2(0, -50), 9, Color("23474a"))
-	else:
-		draw_line(Vector2(-20, -height/2), Vector2(-4, -height/2+12), Color("23474a"), 5.0)
-		draw_line(Vector2(-4, -height/2+12), Vector2(23, -height/2-14), Color("23474a"), 5.0)
-
 

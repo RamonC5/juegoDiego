@@ -1,6 +1,6 @@
 class_name ForestRootGate
 extends StaticBody2D
-## Raíces verticales: las dos marcas geométricas explican el progreso sin depender del color.
+## Raíces verticales: abrir físicamente el paso comunica su estado, sin rótulos ni iconos.
 
 var definition: ForestRootGateDefinition
 var activated: Array[StringName] = []
@@ -50,14 +50,3 @@ func activate_station(id: StringName) -> void:
 			queue_redraw()
 			return
 
-
-func _draw() -> void:
-	for index in definition.stations.size():
-		var at := Vector2((index - 0.5) * 64.0, -230)
-		draw_circle(at, 24, Color("12382e"))
-		draw_arc(at, 24, 0, TAU, 32, Color("ebce91"), 3, true)
-		if activated.has(definition.stations[index].mechanism_id):
-			draw_polyline(PackedVector2Array([at + Vector2(-13, 0), at + Vector2(-3, 10), at + Vector2(14, -11)]), Color("fff3cb"), 5, true)
-		else:
-			draw_arc(at, 12, 0, TAU, 24, Color("fff3cb"), 3, true)
-			draw_circle(at, 4, Color("fff3cb"))

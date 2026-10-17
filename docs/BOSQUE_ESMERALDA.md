@@ -65,3 +65,8 @@ La petición posterior permite a todos los enemigos perseguir y bajar de estruct
 ## Ajuste 0.6.0
 
 El nivel incorpora **Senderos de Esmeralda**, música instrumental original del bosque en bucle, con volumen y silencio desde pausa. Morir restaura las patrullas derrotadas después del último farol; antes del primero se restauran desde el inicio. Las derrotas previas al farol, llaves, coleccionables y mecanismos resueltos se conservan en el intento. Los rótulos con letras se sustituyen por flechas, banderas, círculos y marcas; los contadores siguen mostrando iconos y números. Las instrucciones escritas están en pausa. [Contratos y procedencia musical](ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).
+
+
+## Revisión 0.6.1
+
+La música pasa a **Esmeralda en marcha**: 90 segundos a 128 BPM, batería, bajo y sintetizadores, con una dirección de plataformas moderna y más rítmica. Se eliminan las ayudas flotantes con iconos; los contadores del HUD se mantienen. Las dianas se rompen en ocho fragmentos al recibir un lanzamiento válido y vuelven a estar enteras al reaparecer. También se reparan las de tramos anteriores; puedes romperlas de nuevo sin duplicar la activación de puentes o raíces. Las llaves y los pasos abiertos se conservan. Esta revisión sustituye las reglas visuales de 0.6.0.

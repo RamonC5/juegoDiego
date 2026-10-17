@@ -101,7 +101,7 @@ func _update_guides() -> void:
 	if not is_instance_valid(_move_hint):
 		return
 	for label in [_move_hint, _action_hint]:
-		label.visible = settings.show_gesture_hints and _guide_time > 0
+		label.visible = false
 		label.modulate.a = minf(1, _guide_time)
 
 

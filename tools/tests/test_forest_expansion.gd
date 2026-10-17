@@ -49,7 +49,7 @@ func _run() -> void:
 		enemy.set_physics_process(true)
 		var start_x: float = enemy.position.x
 		await step(3)
-		check(enemy.behaviour == ForestEnemy.Behaviour.NOTICE and enemy._alert.visible, "%s avisa al detectar a Diego" % enemy.kind)
+		check(enemy.behaviour == ForestEnemy.Behaviour.NOTICE and enemy._notice_seconds > 0.0, "%s anticipa el ataque al detectar a Diego" % enemy.kind)
 		check(absf(enemy.position.x - start_x) < 2, "%s concede tiempo para reaccionar" % enemy.kind)
 		await step(80)
 		check(enemy.behaviour == ForestEnemy.Behaviour.CHASE and enemy.position.x < start_x - 60 and enemy.position.x < enemy.patrol.x, "%s abandona la patrulla para atacar" % enemy.kind)

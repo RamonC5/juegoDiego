@@ -99,3 +99,8 @@ Los otros cinco enemigos tienen animación visual en el visor, incluido [Nóctil
 ### Música y reintentos · 0.6.0
 
 Bosque Esmeralda incluye música instrumental original en bucle y volumen ajustable desde pausa. Los enemigos derrotados desde el último farol reaparecen al morir; se conservan llaves, coleccionables y mecanismos. La partida usa iconos y números, con las instrucciones escritas en pausa. Contratos y procedencia en [Arquitectura](docs/ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).
+
+
+### Dianas y música · 0.6.1
+
+Nueva música de plataformas de estilo electrónico moderno, sin iconos flotantes en el escenario. Las dianas se rompen al recibir un lanzamiento y se reconstruyen al morir, conservando llaves y pasos abiertos. Contratos y pruebas en [Arquitectura](docs/ARQUITECTURA.md#rotura-y-reconstrucción-de-dianas--061).

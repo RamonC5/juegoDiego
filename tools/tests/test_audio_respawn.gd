@@ -39,6 +39,7 @@ func _run() -> void:
 	check(main._music.playing and main._music.stream == stage.DEFINITION.music_stream, "el bosque arranca con su pista asignada")
 	var track := main._music.stream as AudioStreamOggVorbis
 	check(track != null and track.loop and track.get_length() > 70.0, "pista instrumental completa en bucle")
+	check(track != null and is_equal_approx(track.bpm, 128.0) and track.beat_count == 192, "la importación usa el tema nuevo de 128 BPM y 48 compases")
 	check(main._music.bus == &"Music" and AudioServer.get_bus_index(&"Music") >= 0, "bus musical independiente")
 	check(main._music.process_mode == Node.PROCESS_MODE_PAUSABLE, "audio sujeto a pausa, derrota y pérdida de foco")
 	var old_volume: float = main.settings.music_volume
@@ -97,7 +98,7 @@ func _run() -> void:
 	check(stage.defeated_enemies == 1 and stage.enemies.size() == 81, "sin duplicar patrullas ni inflar el marcador")
 	check(not hero.dead and hero.health == 3 and hero.position.distance_to(stage.respawn_position) < 2.0, "Diego recupera energía y vuelve al farol")
 	check(stage.collected_keys.has(0) and stage.leaves == leaves_before and stage.crystals == crystals_before, "se conservan llaves y coleccionables")
-	check(stage.activated_mechanisms.has(station.definition.mechanism_id) and not station.active, "los mecanismos resueltos permanecen abiertos")
+	check(stage.activated_mechanisms.has(station.definition.mechanism_id) and station.active and station._sprite.visible, "se conservan mecanismos abiertos y se reconstruyen las dianas")
 	check(main._music.get_instance_id() == track_id, "reaparecer conserva un único reproductor")
 	var stable_id: int = stage.enemies[2].get_instance_id()
 	stage.respawn_player()
@@ -110,9 +111,9 @@ func _run() -> void:
 	stage.respawn_player()
 	freeze_enemies(stage)
 	check(stage.enemies[2].active, "también se restaura un enemigo derrotado al volver atrás")
-	check(stage._checkpoint_cues[1].activated, "el farol activo usa una marca visual")
+	check(stage.active_checkpoint_index == 1, "el farol conserva su estado sin insignias flotantes")
 	check(not _has_letters(stage), "el escenario no contiene rótulos con letras")
-	check(not main._message.visible and not _has_letters(main.touch), "la partida y las guías usan símbolos sin mensajes superpuestos")
+	check(not main._message.visible and not _has_letters(main.touch), "la partida queda libre de guías y mensajes superpuestos")
 	main.queue_free()
 	await step(2)
 	main = load("res://game/boot/main.tscn").instantiate()

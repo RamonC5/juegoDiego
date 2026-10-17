@@ -20,7 +20,6 @@ var _scale: float = 1.0
 var _height: float = 58.0
 var _stomp: StompTarget
 var _contact: Area2D
-var _intro_hint: WorldCue
 enum Behaviour { PATROL, NOTICE, CHASE, RETURN }
 var behaviour: Behaviour = Behaviour.PATROL
 ## El origen elevado limita la patrulla; la persecución permite descender.
@@ -30,7 +29,6 @@ var _home: Vector2
 var _notice_seconds: float = 0.0
 var _lost_seconds: float = 0.0
 var _last_seen_x: float = 0.0
-var _alert: WorldCue
 var _half_width: float = 52.0
 var pursuit_bounds: Vector2 = Vector2(-1000000, 1000000)
 var _has_pursued: bool = false
@@ -86,20 +84,6 @@ func _ready() -> void:
 	contact_shape.position = body.position
 	_contact.add_child(contact_shape)
 	add_child(_contact)
-	_alert = WorldCue.new()
-	_alert.kind = WorldCue.Kind.ALERT
-	_alert.position = Vector2(0, -_height - 38)
-	_alert.visible = false
-	add_child(_alert)
-
-
-func show_intro_hint() -> void:
-	_intro_hint = WorldCue.new()
-	_intro_hint.kind = WorldCue.Kind.STOMP
-	_intro_hint.position = Vector2(0, -_height - 90)
-	add_child(_intro_hint)
-
-
 func has_visible_art() -> bool:
 	if not is_instance_valid(_visual) or not _visual.is_visible_in_tree():
 		return false
@@ -153,7 +137,6 @@ func _physics_process(delta: float) -> void:
 				_direction = 1.0
 			elif position.x >= _roaming_patrol.y:
 				_direction = -1.0
-	_alert.visible = behaviour == Behaviour.NOTICE or behaviour == Behaviour.CHASE
 	if not _can_step(_direction, speed * delta):
 		if behaviour == Behaviour.PATROL:
 			_direction *= -1.0
@@ -281,8 +264,6 @@ func reset_awareness() -> void:
 	_drop_direction = 0.0
 	_notice_seconds = 0.0
 	_lost_seconds = 0.0
-	if is_instance_valid(_alert):
-		_alert.hide()
 
 
 func receive_thrown_hit(object: ThrowableObject) -> void:
@@ -294,9 +275,6 @@ func defeat(by_throw: bool) -> void:
 	if not active:
 		return
 	active = false
-	_alert.hide()
-	if is_instance_valid(_intro_hint):
-		_intro_hint.hide()
 	_stomp.enabled = false
 	set_deferred("collision_layer", 0)
 	_contact.set_deferred("monitoring", false)
