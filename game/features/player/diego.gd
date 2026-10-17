@@ -45,6 +45,7 @@ var _standing_hand_position: Vector2
 var _standing_pickup_position: Vector2
 ## Zona del ascenso de liana, sin otro botón táctil.
 var vine_climb_zone: Rect2 = Rect2()
+var _was_climbing_vine: bool = false
 
 
 func _ready() -> void:
@@ -89,6 +90,8 @@ func _physics_process(delta: float) -> void:
 			and controls.held(&"jump") and not is_instance_valid(held_object) and _action.is_empty():
 		if crouching and can_stand():
 			_set_crouching(false)
+		_was_climbing_vine = true
+		controls.consume(&"jump")
 		velocity.x = move_toward(velocity.x, 0.0, tuning.braking * delta)
 		velocity.y = -285.0
 		global_position.x = move_toward(global_position.x, vine_climb_zone.get_center().x, 200.0 * delta)
@@ -98,6 +101,13 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		_play(&"jump_up")
 		return
+
+	if _was_climbing_vine:
+		# Impulso al soltar la liana para alcanzar la primera diana.
+		_was_climbing_vine = false
+		velocity.y = -560.0
+		velocity.x = controls.horizontal() * tuning.run_speed
+		_buffer = 0.0
 
 	var was_grounded: bool = is_on_floor()
 	var previous_feet: Vector2 = global_position
@@ -316,6 +326,7 @@ func _die() -> void:
 	health = 0
 	velocity.x = 0.0
 	controls.clear_virtual()
+	_was_climbing_vine = false
 	_drop_object()
 	_begin_action(&"defeated")
 	health_changed.emit(health)
@@ -342,6 +353,7 @@ func respawn(at: Vector2) -> void:
 	_set_crouching(false)
 	global_position = at
 	velocity = Vector2.ZERO
+	_was_climbing_vine = false
 	health = maximum_health
 	dead = false
 	celebrating = false
