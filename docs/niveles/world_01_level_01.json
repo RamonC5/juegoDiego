@@ -67,6 +67,14 @@
       "proposito": "Tramo condensado con exploración vertical, persecución y acceso a las estaciones de raíces. Se eliminan las composiciones repetidas del recorrido anterior."
     },
     {
+      "id": "gruta_hojas_vida",
+      "nombre": "Gruta secreta bajo las terrazas",
+      "principal": false,
+      "minutos_estimados": [0.4, 0.8],
+      "dinamicas": ["gruta_hojas_vida"],
+      "proposito": "Secreto opcional bajo la hojarasca: agacharse para descender, recoger un cuarto corazón y volver mediante un ascensor."
+    },
+    {
       "id": "tramo_02",
       "nombre": "Barranco de raíces",
       "principal": true,
@@ -261,6 +269,7 @@
     }
   },
   "persistencia": {
+    "secreto_opcional": "El brote suma un corazón hasta cuatro por partida; recogida única, no se pierde al reaparecer. El ascensor reinicia su ciclo y las hojas quedan recogidas.",
     "al_morir": "Se conservan las llaves, hojas y cristales; puentes, barreras y dianas convencionales se reconstruyen al perder toda la energía. Las cinco dianas elásticas vuelven a estar disponibles al reaparecer; la caída aislada del barranco regresa a la entrada y resta una unidad de energía.",
     "al_cerrar": "El intento se reinicia. Se conservan los resultados completados y ajustes; no existe guardado intermedio.",
     "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes."
