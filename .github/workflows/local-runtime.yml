@@ -1,0 +1,37 @@
+name: Preparar herramientas de verificación local
+on:
+  push:
+    branches: [codex/bosque-runtime]
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Preparar Godot y los recursos originales
+        run: |
+          set -euo pipefail
+          version="$(tr -d '\r\n' < .godot-version)"
+          archive="Godot_v${version}-stable_linux.x86_64.zip"
+          mkdir -p .godot-download
+          curl -fLsS --retry 3 "https://downloads.godotengine.org/?version=${version}&flavor=stable&slug=linux.x86_64.zip" -o ".godot-download/$archive"
+          (cd .godot-download && sha512sum --check ../tools/godot-linux-x86_64.sha512)
+          unzip -q ".godot-download/$archive" -d .godot-download
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile
+          with zipfile.ZipFile('local-runtime.zip', 'w', zipfile.ZIP_DEFLATED) as out:
+              for path in Path('game/assets').rglob('*'):
+                  if path.is_file() and path.suffix not in ('.import', '.uid'):
+                      out.write(path)
+              for path in Path('.godot-download').glob('*linux.x86_64'):
+                  out.write(path, 'Godot')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: bosque-local-runtime
+          path: local-runtime.zip
+          retention-days: 2
