@@ -215,13 +215,14 @@ func _on_vine_fall(crossing: ForestVineCrossing) -> void:
 	if player.dead or completed:
 		return
 	# La caída cuesta energía; si es mortal, boot realiza la reaparición habitual.
+	player.release_vine_on_failure()
 	player.take_damage(crossing.global_position + Vector2(1940, 650))
-	crossing.reset_targets()
+	crossing.reset_vines()
 	if not player.dead:
 		player.global_position = crossing.global_position + Vector2(1590, 600)
 		player.velocity = Vector2.ZERO
 		player.reset_physics_interpolation()
-		hint_requested.emit("Prueba otra vez: sube por la liana manteniendo salto y enlaza las dianas del barranco.")
+		hint_requested.emit("Salta hasta una liana móvil, balancéate y vuelve a saltar para alcanzar la siguiente.")
 
 
 func _on_mechanism_activated(mechanism_id: StringName) -> void:
@@ -460,8 +461,9 @@ func respawn_player() -> void:
 	_throw_hint_seconds = 0.0
 	for target in throw_targets:
 		target.reset_to_intact()
+	player.release_vine_on_failure()
 	for crossing in vine_crossings:
-		crossing.reset_targets()
+		crossing.reset_vines()
 	player.respawn(respawn_position)
 	for platform in moving_platforms:
 		platform.reset_cycle()
@@ -518,7 +520,7 @@ func _physics_process(delta: float) -> void:
 		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
 		5450: "TRONCOS VIAJEROS · Salta sobre el tronco y suelta el arrastre: te llevará. Si caes, vuelve a probar desde el suelo.",
 		7150: "RAÍCES · DOS MARCAS: activa DIANA 1 en la repisa y DIANA 2 en el suelo. Cada una tiene su piña. Al abrir el paso podrás regresar.",
-		25000: "LIANAS: mantén el gesto de salto junto a la liana para subir; suéltalo y corre hacia las dianas que rebotan.",
+		25000: "LIANAS: salta para agarrarte a un nudo móvil. Balancea con el arrastre y vuelve a saltar hacia la siguiente.",
 		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa alta. Más adelante combinarás este viaje con dianas.",
 	}
 	for x in hints:
