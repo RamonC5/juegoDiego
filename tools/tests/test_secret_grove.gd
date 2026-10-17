@@ -64,6 +64,12 @@ func _run() -> void:
 		"la vida extra permanece durante el intento al volver al farol")
 	check(grove.lift.position.distance_to(grove.lift.definition.start_position) < 5.0,
 		"el ascensor recupera su recorrido después de reaparecer")
+	# Ascensor continuo: Diego lo alcanza desde el suelo y sale hacia arriba.
+	hero.respawn(grove.global_position + Vector2(0, 426))
+	grove.lift.reset_cycle()
+	await step(285)
+	check(not hero.dead and hero.position.y < 790,
+		"la plataforma lleva al jugador desde la gruta hacia la superficie")
 	hero.respawn(Vector2(1450, 600))
 	await step(4)
 	check(hero.fall_limit_y == 980.0, "otros barrancos conservan el límite de caída anterior")
