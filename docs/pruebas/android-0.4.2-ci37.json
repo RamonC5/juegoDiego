@@ -1,0 +1,29 @@
+{
+  "device": "sdk_gphone64_x86_64",
+  "android_api": "35",
+  "device_abis": "x86_64,arm64-v8a",
+  "baseline": null,
+  "candidate": {
+    "apk_sha256": "d011b1018328cc5b8f6fb09c8bc72b0b86ffad48590f92240c4bd697379d2b36",
+    "installed_version": "0.4.2-ci.37",
+    "screen": [
+      1280,
+      720
+    ],
+    "enemy_art_marker": true,
+    "screenshots": [
+      "actual_inicio.png",
+      "actual_enemigo.png",
+      "actual_pausa.png"
+    ]
+  },
+  "physical_device_test": false,
+  "visual_review": {
+    "enemy_visible": true,
+    "intro_hint_visible": true,
+    "gesture_movement_observed": true,
+    "pause_capture_confirmed": false,
+    "note": "El aviso de primer uso de pantalla completa del sistema tapa la captura de Pausa; se añade su cierre al comprobador. No se considera prueba de la pantalla de Pausa Android.",
+    "evidence_url": "https://github.com/RamonC5/juegoDiego/actions/runs/39014099731/artifacts/12093339297"
+  }
+}

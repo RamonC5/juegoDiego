@@ -4,6 +4,11 @@ extends CharacterBody2D
 
 signal defeated(enemy: ForestEnemy, by_throw: bool)
 
+const SPRITES: Dictionary = {
+	"terron": preload("res://game/assets/textures/characters/terron/idle_v001.png"),
+	"moflete": preload("res://game/assets/textures/characters/moflete/idle_v001.png"),
+}
+
 var kind: String = "terron"
 var patrol: Vector2 = Vector2(0, 200)
 var player: DiegoPlayer
@@ -15,6 +20,7 @@ var _scale: float = 1.0
 var _height: float = 58.0
 var _stomp: StompTarget
 var _contact: Area2D
+var _intro_hint: Label
 
 
 func _ready() -> void:
@@ -28,7 +34,7 @@ func _ready() -> void:
 	body.position.y = -_height / 2.0
 	add_child(body)
 	_visual = Sprite2D.new()
-	_visual.texture = load("res://game/assets/textures/characters/%s/idle_v001.png" % kind)
+	_visual.texture = SPRITES[kind]
 	_visual.centered = false
 	# Atlas normalizado: conserva encuadre aunque Godot limite la importación a 512 px.
 	var atlas := AtlasTexture.new()
@@ -64,6 +70,32 @@ func _ready() -> void:
 	contact_shape.position = body.position
 	_contact.add_child(contact_shape)
 	add_child(_contact)
+
+
+func show_intro_hint() -> void:
+	# Terrón comparte colores con el suelo: presentar el primer combate con texto.
+	_intro_hint = Label.new()
+	_intro_hint.text = "ENEMIGO · %s\nSalta encima" % ("MOFLETE" if kind == "moflete" else "TERRÓN")
+	_intro_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_intro_hint.position = Vector2(-110, -_height - 72)
+	_intro_hint.size = Vector2(220, 60)
+	_intro_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_intro_hint.add_theme_font_size_override("font_size", 20)
+	_intro_hint.add_theme_color_override("font_color", Color("fff2c9"))
+	var background := StyleBoxFlat.new()
+	background.bg_color = Color(0.025, 0.12, 0.10, 0.94)
+	background.set_corner_radius_all(8)
+	background.content_margin_top = 4
+	background.content_margin_bottom = 4
+	_intro_hint.add_theme_stylebox_override("normal", background)
+	add_child(_intro_hint)
+
+
+func has_visible_art() -> bool:
+	if not is_instance_valid(_visual) or not _visual.is_visible_in_tree():
+		return false
+	var atlas := _visual.texture as AtlasTexture
+	return atlas != null and atlas.atlas != null and atlas.region.has_area()
 
 
 func _opaque_region(texture: Texture2D) -> Rect2:
@@ -104,6 +136,8 @@ func defeat(by_throw: bool) -> void:
 	if not active:
 		return
 	active = false
+	if is_instance_valid(_intro_hint):
+		_intro_hint.hide()
 	_stomp.enabled = false
 	set_deferred("collision_layer", 0)
 	_contact.set_deferred("monitoring", false)
@@ -113,3 +147,4 @@ func defeat(by_throw: bool) -> void:
 	tween.tween_interval(0.22)
 	tween.tween_property(_visual, "modulate:a", 0.0, 0.25)
 	tween.tween_callback(queue_free)
+

@@ -19,7 +19,8 @@ extends Resource
 @export var moving_platforms: Array[MovingPlatformDefinition] = []
 ## x, y, límite izquierdo y límite derecho de cada patrulla.
 @export var enemy_spawns: Array[Vector4] = []
-@export var enemy_kinds: PackedStringArray = []
+## Array tipado: PackedStringArray se exportaba vacío en el recurso binario del APK.
+@export var enemy_kinds: Array[String] = []
 ## x, y e índice del catálogo de arrojadizos.
 @export var object_spawns: Array[Vector3] = []
 @export var crystal_positions: Array[Vector2] = []

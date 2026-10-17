@@ -156,7 +156,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 88 pruebas del protagonista y controles, 63 de objetos arrojadizos, 58 del nivel y llaves y 55 de dianas y puentes; genera capturas Compatibility de móvil y tablet antes de exportar el APK. La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+El flujo ejecuta 297 comprobaciones: 88 del protagonista y controles, 63 de objetos arrojadizos, 61 del nivel y llaves, 55 de dianas y puentes, 27 de plataformas móviles y tres de los datos binarios extraídos del APK. Genera capturas Compatibility de móvil y tablet e instala el APK ARM64 real en emulador Android API 35 para comprobar las nueve patrullas y revisar su visibilidad. La evidencia y los límites de esta prueba están en [el diagnóstico de enemigos](pruebas/apk-enemigos-0.4.2.md). La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 

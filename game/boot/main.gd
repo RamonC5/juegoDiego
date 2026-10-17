@@ -209,12 +209,30 @@ func _build_ui() -> void:
 	_build_menu()
 	_menu_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_menu_title.add_theme_font_size_override("font_size", 27)
+	var version := Label.new()
+	version.text = "Versión " + _build_version()
+	version.add_theme_font_size_override("font_size", 18)
+	version.add_theme_color_override("font_color", Color("d6dfcf"))
+	var menu_column: Container = _menu_title.get_parent()
+	menu_column.add_child(version)
+	menu_column.move_child(version, 1)
 	var buttons: Container = _resume_button.get_parent()
 	buttons.add_child(_button("Entrenamiento", func():
 		touch.release_all()
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://game/features/player/practice.tscn")
 	))
+
+
+func _build_version() -> String:
+	var fallback: String = ProjectSettings.get_setting("application/config/version", "")
+	var path := "res://builds/android/build-info.json"
+	if not FileAccess.file_exists(path):
+		return fallback
+	var info: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if info is Dictionary:
+		return str(info.get("version_name", fallback))
+	return fallback
 
 
 func _layout_hud() -> void:

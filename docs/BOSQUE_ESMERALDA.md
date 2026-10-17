@@ -39,6 +39,10 @@ La [CI de 0.4.1](https://github.com/RamonC5/juegoDiego/actions/runs/39009974004)
 
 El usuario informó el 17 de octubre de 2026 de una partida completa de **45 segundos** en la versión anterior. Se registra como observación del usuario, sin una nueva medición ni una atribución de edad o metodología. Esta entrega añade dos encuentros; ampliar el recorrido hasta el mínimo de 15 minutos continúa pendiente.
 
+## Visibilidad de enemigos en Android · versión 0.4.2
+
+Se corrige la pérdida de `enemy_kinds` al convertir el nivel a recurso binario: los tipos usan `Array[String]` y se comprueban dentro del APK exportado. El primer Terrón se identifica con «Enemigo · Terrón / Salta encima» y Pausa muestra la versión de compilación. La validación de 0.4.2-ci.37 instala el APK ARM64 en emulador Android y confirma nueve patrullas con arte cargado; se revisa su visibilidad. [Diagnóstico, evidencia y límites](pruebas/apk-enemigos-0.4.2.md).
+
 ## Controles
 
 - Arrastra horizontalmente desde cualquier punto de la mitad de movimiento; un recorrido largo permite correr. Suelta para parar.
