@@ -14,7 +14,7 @@ Petición del 17 de octubre de 2026, aplicada sobre `main@3adf995db526fb06585e6d
 
 `test_forest_expansion.gd` comprueba patrulla tranquila y reinicio de los enemigos de las plataformas reales, además de paredes, vacío, pausa y mecanismos. `test_gameplay_polish.gd` añade una arena física sin obstáculos móviles que permite comprobar detección, descenso bilateral de ambas especies, aterrizaje, continuación de persecución, pérdida del jugador, reinicio al farol y freno ante vacío sin apoyo.
 
-`test_player.gd` mide el salto mantenido en el motor y exige 125–142 px, además de conservar el salto corto y la opción de salto completo. Las suites de recorrido continuo comprueban el bosque con el nuevo salto.
+`test_player.gd` mide el salto mantenido en el motor y exige 125–142 px, además de conservar el salto corto y la opción de salto completo. Las suites de recorrido continuo comprueban el bosque con el nuevo salto y reconocen el acceso directo a la primera terraza desde el hueco anterior. La suite de troncos excluye a los enemigos para aislar transporte, gestos y recuperación; el combate se comprueba en las suites de bosque y persecución.
 
 `test_gameplay_polish.gd` comprueba seguimiento vertical sin retraso, pausa, actualización de los cuatro contadores, descripciones de llaves, paso de gestos y HUD sin solapamiento en móvil, tablet 4:3 y pantalla panorámica. `capture_forest.gd` genera vistas reales con Compatibility para revisar el diseño.
 

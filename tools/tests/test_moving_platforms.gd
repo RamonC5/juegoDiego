@@ -32,6 +32,13 @@ func _new_level() -> void:
 	main.level_definition = preload("res://tools/tests/fixtures/forest_mechanics.tres")
 	root.add_child(main)
 	main.progress = LevelProgress.new(STORAGE)
+	# Esta suite aísla transporte, gestos y recuperación. La persecución desde
+	# plataformas ya puede alcanzar estos puestos; el combate tiene suites propias.
+	for enemy in main.stage.enemies:
+		enemy.set_physics_process(false)
+		enemy.collision_layer = 0
+		enemy._stomp.collision_layer = 0
+		enemy._contact.monitoring = false
 	main.settings.show_touch = true
 	main._apply_settings()
 	main.touch.refresh()
