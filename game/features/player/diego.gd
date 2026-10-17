@@ -43,6 +43,8 @@ var _crouching_shape: CapsuleShape2D
 var _standing_body_position: Vector2
 var _standing_hand_position: Vector2
 var _standing_pickup_position: Vector2
+## Zona del ascenso de liana, sin otro botón táctil.
+var vine_climb_zone: Rect2 = Rect2()
 
 
 func _ready() -> void:
@@ -79,6 +81,22 @@ func _physics_process(delta: float) -> void:
 		if _action_time >= 0.9 and not _defeat_notified:
 			_defeat_notified = true
 			defeated.emit()
+		return
+
+	# Deslizar arriba y mantener (salto) trepa junto a la liana.
+	# Soltar el gesto devuelve inmediatamente el movimiento horizontal.
+	if vine_climb_zone.has_area() and vine_climb_zone.has_point(global_position) \
+			and controls.held(&"jump") and not is_instance_valid(held_object) and _action.is_empty():
+		if crouching and can_stand():
+			_set_crouching(false)
+		velocity.x = move_toward(velocity.x, 0.0, tuning.braking * delta)
+		velocity.y = -285.0
+		global_position.x = move_toward(global_position.x, vine_climb_zone.get_center().x, 200.0 * delta)
+		_buffer = 0.0
+		_coyote = 0.0
+		_jump_cut_allowed = false
+		move_and_slide()
+		_play(&"jump_up")
 		return
 
 	var was_grounded: bool = is_on_floor()
@@ -139,6 +157,15 @@ func _physics_process(delta: float) -> void:
 			_coyote = 0.0
 			bounced.emit()
 			break
+	# Rebote físico al aterrizar sobre una diana suspendida.
+	if falling_speed > 100.0:
+		for index in get_slide_collision_count():
+			var contact: KinematicCollision2D = get_slide_collision(index)
+			if contact.get_normal().y < -0.7 and contact.get_collider() is ForestVineTarget:
+				if (contact.get_collider() as ForestVineTarget).bounce(self):
+					_coyote = 0.0
+					_jump_cut_allowed = false
+					break
 	if is_on_floor() and not was_grounded and falling_speed > 160.0:
 		_landing = 0.10
 	if is_on_ceiling():
