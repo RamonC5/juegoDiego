@@ -105,7 +105,12 @@ def build():
             values['ground_sections'] += [(x, 600, 650, 520), (x + 760, 600, 3240, 520)]
             values['recovery_platforms'] += [(x + 650, 740, 110, 380), (x + 650, 660, 70, 40)]
 
-        if shape in (2, 5):
+        if i == 4:
+            # La liana es el acceso obligatorio: sin escaleras ni repisa alta
+            # desde las que se puedan sortear sus primeros discos.
+            pine1, floor1 = x + 1320, 600
+            crest1 = (x + 1100, 600, 520)
+        elif shape in (2, 5):
             # La primera marca exige viajar; la repisa no se alcanza desde el suelo.
             m_id = f'MovingRoute{i:02d}'
             canopy_x = x + 1520 + (190 if chapter == 2 else 0)
