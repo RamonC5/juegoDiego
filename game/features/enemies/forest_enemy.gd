@@ -75,7 +75,7 @@ func _ready() -> void:
 func show_intro_hint() -> void:
 	# Terrón comparte colores con el suelo: presentar el primer combate con texto.
 	_intro_hint = Label.new()
-	_intro_hint.text = "ENEMIGO · TERRÓN\nSalta encima"
+	_intro_hint.text = "ENEMIGO · %s\nSalta encima" % ("MOFLETE" if kind == "moflete" else "TERRÓN")
 	_intro_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_intro_hint.position = Vector2(-110, -_height - 72)
 	_intro_hint.size = Vector2(220, 60)
