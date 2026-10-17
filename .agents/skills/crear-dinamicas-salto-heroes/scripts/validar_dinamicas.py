@@ -208,7 +208,7 @@ def nivel(doc, r):
             excepcion = r.objeto(excepcion, "duracion.excepcion_duracion_usuario")
             r.exigir(isinstance(excepcion.get("solicitud"), str) and len(excepcion.get("solicitud", "").strip()) >= 20,
                      "duracion.excepcion_duracion_usuario", "documentar petición explícita del usuario")
-            r.exigir(isinstance(excepcion.get("fecha"), str) and bool(re.fullmatch(r"20\\d{2}-\\d{2}-\\d{2}", excepcion.get("fecha", ""))),
+            r.exigir(isinstance(excepcion.get("fecha"), str) and bool(re.fullmatch(r"20\d{2}-\d{2}-\d{2}", excepcion.get("fecha", ""))),
                      "duracion.excepcion_duracion_usuario", "indicar fecha YYYY-MM-DD")
             r.exigir(minimo >= 1, "duracion", "la excepción no admite mínimo nulo")
         else:
