@@ -1,6 +1,6 @@
 class_name ForestEnemy
 extends CharacterBody2D
-## Reutiliza el arte del catálogo con animación de patrulla y aplastamiento por transformación.
+## Patrulla y combate separados de la animación articulada del raster 2D.
 
 signal defeated(enemy: ForestEnemy, by_throw: bool)
 
@@ -14,8 +14,7 @@ var patrol: Vector2 = Vector2(0, 200)
 var player: DiegoPlayer
 var active: bool = true
 var _direction: float = -1.0
-var _time: float = 0.0
-var _visual: Sprite2D
+var _visual: EnemyVisual
 var _scale: float = 1.0
 var _height: float = 58.0
 var _stomp: StompTarget
@@ -58,21 +57,12 @@ func _ready() -> void:
 	body.shape = rectangle
 	body.position.y = -_height / 2.0
 	add_child(body)
-	_visual = Sprite2D.new()
-	_visual.texture = SPRITES[kind]
-	_visual.centered = false
-	# Atlas normalizado: conserva encuadre aunque Godot limite la importación a 512 px.
-	var atlas := AtlasTexture.new()
-	atlas.atlas = _visual.texture
-	var rect: Rect2 = _opaque_region(atlas.atlas)
-	atlas.region = rect
-	_visual.texture = atlas
-	_scale = (_height + 8.0) / rect.size.y
-	_visual.offset = Vector2(-rect.size.x / 2.0, -rect.size.y)
+	_visual = EnemyVisual.new()
+	_visual.configure(kind, SPRITES[kind])
+	var atlas := _visual.texture as AtlasTexture
+	_scale = (_height + 8.0) / atlas.region.size.y
 	_visual.scale = Vector2.ONE * _scale
-	var material := ShaderMaterial.new()
-	material.shader = preload("res://game/features/player/sprite_alpha.gdshader")
-	_visual.material = material
+	_visual.phase = fposmod(position.x * 0.017, TAU)
 	add_child(_visual)
 	_stomp = StompTarget.new()
 	_stomp.position.y = -_height
@@ -134,13 +124,6 @@ func has_visible_art() -> bool:
 	return atlas != null and atlas.atlas != null and atlas.region.has_area()
 
 
-func _opaque_region(texture: Texture2D) -> Rect2:
-	# Metadatos de los conceptos originales: margen transparente, sin recortar archivos.
-	var size: Vector2 = texture.get_size()
-	var normalized := Rect2(0.0215, 0.3198, 0.9665, 0.4482) if kind == "terron" else Rect2(0.2321, 0.1212, 0.5997, 0.7887)
-	return Rect2(size * normalized.position, size * normalized.size)
-
-
 func _physics_process(delta: float) -> void:
 	if not active:
 		return
@@ -149,7 +132,6 @@ func _physics_process(delta: float) -> void:
 		if behaviour != Behaviour.PATROL:
 			reset_awareness()
 		return
-	_time += delta
 	var sees_player: bool = can_see_player()
 	if not is_instance_valid(player) or player.dead or player.celebrating:
 		if behaviour != Behaviour.PATROL:
@@ -209,10 +191,8 @@ func _physics_process(delta: float) -> void:
 		_last_floor_y = position.y
 	if is_on_wall() and behaviour == Behaviour.PATROL:
 		_direction *= -1.0
-	_visual.flip_h = _direction < 0.0
-	_visual.position.y = -absf(sin(_time * 8.0)) * 2.5
-	_visual.rotation = sin(_time * 8.0) * 0.035
-	_visual.scale = Vector2(1.0 + sin(_time * 8.0) * 0.025, 1.0) * _scale
+	_visual.face_left(_direction < 0.0)
+	_visual.advance(delta, get_real_velocity().x, is_on_floor(), behaviour == Behaviour.NOTICE or behaviour == Behaviour.CHASE)
 	if is_instance_valid(player) and not player.dead and _contact.overlaps_body(player):
 		if player.global_position.y > global_position.y - _height + 16.0:
 			player.take_damage(global_position)
@@ -343,4 +323,5 @@ func defeat(by_throw: bool) -> void:
 	tween.tween_interval(0.22)
 	tween.tween_property(_visual, "modulate:a", 0.0, 0.25)
 	tween.tween_callback(queue_free)
+
 

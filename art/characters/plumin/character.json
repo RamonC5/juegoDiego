@@ -115,5 +115,22 @@
     "signature_gesture": "Alisa una pluma del pecho, levanta el pico y retoma su paso exagerado.",
     "proposed_movement": "Se pavonea con pasos altos, posa un instante con el pecho erguido y da un pequeño salto.",
     "proposed_stomp_response": "El pecho se desinfla visualmente, las alas se juntan y la cabeza se agacha."
+  },
+  "motion": {
+    "technique": "raster_mesh_2d",
+    "source_texture": "game/assets/textures/characters/plumin/idle_v001.png",
+    "profile": "game/features/enemies/enemy_motion_profiles.gd",
+    "controller": "game/features/enemies/enemy_visual.gd",
+    "actions": [
+      "idle",
+      "locomotion",
+      "secondary_limbs"
+    ],
+    "level_integration": false,
+    "preview_scene": "game/features/enemies/enemy_gallery.tscn",
+    "validation": {
+      "automated_suite": "tools/tests/test_enemy_motion.gd",
+      "physical_android_windows": "pending"
+    }
   }
 }

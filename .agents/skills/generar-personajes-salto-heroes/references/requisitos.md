@@ -11,6 +11,7 @@
 | Jefes derrotados mediante objetos lanzados | Prever anticipación, vulnerabilidad, impacto y derrota del jefe; dar legibilidad a manos y objetos en las poses del protagonista |
 | Ocho mundos | Permitir asociar un personaje a `world_01`–`world_08` o reutilizarlo en varios. No fijar temáticas ni roster que no existan |
 | Volver a los niveles superados | Conservar identificadores y versiones estables; no vincular el aspecto del personaje a un único primer paso por el nivel |
+| Enemigos con brazos y manos móviles; alas con movimiento armónico | Animar cada miembro visible según la anatomía, con ciclos continuos, flexión y desfase suave de puntas; no limitarse a transformar el sprite completo |
 | Android y Windows | Priorizar lectura a tamaño móvil y recursos compartidos entre plataformas; verificar alfa, tamaños y memoria |
 | Base Godot 4.7.2, GDScript, Compatibility | Preparar recursos compatibles con `Sprite2D`, `AnimatedSprite2D` y `SpriteFrames`; no exigir shaders avanzados |
 | Proyecto creado inicialmente sin contenido | Cuando se mantenga el skill o su arquitectura, no generar personajes ni insertarlos en la escena vacía |
@@ -30,3 +31,4 @@ Aplicar como punto de partida revisable, no como preferencias ya confirmadas por
 No consta el nombre, especie, edad, vestuario, paleta o silueta del protagonista; tampoco las temáticas de los ocho mundos, su lista de enemigos o sus jefes. No completar estos campos como canon. Para una solicitud creativa abierta, proponer una identidad original y registrarla como propuesta.
 
 Si el usuario aporta después la descripción o imagen de «opción A», incorporarla a la ficha y usarla como referencia principal. Las instrucciones actuales del usuario prevalecen sobre las propuestas de este documento.
+

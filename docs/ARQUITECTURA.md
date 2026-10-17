@@ -128,7 +128,7 @@ Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignor
 
 El [catálogo de personajes](PERSONAJES.md) registra siete enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín, Remiendo y Nóctilo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
 
-El protagonista [Diego](../art/characters/diego/ficha.md) añade once hojas PNG de ejecución, 48 poses y 14 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable con animación por transformación; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo añade un diseño de murciélago volador con ficha, PNG y propuesta de vuelo; todavía no tiene animaciones ni integración jugable. El entrenamiento no asigna contenido a los ocho mundos.
+El protagonista [Diego](../art/characters/diego/ficha.md) añade once hojas PNG de ejecución, 48 poses y 14 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable y desde 0.5.3 animan miembros mediante `EnemyVisual` y malla raster 2D; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo tiene aleteo visual armónico en el visor desde 0.5.3; su IA y combate de vuelo siguen pendientes. El entrenamiento no asigna contenido a los ocho mundos.
 
 ## Capas de colisión reservadas
 
@@ -213,3 +213,8 @@ La CI suma 474 comprobaciones, exige las suites nuevas y verifica 81 enemigos co
 ## Ajuste 0.5.2 · Persecución desde plataformas y presentación
 
 La petición posterior permite a todos los enemigos perseguir y bajar de estructuras. Sustituye la restricción anterior de los guardianes de plataforma durante la persecución; la patrulla tranquila sigue respetando los bordes. El HUD usa iconos con cantidades, el salto tiene un impulso de 680 px/s y la cámara acompaña la caída sin limitarse a 260 px/s. El componente `game/ui/hud/hud_counter.gd` reúne presentación y descripciones accesibles; las reglas de combate y recogida siguen en sus funcionalidades. [Detalles y pruebas](PULIDO_0.5.2.md).
+
+
+## Animación de enemigos · 0.5.3
+
+`EnemyMotionProfiles` fija pivotes, zonas elípticas, amplitudes y fases por anatomía. `EnemyVisual` comparte geometría inmutable entre instancias y mantiene materiales independientes; el shader Compatibility deforma una malla raster de 32 × 32 celdas sin cambiar los PNG ni los cuerpos físicos. `ForestEnemy` avanza el ciclo con `delta` y velocidad real, y conserva pausa, suspensión lejana y derrota. El visor permite revisar los siete diseños, pausar y reducir movimiento. Las cinco integraciones visuales nuevas no incorporan IA ni contenido a los niveles. [Contrato, evidencias y límites](ANIMACION_ENEMIGOS.md).

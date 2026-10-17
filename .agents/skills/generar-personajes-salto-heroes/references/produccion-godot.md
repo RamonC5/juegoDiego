@@ -34,6 +34,12 @@ No convertir `throw` en un ataque de puñetazo por defecto. Prever posición de 
 
 Evitar asignar el daño a un fotograma únicamente por su apariencia. El código futuro decidirá los momentos de daño, pisotón y vulnerabilidad; el arte ofrece señales legibles y marcadores propuestos.
 
+## Movimiento de miembros
+
+Aplicar [animacion-articulada.md](animacion-articulada.md). Usar hojas de poses o articulación de raster 2D; elegir según el recurso existente y el encargo. Para el reparto actual, consultar `EnemyMotionProfiles` y `EnemyVisual`; la malla conserva el PNG y no sustituye la colisión. No exigir generación de imágenes para modificar únicamente la reproducción o el rig de un recurso existente.
+
+Registrar en `character.json` un objeto `motion` con técnica, recurso, perfiles/articulaciones, acciones cubiertas, integración en nivel o visor y pruebas realizadas. Conservar por separado el estado de la ficha original y el estado de la animación visual; un visor no acredita IA ni integración jugable.
+
 ## Archivos y metadatos
 
 - Recursos finales: `game/assets/textures/characters/<character_id>/<animation>_v001.png`.
@@ -67,3 +73,4 @@ Comprobar dimensiones divisibles por la celda, PNG RGBA, transparencia, margen d
 Revisar además a simple vista identidad, anatomía, continuidad de materiales y vestuario, acción reconocible, ausencia de deslizamiento de raíz, bucles y señales legibles sin depender solo del color. Revisar bordes sobre fondos claros y oscuros. Estas propiedades no las valida el script.
 
 Cuando exista una integración autorizada, comprobar `SpriteFrames` y pivote en Godot, reproducción de cada acción y lectura a 1280 × 720 y a un tamaño móvil menor. Mantener sensores y colisiones independientes del alfa. Ejecutar la importación y el arranque del proyecto y, cuando haya builds disponibles, probar Android y Windows. Registrar lo que no se haya comprobado; no declarar compatibilidad real solo por disponer de un preset.
+

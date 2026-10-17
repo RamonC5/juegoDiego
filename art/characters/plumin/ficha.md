@@ -44,3 +44,10 @@ Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 �
 - [Revisión visual](qa.md) e [informe técnico](qa-technical.json).
 
 Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).
+
+
+## Movimiento articulado · 17 de octubre de 2026
+
+El raster existente tiene animación por malla 2D con perfiles propios de anatomía. Mueve el ala plegada y sus plumas con flexión suave, acompañando las patas. No se le añade vuelo. No hay hojas de fotogramas nuevas.
+
+La animación se revisa en `enemy_gallery.tscn`; su IA, combate y colocación en niveles siguen pendientes. Los sensores permanecen independientes del dibujo. [Contrato, visor y verificación](../../../docs/ANIMACION_ENEMIGOS.md).

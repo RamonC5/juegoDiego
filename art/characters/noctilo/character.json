@@ -95,8 +95,16 @@
     "technical_passed": true,
     "concept_visual_review_passed": true,
     "comparison_image": "art/characters/noctilo/qa-comparison.png",
-    "visual_cast_comparison": ["plumin", "moflete", "goteron", "vainete"],
-    "documentary_cast_comparison": ["terron", "remiendo"],
+    "visual_cast_comparison": [
+      "plumin",
+      "moflete",
+      "goteron",
+      "vainete"
+    ],
+    "documentary_cast_comparison": [
+      "terron",
+      "remiendo"
+    ],
     "production_ready": false,
     "visual_review": "art/characters/noctilo/qa.md",
     "source_bytes": 1334119,
@@ -118,5 +126,22 @@
       "technical_report": "art/characters/noctilo/qa-source-v001.json",
       "reason": "Píxeles de alfa 1 en el borde inferior; margen mínimo 0 px. Corregido mediante edición con image_gen."
     }
-  ]
+  ],
+  "motion": {
+    "technique": "raster_mesh_2d",
+    "source_texture": "game/assets/textures/characters/noctilo/idle_v001.png",
+    "profile": "game/features/enemies/enemy_motion_profiles.gd",
+    "controller": "game/features/enemies/enemy_visual.gd",
+    "actions": [
+      "idle",
+      "locomotion",
+      "secondary_limbs"
+    ],
+    "level_integration": false,
+    "preview_scene": "game/features/enemies/enemy_gallery.tscn",
+    "validation": {
+      "automated_suite": "tools/tests/test_enemy_motion.gd",
+      "physical_android_windows": "pending"
+    }
+  }
 }

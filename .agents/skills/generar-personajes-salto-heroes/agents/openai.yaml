@@ -1,4 +1,4 @@
 interface:
-  display_name: "Personajes de Salto Heroes"
-  short_description: "Generar personajes y sprites 2D para Salto Heroes"
-  default_prompt: "Usa $generar-personajes-salto-heroes para diseñar un personaje original de Salto Heroes y preparar sus sprites 2D para Godot, respetando los requisitos del proyecto."
+  display_name: "Personajes de Super Diego"
+  short_description: "Diseñar y animar personajes 2D con miembros y alas móviles"
+  default_prompt: "Usa $generar-personajes-salto-heroes para diseñar o actualizar un personaje original de Super Diego y preparar sus sprites y animaciones 2D para Godot, con brazos y manos móviles según su anatomía y aleteo armónico cuando tenga alas."

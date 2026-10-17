@@ -30,6 +30,17 @@ proposed_technical_defaults:
   max_sheet_size: [2048, 2048]
   format: "PNG_RGBA"
   transparent_background: true
+motion_requirements:
+  anatomy_and_visible_limbs: []
+  independent_arm_and_hand_motion: true # Aplicar solo si existen en el diseño.
+  harmonic_wing_motion: true # Aplicar a todas las alas visibles.
+  wing_tip_phase_lag: true
+  technique: null # sprite_frames o raster_mesh; mantener colisiones independientes.
+  joints_or_key_poses: []
+  loop_frequency_hz: null
+  amplitudes_and_phase_offsets: []
+  mobile_scale_review: null
+  pause_mirror_and_defeat_review: null
 animations_requested: [] # Nombre, fotogramas, FPS, bucle, acción y marcadores.
 gameplay_readability:
   stomp_response: null
@@ -37,3 +48,4 @@ gameplay_readability:
   grab_and_release_pose: null
   non_color_cues: []
 open_questions: []
+

@@ -1,8 +1,12 @@
 # Personajes de Super Diego
 
-Catálogo del **protagonista Diego y los siete enemigos normales** de Juego Diego. Fecha de actualización: **16 de octubre de 2026**.
+Catálogo del **protagonista Diego y los siete enemigos normales** de Juego Diego. Fecha de actualización: **17 de octubre de 2026**.
 
 El usuario valoró los seis conceptos anteriores y pidió diferenciar sus personalidades. Terrón y Moflete ya tienen integración jugable; los otros cuatro conservan su estado de concepto. Se añade **Nóctilo**, un enemigo volador tipo murciélago, con diseño propuesto. Diego se ha creado a partir de la fotografía del usuario y tiene una primera integración jugable con animaciones y controles.
+
+## Animación del reparto · 0.5.3
+
+Los siete diseños tienen movimiento local del raster por malla 2D: brazos y manos donde existen, raíces y gel según su anatomía, ala plegada de Plumín y aleteo armónico de Nóctilo con flexión desfasada de las puntas. Terrón y Moflete lo reproducen en el bosque. Los otros cinco tienen integración visual en el visor; su IA y combate de nivel siguen pendientes. No se han creado hojas nuevas. [Técnica, visor y pruebas](ANIMACION_ENEMIGOS.md).
 
 ## Protagonista
 
@@ -117,5 +121,6 @@ Guardar únicamente los recursos de juego preparados en `game/assets/textures/ch
 ## Integración del primer nivel · 0.2.0
 
 **Terrón y Moflete** ya aparecen como enemigos jugables de Bosque Esmeralda 1-1: siete patrullas entre ambos. Se reutilizan los conceptos raster existentes, con animación por transformación de patrulla y aplastamiento. Se eliminan por pisotón y admiten el contrato de objetos lanzados. Las hojas de fotogramas propias de estos enemigos siguen pendientes; los otros cinco enemigos continúan como conceptos, incluido Nóctilo. Los metadatos y fichas de Terrón y Moflete registran esta integración.
+
 
 

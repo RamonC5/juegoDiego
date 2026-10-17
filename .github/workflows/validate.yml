@@ -149,6 +149,16 @@ jobs:
             exit 1
           fi
 
+      - name: Comprobar animaciones articuladas de los enemigos
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_enemy_motion.gd 2>&1 | tee .godot-logs/enemy-motion-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/enemy-motion-tests.log; then
+            exit 1
+          fi
+
       - name: Comprobar el Bosque Esmeralda
         shell: bash
         run: |
@@ -210,6 +220,25 @@ jobs:
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-render.log; then
             exit 1
           fi
+
+      - name: Capturar miembros y alas con Compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
+            --script tools/tests/capture_enemy_motion.gd 2>&1 | tee .godot-logs/enemy-motion-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/enemy-motion-render.log; then
+            exit 1
+          fi
+
+      - name: Guardar las animaciones de los enemigos
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: enemigos-animaciones-${{ github.run_number }}
+          path: art/characters/motion_preview/
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Guardar las capturas del Bosque Esmeralda
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -343,6 +372,7 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
 
 
 

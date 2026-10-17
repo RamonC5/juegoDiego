@@ -50,3 +50,10 @@ Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).
 ## Integración en Bosque Esmeralda 1-1
 
 El primer nivel reutiliza este concepto como sprite raster lateral. `ForestEnemy` implementa patrulla, contacto lateral, pisotón con rebote y recepción de objetos lanzados. La animación usa balanceo y compresión del sprite existente; no se han generado hojas de carrera nuevas. El PNG final se importa con un límite de 512 px y mantiene el recorte normalizado y la colisión separados. La revisión de juego cubre combate y recorrido; la prueba en un móvil físico queda pendiente.
+
+
+## Movimiento articulado · 17 de octubre de 2026
+
+El raster existente tiene animación por malla 2D con perfiles propios de anatomía. Alterna sus dos apoyos de raíz; no se añaden brazos a su diseño. No hay hojas de fotogramas nuevas.
+
+La animación se reproduce en el bosque y respeta persecución, pausa, caída y derrota. Los sensores permanecen independientes del dibujo. [Contrato, visor y verificación](../../../docs/ANIMACION_ENEMIGOS.md).

@@ -116,5 +116,22 @@
     "signature_gesture": "Se detiene, endereza el cuerpo y reanuda la marcha con un paso exacto.",
     "proposed_movement": "Marcha a ritmo regular, hace una pausa firme al final del recorrido y gira con precisión.",
     "proposed_stomp_response": "Los tres volúmenes se comprimen juntos y las raíces se repliegan."
+  },
+  "motion": {
+    "technique": "raster_mesh_2d",
+    "source_texture": "game/assets/textures/characters/vainete/idle_v001.png",
+    "profile": "game/features/enemies/enemy_motion_profiles.gd",
+    "controller": "game/features/enemies/enemy_visual.gd",
+    "actions": [
+      "idle",
+      "locomotion",
+      "secondary_limbs"
+    ],
+    "level_integration": false,
+    "preview_scene": "game/features/enemies/enemy_gallery.tscn",
+    "validation": {
+      "automated_suite": "tools/tests/test_enemy_motion.gd",
+      "physical_android_windows": "pending"
+    }
   }
 }

@@ -115,5 +115,22 @@
     "signature_gesture": "La parte superior se inclina, se retrasa y rebota suavemente al cambiar de dirección.",
     "proposed_movement": "Se desliza con un leve vaivén; la cabeza blanda llega tarde a los giros y luego recupera el equilibrio.",
     "proposed_stomp_response": "La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible."
+  },
+  "motion": {
+    "technique": "raster_mesh_2d",
+    "source_texture": "game/assets/textures/characters/goteron/idle_v001.png",
+    "profile": "game/features/enemies/enemy_motion_profiles.gd",
+    "controller": "game/features/enemies/enemy_visual.gd",
+    "actions": [
+      "idle",
+      "locomotion",
+      "secondary_limbs"
+    ],
+    "level_integration": false,
+    "preview_scene": "game/features/enemies/enemy_gallery.tscn",
+    "validation": {
+      "automated_suite": "tools/tests/test_enemy_motion.gd",
+      "physical_android_windows": "pending"
+    }
   }
 }

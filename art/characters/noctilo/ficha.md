@@ -51,3 +51,10 @@ El personaje conserva el contexto 2D HD para Android y Windows, ocho mundos y ni
 
 Volver al [catálogo de personajes](../../../docs/PERSONAJES.md).
 
+
+
+## Movimiento articulado · 17 de octubre de 2026
+
+El raster existente tiene animación por malla 2D con perfiles propios de anatomía. Coordina las dos alas con curva senoidal continua, flexión desfasada en las puntas y oscilación leve del cuerpo. No hay hojas de fotogramas nuevas.
+
+La animación se revisa en `enemy_gallery.tscn`; su IA, combate y colocación en niveles siguen pendientes. Los sensores permanecen independientes del dibujo. [Contrato, visor y verificación](../../../docs/ANIMACION_ENEMIGOS.md).

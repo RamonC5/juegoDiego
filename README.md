@@ -6,7 +6,9 @@ La versión **0.5.1** estrena el nombre **Super Diego** y un icono original con 
 
 La versión **0.5.2** permite que Terrón y Moflete bajen de estructuras al perseguir, presenta energía, llaves, hojas y cristales con **iconos y cantidades**, aumenta el impulso del salto a **680 px/s** y sincroniza la cámara vertical con Diego. [Cambios y validación](docs/PULIDO_0.5.2.md).
 
-## Bosque Esmeralda 1-1 · versión 0.5.2
+La versión **0.5.3** anima los miembros de los enemigos: brazos y manos de Moflete y Remiendo, apoyos y raíces según su anatomía, ala de Plumín y aleteo armónico de Nóctilo con flexión de puntas. Terrón y Moflete lo utilizan en el bosque; los otros cinco se pueden revisar en el visor de animación y conservan pendiente su IA de nivel. [Animación y pruebas](docs/ANIMACION_ENEMIGOS.md).
+
+## Bosque Esmeralda 1-1 · versión 0.5.3
 
 El primer bosque se amplía a **19 tramos y tres rutas de llaves**, con **81 enemigos**: 41 Terrones y 40 Mofletes. Todos detectan, avisan y persiguen a Diego. Desde 0.5.2, los 38 que nacen en plataformas también pueden bajar a terreno inferior durante la persecución; las patrullas tranquilas respetan los bordes. Se conservan pisotones y lanzamientos.
 
@@ -51,6 +53,7 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platfo
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest_expansion.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest_route.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_gameplay_polish.gd
+godot --headless --fixed-fps 60 --path . --script tools/tests/test_enemy_motion.gd
 ```
 
 La validación 0.5.1 reunía **474 comprobaciones**; 0.5.2 añade y actualiza las regresiones de persecución, salto y HUD. La base anterior incluía: 88 de protagonista, 63 de objetos, 61 de bosque, 55 de puentes, 27 de troncos, 105 de ampliación/persecución, 70 de ruta continua y cinco de los datos binarios extraídos del APK. Instala el APK ARM64 en emulador Android API 35 y conserva capturas y auditoría.
@@ -82,7 +85,8 @@ Las suites antiguas de mecanismos usan un fixture estable; las nuevas cargan el 
 - [Troncos viajeros: segunda dinámica del nivel 1](docs/dinamicas/troncos_viajeros.md).
 - [Skill de dinámicas](.agents/skills/crear-dinamicas-salto-heroes/SKILL.md).
 
-Los otros cinco enemigos conservan sus conceptos, incluido [Nóctilo, el nuevo murciélago volador](art/characters/noctilo/ficha.md). Las animaciones de Terrón y Moflete usan transformaciones de sus sprites existentes; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
+Los otros cinco enemigos tienen animación visual en el visor, incluido [Nóctilo, el murciélago volador](art/characters/noctilo/ficha.md); su integración jugable sigue pendiente. Los siete reutilizan sus PNG mediante malla 2D articulada; no son hojas de fotogramas nuevas. Los otros niveles, mundos, jefes y audio quedan para entregas posteriores.
+
 
 
 
