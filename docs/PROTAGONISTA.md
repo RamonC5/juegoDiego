@@ -58,7 +58,7 @@ Agacharse se activa sobre el suelo y frena el movimiento horizontal. Mantener ab
 | `victory` | victory, 0–3 | 8 | Celebración y pose final |
 | `crouch` | crouch, 0–3 | 5 | Postura baja con respiración, bucle |
 
-Son doce imágenes y 49 poses fuente, con 16 estados. La pose `vine_hang` reutiliza la identidad de Diego y añade un PNG RGBA de 1254 × 1254, pivote [697, 1137], manos [697, 149] y escala 0,12. El dibujo gira alrededor de las manos y compensa la aproximación del cuerpo, también al orientarse a la izquierda. Los estados que contienen una pose se identifican como tales. Las hojas cuadradas miden 1254 × 1254; caminar, correr y agacharse miden 1536 × 1024. El pivote virtual es [512, 900] en 1024 × 1024, con escala uniforme por hoja y regiones explícitas que conservan las poses completas. `AtlasTexture.filter_clip` evita mezclar bordes vecinos; el shader de alfa descarta ruido de baja opacidad. El presupuesto RGBA8 sin compresión de las once hojas ronda 66 MiB; no es una medición de VRAM en un teléfono.
+Son doce imágenes y 49 poses fuente, con 16 estados. La pose `vine_hang` reutiliza la identidad de Diego y añade un PNG RGBA de 1254 × 1254, pivote [697, 1137], manos [697, 149] y escala 0,12. El dibujo gira alrededor de las manos y compensa la aproximación del cuerpo, también al orientarse a la izquierda. Los estados que contienen una pose se identifican como tales. Las hojas cuadradas miden 1254 × 1254; caminar, correr y agacharse miden 1536 × 1024. El pivote virtual es [512, 900] en 1024 × 1024, con escala uniforme por hoja y regiones explícitas que conservan las poses completas. `AtlasTexture.filter_clip` evita mezclar bordes vecinos; el shader de alfa descarta ruido de baja opacidad. El presupuesto RGBA8 sin compresión de las doce imágenes ronda 72 MiB; no es una medición de VRAM en un teléfono.
 
 ## Piezas reutilizables
 
@@ -82,7 +82,7 @@ python tools/build_diego_atlas.py
 
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
-Las 91 pruebas de controles y 27 de movimientos cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+Las 91 pruebas de controles y 30 de movimientos cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
 
 
 

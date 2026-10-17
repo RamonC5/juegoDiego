@@ -35,6 +35,7 @@ var _jump_cut_allowed: bool = false
 var jumps_used: int = 0
 var _buffered_tap_jump: bool = false
 var _air_jump_pose: float = 0.0
+var _bounce_airborne: bool = false
 var _action: StringName = &""
 var _action_time: float = 0.0
 var _pending_object: ThrowableObject
@@ -104,7 +105,8 @@ func _physics_process(delta: float) -> void:
 		_swing_on_vine(delta)
 		return
 
-	var was_grounded: bool = is_on_floor()
+	var was_grounded: bool = is_on_floor() and not _bounce_airborne
+	_bounce_airborne = false
 	var previous_feet: Vector2 = global_position
 	_update_crouch(was_grounded)
 	if was_grounded:
@@ -167,6 +169,7 @@ func _physics_process(delta: float) -> void:
 		if area is StompTarget and area.receive_stomp(self, previous_feet, falling_speed):
 			velocity.y = -tuning.stomp_bounce
 			jumps_used = 1
+			_bounce_airborne = true
 			_air_jump_pose = 0.0
 			_jump_cut_allowed = false
 			_coyote = 0.0
@@ -179,15 +182,16 @@ func _physics_process(delta: float) -> void:
 			if contact.get_normal().y < -0.7 and contact.get_collider() is ForestVineTarget:
 				if (contact.get_collider() as ForestVineTarget).bounce(self):
 					jumps_used = 1
+					_bounce_airborne = true
 					_air_jump_pose = 0.0
 					_coyote = 0.0
 					_jump_cut_allowed = false
 					break
 	if not is_on_floor() and not dead and not celebrating:
 		_try_grab_swinging_vine(previous_feet + VINE_HAND_OFFSET)
-	if is_on_floor() and not was_grounded and falling_speed > 160.0:
+	if is_on_floor() and not _bounce_airborne and not was_grounded and falling_speed > 160.0:
 		_landing = 0.10
-	if is_on_floor():
+	if is_on_floor() and not _bounce_airborne:
 		jumps_used = 0
 		_air_jump_pose = 0.0
 	if is_on_ceiling():
@@ -404,7 +408,9 @@ func _action_duration() -> float:
 
 
 func _update_animation() -> void:
-	if crouching:
+	if is_instance_valid(attached_vine):
+		_play(&"vine_hang")
+	elif crouching:
 		_play(&"crouch")
 	elif not _action.is_empty():
 		_play(_action)
@@ -526,6 +532,7 @@ func respawn(at: Vector2) -> void:
 	_jump_cut_allowed = false
 	jumps_used = 0
 	_buffered_tap_jump = false
+	_bounce_airborne = false
 	_defeat_notified = false
 	controls.clear_virtual()
 	controls.enabled = true

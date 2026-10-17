@@ -455,11 +455,13 @@
     },
     "validation": {
       "godot": "4.7.2",
-      "movement_checks": 27,
+      "movement_checks": 30,
       "control_checks": 91,
       "hand_anchor_error_limit_px": 0.1,
       "hand_anchor_frames": 480,
-      "physical_android_windows": "pending"
+      "physical_android_windows": "pending",
+      "behavior_checks_total": 817,
+      "visual_review": "Captura móvil Compatibility de Actions 144: manos sobre el nudo y pose suspendida"
     }
   }
 }

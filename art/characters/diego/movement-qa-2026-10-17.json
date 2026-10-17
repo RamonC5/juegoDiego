@@ -1,0 +1,95 @@
+{
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "base_commit": "6e8620391693b9f9e8fda18c0b11a0a43b619352",
+  "checks": {
+    "test_startup": {
+      "exit_code": 0,
+      "result": "Proceso terminado con código 0",
+      "errors": []
+    },
+    "test_player": {
+      "exit_code": 0,
+      "result": "RESULTADO: 91 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_player_movement": {
+      "exit_code": 0,
+      "result": "MOVIMIENTOS: 30 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_lianas_dianas": {
+      "exit_code": 0,
+      "result": "LIANAS OSCILANTES: 16 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_forest_route": {
+      "exit_code": 0,
+      "result": "RESULTADO RUTA AMPLIADA: 40 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_gameplay_polish": {
+      "exit_code": 0,
+      "result": "RESULTADO PULIDO: 68 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_secret_grove": {
+      "exit_code": 0,
+      "result": "GRUTA DE HOJAS: 21 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_throwables": {
+      "exit_code": 0,
+      "result": "RESULTADO OBJETOS: 63 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_forest": {
+      "exit_code": 0,
+      "result": "RESULTADO BOSQUE: 64 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_forest_expansion": {
+      "exit_code": 0,
+      "result": "RESULTADO AMPLIACIÓN: 70 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_enemy_motion": {
+      "exit_code": 0,
+      "result": "RESULTADO ANIMACIÓN: 198 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_audio_respawn": {
+      "exit_code": 0,
+      "result": "Audio y reaparición: 34 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_breakable_targets": {
+      "exit_code": 0,
+      "result": "RESULTADO DIANAS: 40 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_bridges": {
+      "exit_code": 0,
+      "result": "RESULTADO PUENTES: 55 comprobaciones, 0 fallos",
+      "errors": []
+    },
+    "test_moving_platforms": {
+      "exit_code": 0,
+      "result": "RESULTADO TRONCOS: 27 comprobaciones, 0 fallos",
+      "errors": []
+    }
+  },
+  "physical_devices": "Pendiente de prueba en Android y tablet Windows físicos",
+  "python_apk_readiness_checks": 4,
+  "total_behavior_checks": 817,
+  "visual_review": {
+    "renderer": "Compatibility",
+    "source": "https://github.com/RamonC5/juegoDiego/actions/runs/39067277904",
+    "artifact": "diego-movimientos-144",
+    "checked": [
+      "Agarre visible sobre el nudo con ambas manos elevadas a tamaño móvil",
+      "Identidad, proporciones y vestuario coherentes con Diego",
+      "El encuadre de detalle se centra en el protagonista en la versión final del capturador"
+    ],
+    "physical_devices": "Pendiente"
+  }
+}

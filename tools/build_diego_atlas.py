@@ -75,6 +75,13 @@ def discover():
                                    "reference_height": reference_height,
                                    "display_scale": 112 / reference_height,
                                    "frames": frames}
+    # Las poses de textura directa tienen un agarre calibrado a mano; descubrir
+    # de nuevo las hojas históricas no debe borrar ese contrato de producción.
+    if LAYOUT.exists():
+        previous = json.loads(LAYOUT.read_text())
+        for name, sheet in previous["sheets"].items():
+            if sheet.get("direct_texture"):
+                layout["sheets"][name] = sheet
     LAYOUT.write_text(json.dumps(layout, indent=2) + "\n")
     return layout
 
@@ -109,7 +116,8 @@ def build(layout):
     (OUT / 'diego_frames.tres').write_text(header + '\n'.join(external) + '\n\n' +
          '\n'.join(resources) + '\n[resource]\nanimations = [\n' + ',\n'.join(animations) + '\n]\n')
     (OUT / 'animation_scales.json').write_text(json.dumps(scales, indent=2)+'\n')
-    print(f"Atlas: {len(resources)} poses fuente, {len(animations)} estados, PNG sin modificar.")
+    source_frames = sum(len(sheet["frames"]) for sheet in sheets.values())
+    print(f"Atlas: {source_frames} poses fuente, {len(animations)} estados, PNG sin modificar.")
 
 
 if __name__ == '__main__':

@@ -52,3 +52,12 @@ Godot 4.7.2: importación y arranque correctos. **206 comprobaciones sin fallos*
 Los scripts de captura incluyen la postura nueva en móvil y tablet. La CI los ejecuta con Compatibility antes de exportar el APK. Las pruebas en Android y tablet Windows físicos siguen pendientes.
 
 Revisión gráfica realizada con Compatibility, OpenGL 4.5 y Mesa llvmpipe: `preview_crouch.png` (1280 × 720), `preview_crouch_tablet.png` (1024 × 768) y `preview_animations.png` con los 14 estados sobre fondos claros y oscuros. La postura baja es legible y mantiene los pies en la raíz sin recortes. La guía incluye agacharse y el menú presenta la acción reasignable. También se comprueba celebrar al entrar agachado en un sensor de meta.
+
+
+## Doble salto y agarre · 0.7.3
+
+Validado con Godot 4.7.2: **817 comprobaciones de comportamiento, 0 fallos**, además de cuatro regresiones Python del APK y validación de la ficha de lianas. El informe estructurado está en [movement-qa-2026-10-17.json](movement-qa-2026-10-17.json). Las entradas táctiles reales se verifican con la física: primera pulsación, segunda durante el vuelo y tercera ignorada. La reserva tras pisotón, borde, liana y reaparición también se prueba.
+
+Las capturas Compatibility de [Actions 144](https://github.com/RamonC5/juegoDiego/actions/runs/39067277904), artefacto `diego-movimientos-144`, muestran la nueva pose dentro del bosque. Se ha revisado la vista móvil: manos en contacto con el nudo, piernas suspendidas y materiales coherentes con Diego. La versión final del capturador centra también las vistas ampliadas y espera pasos físicos. El punto de agarre permanece a menos de 0,1 px del nudo en 480 pasos con cambios de orientación; es una comprobación geométrica además de la revisión visual. La pose es única, sin afirmar una hoja animada nueva de varias poses.
+
+No se ha probado el tacto ni el rendimiento en los dispositivos Android y Windows físicos del usuario.

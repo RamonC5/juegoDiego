@@ -24,7 +24,7 @@ Las velocidades, energía y tiempos son valores iniciales editables, no decision
 
 ## Recursos e integración
 
-Once hojas PNG RGBA contienen **48 poses fuente**. `SpriteFrames` expone **14 estados**, incluidos los ciclos de reposo, caminar, correr y transportar, las acciones de recoger/lanzar/daño/derrota/victoria y las poses de salto, caída, aterrizaje y sostener en reposo. La colisión es independiente de la imagen.
+Las once hojas PNG RGBA originales contienen **48 poses fuente**. La base inicial de `SpriteFrames` expone **14 estados**, incluidos los ciclos de reposo, caminar, correr y transportar, las acciones de recoger/lanzar/daño/derrota/victoria y las poses de salto, caída, aterrizaje y sostener en reposo. La colisión es independiente de la imagen.
 
 La generación no respetó de forma exacta todos los límites de la cuadrícula solicitada. Se usan regiones de atlas explícitas, con pivote de apoyo y escala uniforme por hoja. Un shader suave descarta alfa residual de baja opacidad. Los PNG originales no se han retocado por código; el informe conserva los avisos de margen de las hojas fuente. La referencia está en `art/`; únicamente las once hojas de ejecución se importan desde `game/assets/`.
 

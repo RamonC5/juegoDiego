@@ -97,11 +97,36 @@ func _run() -> void:
 	hero.respawn(Vector2(0, 400))
 	await step(5)
 	check(hero.is_on_floor() and jumps == 0, "reaparecer limpia los toques pendientes")
+	await _test_stomp()
 	await _test_vine()
 	world.queue_free()
 	await step(3)
 	print("MOVIMIENTOS: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(0 if failures == 0 else 1)
+
+
+func _test_stomp() -> void:
+	var target := StaticBody2D.new()
+	target.set_script(preload("res://game/features/player/practice_target.gd"))
+	target.position = Vector2(0, 400)
+	world.add_child(target)
+	hero.respawn(Vector2(0, 245))
+	hero.jumps_used = 2
+	hero.velocity.y = 220.0
+	for frame in 60:
+		await step()
+		if hero.velocity.y < 0.0:
+			break
+	check(hero.velocity.y < 0.0 and hero.jumps_used == 1, "un pisotón restaura una corrección aérea después del rebote")
+	hero.controls.request_tap_jump()
+	await step()
+	check(hero.velocity.y < -550 and hero.jumps_used == 2, "se puede corregir el vuelo después de pisar un enemigo")
+	var old_jumps: int = jumps
+	hero.controls.request_tap_jump()
+	await step()
+	check(jumps == old_jumps, "el rebote no concede dos correcciones aéreas")
+	target.queue_free()
+	await step(2)
 
 
 func _test_vine() -> void:
@@ -111,7 +136,7 @@ func _test_vine() -> void:
 	await step(2)
 	hero.respawn(vine.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET + Vector2(35, 0))
 	hero.swinging_vines = [vine]
-	hero._try_grab_swinging_vine()
+	await step()
 	check(hero.attached_vine == vine and hero.motion_state == &"vine_hang", "la liana usa una pose propia con brazos elevados")
 	check(hero.vine_hand_global_position().distance_to(vine.grip_global_position()) < 0.1, "las manos tocan el nudo desde el primer fotograma del agarre")
 	var maximum_error: float = 0.0
