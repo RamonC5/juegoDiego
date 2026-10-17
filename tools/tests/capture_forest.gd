@@ -82,6 +82,10 @@ func _capture() -> void:
 	main.player.respawn(Vector2(11610, 600))
 	await _frames(8)
 	_save("preview_secret_leaves")
+	# Vista junto al tótem: madera tallada, copa animada y hojas de la trampilla.
+	main.player.respawn(main.stage.secret_totem.position + Vector2(50, 0))
+	await _frames(22)
+	_save("preview_secret_totem")
 	main.player.respawn(Vector2(8200 + 2 * 4000 + 1350, 600))
 	await _frames(35)
 	_save("preview_canopy_lift")
