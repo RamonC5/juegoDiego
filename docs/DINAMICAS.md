@@ -53,7 +53,7 @@ python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py
 
 [Diseño y recuperación](dinamicas/troncos_viajeros.md) · [Ficha JSON](dinamicas/troncos_viajeros.json).
 
-La versión 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascendente que da acceso a la tercera llave, reubicada en una repisa alta. Usa movimiento y salto existentes, viaje sin mantener arrastre, suelo seguro y ciclos que vuelven a sus puestos. La primera dinámica del puente permanece integrada. Los 2–4 minutos iniciales son una estimación de autoría; la CI supera 291 comprobaciones, incluidas 26 de troncos. La duración observada sigue pendiente.
+La versión 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascendente que da acceso a la tercera llave, reubicada en una repisa alta. Usa movimiento y salto existentes, viaje sin mantener arrastre, suelo seguro y ciclos que vuelven a sus puestos. La primera dinámica del puente permanece integrada. Los 2–4 minutos iniciales son una estimación de autoría; la CI supera 292 comprobaciones, incluidas 27 de troncos. La duración observada sigue pendiente.
 
 ### Ejemplos del skill
 

@@ -69,8 +69,11 @@ func _process(delta: float) -> void:
 		_look_ahead = move_toward(_look_ahead, desired_look_ahead, delta * 300.0)
 	_camera.position.x = clampf(player.position.x + _look_ahead, half_width,
 		maxf(half_width, stage.DEFINITION.width - half_width))
-	# Seguir únicamente la recuperación inferior del ensayo; las plataformas altas conservan la vista estable.
-	_camera.position.y = clampf(player.position.y - 240.0, 360.0, 580.0)
+	# El ascensor necesita aire sobre la repisa para dejar al personaje fuera del HUD y las pistas.
+	var camera_top: float = 260.0 if player.position.x >= 6250.0 and player.position.x <= 7200.0 else 360.0
+	var desired_camera_y: float = clampf(player.position.y - 240.0, camera_top, 580.0)
+	if not get_tree().paused:
+		_camera.position.y = move_toward(_camera.position.y, desired_camera_y, delta * 260.0)
 	backdrop.camera_x = _camera.position.x
 	_distance.value = clampf(player.position.x / stage.DEFINITION.goal.x * 100.0, 0.0, 100.0)
 	if not get_tree().paused:
@@ -268,4 +271,5 @@ func _completion_text() -> String:
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+
 

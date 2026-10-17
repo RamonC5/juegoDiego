@@ -114,6 +114,7 @@ func _run() -> void:
 	_check(lift.carries(hero), "un salto desde el suelo embarca atravesando el tronco por debajo")
 	await _step(230)
 	_check(lift.carries(hero) and hero.position.y < 310.0, "el ascensor eleva al pasajero hasta la repisa")
+	_check(main._camera.position.y < 300.0, "la cámara deja al pasajero alto fuera del HUD y de las pistas")
 	await _step(260)
 	_check(lift.carries(hero) and hero.position.y > 530.0 and hero.health == 3, "el descenso transporta sin aplastar ni herir")
 	# Muerte y retorno al farol: llaves y puentes resueltos permanecen; los troncos vuelven abajo.

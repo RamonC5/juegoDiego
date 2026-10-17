@@ -47,7 +47,7 @@ Prompts exactos: [material de producción](../art/levels/bosque_esmeralda/prompt
 
 `user://progress.json` guarda el estado completado, número de finalizaciones, máximos de hojas, cristales y llaves y mejor tiempo por identificador. Se escribe primero un temporal; rejugar conserva los mejores resultados y el acceso al nivel. Los ajustes de control se guardan por separado.
 
-La CI exige 291 comprobaciones: 88 del protagonista, 63 de objetos, 59 del bosque, 55 de puentes y 26 de troncos viajeros. Incluyen ruta completa, gestos normales e intercambiados, teclado, impactos físicos, recuperación por escalones, pérdida y daño con piñas, pausa durante la apertura, reaparición, tres llaves y resultados rejugables. Captura el escenario real con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720.
+La CI exige 292 comprobaciones: 88 del protagonista, 63 de objetos, 59 del bosque, 55 de puentes y 27 de troncos viajeros. Incluyen ruta completa, gestos normales e intercambiados, teclado, impactos físicos, recuperación por escalones, pérdida y daño con piñas, pausa durante la apertura, reaparición, tres llaves y resultados rejugables. Captura el escenario real con Compatibility en 1280×720, tablet 1024×768 y panorámico 1600×720.
 
 El tiempo con un niño de 10 años y el mínimo de 15 minutos de aventura no están medidos. La integración amplía el prototipo actual; el recorrido largo sigue requiriendo contenido y pruebas.
 

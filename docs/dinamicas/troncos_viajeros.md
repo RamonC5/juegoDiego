@@ -2,7 +2,7 @@
 
 Diego salta sobre una plataforma de raíces, suelta el movimiento para viajar y vuelve a saltar al llegar. Primero lo aprende en un trayecto horizontal sobre suelo seguro; después utiliza un tronco ascendente para alcanzar la tercera llave de ramas.
 
-Esta entrega añade `troncos_viajeros` a `puente_diana` en el mismo nivel `world_01_level_01`. Son dos dinámicas nuevas: las dos estaciones de cada una enseñan y practican la misma acción. La ficha [troncos_viajeros.json](troncos_viajeros.json) conserva fuentes, recuperación, controles, accesibilidad y validación. Estado: **implementada en 0.4.0**. La [CI de la implementación](https://github.com/RamonC5/juegoDiego/actions/runs/39006909148) supera las cinco suites físicas: 291 comprobaciones, incluidas 26 de troncos viajeros.
+Esta entrega añade `troncos_viajeros` a `puente_diana` en el mismo nivel `world_01_level_01`. Son dos dinámicas nuevas: las dos estaciones de cada una enseñan y practican la misma acción. La ficha [troncos_viajeros.json](troncos_viajeros.json) conserva fuentes, recuperación, controles, accesibilidad y validación. Estado: **implementada en 0.4.0**. La [CI inicial de la implementación](https://github.com/RamonC5/juegoDiego/actions/runs/39006909148) superó 291 comprobaciones. La cámara del ascensor añade una comprobación más: 292 previstas en las cinco suites, incluidas 27 de troncos viajeros.
 
 | Tramo | Datos | Propósito |
 | --- | --- | --- |
@@ -30,8 +30,8 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platfo
 python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py docs/dinamicas/troncos_viajeros.json
 ```
 
-La nueva suite supera 26 comprobaciones de transporte real, pausa, descenso, recuperación, conservación y duplicación de llaves, acceso a la repisa, gestos normales e intercambiados y reinicio. Las suites del bosque y los puentes incorporan el ascensor a sus recorridos completos con entradas reales. El ayudante de recorrido no teletransporta al jugador, no altera velocidades ni reinicia ciclos.
+La nueva suite supera 27 comprobaciones de transporte real, pausa, descenso, recuperación, conservación y duplicación de llaves, acceso a la repisa, gestos normales e intercambiados y reinicio. Las suites del bosque y los puentes incorporan el ascensor a sus recorridos completos con entradas reales. El ayudante de recorrido no teletransporta al jugador, no altera velocidades ni reinicia ciclos.
 
-[Registro de las 26 comprobaciones](../../art/levels/bosque_esmeralda/qa-moving-tests.txt). La CI también genera capturas reales del ensayo, ascensor y repisa en móvil, tablet y panorámico y exporta un APK firmado. La revisión visual sitúa el rótulo del ascensor junto al trayecto, fuera de la plataforma y de la cabecera del HUD.
+[Registro de las 27 comprobaciones](../../art/levels/bosque_esmeralda/qa-moving-tests.txt). La CI también genera capturas reales del ensayo, ascensor y repisa en móvil, tablet y panorámico y exporta un APK firmado. La revisión visual sitúa el rótulo del ascensor junto al trayecto, fuera de la plataforma y de la cabecera del HUD. La cámara acompaña el ascenso para mantener a Diego y la repisa por debajo de las pistas, con pausa y transición suave al volver a tierra.
 
 El presupuesto de esta dinámica es **2–4 minutos estimados**, sin muestras con el público objetivo. No acredita que el nivel completo dure 15 minutos. El mínimo de la aventura completa, tacto, comprensión y rendimiento en dispositivos físicos siguen pendientes de medición.
