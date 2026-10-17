@@ -1,12 +1,11 @@
 class_name ForestRootGate
 extends StaticBody2D
-## Raíces verticales: las dos marcas numeradas explican el progreso sin depender del color.
+## Raíces verticales: las dos marcas geométricas explican el progreso sin depender del color.
 
 var definition: ForestRootGateDefinition
 var activated: Array[StringName] = []
 var is_open: bool = false
 var _shape: CollisionShape2D
-var _caption: Label
 var _roots: Node2D
 
 
@@ -33,16 +32,7 @@ func _ready() -> void:
 		sprite.rotation = PI / 2.0
 		sprite.position = Vector2(0, -160.0 - index * 320.0)
 		_roots.add_child(sprite)
-	_caption = Label.new()
-	_caption.position = Vector2(-210, -270)
-	_caption.size = Vector2(420, 90)
-	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_caption.add_theme_font_size_override("font_size", 22)
-	_caption.add_theme_color_override("font_color", Color("fff3cb"))
-	_caption.add_theme_color_override("font_outline_color", Color("092b25"))
-	_caption.add_theme_constant_override("outline_size", 7)
-	add_child(_caption)
-	_update_caption()
+	queue_redraw()
 
 
 func activate_station(id: StringName) -> void:
@@ -57,12 +47,17 @@ func activate_station(id: StringName) -> void:
 				var tween := create_tween()
 				tween.tween_property(_roots, "scale:x", 0.12, 0.45)
 				tween.parallel().tween_property(_roots, "modulate:a", 0.0, 0.45)
-			_update_caption()
+			queue_redraw()
 			return
 
 
-func _update_caption() -> void:
-	var marks: String = ""
+func _draw() -> void:
 	for index in definition.stations.size():
-		marks += "%d %s   " % [index + 1, "✓" if activated.has(definition.stations[index].mechanism_id) else "○"]
-	_caption.text = "PASO ABIERTO ✓" if is_open else "RAÍCES · DOS DIANAS\n" + marks
+		var at := Vector2((index - 0.5) * 64.0, -230)
+		draw_circle(at, 24, Color("12382e"))
+		draw_arc(at, 24, 0, TAU, 32, Color("ebce91"), 3, true)
+		if activated.has(definition.stations[index].mechanism_id):
+			draw_polyline(PackedVector2Array([at + Vector2(-13, 0), at + Vector2(-3, 10), at + Vector2(14, -11)]), Color("fff3cb"), 5, true)
+		else:
+			draw_arc(at, 12, 0, TAU, 24, Color("fff3cb"), 3, true)
+			draw_circle(at, 4, Color("fff3cb"))

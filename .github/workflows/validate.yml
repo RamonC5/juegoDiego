@@ -124,7 +124,7 @@ jobs:
           mkdir -p .godot-logs
           "$GODOT_BIN" --version
           "$GODOT_BIN" --headless --path . --editor --import --quit 2>&1 | tee .godot-logs/import.log
-          "$GODOT_BIN" --headless --path . --quit-after 3 2>&1 | tee .godot-logs/startup.log
+          "$GODOT_BIN" --headless --path . --script tools/tests/test_startup.gd 2>&1 | tee .godot-logs/startup.log
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/*.log; then
             exit 1
           fi
@@ -173,7 +173,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for suite in test_forest_expansion test_gameplay_polish test_forest_route; do
+          for suite in test_forest_expansion test_gameplay_polish test_audio_respawn test_forest_route; do
             "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
@@ -372,6 +372,7 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
 
 
 

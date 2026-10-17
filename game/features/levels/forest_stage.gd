@@ -35,8 +35,9 @@ var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
-var _checkpoint_label: Label
-var _checkpoint_labels: Array[Label] = []
+var _checkpoint_cues: Array[WorldCue] = []
+## Índices de datos estables; las instancias derrotadas pueden haberse liberado.
+var _defeated_since_checkpoint: Array[int] = []
 var _throw_hint_target: ForestThrowTarget
 var _throw_hint_seconds: float = 0.0
 var _miss_hints_shown: Array[StringName] = []
@@ -75,18 +76,9 @@ func start(hero: DiegoPlayer) -> void:
 	player.position = DEFINITION.spawn
 	player.object_released.connect(_on_object_released)
 	for index in DEFINITION.enemy_spawns.size():
-		var spec: Vector4 = DEFINITION.enemy_spawns[index]
-		var enemy := ForestEnemy.new()
-		enemy.position = Vector2(spec.x, spec.y)
-		enemy.patrol = Vector2(spec.z, spec.w)
-		enemy.kind = DEFINITION.enemy_kinds[index]
-		enemy.player = player
-		_set_enemy_support(enemy, spec)
-		enemy.defeated.connect(_on_enemy_defeated)
-		add_child(enemy)
-		enemies.append(enemy)
+		enemies.append(_spawn_enemy(index))
 	_update_activity()
-	# El primer encuentro se presenta por nombre y acción, además de su aspecto.
+	# El primer encuentro muestra una flecha de pisotón sin letras.
 	if not enemies.is_empty():
 		var first_enemy: ForestEnemy = enemies[0]
 		for enemy in enemies:
@@ -99,6 +91,20 @@ func start(hero: DiegoPlayer) -> void:
 			if enemy.has_visible_art():
 				visible_art += 1
 		print("SALTO_FOREST_READY level=world_01_level_01 enemies=%d art=%d" % [enemies.size(), visible_art])
+
+
+func _spawn_enemy(index: int) -> ForestEnemy:
+	var spec: Vector4 = DEFINITION.enemy_spawns[index]
+	var enemy := ForestEnemy.new()
+	enemy.spawn_index = index
+	enemy.position = Vector2(spec.x, spec.y)
+	enemy.patrol = Vector2(spec.z, spec.w)
+	enemy.kind = DEFINITION.enemy_kinds[index]
+	enemy.player = player
+	_set_enemy_support(enemy, spec)
+	enemy.defeated.connect(_on_enemy_defeated)
+	add_child(enemy)
+	return enemy
 
 
 func _set_enemy_support(enemy: ForestEnemy, spec: Vector4) -> void:
@@ -126,7 +132,6 @@ func _build_root_gates() -> void:
 			var station: RootBridgeDefinition = definition.stations[index]
 			var target := ForestThrowTarget.new()
 			target.definition = station
-			target.caption = "DIANA %d · LANZA AQUÍ" % (index + 1)
 			target.show_connection = false
 			target.activated.connect(_on_mechanism_activated)
 			add_child(target)
@@ -138,7 +143,6 @@ func _build_root_gates() -> void:
 			pine.recovery_bounds = station.recovery_bounds
 			add_child(pine)
 			pine_stations.append(pine)
-			_world_label("PIÑA · DIANA %d" % (index + 1), station.pine_position + Vector2(0, -116), 230)
 
 
 func _build_bridges() -> void:
@@ -160,7 +164,6 @@ func _build_bridges() -> void:
 		pine.recovery_bounds = definition.recovery_bounds
 		add_child(pine)
 		pine_stations.append(pine)
-		_world_label("PIÑA · COGE Y LANZA", definition.pine_position + Vector2(0, -116), 260)
 
 
 func _build_moving_platforms() -> void:
@@ -175,9 +178,8 @@ func _build_moving_platforms() -> void:
 		platform.definition = definition
 		add_child(platform)
 		moving_platforms.append(platform)
-		var caption: String = "TRONCO · SUBE Y VIAJA ↔" if is_equal_approx(definition.start_position.y, definition.end_position.y) else "TRONCO · SUBE A LA COPA ↑"
-		var caption_offset := Vector2(-60, -180) if definition.tutorial else Vector2(-310, -210)
-		_world_label(caption, definition.start_position + caption_offset, 370)
+		var cue_kind: WorldCue.Kind = WorldCue.Kind.HORIZONTAL if is_equal_approx(definition.start_position.y, definition.end_position.y) else WorldCue.Kind.VERTICAL
+		_world_cue(cue_kind, definition.start_position + Vector2(0, -68))
 
 
 func _on_mechanism_activated(mechanism_id: StringName) -> void:
@@ -256,8 +258,6 @@ func _build_scenery() -> void:
 	for x in range(80, int(DEFINITION.width), 1350):
 		var tree: Sprite2D = _prop(0, Vector2(x, 610), 495.0, -8)
 		tree.modulate = Color(0.65, 0.8, 0.7, 0.9)
-	for index in DEFINITION.region_starts.size():
-		_world_label("%02d · %s" % [index + 1, DEFINITION.region_names[index]], DEFINITION.region_starts[index] + Vector2(210, -250), 540)
 	for section in DEFINITION.ground_sections:
 		for x in [section.position.x + 55.0, section.end.x - 75.0]:
 			_prop(1, Vector2(x, 611), 92.0, 2)
@@ -338,28 +338,20 @@ func _marker(at: Vector2, size: Vector2, callback: Callable) -> void:
 	add_child(area)
 
 
-func _world_label(text: String, at: Vector2, width: float) -> Label:
-	var label := Label.new()
-	label.text = text
-	label.position = at - Vector2(width / 2.0, 0)
-	label.size = Vector2(width, 54)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 20)
-	label.add_theme_color_override("font_color", Color("fff3cb"))
-	label.add_theme_color_override("font_shadow_color", Color("092b25"))
-	label.add_theme_constant_override("shadow_outline_size", 5)
-	add_child(label)
-	return label
+func _world_cue(kind: WorldCue.Kind, at: Vector2) -> WorldCue:
+	var cue := WorldCue.new()
+	cue.kind = kind
+	cue.position = at
+	add_child(cue)
+	return cue
 
 
 func _build_markers() -> void:
 	var positions: Array[Vector2] = checkpoint_positions()
 	for index in positions.size():
 		var at: Vector2 = positions[index]
-		var label := _world_label("FAROL · PUNTO DE CONTROL", at + Vector2(0, -218), 360)
-		_checkpoint_labels.append(label)
+		_checkpoint_cues.append(_world_cue(WorldCue.Kind.CHECKPOINT, at + Vector2(0, -205)))
 		_marker(at + Vector2(0, -80), Vector2(115, 190), _on_checkpoint.bind(index))
-	_checkpoint_label = _checkpoint_labels[0]
 	exit_door = KeyExitDoor.new()
 	exit_door.key_definition = DEFINITION.key_definition
 	exit_door.panel_texture = preload("res://game/assets/textures/keys/puerta_bosque_v001.png")
@@ -379,7 +371,10 @@ func _on_collected(collectible: ForestCollectible) -> void:
 	counts_changed.emit(leaves, crystals)
 
 
-func _on_enemy_defeated(_enemy: ForestEnemy, by_throw: bool) -> void:
+func _on_enemy_defeated(enemy: ForestEnemy, by_throw: bool) -> void:
+	if _defeated_since_checkpoint.has(enemy.spawn_index):
+		return
+	_defeated_since_checkpoint.append(enemy.spawn_index)
 	defeated_enemies += 1
 	hint_requested.emit("¡Buen lanzamiento!" if by_throw else "¡Buen pisotón! Mantén el salto para llegar más alto.")
 
@@ -396,10 +391,9 @@ func _on_checkpoint(body: Node2D, index: int = 0) -> void:
 	checkpoint_active = true
 	active_checkpoint_index = index
 	respawn_position = checkpoint_positions()[index] + Vector2(55, 0)
-	if is_instance_valid(_checkpoint_label):
-		_checkpoint_label.text = "FAROL ACTIVADO"
-	_checkpoint_label = _checkpoint_labels[index]
-	_checkpoint_label.text = "FAROL ACTIVADO · REAPARECES AQUÍ"
+	_checkpoint_cues[index].activated = true
+	# Las derrotas anteriores al nuevo farol quedan consolidadas en el intento.
+	_defeated_since_checkpoint.clear()
 	player.recover_energy()
 	checkpoint_reached.emit()
 	hint_requested.emit("Farol activado · Energía recuperada. Si caes, volverás aquí.")
@@ -431,6 +425,14 @@ func respawn_player() -> void:
 	# La reaparición suelta primero cualquier objeto. Cada puesto conserva su instancia.
 	for pine in pine_stations:
 		pine.reset_to_spawn()
+	for index in _defeated_since_checkpoint:
+		# Eliminar también una animación de derrota aún pendiente, sin duplicar cuerpos.
+		if is_instance_valid(enemies[index]):
+			remove_child(enemies[index])
+			enemies[index].queue_free()
+		enemies[index] = _spawn_enemy(index)
+	defeated_enemies -= _defeated_since_checkpoint.size()
+	_defeated_since_checkpoint.clear()
 	for enemy in enemies:
 		if is_instance_valid(enemy) and enemy.active:
 			enemy.reset_awareness()
@@ -490,3 +492,4 @@ func _update_activity() -> void:
 			collectible.visible = nearby
 			collectible.set_process(nearby)
 			collectible.set_deferred("monitoring", nearby)
+

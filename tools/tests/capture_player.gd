@@ -71,6 +71,7 @@ func _capture() -> void:
 	_main.queue_free()
 	await _frames(2)
 	await _animation_board()
+	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit()
 
 
@@ -129,4 +130,5 @@ func _animation_board() -> void:
 	_save("preview_animations")
 	board.queue_free()
 	await _frames(2)
+
 

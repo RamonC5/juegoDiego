@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=79 format=3]
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=80 format=3]
 
 [ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1"]
 [ext_resource type="Resource" path="res://game/features/levels/keys/definitions/ramas.tres" id="2_keys"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://game/features/levels/mechanisms/moving_platform_definition.gd" id="4_moving"]
 
 [ext_resource type="Script" path="res://game/features/levels/mechanisms/root_gate_definition.gd" id="5_gate"]
+
+[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="6_music"]
 
 [sub_resource type="Resource" id="BridgePractice"]
 script = ExtResource("3_bridge")
@@ -657,3 +659,4 @@ subtitle = "Las tres rutas del corazón del bosque"
 region_starts = Array[Vector2]([Vector2(0, 600), Vector2(8200, 600), Vector2(12200, 600), Vector2(16200, 600), Vector2(20200, 600), Vector2(24200, 600), Vector2(28200, 600), Vector2(32200, 600), Vector2(36200, 600), Vector2(40200, 600), Vector2(44200, 600), Vector2(48200, 600), Vector2(52200, 600), Vector2(56200, 600), Vector2(60200, 600), Vector2(64200, 600), Vector2(68200, 600), Vector2(72200, 600), Vector2(76200, 600)])
 region_names = Array[String](["Claro de aprendizaje", "Terrazas del helecho", "Barranco de raíces", "Copas viajeras", "Escaleras de guardianes", "Dos orillas", "Claro de la primera llave", "Sendero de los guardianes", "La copa del Moflete", "Pasarelas enlazadas", "Terrazas cruzadas", "Raíces y alturas", "Claro de la segunda llave", "Mirador viajero", "Últimas dos orillas", "Guardianes del roble", "Barranco profundo", "Patrullas del corazón", "Santuario de la tercera llave"])
 root_gates = Array[ExtResource("5_gate")]([SubResource("Gate00"), SubResource("Gate01"), SubResource("Gate02"), SubResource("Gate03"), SubResource("Gate04"), SubResource("Gate05"), SubResource("Gate06"), SubResource("Gate07"), SubResource("Gate08"), SubResource("Gate09"), SubResource("Gate10"), SubResource("Gate11"), SubResource("Gate12"), SubResource("Gate13"), SubResource("Gate14"), SubResource("Gate15"), SubResource("Gate16"), SubResource("Gate17"), SubResource("Gate18")])
+music_stream = ExtResource("6_music")

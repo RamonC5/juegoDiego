@@ -9,6 +9,7 @@ const SPRITES: Dictionary = {
 	"moflete": preload("res://game/assets/textures/characters/moflete/idle_v001.png"),
 }
 
+var spawn_index: int = -1
 var kind: String = "terron"
 var patrol: Vector2 = Vector2(0, 200)
 var player: DiegoPlayer
@@ -19,7 +20,7 @@ var _scale: float = 1.0
 var _height: float = 58.0
 var _stomp: StompTarget
 var _contact: Area2D
-var _intro_hint: Label
+var _intro_hint: WorldCue
 enum Behaviour { PATROL, NOTICE, CHASE, RETURN }
 var behaviour: Behaviour = Behaviour.PATROL
 ## El origen elevado limita la patrulla; la persecución permite descender.
@@ -29,7 +30,7 @@ var _home: Vector2
 var _notice_seconds: float = 0.0
 var _lost_seconds: float = 0.0
 var _last_seen_x: float = 0.0
-var _alert: Label
+var _alert: WorldCue
 var _half_width: float = 52.0
 var pursuit_bounds: Vector2 = Vector2(-1000000, 1000000)
 var _has_pursued: bool = false
@@ -85,35 +86,17 @@ func _ready() -> void:
 	contact_shape.position = body.position
 	_contact.add_child(contact_shape)
 	add_child(_contact)
-	_alert = Label.new()
-	_alert.text = "!"
-	_alert.position = Vector2(-22, -_height - 50)
-	_alert.size = Vector2(44, 42)
-	_alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_alert.add_theme_font_size_override("font_size", 32)
-	_alert.add_theme_color_override("font_color", Color("fff1ba"))
-	_alert.add_theme_color_override("font_outline_color", Color("182d21"))
-	_alert.add_theme_constant_override("outline_size", 8)
+	_alert = WorldCue.new()
+	_alert.kind = WorldCue.Kind.ALERT
+	_alert.position = Vector2(0, -_height - 38)
 	_alert.visible = false
 	add_child(_alert)
 
 
 func show_intro_hint() -> void:
-	# Terrón comparte colores con el suelo: presentar el primer combate con texto.
-	_intro_hint = Label.new()
-	_intro_hint.text = "ENEMIGO · %s\nSalta encima" % ("MOFLETE" if kind == "moflete" else "TERRÓN")
-	_intro_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_intro_hint.position = Vector2(-110, -_height - 72)
-	_intro_hint.size = Vector2(220, 60)
-	_intro_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_intro_hint.add_theme_font_size_override("font_size", 20)
-	_intro_hint.add_theme_color_override("font_color", Color("fff2c9"))
-	var background := StyleBoxFlat.new()
-	background.bg_color = Color(0.025, 0.12, 0.10, 0.94)
-	background.set_corner_radius_all(8)
-	background.content_margin_top = 4
-	background.content_margin_bottom = 4
-	_intro_hint.add_theme_stylebox_override("normal", background)
+	_intro_hint = WorldCue.new()
+	_intro_hint.kind = WorldCue.Kind.STOMP
+	_intro_hint.position = Vector2(0, -_height - 90)
 	add_child(_intro_hint)
 
 
@@ -323,5 +306,6 @@ func defeat(by_throw: bool) -> void:
 	tween.tween_interval(0.22)
 	tween.tween_property(_visual, "modulate:a", 0.0, 0.25)
 	tween.tween_callback(queue_free)
+
 
 

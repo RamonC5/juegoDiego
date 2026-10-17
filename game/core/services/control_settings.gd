@@ -12,6 +12,7 @@ var show_touch: bool = true
 var left_handed: bool = false
 var gesture_scale: float = 1.0
 var show_gesture_hints: bool = true
+var music_volume: float = 0.6
 var _default_keys: Dictionary = {}
 
 
@@ -28,6 +29,7 @@ func _ready() -> void:
 		gesture_scale = clampf(float(config.get_value("controls", "gesture_scale",
 			config.get_value("controls", "button_scale", 1.0))), 0.8, 1.4)
 		show_gesture_hints = bool(config.get_value("controls", "show_gesture_hints", true))
+		music_volume = clampf(float(config.get_value("audio", "music_volume", 0.6)), 0.0, 1.0)
 		for action in ACTIONS:
 			var keys: Variant = config.get_value("keys", String(action), [])
 			if keys is Array and not keys.is_empty():
@@ -38,6 +40,7 @@ func save() -> void:
 	var config := ConfigFile.new()
 	for property in ["automatic_run", "full_jump", "show_touch", "left_handed", "gesture_scale", "show_gesture_hints"]:
 		config.set_value("controls", property, get(property))
+	config.set_value("audio", "music_volume", music_volume)
 	for action in ACTIONS:
 		config.set_value("keys", String(action), _key_codes(action))
 	if config.save(PATH) != OK:
@@ -83,4 +86,5 @@ func _replace_keys(action: StringName, keys: Array) -> void:
 		var key := InputEventKey.new()
 		key.physical_keycode = code
 		InputMap.action_add_event(action, key)
+
 

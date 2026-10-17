@@ -59,3 +59,9 @@ La corrección de los enemigos ausentes en APK 0.4.2 se conserva: `enemy_kinds` 
 ## Ajuste 0.5.2 · Persecución desde plataformas y presentación
 
 La petición posterior permite a todos los enemigos perseguir y bajar de estructuras. Sustituye la restricción anterior de los guardianes de plataforma durante la persecución; la patrulla tranquila sigue respetando los bordes. El HUD usa iconos con cantidades, el salto tiene un impulso de 680 px/s y la cámara acompaña la caída sin limitarse a 260 px/s. El componente `game/ui/hud/hud_counter.gd` reúne presentación y descripciones accesibles; las reglas de combate y recogida siguen en sus funcionalidades. [Detalles y pruebas](PULIDO_0.5.2.md).
+
+
+
+## Ajuste 0.6.0
+
+El nivel incorpora **Senderos de Esmeralda**, música instrumental original del bosque en bucle, con volumen y silencio desde pausa. Morir restaura las patrullas derrotadas después del último farol; antes del primero se restauran desde el inicio. Las derrotas previas al farol, llaves, coleccionables y mecanismos resueltos se conservan en el intento. Los rótulos con letras se sustituyen por flechas, banderas, círculos y marcas; los contadores siguen mostrando iconos y números. Las instrucciones escritas están en pausa. [Contratos y procedencia musical](ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).

@@ -35,6 +35,9 @@ func _ready() -> void:
 	player = PLAYER_SCENE.instantiate()
 	stage.add_child(player)
 	stage.start(player)
+	_music = LevelMusic.new()
+	add_child(_music)
+	_music.play_track(level_definition.music_stream)
 	_camera = Camera2D.new()
 	_camera.position = Vector2(640, 360)
 	_camera.position_smoothing_enabled = false
@@ -81,7 +84,7 @@ func _process(delta: float) -> void:
 	_distance.value = clampf(player.position.x / stage.DEFINITION.goal.x * 100.0, 0.0, 100.0)
 	if not get_tree().paused:
 		_tip_seconds = maxf(0.0, _tip_seconds - delta)
-		_message.visible = _tip_seconds > 0.0
+		_message.visible = false
 	if player.held_object != _last_held_object:
 		_last_held_object = player.held_object
 		if is_instance_valid(_last_held_object):
@@ -90,9 +93,10 @@ func _process(delta: float) -> void:
 
 
 func _show_hint(text: String) -> void:
-	_message.text = text
-	_tip_seconds = 7.0
-	_message.visible = true
+	# La ayuda escrita se consulta en pausa; el escenario usa iconos.
+	_message.accessibility_description = text
+	_message.text = ""
+	_message.visible = false
 
 
 func _update_counts(leaves: int, crystals: int) -> void:
@@ -146,7 +150,8 @@ func _build_ui() -> void:
 	row.add_theme_constant_override("separation", 10)
 	column.add_child(row)
 	_hud_title = Label.new()
-	_hud_title.text = "1–1  BOSQUE ESMERALDA"
+	_hud_title.text = "1–1"
+	_hud_title.accessibility_name = "Bosque Esmeralda, nivel uno"
 	_hud_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_hud_title.add_theme_font_size_override("font_size", 23)
 	_hud_title.add_theme_color_override("font_color", Color("fff2c9"))
@@ -285,6 +290,7 @@ func _completion_text() -> String:
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+
 
 
 

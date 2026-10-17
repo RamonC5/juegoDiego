@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 14 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads ni audio; los otros cinco enemigos siguen como conceptos. Desde 0.5.1 el nombre visible es Super Diego y el icono original del protagonista está en `game/assets/branding/`. El paquete Android `com.ramonc5.saltoheroes`, el directorio de datos `SaltoHeroes` y los identificadores internos se mantienen para conservar actualizaciones y guardados. [Identidad visual](IDENTIDAD_VISUAL.md).
+`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 14 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads. Desde 0.6.0 Bosque Esmeralda incluye música instrumental en bucle, volumen persistente y pausa del audio; los otros cinco enemigos siguen como conceptos. Desde 0.5.1 el nombre visible es Super Diego y el icono original del protagonista está en `game/assets/branding/`. El paquete Android `com.ramonc5.saltoheroes`, el directorio de datos `SaltoHeroes` y los identificadores internos se mantienen para conservar actualizaciones y guardados. [Identidad visual](IDENTIDAD_VISUAL.md).
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -30,7 +30,7 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 | `game/boot/` | Crear los servicios de aplicación e iniciar el flujo del juego |
 | `game/core/contracts/` | Recursos y contratos compartidos sin referencias a la interfaz |
 | `game/core/components/` | Componentes reutilizables de las entidades |
-| `game/core/services/` | Guardado, ajustes y navegación entre escenas |
+| `game/core/services/` | Guardado, ajustes, reproducción musical y navegación entre escenas |
 | `game/features/player/` | Movimiento, salto y estado del jugador |
 | `game/features/enemies/` | Enemigos normales y detección de pisotón |
 | `game/features/bosses/` | Fases de jefes y respuesta a impactos |
@@ -148,7 +148,7 @@ El jugador usa capa 2 y consulta las capas 1 y 3; los objetos usan capa 4 y los 
 
 Las acciones iniciales incluyen teclado y mando. Al crear la interfaz se añadirán navegación con foco visible, textos escalables y legibles, controles reasignables y gestos táctiles ajustables. Las señales relevantes combinarán forma, texto o sonido para evitar depender únicamente del color. Se preverán opciones para reducir sacudidas y destellos, además de pausa accesible y volúmenes separados.
 
-Ya están implementados contactos simultáneos, gestos sin botones fijos, recorrido y lados ajustables, carrera automática opcional, salto completo con pulsación, teclado reasignable, foco visible y pausa al perder el foco. La protección de daño no parpadea y la cámara no aplica sacudidas. Audio, escalado avanzado de textos, lectores de pantalla y pruebas físicas quedan pendientes.
+Ya están implementados contactos simultáneos, gestos sin botones fijos, recorrido y lados ajustables, carrera automática opcional, salto completo con pulsación, teclado reasignable, foco visible y pausa al perder el foco. La protección de daño no parpadea y la cámara no aplica sacudidas. La música tiene volumen independiente y silencio. Escalado avanzado de textos, lectores de pantalla y pruebas físicas quedan pendientes.
 
 ## Compilación continua para Android
 
@@ -200,7 +200,7 @@ Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la
 
 ## Ampliación del bosque · 0.5.0
 
-`ForestLevelDefinition` añade pasos `ForestRootGateDefinition` y nombres/inicios de tramo. `ForestRootGate` mantiene sus dos marcas, actualiza números y retira la colisión del paso al completarlas. Reutiliza `RootBridgeDefinition` para los puestos y `ForestThrowTarget` para impactos, sin crear una segunda forma de recoger o lanzar. Los pasos nunca se vuelven a cerrar durante el intento.
+`ForestLevelDefinition` añade pasos `ForestRootGateDefinition` y nombres/inicios de tramo. `ForestRootGate` mantiene sus dos marcas, actualiza símbolos y retira la colisión del paso al completarlas. Reutiliza `RootBridgeDefinition` para los puestos y `ForestThrowTarget` para impactos, sin crear una segunda forma de recoger o lanzar. Los pasos nunca se vuelven a cerrar durante el intento.
 
 `ForestEnemy` distingue patrulla, aviso, persecución y retorno. La visión consulta la capa de entorno; el nivel deduce los límites de suelo o plataforma de los rectángulos de datos. Un sondeo adelantado y límites de cuerpo impiden abandonar bordes. La simulación de enemigos lejanos se omite y solo se animan/detectan coleccionables cercanos. `DiegoPlayer.recover_energy` cura un farol nuevo sin alterar posición, controles ni objeto sostenido. La cámara sigue alturas sin coordenadas exclusivas del antiguo ascensor.
 
@@ -218,3 +218,33 @@ La petición posterior permite a todos los enemigos perseguir y bajar de estruct
 ## Animación de enemigos · 0.5.3
 
 `EnemyMotionProfiles` fija pivotes, zonas elípticas, amplitudes y fases por anatomía. `EnemyVisual` comparte geometría inmutable entre instancias y mantiene materiales independientes; el shader Compatibility deforma una malla raster de 32 × 32 celdas sin cambiar los PNG ni los cuerpos físicos. `ForestEnemy` avanza el ciclo con `delta` y velocidad real, y conserva pausa, suspensión lejana y derrota. El visor permite revisar los siete diseños, pausar y reducir movimiento. Las cinco integraciones visuales nuevas no incorporan IA ni contenido a los niveles. [Contrato, evidencias y límites](ANIMACION_ENEMIGOS.md).
+
+
+
+## Música por nivel, reaparición y señales visuales · 0.6.0
+
+### Música del Bosque Esmeralda
+
+`ForestLevelDefinition.music_stream` es una referencia editable `AudioStream`. El recurso real de `world_01_level_01` asigna `game/assets/audio/music/bosque_esmeralda.ogg`; un nivel sin pista permanece en silencio. Los futuros niveles deben seleccionar una composición coherente con su ambiente en sus propios datos, sin deducir música por nombre ni copiar automáticamente la del bosque.
+
+`boot/main.gd` compone una única instancia de `LevelMusic` (`AudioStreamPlayer`) bajo la escena y entrega el recurso. No hay autoload, descargas ni síntesis durante la partida. El reproductor usa `PROCESS_MODE_PAUSABLE`: pausa, derrota y pérdida de foco suspenden el audio junto al juego; continuar o reaparecer retoma la misma voz. Reiniciar o cambiar de escena libera el reproductor anterior. El bus `Music`, en `game/assets/audio/default_bus_layout.tres`, reserva mezcla separada respecto a futuros efectos.
+
+La composición original **Senderos de Esmeralda** usa flauta sintetizada, madera pulsada, cuerdas cálidas, bajo y percusión suave. Son 32 compases de 4/4 a 108 BPM, unos 71,11 segundos, con cola circular para enlazar el bucle. Se distribuye como Ogg Vorbis estéreo a 44,1 kHz; la importación fija `loop=true`, 128 pulsos y cuatro pulsos por compás. `tools/authoring/compose_forest_music.py` conserva partitura, síntesis determinista y procedencia sin samples de terceros. Requiere NumPy y FFmpeg solo en autoría; el juego reproduce el archivo ya preparado. Esta pieza se puede usar y modificar como parte del proyecto.
+
+`ControlSettings` añade `audio/music_volume` a `user://controls.cfg` sin borrar teclas ni controles anteriores. El valor inicial es 0,6; el menú de pausa ofrece un deslizador de 0 a 100, con foco de teclado y nombre accesible. Cero silencia. El bus añade −6 dB de margen. Los efectos y las músicas de otros niveles siguen pendientes; no existe aún ajuste de volumen de efectos.
+
+### Enemigos y faroles
+
+Cada `ForestEnemy.spawn_index` identifica su entrada en `enemy_spawns`. `ForestStage` registra los índices derrotados desde el último farol, incluso después de que sus nodos desaparezcan. Antes del primer farol el registro empieza en el inicio del nivel. Activar un farol posterior consolida las derrotas anteriores y vacía el registro; revisitar uno anterior no cambia ese estado.
+
+Al reaparecer, el nivel reconstruye exactamente las patrullas registradas desde sus datos originales: posición, tipo, límites, sensores, salud activa, animación y persecución. Si una animación de derrota aún existe, primero retira esa instancia. Los enemigos activos vuelven a su patrulla inicial. Las derrotas consolidadas permanecen eliminadas durante el intento. El contador descuenta los enemigos restaurados para impedir sumar varias veces el mismo combate. La regla es temporal: también se restaura un enemigo derrotado al retroceder después de activar el farol.
+
+Llaves, hojas, cristales y mecanismos resueltos conservan el comportamiento anterior; las piñas y troncos recuperan su estado jugable. Reiniciar voluntariamente crea un intento completo con todos los enemigos. No se guarda el intento a mitad del nivel en disco.
+
+### Partida sin rótulos con letras
+
+`WorldCue`, bajo `game/ui/hud/`, dibuja flechas, lanzamiento, bandera, salida, alerta y marcas de activación mediante geometría. Sustituye rótulos de dianas, faroles, troncos y primer enemigo. Las raíces muestran dos círculos de diana que pasan a marcas al activarse, además de abrir físicamente el paso; la información no depende solo del color ni del audio. Se retiran carteles de piñas y nombres de tramos. El entrenamiento usa las mismas señales.
+
+Durante la partida se mantienen iconos y cantidades del HUD, el identificador numérico 1–1 y guías de gestos con símbolos. No aparecen mensajes escritos sobre el juego. Las instrucciones, controles, opciones y resultados siguen disponibles en pausa, con nombres accesibles en los controles. Las llaves conservan sus números de ranura y su silueta propia. El visor de autoría de personajes mantiene sus nombres fuera de la partida.
+
+`tools/tests/test_audio_respawn.gd` verifica el recurso musical, bucle, bus, silencio, pausa y continuidad; derrotas por ambos métodos, nodos ya liberados y animaciones pendientes, repetición sin duplicados, faroles posteriores y anteriores, progreso conservado y ausencia de letras visibles en el escenario. La CI ejecuta esta suite junto a las anteriores y exporta el Ogg importado dentro del APK.

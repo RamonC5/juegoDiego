@@ -5,7 +5,7 @@ signal completed
 
 @export var kind: StringName = &"stomp"
 var active: bool = true
-var _caption: Label
+var _cue: WorldCue
 
 
 func _ready() -> void:
@@ -17,14 +17,10 @@ func _ready() -> void:
 	body.shape = rectangle
 	body.position.y = -rectangle.size.y / 2.0
 	add_child(body)
-	_caption = Label.new()
-	_caption.text = "Salta encima" if kind == &"stomp" else "Lanza aquí"
-	_caption.position = Vector2(-90, -95 if kind == &"stomp" else -145)
-	_caption.size.x = 180.0
-	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_caption.add_theme_font_size_override("font_size", 22)
-	_caption.add_theme_color_override("font_color", Color("142e37"))
-	add_child(_caption)
+	_cue = WorldCue.new()
+	_cue.kind = WorldCue.Kind.STOMP if kind == &"stomp" else WorldCue.Kind.THROW
+	_cue.position = Vector2(0, -80 if kind == &"stomp" else -140)
+	add_child(_cue)
 	if kind == &"stomp":
 		var sensor := StompTarget.new()
 		sensor.position.y = -40.0
@@ -50,7 +46,7 @@ func _complete() -> void:
 		return
 	active = false
 	set_deferred("collision_layer", 0)
-	_caption.text = "¡Conseguido!"
+	_cue.activated = true
 	queue_redraw()
 	completed.emit()
 
@@ -69,4 +65,5 @@ func _draw() -> void:
 	else:
 		draw_line(Vector2(-20, -height/2), Vector2(-4, -height/2+12), Color("23474a"), 5.0)
 		draw_line(Vector2(-4, -height/2+12), Vector2(23, -height/2-14), Color("23474a"), 5.0)
+
 

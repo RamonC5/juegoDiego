@@ -146,7 +146,9 @@ func _capture() -> void:
 	_save("preview_keys_open")
 	main.queue_free()
 	await _frames(2)
+	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit()
+
 
 
 

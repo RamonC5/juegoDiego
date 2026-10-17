@@ -78,3 +78,9 @@ El comprobador usa únicamente Python 3, no modifica archivos y revisa consisten
 ## Ajuste 0.5.2 · Persecución desde plataformas y presentación
 
 La petición posterior permite a todos los enemigos perseguir y bajar de estructuras. Sustituye la restricción anterior de los guardianes de plataforma durante la persecución; la patrulla tranquila sigue respetando los bordes. El HUD usa iconos con cantidades, el salto tiene un impulso de 680 px/s y la cámara acompaña la caída sin limitarse a 260 px/s. El componente `game/ui/hud/hud_counter.gd` reúne presentación y descripciones accesibles; las reglas de combate y recogida siguen en sus funcionalidades. [Detalles y pruebas](PULIDO_0.5.2.md).
+
+
+
+## Recuperación y presentación · 0.6.0
+
+Las derrotas posteriores al farol se repiten al morir, incluidas las de enemigos encontrados al volver atrás. Activar el siguiente farol consolida las anteriores. Las llaves y mecanismos siguen conservándose. La música de bosque es ambiental y ajustable; ninguna condición jugable depende de escucharla. Dianas, pasos, troncos y faroles usan símbolos sin letras, con instrucciones en pausa. [Implementación](ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).

@@ -16,7 +16,7 @@ var _icons: Array[Texture2D] = []
 var _barrier: CollisionShape2D
 var _sensor: Area2D
 var _panel: Node2D
-var _status: Label
+var _status: WorldCue
 
 
 func _ready() -> void:
@@ -57,14 +57,9 @@ func _ready() -> void:
 	_sensor.add_child(sensor_shape)
 	_sensor.body_entered.connect(func(actor: Node2D): entry_requested.emit(actor))
 	add_child(_sensor)
-	_status = Label.new()
-	_status.position = Vector2(-200, -287)
-	_status.size = Vector2(400, 36)
-	_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_status.add_theme_font_size_override("font_size", 20)
-	_status.add_theme_color_override("font_color", Color("fff3cb"))
-	_status.add_theme_color_override("font_shadow_color", Color("092b25"))
-	_status.add_theme_constant_override("shadow_outline_size", 5)
+	_status = WorldCue.new()
+	_status.kind = WorldCue.Kind.EXIT
+	_status.position = Vector2(0, -255)
 	add_child(_status)
 	for index in REQUIRED_KEYS:
 		_icons.append(key_definition.icon_for(index) if key_definition != null else null)
@@ -94,7 +89,7 @@ func _refresh(animate: bool) -> void:
 	if _barrier == null:
 		return
 	_barrier.set_deferred("disabled", is_open)
-	_status.text = "SALIDA ABIERTA · 3 / 3 LLAVES" if is_open else "SALIDA CERRADA · %d / 3 LLAVES" % _found.size()
+	_status.activated = is_open
 	if is_open and not was_open and animate:
 		var tween := create_tween()
 		tween.set_parallel(true)
@@ -125,3 +120,4 @@ func _draw() -> void:
 		else:
 			draw_circle(at + Vector2(0, -3), 3.0, Color("ebce91"))
 			draw_line(at + Vector2(0, -1), at + Vector2(0, 7), Color("ebce91"), 3.0, true)
+

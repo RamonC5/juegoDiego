@@ -157,4 +157,6 @@ func _run() -> void:
 	paused = false
 	await step(3)
 	print("RESULTADO AMPLIACIÓN: %d comprobaciones, %d fallos" % [checks, failures])
+	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if failures == 0 else 1)
+

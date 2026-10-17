@@ -93,3 +93,9 @@ Los otros cinco enemigos tienen animación visual en el visor, incluido [Nóctil
 
 
 
+
+
+
+### Música y reintentos · 0.6.0
+
+Bosque Esmeralda incluye música instrumental original en bucle y volumen ajustable desde pausa. Los enemigos derrotados desde el último farol reaparecen al morir; se conservan llaves, coleccionables y mecanismos. La partida usa iconos y números, con las instrucciones escritas en pausa. Contratos y procedencia en [Arquitectura](docs/ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).

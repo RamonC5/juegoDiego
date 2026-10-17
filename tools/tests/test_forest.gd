@@ -269,6 +269,8 @@ func _run() -> void:
 	replay.queue_free()
 	await _step(2)
 	print("RESULTADO BOSQUE: %d comprobaciones, %d fallos" % [_checks, _failures])
+	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if _failures == 0 else 1)
+
 
 

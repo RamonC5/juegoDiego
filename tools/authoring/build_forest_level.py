@@ -166,10 +166,13 @@ def build():
     for field, kind, ids in [('bridges', '3_bridge', bridge_ids), ('moving_platforms', '4_moving', moving_ids), ('root_gates', '5_gate', gates)]:
         fields[field] = f'Array[ExtResource("{kind}")]([' + ', '.join(f'SubResource("{id}")' for id in ids) + '])'
     header = header.replace('\n[sub_resource', '\n[ext_resource type="Script" path="res://game/features/levels/mechanisms/root_gate_definition.gd" id="5_gate"]\n\n[sub_resource', 1)
-    header = re.sub(r'load_steps=\d+', f'load_steps={10 + len(subs)}', header)
+    header = header.replace('\n[sub_resource', '\n[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="6_music"]\n\n[sub_resource', 1)
+    fields['music_stream'] = 'ExtResource("6_music")'
+    header = re.sub(r'load_steps=\d+', f'load_steps={11 + len(subs)}', header)
     DEST.write_text(header + ''.join(subs) + '[resource]\n' + ''.join(f'{k} = {v}\n' for k, v in fields.items()))
     print(f'{len(names)} tramos, {len(kinds)} enemigos, {len(gates)} pasos dobles, {len(bridge_ids)} puentes, {len(moving_ids)} troncos, {len(keys)} llaves')
 
 
 if __name__ == '__main__':
     build()
+

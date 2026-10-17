@@ -5,6 +5,7 @@ extends Resource
 @export var level_id: String = "world_01_level_01"
 @export var world_id: String = "world_01"
 @export var display_name: String = "Bosque Esmeralda"
+@export var music_stream: AudioStream
 @export var subtitle: String = "El despertar del bosque"
 @export var width: float = 8200.0
 @export var spawn: Vector2 = Vector2(180, 600)
@@ -31,5 +32,6 @@ extends Resource
 ## Exactamente tres llaves por intento. El arte se elige por entorno, no por color.
 @export var key_definition: LevelKeyDefinition
 @export var key_positions: Array[Vector2] = []
+
 
 

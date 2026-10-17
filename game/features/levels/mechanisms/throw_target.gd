@@ -8,9 +8,8 @@ const TEXTURE: Texture2D = preload("res://game/assets/textures/environments/bosq
 
 var definition: RootBridgeDefinition
 var active: bool = true
-var _caption: Label
+var _cue: WorldCue
 var _sprite: Sprite2D
-var caption: String = ""
 var show_connection: bool = true
 
 
@@ -31,18 +30,10 @@ func _ready() -> void:
 	material.shader = preload("res://game/features/player/sprite_alpha.gdshader")
 	_sprite.material = material
 	add_child(_sprite)
-	_caption = Label.new()
-	_caption.text = "ENSAYO · LANZA AQUÍ" if definition.tutorial else "PUENTE · LANZA AQUÍ"
-	if not caption.is_empty():
-		_caption.text = caption
-	_caption.position = Vector2(-145, -116)
-	_caption.size = Vector2(290, 40)
-	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_caption.add_theme_font_size_override("font_size", 20)
-	_caption.add_theme_color_override("font_color", Color("fff3cb"))
-	_caption.add_theme_color_override("font_shadow_color", Color("092b25"))
-	_caption.add_theme_constant_override("shadow_outline_size", 7)
-	add_child(_caption)
+	_cue = WorldCue.new()
+	_cue.kind = WorldCue.Kind.THROW
+	_cue.position = Vector2(0, -92)
+	add_child(_cue)
 	queue_redraw()
 
 
@@ -52,7 +43,7 @@ func receive_thrown_hit(object: ThrowableObject) -> void:
 	active = false
 	set_deferred("collision_layer", 0)
 	_sprite.scale *= 0.94
-	_caption.text = "DIANA ACTIVADA ✓"
+	_cue.activated = true
 	queue_redraw()
 	activated.emit(definition.mechanism_id)
 
@@ -62,7 +53,7 @@ func restore_activated() -> void:
 		active = false
 		set_deferred("collision_layer", 0)
 		_sprite.scale *= 0.94
-	_caption.text = "DIANA ACTIVADA ✓"
+	_cue.activated = true
 	queue_redraw()
 
 
@@ -75,4 +66,5 @@ func _draw() -> void:
 	if not active:
 		draw_circle(Vector2.ZERO, 27, Color("12382e"))
 		draw_polyline(PackedVector2Array([Vector2(-15, 0), Vector2(-3, 12), Vector2(18, -14)]), Color("fff3cb"), 6, true)
+
 

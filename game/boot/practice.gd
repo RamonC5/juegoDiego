@@ -8,6 +8,8 @@ const ACTION_LABELS: Dictionary = {&"move_left": "Izquierda", &"move_right": "De
 	&"jump": "Saltar", &"crouch": "Agacharse", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
 
 var player: DiegoPlayer
+var _music: LevelMusic
+var _music_slider: HSlider
 var settings: ControlSettings
 var touch: HeroTouchControls
 var _camera: Camera2D
@@ -88,15 +90,6 @@ func _add_throwable_objects(stage: Node2D) -> void:
 		object.broken.connect(func():
 			_message.text = "Vasija rota. Volverá a su puesto en 3 segundos."
 		)
-		var caption := Label.new()
-		caption.text = object.definition.display_name
-		caption.position = Vector2(POSITIONS[index] - 62.0, 540.0 + (index % 2) * 60.0)
-		caption.size = Vector2(124, 52)
-		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		caption.add_theme_font_size_override("font_size", 20)
-		caption.add_theme_color_override("font_color", Color("fff1cc"))
-		stage.add_child(caption)
 
 
 func _add_goal(stage: Node2D) -> void:
@@ -110,14 +103,10 @@ func _add_goal(stage: Node2D) -> void:
 	shape.shape = rectangle
 	goal.add_child(shape)
 	stage.add_child(goal)
-	var caption := Label.new()
-	caption.text = "META DE PRUEBA"
-	caption.position = Vector2(-150, -110)
-	caption.size.x = 300
-	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	caption.add_theme_font_size_override("font_size", 28)
-	caption.add_theme_color_override("font_color", Color("142e37"))
-	goal.add_child(caption)
+	var cue := WorldCue.new()
+	cue.kind = WorldCue.Kind.EXIT
+	cue.position = Vector2(0, -110)
+	goal.add_child(cue)
 	goal.body_entered.connect(func(body: Node2D):
 		if body == player:
 			player.celebrate()
@@ -161,7 +150,8 @@ func _build_ui() -> void:
 	row.add_theme_constant_override("separation", 18)
 	header.add_child(row)
 	var title := Label.new()
-	title.text = "SUPER DIEGO · Entrenamiento"
+	title.text = "↔  ↑  ↓  ◉"
+	title.accessibility_name = "Super Diego, entrenamiento"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size", 25)
 	row.add_child(title)
@@ -170,12 +160,14 @@ func _build_ui() -> void:
 	row.add_child(_health_counter)
 	_health = _health_counter.value_label
 	_update_health(player.health)
-	var pause_button := _button("Pausa", func(): _toggle_pause())
-	pause_button.custom_minimum_size = Vector2(114, 58)
+	var pause_button := _button("Ⅱ", func(): _toggle_pause())
+	pause_button.accessibility_name = "Pausa y opciones"
+	pause_button.custom_minimum_size = Vector2(60, 58)
 	row.add_child(pause_button)
 	_message = Label.new()
 	_message.text = "Prueba seis objetos: toque corto para coger o lanzar. Teclado: %s." % settings.key_label(&"grab_throw")
 	_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_message.hide()
 	header.add_child(_message)
 	touch = HeroTouchControls.new()
 	touch.settings = settings
@@ -252,6 +244,21 @@ func _build_menu() -> void:
 			settings.set(spec[1], value)
 			settings.save()
 		)
+	var music_label := Label.new()
+	music_label.text = "Volumen de música (0 = silencio)"
+	box.add_child(music_label)
+	_music_slider = HSlider.new()
+	_music_slider.min_value = 0
+	_music_slider.max_value = 100
+	_music_slider.step = 5
+	_music_slider.value = settings.music_volume * 100.0
+	_music_slider.custom_minimum_size.y = 48
+	_music_slider.accessibility_name = "Volumen de música; cero silencia"
+	box.add_child(_music_slider)
+	_music_slider.value_changed.connect(func(value: float):
+		settings.music_volume = value / 100.0
+		settings.save()
+	)
 	var size_label := Label.new()
 	size_label.text = "Recorrido de los gestos (menor = menos arrastre)"
 	box.add_child(size_label)
@@ -312,6 +319,10 @@ func _layout_menu() -> void:
 
 
 func _apply_settings() -> void:
+	if is_instance_valid(_music):
+		_music.set_music_volume(settings.music_volume)
+	if is_instance_valid(_music_slider):
+		_music_slider.set_value_no_signal(settings.music_volume * 100.0)
 	player.controls.automatic_run = settings.automatic_run
 	player.controls.full_jump = settings.full_jump
 	for property in _check_boxes:
@@ -386,3 +397,4 @@ func _notification(what: int) -> void:
 
 func _update_health(value: int) -> void:
 	_health_counter.set_count(value, 3)
+

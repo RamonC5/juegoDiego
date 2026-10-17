@@ -27,8 +27,10 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_move_hint = _hint_label("DESLIZA ← →\nCaminar / correr · Suelta para parar")
-	_action_hint = _hint_label("↑ SALTAR · ↓ AGACHARSE\nMantén abajo · Toque: coger / lanzar")
+	_move_hint = _hint_label("←  ●  →")
+	_action_hint = _hint_label("↑  ·  ↓  ·  ◉")
+	_move_hint.accessibility_name = "Arrastra a izquierda o derecha para moverte"
+	_action_hint.accessibility_name = "Desliza arriba para saltar, abajo para agacharte y toca para coger o lanzar"
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
 	refresh()
@@ -242,4 +244,5 @@ func _draw() -> void:
 			draw_line(point+Vector2(9, -11), point, Color("ffdc90"), 4, true)
 		else:
 			draw_arc(point, 14, 0, TAU, 32, Color("ffdc90"), 2, true)
+
 

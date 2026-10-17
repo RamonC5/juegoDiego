@@ -179,6 +179,7 @@ func _run() -> void:
 	await _step(2)
 	await _test_interface()
 	print("RESULTADO: %d comprobaciones, %d fallos" % [_checks, _failures])
+	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if _failures == 0 else 1)
 
 
@@ -527,4 +528,5 @@ func _test_settings_migration() -> void:
 	else:
 		DirAccess.remove_absolute(ControlSettings.PATH)
 	await _step(1)
+
 
