@@ -35,6 +35,13 @@ func _run() -> void:
 		return
 	check(grove.position == Vector2(11610, 600) and stage.level_keys.size() == 3,
 		"secreto antes de las llaves sin cambiar su recorrido obligatorio")
+	var secret_gap: float = 0.0
+	for i in stage.DEFINITION.ground_sections.size() - 1:
+		var edge: float = stage.DEFINITION.ground_sections[i].end.x
+		if is_equal_approx(edge, 11520.0):
+			secret_gap = stage.DEFINITION.ground_sections[i + 1].position.x - edge
+	check(is_equal_approx(secret_gap, 180.0),
+		"la entrada oculta no introduce un barranco inaccesible en el recorrido obligatorio")
 	check(stage.moving_platforms.size() == 5 and is_instance_valid(grove.lift),
 		"ascensor independiente de los cinco troncos de la ruta")
 	for enemy in stage.enemies:
