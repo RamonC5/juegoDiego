@@ -7,6 +7,7 @@ var activated: Array[StringName] = []
 var is_open: bool = false
 var _shape: CollisionShape2D
 var _roots: Node2D
+var _opening_tween: Tween
 
 
 func _ready() -> void:
@@ -44,9 +45,22 @@ func activate_station(id: StringName) -> void:
 			if activated.size() == definition.stations.size():
 				is_open = true
 				_shape.set_deferred("disabled", true)
-				var tween := create_tween()
-				tween.tween_property(_roots, "scale:x", 0.12, 0.45)
-				tween.parallel().tween_property(_roots, "modulate:a", 0.0, 0.45)
+				_opening_tween = create_tween()
+				_opening_tween.tween_property(_roots, "scale:x", 0.12, 0.45)
+				_opening_tween.parallel().tween_property(_roots, "modulate:a", 0.0, 0.45)
 			queue_redraw()
 			return
 
+
+
+func reset_closed() -> void:
+	# Anula la desaparición en curso, restaura el bloqueo y las dos estaciones.
+	if _opening_tween != null and _opening_tween.is_running():
+		_opening_tween.kill()
+	_opening_tween = null
+	activated.clear()
+	is_open = false
+	_shape.set_deferred("disabled", false)
+	_roots.scale = Vector2.ONE
+	_roots.modulate = Color.WHITE
+	queue_redraw()

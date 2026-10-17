@@ -31,8 +31,8 @@ static func get_profile(id: String) -> Dictionary:
 				joint("mano cercana", Vector2(0.70, 0.44), Vector4(0.71, 0.42, 0.072, 0.072), 0.28, 0.35, "hand"),
 				joint("brazo lejano", Vector2(0.70, 0.51), Vector4(0.76, 0.46, 0.075, 0.12), 0.24, PI),
 				joint("mano lejana", Vector2(0.76, 0.43), Vector4(0.77, 0.41, 0.06, 0.07), 0.26, PI + 0.35, "hand"),
-				joint("pie trasero", Vector2(0.40, 0.77), Vector4(0.37, 0.86, 0.12, 0.10), 0.18, PI),
-				joint("pie delantero", Vector2(0.56, 0.77), Vector4(0.60, 0.86, 0.14, 0.10), 0.18),
+				joint("pie trasero", Vector2(0.40, 0.77), Vector4(0.37, 0.86, 0.15, 0.14), 0.27, PI, "foot"),
+				joint("pie delantero", Vector2(0.56, 0.77), Vector4(0.60, 0.86, 0.16, 0.14), 0.27, 0.0, "foot"),
 			]
 		"goteron":
 			frequency = 0.85

@@ -59,6 +59,26 @@ func _run() -> void:
 		check(other._mesh.mesh == visual._mesh.mesh and other._motion_material != visual._motion_material, "%s comparte geometría sin mezclar fases" % id)
 		visual.queue_free()
 		other.queue_free()
+	# La zancada de Moflete no puede limitarse a un deslizamiento del raster.
+	var feet := EnemyVisual.new()
+	feet.configure("moflete", load("res://game/assets/textures/characters/moflete/idle_v001.png"))
+	root.add_child(feet)
+	var joints: Array[Dictionary] = feet.profile.joints
+	check(joints[4].mode == "foot" and joints[5].mode == "foot", "ambos pies tienen movimiento de apoyo y elevación")
+	feet._gait = 1.0
+	feet.phase = PI * 0.5
+	feet.advance(0.0, 140.0, true)
+	check(feet.pose_offsets[5].y < -0.06 and feet.pose_offsets[4].y >= 0.0, "el pie delantero se eleva y el trasero apoya")
+	var forward: Vector2 = feet.pose_offsets[5]
+	feet.phase = PI * 1.5
+	feet.advance(0.0, 140.0, true)
+	check(feet.pose_offsets[4].y < -0.06 and feet.pose_offsets[5].y >= 0.0, "el pie trasero se eleva en la fase contraria")
+	check(forward.x > 0.0 and feet.pose_offsets[5].x < 0.0, "los pies alternan también su desplazamiento horizontal")
+	feet._gait = 0.0
+	feet.phase = PI * 0.5
+	feet.advance(0.0, 0.0, true)
+	check(feet.pose_offsets[5].length() < forward.length() * 0.3, "la zancada se amortigua cuando deja de avanzar")
+	feet.queue_free()
 	await process_frame
 	var enemy := ForestEnemy.new()
 	enemy.kind = "moflete"

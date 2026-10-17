@@ -12,7 +12,7 @@ La versión **0.5.3** anima los miembros de los enemigos: brazos y manos de Mofl
 
 El primer bosque se amplía a **19 tramos y tres rutas de llaves**, con **81 enemigos**: 41 Terrones y 40 Mofletes. Todos detectan, avisan y persiguen a Diego. Desde 0.5.2, los 38 que nacen en plataformas también pueden bajar a terreno inferior durante la persecución; las patrullas tranquilas respetan los bordes. Se conservan pisotones y lanzamientos.
 
-El recorrido combina terrazas, barrancos, ocho puentes, ocho troncos móviles y 19 pasos de dos dianas. Las rutas posteriores cambian el orden y las alturas, e incluyen viajes diagonales. Los 21 faroles recuperan energía al activarse. Piñas y apoyos permiten volver a intentar cada reto; los pasos resueltos permanecen abiertos durante el intento.
+El recorrido combina terrazas, barrancos, ocho puentes, ocho troncos móviles y 19 pasos de dos dianas. Las rutas posteriores cambian el orden y las alturas, e incluyen viajes diagonales. Los 21 faroles recuperan energía al activarse. Piñas y apoyos permiten volver a intentar cada reto; los pasos resueltos permanecen abiertos hasta perder todas las vidas y reaparecer.
 
 Las llaves están separadas en las tres rutas. La duración prevista de **18–22 minutos** es una estimación de autoría, pendiente de medir con el público objetivo. No hay un reloj que retrase la salida y los secretos son opcionales. [Recorrido, recuperación y límites de validación](docs/BOSQUE_ESMERALDA.md).
 
@@ -109,3 +109,8 @@ Nueva música de plataformas de estilo electrónico moderno, sin iconos flotante
 ### Animaciones legibles en el móvil · 0.6.2
 
 Corregidas las coordenadas de recorte de las mallas y ampliado el recorrido de extremidades de Terrón y Moflete para que se aprecien durante la partida. Los otros cinco enemigos siguen en el visor de animaciones y todavía no aparecen en el bosque. La CI comprueba que cambian píxeles de las extremidades, no solo los ángulos o el balanceo del cuerpo. Instala el nuevo APK desde la ejecución más reciente de Actions. [Detalle y pruebas](docs/ANIMACION_ENEMIGOS.md#corrección-de-legibilidad-en-android--062).
+
+
+### Diana de cristal, puentes reiniciados y nueva zancada · 0.6.3
+
+Las dianas se rompen en 19 fragmentos irregulares de aspecto vítreo con destello y caída. Al volver al farol tras perder toda la energía, puentes y barreras se cierran y las dianas vuelven a estar intactas para repetir los lanzamientos; se conservan llaves y coleccionables. Moflete alterna el apoyo y la elevación de sus dos pies al patrullar y perseguir. [Arquitectura](docs/ARQUITECTURA.md#cristales-irregulares-reinicio-de-puentes-y-pisada-de-moflete--063).

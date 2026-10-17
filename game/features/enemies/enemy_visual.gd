@@ -116,6 +116,15 @@ func _apply_pose(airborne: bool, alert: bool) -> void:
 			travel = 0.060
 		elif item.mode == "root":
 			travel = 0.052
+		elif item.mode == "foot":
+			# Apoyo firme media zancada; la otra mitad eleva el pie.
+			# El cambio es local al raster y mantiene estable el sensor de pisotón.
+			activity = 0.12 + _gait * 0.88
+			if airborne:
+				activity *= 0.25
+			pose_angles[index] = wave * amplitude * activity
+			pose_offsets[index] = Vector2(wave * 0.088, -maxf(0.0, wave) * 0.105 + maxf(0.0, -wave) * 0.008) * activity * strength
+			continue
 		if airborne and item.mode != "wing" and item.mode != "tip" and item.mode != "soft":
 			activity *= 0.60
 		if alert and item.mode == "hand":

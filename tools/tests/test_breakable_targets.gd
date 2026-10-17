@@ -47,7 +47,18 @@ func run() -> void:
 	object.release(1, Vector2.ZERO)
 	target.receive_thrown_hit(object)
 	check(not target.active and not target._sprite.visible, "el impacto válido rompe y oculta la diana entera")
-	check(target._fragments != null and target._fragments.get_child_count() == 8, "la textura se separa en ocho fragmentos")
+	check(target._fragments != null and target._fragments.get_child_count() == ForestThrowTarget.SHARD_COUNT + 1, "la diana genera 19 cristales distintos y un destello")
+	var widths := PackedFloat32Array()
+	var unique_shapes: Dictionary = {}
+	for shard_index in ForestThrowTarget.SHARD_COUNT:
+		var piece := target._fragments.get_child(shard_index) as Polygon2D
+		check(piece != null and piece.texture == ForestThrowTarget.TEXTURE and piece.polygon.size() >= 3, "fragmento %d preserva textura con recorte irregular" % shard_index)
+		if piece != null:
+			var bounds: Rect2 = _bounds(piece.polygon)
+			widths.append(bounds.size.x)
+			unique_shapes[str(roundf(bounds.size.x / 10.0)) + ":" + str(piece.polygon.size())] = true
+	check(unique_shapes.size() >= 8, "los trozos tienen geometrías variadas, no sectores idénticos")
+	check(widths.max() > widths.min() * 1.6, "los trozos tienen tamaños claramente distintos")
 	target.receive_thrown_hit(object)
 	check(activations[0] == 1, "el mismo impacto no activa dos veces la diana rota")
 	await step(4)
@@ -56,7 +67,7 @@ func run() -> void:
 	var position_before: Vector2 = fragment.position
 	main._open_menu("Pausa", true)
 	await step(5)
-	check(fragment.position == position_before, "la pausa detiene los fragmentos de madera")
+	check(fragment.position == position_before, "la pausa detiene los fragmentos de cristal")
 	main._resume()
 	await step(48)
 	check(target._fragments == null and not target._sprite.visible, "al terminar no quedan fragmentos ni disco entero")
@@ -71,13 +82,15 @@ func run() -> void:
 	await step(3)
 	check(target.active and target._sprite.visible and target.collision_layer == 64, "la diana anterior al farol vuelve entera y puede recibir impactos")
 	check(gate_target.active and gate_target._sprite.visible and gate_target._fragments == null, "el reintento repara también una diana de raíces con rotura pendiente")
-	check(stage.bridges[0].state == RootBridge.State.OPEN and stage.collected_keys.has(0), "se conservan el paso abierto y la llave recogida")
+	check(stage.bridges[0].state == RootBridge.State.CLOSED and stage.bridges[0]._shape.disabled and stage.collected_keys.has(0), "se repliega el puente al morir, pero se conserva la llave")
+	check(stage.activated_mechanisms.is_empty(), "al volver al farol las dianas pueden activar sus mecanismos otra vez")
+	check(stage.root_gates.all(func(g: ForestRootGate): return not g.is_open and g.activated.is_empty()), "las barreras de dos marcas también se rearman")
 	object.reset_to_spawn()
 	object.pick_up(hand)
 	object.release(1, Vector2.ZERO)
 	target.receive_thrown_hit(object)
 	check(not target.active and activations[0] == 2, "al volver atrás la diana reparada se puede romper otra vez")
-	check(stage.activated_mechanisms.count(target.definition.mechanism_id) == 1, "romperla de nuevo no duplica el mecanismo resuelto")
+	check(stage.activated_mechanisms.count(target.definition.mechanism_id) == 1 and stage.bridges[0].state == RootBridge.State.OPENING, "la diana reparada vuelve a desplegar el puente una sola vez")
 	stage.respawn_player()
 	stage.respawn_player()
 	await step(3)
@@ -89,6 +102,13 @@ func run() -> void:
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	print("RESULTADO DIANAS: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(1 if failures else 0)
+
+
+func _bounds(vertices: PackedVector2Array) -> Rect2:
+	var rect := Rect2(vertices[0], Vector2.ZERO)
+	for point in vertices:
+		rect = rect.expand(point)
+	return rect
 
 
 func _has_no_badges(node: Node) -> bool:

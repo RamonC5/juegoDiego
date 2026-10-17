@@ -34,3 +34,10 @@ Aplicar a personajes nuevos y revisiones; requisito confirmado el 17 de octubre 
 - Junto al giro, permitir desplazamientos localizados periódicos que cambien la silueta a tamaño real de juego (~60–80 px de alto para enemigos terrestres). Calibrar en Android y no solo en el visor ampliado.
 - No aceptar únicamente tests de cambios en `pose_angles`: capturar dos poses con el renderizador Compatibility, congelar `position` y `rotation` del sprite completo y contar píxeles cambiados dentro del enemigo.
 - Documentar por separado la animación disponible en **visor** y su **aparición jugable** en niveles. Mantener pendientes pruebas físicas cuando no se dispone del dispositivo.
+
+
+## Requisito de pisada en personajes con pies
+
+- Alternar fase de apoyo y de balanceo entre las dos piernas: un pie avanza elevado mientras el contrario permanece en contacto con el suelo.
+- Calibrar al tamaño real del APK, variar amplitud con velocidad de patrulla/persecución y amortiguar al frenar, quedar quieto o saltar. Mantener continuidad de fase y colisiones estáticas.
+- Verificar con pruebas la diferencia vertical y horizontal de los dos pies, no solo el balanceo del tronco.

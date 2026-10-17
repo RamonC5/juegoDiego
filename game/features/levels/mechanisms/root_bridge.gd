@@ -40,6 +40,17 @@ func activate() -> void:
 	set_physics_process(true)
 
 
+func reset_closed() -> void:
+	# Al volver al farol el obstáculo debe requerir un nuevo lanzamiento.
+	# Cancela incluso los despliegues que estaban a medio crecer.
+	state = State.CLOSED
+	_progress = 0.0
+	_finishing = false
+	_shape.set_deferred("disabled", true)
+	set_physics_process(false)
+	queue_redraw()
+
+
 func restore_open() -> void:
 	# Reaparecer no repite la animación ni vuelve a emitir una activación ya resuelta.
 	state = State.OPEN

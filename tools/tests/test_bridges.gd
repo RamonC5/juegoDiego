@@ -264,7 +264,7 @@ func _run() -> void:
 	main._resume()
 	await _step(4)
 	_check(not hero.dead and hero.position.distance_to(stage.respawn_position) < 4, "el reintento aparece sobre suelo del último farol")
-	_check(practice.state == RootBridge.State.OPEN and stage.bridges[1].state == RootBridge.State.CLOSED, "morir conserva solo las aperturas ya resueltas")
+	_check(practice.state == RootBridge.State.CLOSED and stage.bridges[1].state == RootBridge.State.CLOSED, "morir repliega también la pasarela resuelta")
 	# Otro objeto válido también sirve: contrato de impacto físico, sin exigir un tipo exclusivo.
 	var alternate := ForestThrowTarget.new()
 	alternate.definition = stage.DEFINITION.bridges[1].duplicate()
@@ -285,7 +285,7 @@ func _run() -> void:
 	barrel.queue_free()
 	hand.queue_free()
 	_check(LevelProgress.new(STORAGE).levels.is_empty(), "resolver un puente no guarda una finalización ni inventa guardado de intento")
-	# Muerte a mitad del segundo despliegue: restaurar abierto antes de continuar.
+	# Muerte a mitad del segundo despliegue: cancelar y rearmar, no restaurar abierto.
 	stage._on_mechanism_activated(&"puente_diana_principal")
 	await _step(8)
 	_check(stage.bridges[1].state == RootBridge.State.OPENING, "segundo despliegue independiente en curso")
@@ -294,8 +294,8 @@ func _run() -> void:
 	await _step(8)
 	main._resume()
 	await _step(3)
-	_check(stage.bridges[1].state == RootBridge.State.OPEN and not stage.bridges[1]._shape.disabled,
-		"morir durante el despliegue restaura el puente abierto y seguro")
+	_check(stage.bridges[1].state == RootBridge.State.CLOSED and stage.bridges[1]._shape.disabled and is_zero_approx(stage.bridges[1]._progress),
+		"morir durante el despliegue cancela la animación y retira su colisión")
 	_check(stage.throw_targets[1].active and stage.throw_targets[1]._sprite.visible and _objects() == total, "reaparecer reconstruye la diana y conserva los objetos sin duplicación")
 	hero.respawn(stage.checkpoint_positions()[0])
 	await _step(5)

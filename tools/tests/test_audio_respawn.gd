@@ -98,7 +98,7 @@ func _run() -> void:
 	check(stage.defeated_enemies == 1 and stage.enemies.size() == 81, "sin duplicar patrullas ni inflar el marcador")
 	check(not hero.dead and hero.health == 3 and hero.position.distance_to(stage.respawn_position) < 2.0, "Diego recupera energía y vuelve al farol")
 	check(stage.collected_keys.has(0) and stage.leaves == leaves_before and stage.crystals == crystals_before, "se conservan llaves y coleccionables")
-	check(stage.activated_mechanisms.has(station.definition.mechanism_id) and station.active and station._sprite.visible, "se conservan mecanismos abiertos y se reconstruyen las dianas")
+	check(stage.activated_mechanisms.is_empty() and station.active and station._sprite.visible and stage.bridges[0].state == RootBridge.State.CLOSED, "se cierran mecanismos y se reconstruyen las dianas al reaparecer")
 	check(main._music.get_instance_id() == track_id, "reaparecer conserva un único reproductor")
 	var stable_id: int = stage.enemies[2].get_instance_id()
 	stage.respawn_player()

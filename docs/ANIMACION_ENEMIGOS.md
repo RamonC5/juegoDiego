@@ -50,3 +50,8 @@ Al observar que los movimientos no se apreciaban en el APK se identificaron dos 
 **Alcance del APK:** en Bosque Esmeralda aparecen **Terrón y Moflete**. Los otros cinco personajes (Goterón, Vainete, Plumín, Remiendo y Nóctilo) están animados solamente en el visor y aún no se incluyen como enemigos jugables. Las alas de Nóctilo se revisan en `enemy_gallery.tscn`, no en el nivel de bosque.
 
 Se amplió la comprobación automática para validar UV de recorte, continuidad de desplazamientos y cambios de píxeles reales entre poses capturadas con Compatibility **sin balancear el cuerpo entero**. La nueva versión requiere descargar e instalar de nuevo el APK generado por Actions para este commit. La apreciación visual y los FPS en móviles físicos aún requieren comprobación.
+
+
+## Pisada expresiva de Moflete · 0.6.3
+
+Los pies de Moflete pasan al modo `foot`, con un desfase de PI radianes: uno eleva su extremo en el balanceo mientras el otro está apoyado. La traslación longitudinal y la elevación aumentan al perseguir y se amortiguan en reposo y en el aire. Se comprueba la alternancia de apoyo y elevación en `test_enemy_motion.gd`. La deformación no mueve sensores ni colisiones, y no se modifica el PNG.

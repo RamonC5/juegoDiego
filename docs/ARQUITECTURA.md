@@ -192,7 +192,7 @@ Avance agachado, setas de rebote, placas de peso y guardado de intentos siguen p
 
 ### Dianas y puentes integrados
 
-`RootBridgeDefinition` separa los datos de estación; `ForestThrowTarget` valida impactos y emite una activación única; `RootBridge` despliega la imagen durante 0,6 segundos y después habilita suelo estático. `ForestStage` compone referencias y conserva `activated_mechanisms` durante el intento. Al reaparecer restaura abiertos los mecanismos resueltos y recupera las piñas; no guarda el intento en disco. Las dianas usan la capa 7 de interacción y los arrojadizos la incluyen en sus barridos; Diego no colisiona con ellas. El puente usa la capa de entorno.
+`RootBridgeDefinition` separa los datos de estación; `ForestThrowTarget` valida impactos y emite una activación única; `RootBridge` despliega la imagen durante 0,6 segundos y después habilita suelo estático. `ForestStage` compone referencias y conserva `activated_mechanisms` durante el intento. Al reaparecer (desde 0.6.3) cierra los puentes y barreras, limpia las activaciones, reconstruye las dianas y recupera las piñas; no guarda el intento en disco. Las dianas usan la capa 7 de interacción y los arrojadizos la incluyen en sus barridos; Diego no colisiona con ellas. El puente usa la capa de entorno.
 
 Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la segunda llave y tres faroles. La reaparición solo avanza a índices de farol posteriores. La cámara aumenta suavemente la anticipación en las estaciones y sigue la recuperación inferior. Las texturas raster tienen límites de importación de 1024 y 256 píxeles. [Diseño, evidencia y pendientes](dinamicas/puente_diana.md).
 
@@ -217,7 +217,7 @@ La petición posterior permite a todos los enemigos perseguir y bajar de estruct
 
 ## Animación de enemigos · 0.5.3
 
-`EnemyMotionProfiles` fija pivotes, zonas elípticas, amplitudes y fases por anatomía. `EnemyVisual` comparte geometría inmutable entre instancias y mantiene materiales independientes; el shader Compatibility deforma una malla raster de 32 × 32 celdas sin cambiar los PNG ni los cuerpos físicos. `ForestEnemy` avanza el ciclo con `delta` y velocidad real, y conserva pausa, suspensión lejana y derrota. El visor permite revisar los siete diseños, pausar y reducir movimiento. Las cinco integraciones visuales nuevas no incorporan IA ni contenido a los niveles. [Contrato, evidencias y límites](ANIMACION_ENEMIGOS.md).
+`EnemyMotionProfiles` fija pivotes, zonas elípticas, amplitudes y fases por anatomía. `EnemyVisual` comparte geometría inmutable entre instancias y mantiene materiales independientes; el shader Compatibility deforma una malla raster de 40 × 40 celdas sin cambiar los PNG ni los cuerpos físicos. `ForestEnemy` avanza el ciclo con `delta` y velocidad real, y conserva pausa, suspensión lejana y derrota. El visor permite revisar los siete diseños, pausar y reducir movimiento. Las cinco integraciones visuales nuevas no incorporan IA ni contenido a los niveles. [Contrato, evidencias y límites](ANIMACION_ENEMIGOS.md).
 
 
 
@@ -239,7 +239,7 @@ Cada `ForestEnemy.spawn_index` identifica su entrada en `enemy_spawns`. `ForestS
 
 Al reaparecer, el nivel reconstruye exactamente las patrullas registradas desde sus datos originales: posición, tipo, límites, sensores, salud activa, animación y persecución. Si una animación de derrota aún existe, primero retira esa instancia. Los enemigos activos vuelven a su patrulla inicial. Las derrotas consolidadas permanecen eliminadas durante el intento. El contador descuenta los enemigos restaurados para impedir sumar varias veces el mismo combate. La regla es temporal: también se restaura un enemigo derrotado al retroceder después de activar el farol.
 
-Llaves, hojas, cristales y mecanismos resueltos conservan el comportamiento anterior; las piñas y troncos recuperan su estado jugable. Reiniciar voluntariamente crea un intento completo con todos los enemigos. No se guarda el intento a mitad del nivel en disco.
+Llaves, hojas y cristales se conservan. Desde 0.6.3 los mecanismos resueltos se rearman al morir; las piñas y troncos recuperan su estado jugable. Reiniciar voluntariamente crea un intento completo con todos los enemigos. No se guarda el intento a mitad del nivel en disco.
 
 ### Escenario sin rótulos ni iconos · 0.6.1
 
@@ -249,6 +249,15 @@ Se retiran las insignias y flechas flotantes de dianas, enemigos, faroles, tronc
 
 `ForestThrowTarget.receive_thrown_hit` exige un arrojadizo lanzado válido. El primer impacto desactiva el sensor y oculta el disco entero. `break_apart` reparte la misma textura en ocho sectores `Polygon2D`, con UV originales, desplazamiento, giro y desvanecimiento durante 0,65 segundos. Los fragmentos no tienen colisión y su tween hereda la pausa. No hay insignia de confirmación, destello ni sacudida; el objeto roto y la apertura real del paso son la respuesta visual.
 
-Al reaparecer, `ForestStage` llama a `reset_to_intact` para **todas** las dianas del nivel, incluidas las situadas antes del farol. Se cancela cualquier rotura en curso, se retiran los fragmentos, vuelve el disco entero y se reactiva la capa 7 para poder romperlas de nuevo. Los mecanismos abiertos y las llaves del intento se conservan para mantener accesible el recorrido. Una diana reparada puede emitir otro impacto, pero `activated_mechanisms` evita repetir activaciones y duplicar el progreso de puentes o raíces. Reiniciar crea el nivel completo nuevo.
+Al reaparecer, `ForestStage` llama a `reset_to_intact` para **todas** las dianas del nivel, incluidas las situadas antes del farol. Se cancela cualquier rotura en curso, se retiran los fragmentos, vuelve el disco entero y se reactiva la capa 7 para poder romperlas de nuevo. Desde 0.6.3 los mecanismos se rearman mientras las llaves del intento se conservan. Una diana reparada puede emitir otro impacto, pero `activated_mechanisms` evita repetir activaciones y duplicar el progreso de puentes o raíces. Reiniciar crea el nivel completo nuevo.
 
 `tools/tests/test_breakable_targets.gd` verifica objetos libres/sostenidos, impacto válido, ocho fragmentos, pausa, limpieza, reparación durante la rotura, dianas anteriores al farol, impactos repetidos tras reparar, ausencia de iconos y conservación del progreso. Las suites de puentes, IA y audio actualizan las expectativas sustituidas por esta petición. La música conserva volumen, silencio, pausa y un único reproductor por escena. El entrenamiento retira también sus insignias.
+
+
+### Cristales irregulares, reinicio de puentes y pisada de Moflete · 0.6.3
+
+`ForestThrowTarget` genera 19 celdas de Voronoi de distinto tamaño sobre la textura de la diana, con UV correctos, aristas brillantes y un destello corto. Los fragmentos salen despedidos, giran, caen acelerando y se desvanecen en 0,72 segundos. No tienen colisión, comparten material raster y respetan la pausa. La semilla aleatoria local permite repetir pruebas sin alterar el RNG del juego.
+
+`ForestStage.respawn_player()` rearma TODOS los puentes, incluso si se estaban desplegando, y las barreras de dos dianas; estas cancelan sus tweens y recuperan la colisión. Vacía `activated_mechanisms` y devuelve intactas todas las dianas, de forma que deben activarse de nuevo. Permanecen llaves, hojas, cristales, faroles y las reglas existentes de enemigos derrotados desde el último farol.
+
+`EnemyVisual` introduce el modo `foot` en el perfil de Moflete: ambos pies se elevan y apoyan por turnos, se desplazan longitudinalmente con la velocidad y reducen su recorrido al frenar o caer. El movimiento no afecta al cuerpo físico ni a los sensores. La regresión prueba fases opuestas, desplazamiento y apoyo, geometría irregular, pausas y reactivación.

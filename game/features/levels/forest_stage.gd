@@ -396,10 +396,16 @@ func _on_goal(body: Node2D) -> void:
 
 
 func respawn_player() -> void:
-	for index in bridges.size():
-		if activated_mechanisms.has(bridges[index].definition.mechanism_id):
-			bridges[index].restore_open()
-	# Se reconstruyen todas las dianas, incluidas las de tramos anteriores.
+	# Al agotar la energía se rearma TODO el puzzle: dianas intactas,
+	# puentes recogidos y barreras de dos dianas otra vez bloqueadas.
+	# Se limpian las activaciones para que el mismo golpe vuelva a contar.
+	for bridge in bridges:
+		bridge.reset_closed()
+	for gate in root_gates:
+		gate.reset_closed()
+	activated_mechanisms.clear()
+	_throw_hint_target = null
+	_throw_hint_seconds = 0.0
 	for target in throw_targets:
 		target.reset_to_intact()
 	player.respawn(respawn_position)
@@ -422,7 +428,7 @@ func respawn_player() -> void:
 	_update_activity()
 	player.invulnerability = 1.5
 	player.controls.block_current_physical()
-	hint_requested.emit("¡Otra oportunidad! Las llaves, hojas y cristales recogidos se conservan en este intento.")
+	hint_requested.emit("¡Otra oportunidad! Se han cerrado los puentes y reconstruido las dianas. Conservas las llaves, hojas y cristales.")
 
 
 func _physics_process(delta: float) -> void:

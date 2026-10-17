@@ -28,7 +28,7 @@ Los del suelo salen de su patrulla corta para atacar. Los guardianes persiguen d
 
 ## Recuperación y retorno
 
-Las piñas perdidas regresan a los cuatro segundos. Pausar detiene ciclos, enemigos y reposición. Morir conserva las tres llaves, coleccionables, puentes y marcas ya resueltos del intento, vuelve al farol, repone energía y herramientas y limpia la alerta de enemigos vivos. Un farol anterior no hace retroceder la reaparición.
+Las piñas perdidas regresan a los cuatro segundos. Pausar detiene ciclos, enemigos y reposición. Morir conserva llaves y coleccionables, pero desde 0.6.3 repliega todos los puentes, bloquea las barreras y repara las dianas; hay que resolverlas otra vez. Vuelve al farol, repone energía y herramientas y limpia la alerta de enemigos vivos. Un farol anterior no hace retroceder la reaparición.
 
 Todos los pasos abiertos permiten volver atrás y buscar objetivos pendientes. Se usan más faroles que la pauta general de 3–4 minutos porque anteceden a nuevas combinaciones y ofrecen recuperación de energía para el público objetivo. Rejugar repone el nivel, conservando mejores resultados. Cerrar la aplicación todavía reinicia el intento: no hay guardado intermedio.
 
@@ -64,9 +64,14 @@ La petición posterior permite a todos los enemigos perseguir y bajar de estruct
 
 ## Ajuste 0.6.0
 
-El nivel incorpora **Senderos de Esmeralda**, música instrumental original del bosque en bucle, con volumen y silencio desde pausa. Morir restaura las patrullas derrotadas después del último farol; antes del primero se restauran desde el inicio. Las derrotas previas al farol, llaves, coleccionables y mecanismos resueltos se conservan en el intento. Los rótulos con letras se sustituyen por flechas, banderas, círculos y marcas; los contadores siguen mostrando iconos y números. Las instrucciones escritas están en pausa. [Contratos y procedencia musical](ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).
+El nivel incorpora **Senderos de Esmeralda**, música instrumental original del bosque en bucle, con volumen y silencio desde pausa. Morir restaura las patrullas derrotadas después del último farol; antes del primero se restauran desde el inicio. Las derrotas previas al farol, llaves y coleccionables se conservan; desde 0.6.3 los mecanismos vuelven al estado inicial al reaparecer. Los rótulos con letras se sustituyen por flechas, banderas, círculos y marcas; los contadores siguen mostrando iconos y números. Las instrucciones escritas están en pausa. [Contratos y procedencia musical](ARQUITECTURA.md#música-por-nivel-reaparición-y-señales-visuales--060).
 
 
 ## Revisión 0.6.1
 
 La música pasa a **Esmeralda en marcha**: 90 segundos a 128 BPM, batería, bajo y sintetizadores, con una dirección de plataformas moderna y más rítmica. Se eliminan las ayudas flotantes con iconos; los contadores del HUD se mantienen. Las dianas se rompen en ocho fragmentos al recibir un lanzamiento válido y vuelven a estar enteras al reaparecer. También se reparan las de tramos anteriores; puedes romperlas de nuevo sin duplicar la activación de puentes o raíces. Las llaves y los pasos abiertos se conservan. Esta revisión sustituye las reglas visuales de 0.6.0.
+
+
+### Cambios de jugabilidad y animación · 0.6.3
+
+Al reaparecer en el farol por perder toda la energía, **todos los puentes vuelven a estar recogidos**. Las barreras verticales se cierran, las dianas se reconstruyen y las activaciones se borran para que sea posible superar cada reto de nuevo. Llaves y coleccionables se conservan. Las dianas estallan en cristales irregulares con caída y destello, y Moflete levanta y apoya alternadamente cada pie mientras camina o persigue.
