@@ -35,6 +35,8 @@ Se mantienen ocho identificadores de mundo. Esta entrega incorpora solo `world_0
 
 El nivel pasa de siete a nueve instancias de los dos enemigos ya integrados. Se ajusta el límite izquierdo de la patrulla de Terrón del tramo final a x=7310 para separar los cuerpos. Las patrullas nuevas permanecen sobre suelo firme y no ocupan dianas, piñas, apoyos de recuperación, faroles ni puestos de embarque. No se exige derrotarlas para abrir la puerta: conserva las tres llaves como condición.
 
+La [CI de 0.4.1](https://github.com/RamonC5/juegoDiego/actions/runs/39009974004), sobre `ea199673aaea6914a0134b248416e1d48d068d85`, supera 294 comprobaciones, incluidos los pisotones de las dos instancias nuevas y el recorrido completo con nueve enemigos activos. Genera capturas de ambos encuentros y un APK firmado. Las capturas se han revisado.
+
 El usuario informó el 17 de octubre de 2026 de una partida completa de **45 segundos** en la versión anterior. Se registra como observación del usuario, sin una nueva medición ni una atribución de edad o metodología. Esta entrega añade dos encuentros; ampliar el recorrido hasta el mínimo de 15 minutos continúa pendiente.
 
 ## Controles
