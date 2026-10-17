@@ -75,3 +75,8 @@ La música pasa a **Esmeralda en marcha**: 90 segundos a 128 BPM, batería, bajo
 ### Cambios de jugabilidad y animación · 0.6.3
 
 Al reaparecer en el farol por perder toda la energía, **todos los puentes vuelven a estar recogidos**. Las barreras verticales se cierran, las dianas se reconstruyen y las activaciones se borran para que sea posible superar cada reto de nuevo. Llaves y coleccionables se conservan. Las dianas estallan en cristales irregulares con caída y destello, y Moflete levanta y apoya alternadamente cada pie mientras camina o persigue.
+
+
+## Actualización 0.7.0 · Nivel más corto y barranco de lianas
+
+Por petición del 17 de octubre de 2026, el nivel jugable contiene diez tramos contando el prólogo (antes 19), 45 enemigos, 10 pasos dobles, cuatro puentes, cinco troncos y las tres llaves de ramas en tres sectores diferentes. La duración objetivo se reduce de 18–22 a **9,2–10,94 min de primera partida estimada**; no hay mediciones físicas del tiempo. El barranco del sector central no admite salto directo: Diego trepa por una liana manteniendo el salto/deslizamiento hacia arriba, suelta y se impulsa hasta una cadena de cinco dianas elásticas. Cada diana se fractura y se rearma tras unos segundos o al reaparecer. La caída resta energía y permite un nuevo intento desde la orilla. Las barreras y los puentes existentes siguen reseteándose si se agotan todas las vidas. Fuente de autoría: `tools/authoring/build_forest_level.py`; recurso de ejecución: `game/data/worlds/world_01/level_01.tres`. [Ficha completa](dinamicas/lianas_dianas_barranco.json).
