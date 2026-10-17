@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "tipo": "dinamica",
+  "id": "gruta_hojas_vida",
+  "nombre": "Gruta oculta de hojas y vida extra",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "encargo:secreto bajo tierra",
+      "revision": "2026-10-17",
+      "observacion": "Entrada oculta tras hojas, un corazón como premio y ascensor para regresar."
+    },
+    {
+      "ruta": "game/features/levels/mechanisms/secret_grove.gd",
+      "revision": "main · 2026-10-17",
+      "observacion": "Trampilla, gruta, plataforma móvil y recogida única integradas."
+    }
+  ],
+  "objetivo": "Descubrir una trampilla disimulada con hojas, descender a una gruta y recoger un brote que aumenta la energía máxima del intento.",
+  "dependencias": [
+    {
+      "id": "gestos_tactiles",
+      "estado": "implementada",
+      "detalle": "Mantener abajo para agacharse junto a la cubierta."
+    },
+    {
+      "id": "plataformas_moviles",
+      "estado": "implementada",
+      "detalle": "El ascensor de madera transporta a Diego de vuelta al sendero."
+    },
+    {
+      "id": "energia",
+      "estado": "implementada",
+      "detalle": "El protagonista comienza con tres corazones y puede ampliar la capacidad a cuatro."
+    }
+  ],
+  "controles": {
+    "tactil": "Mantén el gesto de bajar sobre el manto espeso para caer por la trampilla. Muévete hasta el brote y salta sobre la plataforma de madera ascendente para salir.",
+    "teclado": "Mantén abajo sobre la cubierta; camina hasta el brote y usa salto para subir al ascensor.",
+    "mando": "Stick hacia abajo sobre las hojas; stick horizontal y salto para volver sobre el ascensor."
+  },
+  "aprendizaje": {
+    "presentacion": "La acumulación de hojas destaca por volumen y movimiento suave, sin carteles ni iconos sobre el escenario.",
+    "practica": "Una sola trampilla ancha, sin enemigos en la gruta y con suelo de recuperación continuo.",
+    "combinacion": "El ascensor devuelve a la ruta principal; el secreto no guarda llaves ni bloquea el avance."
+  },
+  "reglas": {
+    "activacion": "Agacharse en el centro de la cubierta; la trampilla es firme al caminar normalmente.",
+    "exito": "Tocar el brote luminoso, sumar un corazón hasta un máximo de cuatro y regresar al sendero en el ascensor.",
+    "fallo": "Puede abandonarse sin recoger el premio; no hay trampa mortal ni dependencia de otro objeto.",
+    "recuperacion": "El ascensor se reinicia al reaparecer en un farol. El brote se recoge solo una vez y la energía máxima obtenida dura el intento."
+  },
+  "feedback": [
+    "Hojarasca más densa sobre la entrada, raíces y suelo de tierra bajo el nivel.",
+    "Brote de dos hojas luminosas que flota y desaparece cuando se recoge.",
+    "Plataforma grande que asciende con paradas automáticas, sin botones nuevos."
+  ],
+  "recompensa": "Un corazón adicional de capacidad y energía (de tres hasta un máximo de cuatro); hojas coleccionables opcionales.",
+  "minutos_estimados": [
+    0.4,
+    0.8
+  ],
+  "dificultad": "Fácil y optativa, apropiada para la exploración de 10 años.",
+  "persistencia": {
+    "al_morir": "El brote permanece recogido y los cuatro corazones de capacidad siguen disponibles en la partida; el ascensor reinicia el ciclo.",
+    "al_cerrar": "Al iniciar otra partida, el brote y los tres corazones iniciales se restauran.",
+    "al_rejugar": "Secreto nuevamente disponible desde el inicio del nivel; no condiciona las tres llaves."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "La cubierta tiene volumen de hojas, el brote forma de dos hojas y el ascensor una silueta de tronco reconocible.",
+    "equivalencia_visual_sonora": "La entrada, el premio y el ascensor pueden reconocerse visualmente sin audio obligatorio.",
+    "legibilidad_movil": "Trampilla de 220 px, ascensor de 170 px y recompensa brillante; seguimiento de cámara ampliado en altura.",
+    "ajustes_control": "No hay botones adicionales; respeta gesto de agacharse, desplazamiento y salto en Android/Windows."
+  },
+  "validacion": {
+    "funcional": [
+      "Verificar cubierta firme caminando y apertura solo con gesto de agacharse.",
+      "Verificar colisión de la recompensa y máximo de cuatro corazones sin duplicaciones.",
+      "Verificar ascensor, cámara subterránea, reaparición y recorrido de tres llaves."
+    ],
+    "jugando": [
+      "Pendiente ejecutar Godot y probar el secreto físicamente en Android y tablet Windows.",
+      "Pendiente comprobar que la entrada resulta descubrible sin ser obligatoria."
+    ],
+    "evidencias": [
+      "game/features/levels/mechanisms/secret_grove.gd",
+      "tools/tests/test_secret_grove.gd (suite añadida a CI, ejecución pendiente)"
+    ]
+  }
+}
