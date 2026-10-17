@@ -17,7 +17,31 @@ import xml.etree.ElementTree as ET
 
 PACKAGE = "com.ramonc5.saltoheroes"
 OUTPUT = Path("art/android")
-MARKER = "SALTO_FOREST_READY level=world_01_level_01 enemies=81 art=81"
+FOREST_LEVEL = Path(__file__).resolve().parents[2] / "game/data/worlds/world_01/level_01.tres"
+READY_PATTERN = re.compile(
+    r"SALTO_FOREST_READY level=world_01_level_01 enemies=(\d+) art=(\d+)(?=\s|$)"
+)
+
+
+def enemy_count_from_level(source: str) -> int:
+    """Contar solo las apariciones de enemigos del recurso que se exporta."""
+    match = re.search(r"^enemy_spawns\s*=\s*Array\[Vector4\]\(\[(.*?)\]\)",
+                      source, re.MULTILINE | re.DOTALL)
+    if match is None:
+        raise ValueError("El nivel del bosque no declara enemy_spawns.")
+    count = len(re.findall(r"\bVector4\s*\(", match.group(1)))
+    if count == 0:
+        raise ValueError("La prueba Android necesita al menos un enemigo en el bosque.")
+    return count
+
+
+def forest_art_ready(log: str, expected_enemies: int) -> bool:
+    """El APK debe confirmar tanto las instancias como el arte del nivel actual."""
+    return any(int(match[1]) == expected_enemies and int(match[2]) == expected_enemies
+               for match in READY_PATTERN.finditer(log))
+
+
+EXPECTED_ENEMIES = enemy_count_from_level(FOREST_LEVEL.read_text(encoding="utf-8"))
 
 
 def adb(*args: str, check: bool = True) -> subprocess.CompletedProcess:
@@ -140,7 +164,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
         while time.monotonic() < deadline:
             time.sleep(2)
             collected += logs()
-            if require_marker and MARKER not in collected:
+            if require_marker and not forest_art_ready(collected, EXPECTED_ENEMIES):
                 continue
             screenshot(f"{prefix}_inicio.png")
             # El bosque raster ocupa bastante más que el splash o una pantalla negra.
@@ -151,8 +175,8 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
                 break
         if adb("shell", "pidof", PACKAGE, check=False).returncode != 0:
             raise RuntimeError(f"{prefix}: la aplicación no sigue ejecutándose.")
-        if require_marker and MARKER not in collected:
-            raise RuntimeError("El APK no confirmó los 81 enemigos con sus texturas.")
+        if require_marker and not forest_art_ready(collected, EXPECTED_ENEMIES):
+            raise RuntimeError(f"El APK no confirmó los {EXPECTED_ENEMIES} enemigos del nivel actual con sus texturas.")
         if not ready:
             raise RuntimeError(f"{prefix}: no se obtuvo un fotograma del bosque tras la carga.")
         dismiss_fullscreen_hint()
@@ -176,7 +200,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
             "display_name_verified": "Super Diego" if require_marker else None,
             "identity_screenshot": f"{prefix}_identidad.png" if require_marker else None,
             "screen": [width, height],
-            "enemy_art_marker": MARKER in collected,
+            "enemy_art_marker": forest_art_ready(collected, EXPECTED_ENEMIES),
             "screenshots": [f"{prefix}_{suffix}.png" for suffix in ("inicio", "enemigo", "pausa")],
         }
     finally:

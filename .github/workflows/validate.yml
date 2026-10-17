@@ -122,6 +122,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .godot-logs
+          python3 -m unittest discover -s tools/ci -p 'test_android_readiness.py'
           "$GODOT_BIN" --version
           "$GODOT_BIN" --headless --path . --editor --import --quit 2>&1 | tee .godot-logs/import.log
           "$GODOT_BIN" --headless --path . --script tools/tests/test_startup.gd 2>&1 | tee .godot-logs/startup.log

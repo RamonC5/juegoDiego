@@ -9,3 +9,7 @@ Pruebas de Godot 4.7.2: la gruta incluye descenso real, trayecto de más de 1100
 Compatibility y Mesa llvmpipe: capturas de móvil 1280 × 720, tablet 1024 × 768 y formato ancho 1600 × 720. Se revisaron tótem, túnel, ascensor y lianas en el escenario real. La revisión detectó y corrigió el orden de dibujo del ascensor y un resplandor que perdía su transparencia. El visor guarda 24 poses y comprueba píxeles del raster sin mover el cuerpo completo.
 
 Pendiente: tacto, valoración del movimiento, descubrimiento del secreto y rendimiento en Android y tablet Windows físicos. Duración de primera partida pendiente; el tiempo simulado de una ruta automatizada no la mide.
+
+## Recuento verificado dentro del APK
+
+Actions 141 exportó y firmó correctamente el APK. La prueba del emulador falló al buscar el marcador histórico `enemies=81 art=81`; logcat confirmó el arranque real con `enemies=45 art=45`, sin errores de script. `test_android_apk.py` ahora calcula el recuento desde `enemy_spawns` del recurso actual y exige que coincidan instancias y texturas. La regresión comprueba el registro observado, un recuento antiguo, arte incompleto, cifras con prefijo coincidente, cambios de contenido y datos ausentes/vacíos. Se ejecuta antes de las pruebas Godot en CI.
