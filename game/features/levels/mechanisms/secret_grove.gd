@@ -5,7 +5,6 @@ extends Node2D
 
 signal bonus_collected
 
-const PROPS: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_props_v001.png")
 const HATCH_HALF_WIDTH: float = 110.0
 const CAVE_LEFT: float = -260.0
 const CAVE_RIGHT: float = 390.0
@@ -37,8 +36,8 @@ func _ready() -> void:
 	var definition := MovingPlatformDefinition.new()
 	definition.platform_id = &"ascensor_hojas_secreto"
 	definition.display_name = "Ascensor de la gruta oculta"
-	definition.start_position = global_position + Vector2(0, 435)
-	definition.end_position = global_position + Vector2(0, -5)
+	definition.start_position = Vector2(0, 435)
+	definition.end_position = Vector2(0, -5)
 	definition.width = 170.0
 	definition.travel_seconds = 3.2
 	definition.stop_seconds = 2.1
