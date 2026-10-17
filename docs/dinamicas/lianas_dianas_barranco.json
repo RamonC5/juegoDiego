@@ -2,7 +2,7 @@
   "schema_version": 1,
   "tipo": "dinamica",
   "id": "lianas_dianas_barranco",
-  "nombre": "Liana y dianas del barranco",
+  "nombre": "Lianas oscilantes del barranco",
   "estado": "implementada",
   "fuentes": [
     {
@@ -19,83 +19,88 @@
       "ruta": "game/features/player/diego.gd",
       "revision": "main · 2026-10-17",
       "observacion": "Ascenso por gesto de salto mantenido, impulso al soltar y rebote en el contacto físico."
+    },
+    {
+      "ruta": "encargo:corregir movilidad de lianas",
+      "revision": "2026-10-17",
+      "observacion": "El jugador debe saltar, colgarse de lianas que se mueven y progresar saltando de una a otra; se sustituye la trepa automática."
     }
   ],
-  "objetivo": "Superar un barranco no saltable desde el suelo, trepando por una liana y rebotando sobre cinco dianas suspendidas.",
+  "objetivo": "Cruzar un barranco encadenando cinco lianas oscilantes: saltar para agarrar el nudo, balancearse, saltar a la siguiente y aterrizar al otro lado.",
   "dependencias": [
     {
       "id": "salto",
       "estado": "implementada",
-      "detalle": "Diego mueve y salta mediante controles táctiles y teclado."
+      "detalle": "Saltar desde suelo o desde una liana con la acción original, sin botones nuevos."
     },
     {
       "id": "gestos_tactiles",
       "estado": "implementada",
-      "detalle": "Deslizamiento arriba sostenido para ascenso; arrastre horizontal para enlazar las dianas."
+      "detalle": "Arrastre horizontal para dirigir el salto y empujar el balanceo; deslizamiento arriba para saltar y soltarse."
     },
     {
-      "id": "fisica_dianas",
+      "id": "lianas_oscilantes",
       "estado": "implementada",
-      "detalle": "Nueva colisión unilateral con rebote, rotura irregular y restauración automática."
+      "detalle": "Cinco péndulos 2D con fases independientes, nudos de agarre y velocidad tangencial para el salto."
     }
   ],
   "controles": {
-    "tactil": "Desliza arriba y mantén mientras estés junto a la liana. Suelta el gesto y arrastra hacia la derecha para salir impulsado. Los cinco rebotes se producen al aterrizar, sin pulsar otra tecla.",
-    "teclado": "Mantén salto junto a la liana para trepar; suelta salto y mantén derecha para pasar de diana en diana.",
-    "mando": "Mantén el botón de salto para trepar; suéltalo y desplaza el stick a la derecha para impulsarte y enlazar los rebotes."
+    "tactil": "Desliza hacia arriba para saltar desde la orilla: Diego se agarra automáticamente cuando las manos alcanzan un nudo. Mientras está colgado, arrastra lateralmente para orientar el balanceo. Suelta el gesto y vuelve a deslizar arriba para impulsarte hacia la siguiente liana.",
+    "teclado": "Salta desde la orilla. Al alcanzar el nudo de una liana, Diego se agarra. Mientras estás colgado usa izquierda/derecha para balancearte; vuelve a pulsar salto para pasar a la siguiente.",
+    "mando": "Salta y acércate al nudo. Pulsa dirección para orientar el balanceo; vuelve a pulsar el botón de salto para cambiar de liana."
   },
   "aprendizaje": {
-    "presentacion": "La liana se ve desde la orilla y el primer disco está cerca. Un aviso no flotante explica mantener salto y soltar hacia la derecha.",
-    "practica": "Cinco discos de ancho generoso y separación de unos 260 px; el primer rebote prepara automáticamente el siguiente.",
-    "combinacion": "El jugador debe resolver una estación de raíces a cada lado antes de franquear el siguiente portón."
+    "presentacion": "Primera liana visible desde la orilla segura. Movimiento pendular y nudo dibujado; la cámara muestra la siguiente cuerda antes de saltar.",
+    "practica": "Cinco lianas se balancean con distintas fases. Los agarres tienen tolerancia amplia y el jugador conserva libertad de movimiento cuando suelta.",
+    "combinacion": "El impulso del péndulo y la dirección del salto permiten alcanzar sucesivamente los otros nudos y la orilla final."
   },
   "reglas": {
-    "activacion": "Diego entra en la franja de la liana y mantiene el gesto de salto, sin portar objetos.",
-    "exito": "Aterrizar y rebotar de disco en disco hasta el terreno firme del otro lado; el avance sigue estando bloqueado por la puerta de tres llaves.",
-    "fallo": "Caer bajo el barranco consume una unidad de energía y devuelve a Diego a la entrada local; si se agota la energía, rigen el farol y la reaparición normal.",
-    "recuperacion": "Cada disco se recompone automáticamente a los 3,2 segundos y todos se rearman al fallar el cruce o reaparecer desde un farol. No hay consumo de objetos ni de munición."
+    "activacion": "El protagonista inicia un salto libre y entra en el radio de alcance de un nudo. El agarre es automático y solo es posible en el aire, sin llevar objetos.",
+    "exito": "Alcanzar la orilla firme tras saltar de liana en liana; la salida general del nivel sigue exigiendo tres llaves.",
+    "fallo": "Al no alcanzar el siguiente agarre, Diego cae al vacío, pierde una unidad de energía si no es invulnerable y regresa a la orilla inicial. Si muere, se aplican el farol y las reglas generales.",
+    "recuperacion": "La caída libera cualquier agarre, restablece el ciclo de oscilación y deja repetir el tramo. El salto no consume objetos; un bloqueo breve evita agarrar instantáneamente la liana que se acaba de soltar."
   },
   "feedback": [
-    "Liana grande y trenzada con hojas, diferenciable del fondo sin letras ni iconos.",
-    "Dianas suspendidas con anillos concéntricos, cristal quebradizo y fragmentos asimétricos al recibir el peso.",
-    "Rebote inmediato y restauración legible de discos; pista breve en HUD al acceder al tramo.",
-    "La caída resta salud y permite reintentar desde la orilla inicial."
+    "Las cinco lianas oscilan permanentemente de forma independiente y sus nudos tienen un aro natural legible.",
+    "Diego sigue físicamente el nudo mientras está colgado y gira levemente con el péndulo; no se mueve verticalmente de forma automática.",
+    "La velocidad del nudo y la dirección del jugador influyen en el impulso al soltarse.",
+    "El agarre siguiente sucede al aproximar las manos; caer resta energía y devuelve a la orilla inicial."
   ],
   "recompensa": "Paso hacia la segunda llave y el santuario sin necesidad de un nuevo objeto.",
   "minutos_estimados": [
     1.2,
     1.5
   ],
-  "dificultad": "Media para 10 años; rebotes automáticos, separación compatible con la carrera y recuperación corta.",
+  "dificultad": "Media y ajustable para 10 años: cinco saltos, agarre automático tolerante de 148 px, balanceo autónomo y reintentos cortos.",
   "persistencia": {
-    "al_morir": "Los cinco discos se restablecen. Se conservan las llaves ya recogidas, pero se rearman las barreras y otros puentes, como en el resto del bosque.",
+    "al_morir": "Se libera el agarre, se reinician las oscilaciones y los puentes/dianas convencionales se rearman según las reglas existentes; las llaves se conservan.",
     "al_cerrar": "El intento reinicia desde el comienzo, no se guarda el punto de mitad de nivel.",
-    "al_rejugar": "Todos los discos y dianas vuelven a estar intactos; las llaves deben recogerse nuevamente."
+    "al_rejugar": "Las cinco lianas vuelven a su fase inicial. Las tres llaves siguen siendo necesarias."
   },
   "accesibilidad": {
-    "senales_no_solo_color": "La trepa se reconoce por forma y postura; los discos muestran círculos concéntricos y rotura visible sin depender solo de color.",
+    "senales_no_solo_color": "Las lianas se distinguen por su oscilación y hojas; los nudos terminales tienen círculos claros, sin texto ni símbolos flotantes. El balanceo tiene retroalimentación visual incluso sin sonido.",
     "equivalencia_visual_sonora": "Las señales imprescindibles son visuales; no se exige escuchar sonidos.",
     "legibilidad_movil": "Liana y discos grandes, cámara con seguimiento vertical y sin etiquetas flotantes ni iconos de objetivo.",
-    "ajustes_control": "Mantener gesto de salto existente; teclado, mando y pantalla táctil equivalentes. Confirmar maniobra en varios formatos de pantalla."
+    "ajustes_control": "Se reutiliza el salto, mando y gesto de deslizamiento hacia arriba. La zona amplia de captura reduce precisión táctil; no se añade otro botón."
   },
   "validacion": {
     "funcional": [
-      "Comprobar que mantener salto asciende solo dentro de la zona de liana.",
-      "Comprobar que soltar e impulsar llega al primer disco y los rebotes a los siguientes.",
-      "Comprobar rotura de disco, restauración automática, daño de caída y reset al reaparecer.",
-      "Comprobar que la salida sigue exigiendo tres llaves."
+      "Verificar cinco péndulos móviles con fases independientes.",
+      "Comprobar salto desde suelo, agarre aéreo, seguimiento del nudo, segundo salto y nuevo agarre.",
+      "Comprobar que saltar no teletransporta ni congela al protagonista y que hay impulso vertical y horizontal.",
+      "Comprobar caída, reinicio, bloqueo de reagarre inmediato, pausa y salida con tres llaves."
     ],
     "jugando": [
-      "Medir cruces reales de cinco discos sin ayudas textuales ni saltos ciegos en Android y Windows.",
-      "Ajustar la separación si la secuencia exige demasiada precisión para un niño de 10 años.",
-      "Revisar el rendimiento y la física a 60 Hz."
+      "Cruzar las cinco lianas con gestos Android y teclado/mando Windows; confirmar que los agarres son visibles y la cámara no pierde al jugador.",
+      "Ajustar alcance y ritmo de balanceo si un niño de 10 años no alcanza la siguiente liana.",
+      "Medir tiempo real y frustración antes de considerar definitivo el reto."
     ],
     "evidencias": [
-      "game/features/levels/mechanisms/vine_target.gd",
+      "game/features/levels/mechanisms/swinging_vine.gd",
       "game/features/levels/mechanisms/vine_crossing.gd",
-      "game/features/levels/forest_stage.gd",
       "game/features/player/diego.gd",
-      "tools/tests/test_lianas_dianas.gd (suite integrada, ejecución pendiente)"
+      "tools/tests/test_lianas_dianas.gd",
+      "tools/tests/test_forest_route.gd"
     ]
   }
 }
