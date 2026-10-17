@@ -4,6 +4,11 @@ extends CharacterBody2D
 
 signal defeated(enemy: ForestEnemy, by_throw: bool)
 
+const SPRITES: Dictionary = {
+	"terron": preload("res://game/assets/textures/characters/terron/idle_v001.png"),
+	"moflete": preload("res://game/assets/textures/characters/moflete/idle_v001.png"),
+}
+
 var kind: String = "terron"
 var patrol: Vector2 = Vector2(0, 200)
 var player: DiegoPlayer
@@ -28,7 +33,7 @@ func _ready() -> void:
 	body.position.y = -_height / 2.0
 	add_child(body)
 	_visual = Sprite2D.new()
-	_visual.texture = load("res://game/assets/textures/characters/%s/idle_v001.png" % kind)
+	_visual.texture = SPRITES[kind]
 	_visual.centered = false
 	# Atlas normalizado: conserva encuadre aunque Godot limite la importación a 512 px.
 	var atlas := AtlasTexture.new()
@@ -64,6 +69,13 @@ func _ready() -> void:
 	contact_shape.position = body.position
 	_contact.add_child(contact_shape)
 	add_child(_contact)
+
+
+func has_visible_art() -> bool:
+	if not is_instance_valid(_visual) or not _visual.is_visible_in_tree():
+		return false
+	var atlas := _visual.texture as AtlasTexture
+	return atlas != null and atlas.atlas != null and atlas.region.has_area()
 
 
 func _opaque_region(texture: Texture2D) -> Rect2:
@@ -113,3 +125,4 @@ func defeat(by_throw: bool) -> void:
 	tween.tween_interval(0.22)
 	tween.tween_property(_visual, "modulate:a", 0.0, 0.25)
 	tween.tween_callback(queue_free)
+

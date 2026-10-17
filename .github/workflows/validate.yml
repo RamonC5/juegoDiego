@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: android-apk-${{ github.ref }}
@@ -16,7 +17,7 @@ jobs:
   validate:
     name: Validar proyecto y compilar APK
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       ANDROID_BUILD_TOOLS_VERSION: "35.0.1"
       GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
@@ -222,6 +223,42 @@ jobs:
           grep -q "package: name='com.ramonc5.saltoheroes'" .godot-logs/apk-package.log
           grep -q "native-code: 'arm64-v8a'" .godot-logs/apk-package.log
           (cd builds/android && sha256sum salto-heroes.apk > salto-heroes.apk.sha256)
+
+      - name: Recuperar el APK anterior para comparar en Android
+        continue-on-error: true # La referencia es temporal; el APK actual siempre se prueba.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh run download 39010194148 --repo "$GITHUB_REPOSITORY" \
+            --name salto-heroes-android-29 --dir "$RUNNER_TEMP/salto-baseline"
+
+      - name: Habilitar aceleración para el emulador Android
+        shell: bash
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Instalar y jugar el APK ARM64 en Android
+        uses: ReactiveCircus/android-emulator-runner@b530d96654c385303d652368551fb075bc2f0b6b # v2.35.0
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          disable-animations: true
+          script: python3 tools/ci/test_android_apk.py --apk builds/android/salto-heroes.apk --baseline "$RUNNER_TEMP/salto-baseline/salto-heroes.apk"
+
+      - name: Guardar pruebas del APK instalado en Android
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: android-apk-pruebas-${{ github.run_number }}
+          path: art/android/
+          if-no-files-found: ignore
+          retention-days: 30
 
       - name: Guardar el APK para descargar
         id: apk
