@@ -6,7 +6,7 @@ extends Node2D
 const LENGTH: float = 335.0
 const SWING_AMPLITUDE: float = 0.49
 const SWING_SPEED: float = 1.62
-const HAND_REACH: float = 119.0
+const HAND_REACH: float = 148.0
 
 var phase_offset: float = 0.0
 var elapsed: float = 0.0
