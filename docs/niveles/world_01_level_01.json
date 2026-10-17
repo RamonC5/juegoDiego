@@ -133,7 +133,7 @@
     },
     {
       "id": "tramo_07",
-      "nombre": "Sendero de los Terrones",
+      "nombre": "Sendero de los guardianes",
       "principal": true,
       "minutos_estimados": [
         0.9,
@@ -148,21 +148,6 @@
     },
     {
       "id": "tramo_08",
-      "nombre": "Pasarelas enlazadas",
-      "principal": true,
-      "minutos_estimados": [
-        0.9,
-        1.1
-      ],
-      "dinamicas": [
-        "raices_dobles",
-        "persecucion_bosque",
-        "puente_diana"
-      ],
-      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
-    },
-    {
-      "id": "tramo_09",
       "nombre": "La copa del Moflete",
       "principal": true,
       "minutos_estimados": [
@@ -173,6 +158,21 @@
         "raices_dobles",
         "persecucion_bosque",
         "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_09",
+      "nombre": "Pasarelas enlazadas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
       ],
       "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
     },
@@ -223,36 +223,6 @@
     },
     {
       "id": "tramo_13",
-      "nombre": "Patrullas del corazón",
-      "principal": true,
-      "minutos_estimados": [
-        0.9,
-        1.1
-      ],
-      "dinamicas": [
-        "raices_dobles",
-        "persecucion_bosque",
-        "salto_terrazas"
-      ],
-      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
-    },
-    {
-      "id": "tramo_14",
-      "nombre": "Barranco profundo",
-      "principal": true,
-      "minutos_estimados": [
-        0.9,
-        1.1
-      ],
-      "dinamicas": [
-        "raices_dobles",
-        "persecucion_bosque",
-        "puente_diana"
-      ],
-      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
-    },
-    {
-      "id": "tramo_15",
       "nombre": "Mirador viajero",
       "principal": true,
       "minutos_estimados": [
@@ -267,7 +237,22 @@
       "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
     },
     {
-      "id": "tramo_16",
+      "id": "tramo_14",
+      "nombre": "Últimas dos orillas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_15",
       "nombre": "Guardianes del roble",
       "principal": true,
       "minutos_estimados": [
@@ -282,8 +267,8 @@
       "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
     },
     {
-      "id": "tramo_17",
-      "nombre": "Últimas dos orillas",
+      "id": "tramo_16",
+      "nombre": "Barranco profundo",
       "principal": true,
       "minutos_estimados": [
         0.9,
@@ -293,6 +278,21 @@
         "raices_dobles",
         "persecucion_bosque",
         "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_17",
+      "nombre": "Patrullas del corazón",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
       ],
       "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
     },

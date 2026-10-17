@@ -263,50 +263,51 @@ stations = Array[ExtResource("3_bridge")]([SubResource("Ruta05Diana1"), SubResou
 [sub_resource type="Resource" id="Ruta06Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta06diana1"
-display_name = "Sendero de los Terrones · marca 1"
+display_name = "Sendero de los guardianes · marca 1"
 bridge_rect = Rect2(36090, 550, 55, 55)
-target_position = Vector2(34155, 190)
-pine_position = Vector2(33915, 234)
-recovery_bounds = Rect2(33675, -400, 800, 1400)
+target_position = Vector2(34165, 190)
+pine_position = Vector2(33925, 234)
+recovery_bounds = Rect2(33685, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta06Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta06diana2"
-display_name = "Sendero de los Terrones · marca 2"
+display_name = "Sendero de los guardianes · marca 2"
 bridge_rect = Rect2(36090, 550, 55, 55)
-target_position = Vector2(35710, 530)
-pine_position = Vector2(35470, 574)
-recovery_bounds = Rect2(35230, -400, 800, 1400)
+target_position = Vector2(35635, 360)
+pine_position = Vector2(35395, 404)
+recovery_bounds = Rect2(35155, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate07"]
 script = ExtResource("5_gate")
 gate_id = &"raices_07"
-display_name = "Sendero de los Terrones"
+display_name = "Sendero de los guardianes"
 position = Vector2(36090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta06Diana1"), SubResource("Ruta06Diana2")])
 
-[sub_resource type="Resource" id="BridgeRoute07"]
-script = ExtResource("3_bridge")
-mechanism_id = &"puente_ruta_07"
-display_name = "Pasarelas enlazadas"
-bridge_rect = Rect2(38500, 600, 450, 78)
-target_position = Vector2(38430, 530)
-pine_position = Vector2(38190, 574)
-recovery_bounds = Rect2(37950, 100, 1000, 1000)
+[sub_resource type="Resource" id="MovingRoute07"]
+script = ExtResource("4_moving")
+platform_id = &"tronco_ruta_07"
+display_name = "La copa del Moflete"
+start_position = Vector2(37550, 545)
+end_position = Vector2(37550, 225)
+width = 280.0
+travel_seconds = 3.0
+stop_seconds = 1.5
 
 [sub_resource type="Resource" id="Ruta07Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta07diana1"
-display_name = "Pasarelas enlazadas · marca 1"
+display_name = "La copa del Moflete · marca 1"
 bridge_rect = Rect2(40090, 550, 55, 55)
-target_position = Vector2(37895, 275)
-pine_position = Vector2(37655, 319)
-recovery_bounds = Rect2(37415, -400, 800, 1400)
+target_position = Vector2(38060, 120)
+pine_position = Vector2(37820, 164)
+recovery_bounds = Rect2(37580, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta07Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta07diana2"
-display_name = "Pasarelas enlazadas · marca 2"
+display_name = "La copa del Moflete · marca 2"
 bridge_rect = Rect2(40090, 550, 55, 55)
 target_position = Vector2(39635, 360)
 pine_position = Vector2(39395, 404)
@@ -315,33 +316,32 @@ recovery_bounds = Rect2(39155, -400, 800, 1400)
 [sub_resource type="Resource" id="Gate08"]
 script = ExtResource("5_gate")
 gate_id = &"raices_08"
-display_name = "Pasarelas enlazadas"
+display_name = "La copa del Moflete"
 position = Vector2(40090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta07Diana1"), SubResource("Ruta07Diana2")])
 
-[sub_resource type="Resource" id="MovingRoute08"]
-script = ExtResource("4_moving")
-platform_id = &"tronco_ruta_08"
-display_name = "La copa del Moflete"
-start_position = Vector2(41550, 545)
-end_position = Vector2(41550, 225)
-width = 280.0
-travel_seconds = 3.0
-stop_seconds = 1.5
+[sub_resource type="Resource" id="BridgeRoute08"]
+script = ExtResource("3_bridge")
+mechanism_id = &"puente_ruta_08"
+display_name = "Pasarelas enlazadas"
+bridge_rect = Rect2(42500, 600, 450, 78)
+target_position = Vector2(42430, 530)
+pine_position = Vector2(42190, 574)
+recovery_bounds = Rect2(41950, 100, 1000, 1000)
 
 [sub_resource type="Resource" id="Ruta08Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta08diana1"
-display_name = "La copa del Moflete · marca 1"
+display_name = "Pasarelas enlazadas · marca 1"
 bridge_rect = Rect2(44090, 550, 55, 55)
-target_position = Vector2(42060, 120)
-pine_position = Vector2(41820, 164)
-recovery_bounds = Rect2(41580, -400, 800, 1400)
+target_position = Vector2(42165, 190)
+pine_position = Vector2(41925, 234)
+recovery_bounds = Rect2(41685, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta08Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta08diana2"
-display_name = "La copa del Moflete · marca 2"
+display_name = "Pasarelas enlazadas · marca 2"
 bridge_rect = Rect2(44090, 550, 55, 55)
 target_position = Vector2(43635, 360)
 pine_position = Vector2(43395, 404)
@@ -350,7 +350,7 @@ recovery_bounds = Rect2(43155, -400, 800, 1400)
 [sub_resource type="Resource" id="Gate09"]
 script = ExtResource("5_gate")
 gate_id = &"raices_09"
-display_name = "La copa del Moflete"
+display_name = "Pasarelas enlazadas"
 position = Vector2(44090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta08Diana1"), SubResource("Ruta08Diana2")])
 
@@ -359,18 +359,18 @@ script = ExtResource("3_bridge")
 mechanism_id = &"ruta09diana1"
 display_name = "Terrazas cruzadas · marca 1"
 bridge_rect = Rect2(48090, 550, 55, 55)
-target_position = Vector2(46095, 190)
-pine_position = Vector2(45855, 234)
-recovery_bounds = Rect2(45615, -400, 800, 1400)
+target_position = Vector2(46225, 190)
+pine_position = Vector2(45985, 234)
+recovery_bounds = Rect2(45745, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta09Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta09diana2"
 display_name = "Terrazas cruzadas · marca 2"
 bridge_rect = Rect2(48090, 550, 55, 55)
-target_position = Vector2(47645, 275)
-pine_position = Vector2(47405, 319)
-recovery_bounds = Rect2(47165, -400, 800, 1400)
+target_position = Vector2(47635, 360)
+pine_position = Vector2(47395, 404)
+recovery_bounds = Rect2(47155, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate10"]
 script = ExtResource("5_gate")
@@ -393,18 +393,18 @@ script = ExtResource("3_bridge")
 mechanism_id = &"ruta10diana1"
 display_name = "Raíces y alturas · marca 1"
 bridge_rect = Rect2(52090, 550, 55, 55)
-target_position = Vector2(50095, 190)
-pine_position = Vector2(49855, 234)
-recovery_bounds = Rect2(49615, -400, 800, 1400)
+target_position = Vector2(49965, 275)
+pine_position = Vector2(49725, 319)
+recovery_bounds = Rect2(49485, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta10Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta10diana2"
 display_name = "Raíces y alturas · marca 2"
 bridge_rect = Rect2(52090, 550, 55, 55)
-target_position = Vector2(51710, 530)
-pine_position = Vector2(51470, 574)
-recovery_bounds = Rect2(51230, -400, 800, 1400)
+target_position = Vector2(51635, 360)
+pine_position = Vector2(51395, 404)
+recovery_bounds = Rect2(51155, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate11"]
 script = ExtResource("5_gate")
@@ -437,9 +437,9 @@ script = ExtResource("3_bridge")
 mechanism_id = &"ruta11diana2"
 display_name = "Claro de la segunda llave · marca 2"
 bridge_rect = Rect2(56090, 550, 55, 55)
-target_position = Vector2(55645, 275)
-pine_position = Vector2(55405, 319)
-recovery_bounds = Rect2(55165, -400, 800, 1400)
+target_position = Vector2(55635, 360)
+pine_position = Vector2(55395, 404)
+recovery_bounds = Rect2(55155, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate12"]
 script = ExtResource("5_gate")
@@ -448,35 +448,45 @@ display_name = "Claro de la segunda llave"
 position = Vector2(56090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta11Diana1"), SubResource("Ruta11Diana2")])
 
+[sub_resource type="Resource" id="MovingRoute12"]
+script = ExtResource("4_moving")
+platform_id = &"tronco_ruta_12"
+display_name = "Mirador viajero"
+start_position = Vector2(57550, 545)
+end_position = Vector2(57740, 225)
+width = 280.0
+travel_seconds = 3.0
+stop_seconds = 1.5
+
 [sub_resource type="Resource" id="Ruta12Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta12diana1"
-display_name = "Patrullas del corazón · marca 1"
+display_name = "Mirador viajero · marca 1"
 bridge_rect = Rect2(60090, 550, 55, 55)
-target_position = Vector2(58155, 190)
-pine_position = Vector2(57915, 234)
-recovery_bounds = Rect2(57675, -400, 800, 1400)
+target_position = Vector2(58250, 120)
+pine_position = Vector2(58010, 164)
+recovery_bounds = Rect2(57770, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta12Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta12diana2"
-display_name = "Patrullas del corazón · marca 2"
+display_name = "Mirador viajero · marca 2"
 bridge_rect = Rect2(60090, 550, 55, 55)
-target_position = Vector2(59710, 530)
-pine_position = Vector2(59470, 574)
-recovery_bounds = Rect2(59230, -400, 800, 1400)
+target_position = Vector2(59635, 360)
+pine_position = Vector2(59395, 404)
+recovery_bounds = Rect2(59155, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate13"]
 script = ExtResource("5_gate")
 gate_id = &"raices_13"
-display_name = "Patrullas del corazón"
+display_name = "Mirador viajero"
 position = Vector2(60090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta12Diana1"), SubResource("Ruta12Diana2")])
 
 [sub_resource type="Resource" id="BridgeRoute13"]
 script = ExtResource("3_bridge")
 mechanism_id = &"puente_ruta_13"
-display_name = "Barranco profundo"
+display_name = "Últimas dos orillas"
 bridge_rect = Rect2(62500, 600, 450, 78)
 target_position = Vector2(62430, 530)
 pine_position = Vector2(62190, 574)
@@ -485,119 +495,109 @@ recovery_bounds = Rect2(61950, 100, 1000, 1000)
 [sub_resource type="Resource" id="Ruta13Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta13diana1"
-display_name = "Barranco profundo · marca 1"
+display_name = "Últimas dos orillas · marca 1"
 bridge_rect = Rect2(64090, 550, 55, 55)
-target_position = Vector2(61895, 275)
-pine_position = Vector2(61655, 319)
-recovery_bounds = Rect2(61415, -400, 800, 1400)
+target_position = Vector2(62235, 190)
+pine_position = Vector2(61995, 234)
+recovery_bounds = Rect2(61755, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta13Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta13diana2"
-display_name = "Barranco profundo · marca 2"
+display_name = "Últimas dos orillas · marca 2"
 bridge_rect = Rect2(64090, 550, 55, 55)
-target_position = Vector2(63635, 360)
-pine_position = Vector2(63395, 404)
-recovery_bounds = Rect2(63155, -400, 800, 1400)
+target_position = Vector2(63645, 275)
+pine_position = Vector2(63405, 319)
+recovery_bounds = Rect2(63165, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate14"]
 script = ExtResource("5_gate")
 gate_id = &"raices_14"
-display_name = "Barranco profundo"
+display_name = "Últimas dos orillas"
 position = Vector2(64090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta13Diana1"), SubResource("Ruta13Diana2")])
-
-[sub_resource type="Resource" id="MovingRoute14"]
-script = ExtResource("4_moving")
-platform_id = &"tronco_ruta_14"
-display_name = "Mirador viajero"
-start_position = Vector2(65550, 545)
-end_position = Vector2(65550, 225)
-width = 280.0
-travel_seconds = 3.0
-stop_seconds = 1.5
 
 [sub_resource type="Resource" id="Ruta14Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta14diana1"
-display_name = "Mirador viajero · marca 1"
+display_name = "Guardianes del roble · marca 1"
 bridge_rect = Rect2(68090, 550, 55, 55)
-target_position = Vector2(66060, 120)
-pine_position = Vector2(65820, 164)
-recovery_bounds = Rect2(65580, -400, 800, 1400)
+target_position = Vector2(66235, 190)
+pine_position = Vector2(65995, 234)
+recovery_bounds = Rect2(65755, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta14Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta14diana2"
-display_name = "Mirador viajero · marca 2"
+display_name = "Guardianes del roble · marca 2"
 bridge_rect = Rect2(68090, 550, 55, 55)
-target_position = Vector2(67635, 360)
-pine_position = Vector2(67395, 404)
-recovery_bounds = Rect2(67155, -400, 800, 1400)
+target_position = Vector2(67645, 275)
+pine_position = Vector2(67405, 319)
+recovery_bounds = Rect2(67165, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate15"]
 script = ExtResource("5_gate")
 gate_id = &"raices_15"
-display_name = "Mirador viajero"
+display_name = "Guardianes del roble"
 position = Vector2(68090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta14Diana1"), SubResource("Ruta14Diana2")])
+
+[sub_resource type="Resource" id="BridgeRoute15"]
+script = ExtResource("3_bridge")
+mechanism_id = &"puente_ruta_15"
+display_name = "Barranco profundo"
+bridge_rect = Rect2(70500, 600, 450, 78)
+target_position = Vector2(70430, 530)
+pine_position = Vector2(70190, 574)
+recovery_bounds = Rect2(69950, 100, 1000, 1000)
 
 [sub_resource type="Resource" id="Ruta15Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta15diana1"
-display_name = "Guardianes del roble · marca 1"
+display_name = "Barranco profundo · marca 1"
 bridge_rect = Rect2(72090, 550, 55, 55)
-target_position = Vector2(70095, 190)
-pine_position = Vector2(69855, 234)
-recovery_bounds = Rect2(69615, -400, 800, 1400)
+target_position = Vector2(70035, 275)
+pine_position = Vector2(69795, 319)
+recovery_bounds = Rect2(69555, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta15Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta15diana2"
-display_name = "Guardianes del roble · marca 2"
+display_name = "Barranco profundo · marca 2"
 bridge_rect = Rect2(72090, 550, 55, 55)
-target_position = Vector2(71645, 275)
-pine_position = Vector2(71405, 319)
-recovery_bounds = Rect2(71165, -400, 800, 1400)
+target_position = Vector2(71635, 360)
+pine_position = Vector2(71395, 404)
+recovery_bounds = Rect2(71155, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate16"]
 script = ExtResource("5_gate")
 gate_id = &"raices_16"
-display_name = "Guardianes del roble"
+display_name = "Barranco profundo"
 position = Vector2(72090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta15Diana1"), SubResource("Ruta15Diana2")])
-
-[sub_resource type="Resource" id="BridgeRoute16"]
-script = ExtResource("3_bridge")
-mechanism_id = &"puente_ruta_16"
-display_name = "Últimas dos orillas"
-bridge_rect = Rect2(74500, 600, 450, 78)
-target_position = Vector2(74430, 530)
-pine_position = Vector2(74190, 574)
-recovery_bounds = Rect2(73950, 100, 1000, 1000)
 
 [sub_resource type="Resource" id="Ruta16Diana1"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta16diana1"
-display_name = "Últimas dos orillas · marca 1"
+display_name = "Patrullas del corazón · marca 1"
 bridge_rect = Rect2(76090, 550, 55, 55)
-target_position = Vector2(74095, 190)
-pine_position = Vector2(73855, 234)
-recovery_bounds = Rect2(73615, -400, 800, 1400)
+target_position = Vector2(74295, 190)
+pine_position = Vector2(74055, 234)
+recovery_bounds = Rect2(73815, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta16Diana2"]
 script = ExtResource("3_bridge")
 mechanism_id = &"ruta16diana2"
-display_name = "Últimas dos orillas · marca 2"
+display_name = "Patrullas del corazón · marca 2"
 bridge_rect = Rect2(76090, 550, 55, 55)
-target_position = Vector2(75710, 530)
-pine_position = Vector2(75470, 574)
-recovery_bounds = Rect2(75230, -400, 800, 1400)
+target_position = Vector2(75645, 275)
+pine_position = Vector2(75405, 319)
+recovery_bounds = Rect2(75165, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Gate17"]
 script = ExtResource("5_gate")
 gate_id = &"raices_17"
-display_name = "Últimas dos orillas"
+display_name = "Patrullas del corazón"
 position = Vector2(76090, 600)
 stations = Array[ExtResource("3_bridge")]([SubResource("Ruta16Diana1"), SubResource("Ruta16Diana2")])
 
@@ -606,7 +606,7 @@ script = ExtResource("4_moving")
 platform_id = &"tronco_ruta_17"
 display_name = "Santuario de la tercera llave"
 start_position = Vector2(77550, 545)
-end_position = Vector2(77550, 225)
+end_position = Vector2(77740, 225)
 width = 280.0
 travel_seconds = 3.0
 stop_seconds = 1.5
@@ -616,9 +616,9 @@ script = ExtResource("3_bridge")
 mechanism_id = &"ruta17diana1"
 display_name = "Santuario de la tercera llave · marca 1"
 bridge_rect = Rect2(80090, 550, 55, 55)
-target_position = Vector2(78060, 120)
-pine_position = Vector2(77820, 164)
-recovery_bounds = Rect2(77580, -400, 800, 1400)
+target_position = Vector2(78250, 120)
+pine_position = Vector2(78010, 164)
+recovery_bounds = Rect2(77770, -400, 800, 1400)
 
 [sub_resource type="Resource" id="Ruta17Diana2"]
 script = ExtResource("3_bridge")
@@ -641,19 +641,19 @@ script = ExtResource("1")
 key_definition = ExtResource("2_keys")
 checkpoint = Vector2(3390, 600)
 checkpoints = Array[Vector2]([Vector2(2470, 600), Vector2(3390, 600), Vector2(4820, 600), Vector2(8390, 600), Vector2(12390, 600), Vector2(16390, 600), Vector2(20390, 600), Vector2(24390, 600), Vector2(28390, 600), Vector2(32390, 600), Vector2(36390, 600), Vector2(40390, 600), Vector2(44390, 600), Vector2(48390, 600), Vector2(52390, 600), Vector2(56390, 600), Vector2(60390, 600), Vector2(64390, 600), Vector2(68390, 600), Vector2(72390, 600), Vector2(76390, 600)])
-bridges = Array[ExtResource("3_bridge")]([SubResource("BridgePractice"), SubResource("BridgeMain"), SubResource("BridgeRoute01"), SubResource("BridgeRoute04"), SubResource("BridgeRoute07"), SubResource("BridgeRoute10"), SubResource("BridgeRoute13"), SubResource("BridgeRoute16")])
-moving_platforms = Array[ExtResource("4_moving")]([SubResource("MovingPractice"), SubResource("MovingLift"), SubResource("MovingRoute02"), SubResource("MovingRoute05"), SubResource("MovingRoute08"), SubResource("MovingRoute11"), SubResource("MovingRoute14"), SubResource("MovingRoute17")])
+bridges = Array[ExtResource("3_bridge")]([SubResource("BridgePractice"), SubResource("BridgeMain"), SubResource("BridgeRoute01"), SubResource("BridgeRoute04"), SubResource("BridgeRoute08"), SubResource("BridgeRoute10"), SubResource("BridgeRoute13"), SubResource("BridgeRoute15")])
+moving_platforms = Array[ExtResource("4_moving")]([SubResource("MovingPractice"), SubResource("MovingLift"), SubResource("MovingRoute02"), SubResource("MovingRoute05"), SubResource("MovingRoute07"), SubResource("MovingRoute11"), SubResource("MovingRoute12"), SubResource("MovingRoute17")])
 key_positions = Array[Vector2]([Vector2(32185, 550), Vector2(56185, 550), Vector2(80185, 550)])
-ground_sections = Array[Rect2]([Rect2(0, 600, 1700, 520), Rect2(1820, 600, 1030, 520), Rect2(3270, 600, 520, 520), Rect2(4270, 600, 830, 520), Rect2(5220, 600, 1680, 520), Rect2(7020, 600, 1180, 520), Rect2(8200, 600, 650, 520), Rect2(8960, 600, 3240, 520), Rect2(12200, 600, 2300, 520), Rect2(14950, 600, 1250, 520), Rect2(16200, 600, 650, 520), Rect2(16960, 600, 3240, 520), Rect2(20200, 600, 650, 520), Rect2(20960, 600, 3240, 520), Rect2(24200, 600, 2300, 520), Rect2(26950, 600, 1250, 520), Rect2(28200, 600, 650, 520), Rect2(28960, 600, 3240, 520), Rect2(32200, 600, 650, 520), Rect2(32960, 600, 3240, 520), Rect2(36200, 600, 2300, 520), Rect2(38950, 600, 1250, 520), Rect2(40200, 600, 650, 520), Rect2(40960, 600, 3240, 520), Rect2(44200, 600, 650, 520), Rect2(44960, 600, 3240, 520), Rect2(48200, 600, 2300, 520), Rect2(50950, 600, 1250, 520), Rect2(52200, 600, 650, 520), Rect2(52960, 600, 3240, 520), Rect2(56200, 600, 650, 520), Rect2(56960, 600, 3240, 520), Rect2(60200, 600, 2300, 520), Rect2(62950, 600, 1250, 520), Rect2(64200, 600, 650, 520), Rect2(64960, 600, 3240, 520), Rect2(68200, 600, 650, 520), Rect2(68960, 600, 3240, 520), Rect2(72200, 600, 2300, 520), Rect2(74950, 600, 1250, 520), Rect2(76200, 600, 650, 520), Rect2(76960, 600, 3240, 520), Rect2(80200, 600, 400, 520)])
-raised_platforms = Array[Rect2]([Rect2(650, 515, 250, 64), Rect2(1050, 435, 250, 64), Rect2(2050, 515, 220, 64), Rect2(4450, 515, 240, 64), Rect2(4780, 435, 230, 64), Rect2(6040, 470, 240, 64), Rect2(6630, 260, 260, 64), Rect2(7270, 515, 250, 64), Rect2(9050, 515, 240, 64), Rect2(9310, 430, 240, 64), Rect2(9570, 345, 240, 64), Rect2(9830, 260, 600, 64), Rect2(11110, 515, 250, 64), Rect2(13050, 515, 240, 64), Rect2(13310, 430, 240, 64), Rect2(13570, 345, 600, 64), Rect2(15050, 515, 240, 64), Rect2(15310, 430, 560, 64), Rect2(17720, 190, 600, 64), Rect2(19050, 515, 240, 64), Rect2(19310, 430, 560, 64), Rect2(20990, 515, 240, 64), Rect2(21250, 430, 240, 64), Rect2(21510, 345, 240, 64), Rect2(21770, 260, 600, 64), Rect2(22800, 515, 240, 64), Rect2(23060, 430, 240, 64), Rect2(23320, 345, 560, 64), Rect2(24990, 515, 240, 64), Rect2(25250, 430, 240, 64), Rect2(25510, 345, 240, 64), Rect2(25770, 260, 600, 64), Rect2(27110, 515, 250, 64), Rect2(29720, 190, 600, 64), Rect2(30800, 515, 240, 64), Rect2(31060, 430, 240, 64), Rect2(31320, 345, 560, 64), Rect2(31900, 515, 180, 64), Rect2(33050, 515, 240, 64), Rect2(33310, 430, 240, 64), Rect2(33570, 345, 240, 64), Rect2(33830, 260, 600, 64), Rect2(35110, 515, 250, 64), Rect2(37050, 515, 240, 64), Rect2(37310, 430, 240, 64), Rect2(37570, 345, 600, 64), Rect2(39050, 515, 240, 64), Rect2(39310, 430, 560, 64), Rect2(41720, 190, 600, 64), Rect2(43050, 515, 240, 64), Rect2(43310, 430, 560, 64), Rect2(44990, 515, 240, 64), Rect2(45250, 430, 240, 64), Rect2(45510, 345, 240, 64), Rect2(45770, 260, 600, 64), Rect2(46800, 515, 240, 64), Rect2(47060, 430, 240, 64), Rect2(47320, 345, 560, 64), Rect2(48990, 515, 240, 64), Rect2(49250, 430, 240, 64), Rect2(49510, 345, 240, 64), Rect2(49770, 260, 600, 64), Rect2(51110, 515, 250, 64), Rect2(53720, 190, 600, 64), Rect2(54800, 515, 240, 64), Rect2(55060, 430, 240, 64), Rect2(55320, 345, 560, 64), Rect2(55900, 515, 180, 64), Rect2(57050, 515, 240, 64), Rect2(57310, 430, 240, 64), Rect2(57570, 345, 240, 64), Rect2(57830, 260, 600, 64), Rect2(59110, 515, 250, 64), Rect2(61050, 515, 240, 64), Rect2(61310, 430, 240, 64), Rect2(61570, 345, 600, 64), Rect2(63050, 515, 240, 64), Rect2(63310, 430, 560, 64), Rect2(65720, 190, 600, 64), Rect2(67050, 515, 240, 64), Rect2(67310, 430, 560, 64), Rect2(68990, 515, 240, 64), Rect2(69250, 430, 240, 64), Rect2(69510, 345, 240, 64), Rect2(69770, 260, 600, 64), Rect2(70800, 515, 240, 64), Rect2(71060, 430, 240, 64), Rect2(71320, 345, 560, 64), Rect2(72990, 515, 240, 64), Rect2(73250, 430, 240, 64), Rect2(73510, 345, 240, 64), Rect2(73770, 260, 600, 64), Rect2(75110, 515, 250, 64), Rect2(77720, 190, 600, 64), Rect2(78800, 515, 240, 64), Rect2(79060, 430, 240, 64), Rect2(79320, 345, 560, 64), Rect2(79900, 515, 180, 64)])
-recovery_platforms = Array[Rect2]([Rect2(2850, 820, 420, 300), Rect2(2850, 740, 140, 40), Rect2(2850, 660, 70, 40), Rect2(8850, 740, 110, 380), Rect2(8850, 660, 70, 40), Rect2(14500, 820, 450, 300), Rect2(14500, 740, 160, 40), Rect2(14500, 660, 75, 40), Rect2(16850, 740, 110, 380), Rect2(16850, 660, 70, 40), Rect2(20850, 740, 110, 380), Rect2(20850, 660, 70, 40), Rect2(26500, 820, 450, 300), Rect2(26500, 740, 160, 40), Rect2(26500, 660, 75, 40), Rect2(28850, 740, 110, 380), Rect2(28850, 660, 70, 40), Rect2(32850, 740, 110, 380), Rect2(32850, 660, 70, 40), Rect2(38500, 820, 450, 300), Rect2(38500, 740, 160, 40), Rect2(38500, 660, 75, 40), Rect2(40850, 740, 110, 380), Rect2(40850, 660, 70, 40), Rect2(44850, 740, 110, 380), Rect2(44850, 660, 70, 40), Rect2(50500, 820, 450, 300), Rect2(50500, 740, 160, 40), Rect2(50500, 660, 75, 40), Rect2(52850, 740, 110, 380), Rect2(52850, 660, 70, 40), Rect2(56850, 740, 110, 380), Rect2(56850, 660, 70, 40), Rect2(62500, 820, 450, 300), Rect2(62500, 740, 160, 40), Rect2(62500, 660, 75, 40), Rect2(64850, 740, 110, 380), Rect2(64850, 660, 70, 40), Rect2(68850, 740, 110, 380), Rect2(68850, 660, 70, 40), Rect2(74500, 820, 450, 300), Rect2(74500, 740, 160, 40), Rect2(74500, 660, 75, 40), Rect2(76850, 740, 110, 380), Rect2(76850, 660, 70, 40)])
-enemy_spawns = Array[Vector4]([Vector4(1390, 600, 1310, 1570), Vector4(2150, 600, 2050, 2250), Vector4(4710, 600, 4690, 4740), Vector4(4880, 435, 4840, 4940), Vector4(6230, 470, 6190, 6250), Vector4(7330, 600, 7310, 7410), Vector4(7660, 600, 7570, 7750), Vector4(1010, 600, 990, 1030), Vector4(7180, 600, 7160, 7200), Vector4(8640, 600, 8530, 8720), Vector4(10620, 600, 10530, 10710), Vector4(10340, 260, 9900, 10365), Vector4(11285, 515, 11180, 11295), Vector4(12640, 600, 12530, 12720), Vector4(15200, 600, 15110, 15290), Vector4(14080, 345, 13640, 14105), Vector4(15780, 430, 15380, 15805), Vector4(16640, 600, 16530, 16720), Vector4(18620, 600, 18530, 18710), Vector4(18230, 190, 17790, 18255), Vector4(19780, 430, 19380, 19805), Vector4(20640, 600, 20530, 20720), Vector4(22620, 600, 22530, 22710), Vector4(22280, 260, 21840, 22305), Vector4(23790, 345, 23390, 23815), Vector4(24640, 600, 24530, 24720), Vector4(27200, 600, 27110, 27290), Vector4(26280, 260, 25840, 26305), Vector4(27285, 515, 27180, 27295), Vector4(28640, 600, 28530, 28720), Vector4(30620, 600, 30530, 30710), Vector4(30230, 190, 29790, 30255), Vector4(31790, 345, 31390, 31815), Vector4(32640, 600, 32530, 32720), Vector4(34620, 600, 34530, 34710), Vector4(34340, 260, 33900, 34365), Vector4(35285, 515, 35180, 35295), Vector4(36640, 600, 36530, 36720), Vector4(39200, 600, 39110, 39290), Vector4(38080, 345, 37640, 38105), Vector4(39780, 430, 39380, 39805), Vector4(40640, 600, 40530, 40720), Vector4(42620, 600, 42530, 42710), Vector4(42230, 190, 41790, 42255), Vector4(43780, 430, 43380, 43805), Vector4(44640, 600, 44530, 44720), Vector4(46620, 600, 46530, 46710), Vector4(46280, 260, 45840, 46305), Vector4(47790, 345, 47390, 47815), Vector4(48640, 600, 48530, 48720), Vector4(51200, 600, 51110, 51290), Vector4(50280, 260, 49840, 50305), Vector4(51285, 515, 51180, 51295), Vector4(52640, 600, 52530, 52720), Vector4(54620, 600, 54530, 54710), Vector4(54230, 190, 53790, 54255), Vector4(55790, 345, 55390, 55815), Vector4(56640, 600, 56530, 56720), Vector4(58620, 600, 58530, 58710), Vector4(58340, 260, 57900, 58365), Vector4(59285, 515, 59180, 59295), Vector4(60640, 600, 60530, 60720), Vector4(63200, 600, 63110, 63290), Vector4(62080, 345, 61640, 62105), Vector4(63780, 430, 63380, 63805), Vector4(64640, 600, 64530, 64720), Vector4(66620, 600, 66530, 66710), Vector4(66230, 190, 65790, 66255), Vector4(67780, 430, 67380, 67805), Vector4(68640, 600, 68530, 68720), Vector4(70620, 600, 70530, 70710), Vector4(70280, 260, 69840, 70305), Vector4(71790, 345, 71390, 71815), Vector4(72640, 600, 72530, 72720), Vector4(75200, 600, 75110, 75290), Vector4(74280, 260, 73840, 74305), Vector4(75285, 515, 75180, 75295), Vector4(76640, 600, 76530, 76720), Vector4(78620, 600, 78530, 78710), Vector4(78230, 190, 77790, 78255), Vector4(79790, 345, 79390, 79815)])
-enemy_kinds = Array[String](["terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete"])
+ground_sections = Array[Rect2]([Rect2(0, 600, 1700, 520), Rect2(1820, 600, 1030, 520), Rect2(3270, 600, 520, 520), Rect2(4270, 600, 830, 520), Rect2(5220, 600, 1680, 520), Rect2(7020, 600, 1180, 520), Rect2(8200, 600, 650, 520), Rect2(8960, 600, 3240, 520), Rect2(12200, 600, 2300, 520), Rect2(14950, 600, 1250, 520), Rect2(16200, 600, 650, 520), Rect2(16960, 600, 3240, 520), Rect2(20200, 600, 650, 520), Rect2(20960, 600, 3240, 520), Rect2(24200, 600, 2300, 520), Rect2(26950, 600, 1250, 520), Rect2(28200, 600, 650, 520), Rect2(28960, 600, 3240, 520), Rect2(32200, 600, 650, 520), Rect2(32960, 600, 3240, 520), Rect2(36200, 600, 650, 520), Rect2(36960, 600, 3240, 520), Rect2(40200, 600, 2300, 520), Rect2(42950, 600, 1250, 520), Rect2(44200, 600, 650, 520), Rect2(44960, 600, 3240, 520), Rect2(48200, 600, 2300, 520), Rect2(50950, 600, 1250, 520), Rect2(52200, 600, 650, 520), Rect2(52960, 600, 3240, 520), Rect2(56200, 600, 650, 520), Rect2(56960, 600, 3240, 520), Rect2(60200, 600, 2300, 520), Rect2(62950, 600, 1250, 520), Rect2(64200, 600, 650, 520), Rect2(64960, 600, 3240, 520), Rect2(68200, 600, 2300, 520), Rect2(70950, 600, 1250, 520), Rect2(72200, 600, 650, 520), Rect2(72960, 600, 3240, 520), Rect2(76200, 600, 650, 520), Rect2(76960, 600, 3240, 520), Rect2(80200, 600, 400, 520)])
+raised_platforms = Array[Rect2]([Rect2(650, 515, 250, 64), Rect2(1050, 435, 250, 64), Rect2(2050, 515, 220, 64), Rect2(4450, 515, 240, 64), Rect2(4780, 435, 230, 64), Rect2(6040, 470, 240, 64), Rect2(6630, 260, 260, 64), Rect2(7270, 515, 250, 64), Rect2(9050, 515, 240, 64), Rect2(9310, 430, 240, 64), Rect2(9570, 345, 240, 64), Rect2(9830, 260, 600, 64), Rect2(11110, 515, 250, 64), Rect2(13050, 515, 240, 64), Rect2(13310, 430, 240, 64), Rect2(13570, 345, 600, 64), Rect2(15050, 515, 240, 64), Rect2(15310, 430, 560, 64), Rect2(17720, 190, 600, 64), Rect2(19050, 515, 240, 64), Rect2(19310, 430, 560, 64), Rect2(20990, 515, 240, 64), Rect2(21250, 430, 240, 64), Rect2(21510, 345, 240, 64), Rect2(21770, 260, 600, 64), Rect2(22800, 515, 240, 64), Rect2(23060, 430, 240, 64), Rect2(23320, 345, 560, 64), Rect2(24990, 515, 240, 64), Rect2(25250, 430, 240, 64), Rect2(25510, 345, 240, 64), Rect2(25770, 260, 600, 64), Rect2(27110, 515, 250, 64), Rect2(29720, 190, 600, 64), Rect2(30800, 515, 240, 64), Rect2(31060, 430, 240, 64), Rect2(31320, 345, 560, 64), Rect2(31900, 515, 180, 64), Rect2(33060, 515, 240, 64), Rect2(33320, 430, 240, 64), Rect2(33580, 345, 240, 64), Rect2(33840, 260, 600, 64), Rect2(35050, 515, 240, 64), Rect2(35310, 430, 560, 64), Rect2(37720, 190, 600, 64), Rect2(39050, 515, 240, 64), Rect2(39310, 430, 560, 64), Rect2(41060, 515, 240, 64), Rect2(41320, 430, 240, 64), Rect2(41580, 345, 240, 64), Rect2(41840, 260, 520, 64), Rect2(43050, 515, 240, 64), Rect2(43310, 430, 560, 64), Rect2(45120, 515, 240, 64), Rect2(45380, 430, 240, 64), Rect2(45640, 345, 240, 64), Rect2(45900, 260, 600, 64), Rect2(47050, 515, 240, 64), Rect2(47310, 430, 560, 64), Rect2(49120, 515, 240, 64), Rect2(49380, 430, 240, 64), Rect2(49640, 345, 600, 64), Rect2(51050, 515, 240, 64), Rect2(51310, 430, 560, 64), Rect2(53720, 190, 600, 64), Rect2(55050, 515, 240, 64), Rect2(55310, 430, 560, 64), Rect2(55900, 515, 180, 64), Rect2(57910, 190, 600, 64), Rect2(59050, 515, 240, 64), Rect2(59310, 430, 560, 64), Rect2(61130, 515, 240, 64), Rect2(61390, 430, 240, 64), Rect2(61650, 345, 240, 64), Rect2(61910, 260, 440, 64), Rect2(62800, 515, 240, 64), Rect2(63060, 430, 240, 64), Rect2(63320, 345, 560, 64), Rect2(65130, 515, 240, 64), Rect2(65390, 430, 240, 64), Rect2(65650, 345, 240, 64), Rect2(65910, 260, 600, 64), Rect2(66800, 515, 240, 64), Rect2(67060, 430, 240, 64), Rect2(67320, 345, 560, 64), Rect2(69190, 515, 240, 64), Rect2(69450, 430, 240, 64), Rect2(69710, 345, 600, 64), Rect2(71050, 515, 240, 64), Rect2(71310, 430, 560, 64), Rect2(73190, 515, 240, 64), Rect2(73450, 430, 240, 64), Rect2(73710, 345, 240, 64), Rect2(73970, 260, 600, 64), Rect2(74800, 515, 240, 64), Rect2(75060, 430, 240, 64), Rect2(75320, 345, 560, 64), Rect2(77910, 190, 600, 64), Rect2(78800, 515, 240, 64), Rect2(79060, 430, 240, 64), Rect2(79320, 345, 560, 64), Rect2(79900, 515, 180, 64)])
+recovery_platforms = Array[Rect2]([Rect2(2850, 820, 420, 300), Rect2(2850, 740, 140, 40), Rect2(2850, 660, 70, 40), Rect2(8850, 740, 110, 380), Rect2(8850, 660, 70, 40), Rect2(14500, 820, 450, 300), Rect2(14500, 740, 160, 40), Rect2(14500, 660, 75, 40), Rect2(16850, 740, 110, 380), Rect2(16850, 660, 70, 40), Rect2(20850, 740, 110, 380), Rect2(20850, 660, 70, 40), Rect2(26500, 820, 450, 300), Rect2(26500, 740, 160, 40), Rect2(26500, 660, 75, 40), Rect2(28850, 740, 110, 380), Rect2(28850, 660, 70, 40), Rect2(32850, 740, 110, 380), Rect2(32850, 660, 70, 40), Rect2(36850, 740, 110, 380), Rect2(36850, 660, 70, 40), Rect2(42500, 820, 450, 300), Rect2(42500, 740, 160, 40), Rect2(42500, 660, 75, 40), Rect2(44850, 740, 110, 380), Rect2(44850, 660, 70, 40), Rect2(50500, 820, 450, 300), Rect2(50500, 740, 160, 40), Rect2(50500, 660, 75, 40), Rect2(52850, 740, 110, 380), Rect2(52850, 660, 70, 40), Rect2(56850, 740, 110, 380), Rect2(56850, 660, 70, 40), Rect2(62500, 820, 450, 300), Rect2(62500, 740, 160, 40), Rect2(62500, 660, 75, 40), Rect2(64850, 740, 110, 380), Rect2(64850, 660, 70, 40), Rect2(70500, 820, 450, 300), Rect2(70500, 740, 160, 40), Rect2(70500, 660, 75, 40), Rect2(72850, 740, 110, 380), Rect2(72850, 660, 70, 40), Rect2(76850, 740, 110, 380), Rect2(76850, 660, 70, 40)])
+enemy_spawns = Array[Vector4]([Vector4(1390, 600, 1310, 1570), Vector4(2150, 600, 2050, 2250), Vector4(4710, 600, 4690, 4740), Vector4(4880, 435, 4840, 4940), Vector4(6230, 470, 6190, 6250), Vector4(7330, 600, 7310, 7410), Vector4(7660, 600, 7570, 7750), Vector4(1010, 600, 990, 1030), Vector4(7180, 600, 7160, 7200), Vector4(8640, 600, 8530, 8720), Vector4(10620, 600, 10530, 10710), Vector4(10340, 260, 9900, 10365), Vector4(11285, 515, 11180, 11295), Vector4(12640, 600, 12530, 12720), Vector4(15200, 600, 15110, 15290), Vector4(14080, 345, 13640, 14105), Vector4(15780, 430, 15380, 15805), Vector4(16640, 600, 16530, 16720), Vector4(18620, 600, 18530, 18710), Vector4(18230, 190, 17790, 18255), Vector4(19780, 430, 19380, 19805), Vector4(20640, 600, 20530, 20720), Vector4(22620, 600, 22530, 22710), Vector4(22280, 260, 21840, 22305), Vector4(23790, 345, 23390, 23815), Vector4(24640, 600, 24530, 24720), Vector4(27200, 600, 27110, 27290), Vector4(26280, 260, 25840, 26305), Vector4(27285, 515, 27180, 27295), Vector4(28640, 600, 28530, 28720), Vector4(30620, 600, 30530, 30710), Vector4(30230, 190, 29790, 30255), Vector4(31790, 345, 31390, 31815), Vector4(32640, 600, 32530, 32720), Vector4(34620, 600, 34530, 34710), Vector4(34350, 260, 33910, 34375), Vector4(35780, 430, 35380, 35805), Vector4(36640, 600, 36530, 36720), Vector4(38620, 600, 38530, 38710), Vector4(38230, 190, 37790, 38255), Vector4(39780, 430, 39380, 39805), Vector4(40640, 600, 40530, 40720), Vector4(43200, 600, 43110, 43290), Vector4(42270, 260, 41910, 42295), Vector4(43780, 430, 43380, 43805), Vector4(44640, 600, 44530, 44720), Vector4(46620, 600, 46530, 46710), Vector4(46410, 260, 45970, 46435), Vector4(47780, 430, 47380, 47805), Vector4(48640, 600, 48530, 48720), Vector4(51200, 600, 51110, 51290), Vector4(50150, 345, 49710, 50175), Vector4(51780, 430, 51380, 51805), Vector4(52640, 600, 52530, 52720), Vector4(54620, 600, 54530, 54710), Vector4(54230, 190, 53790, 54255), Vector4(55780, 430, 55380, 55805), Vector4(56640, 600, 56530, 56720), Vector4(58620, 600, 58530, 58710), Vector4(58420, 190, 57980, 58445), Vector4(59780, 430, 59380, 59805), Vector4(60640, 600, 60530, 60720), Vector4(63200, 600, 63110, 63290), Vector4(62260, 260, 61980, 62285), Vector4(63790, 345, 63390, 63815), Vector4(64640, 600, 64530, 64720), Vector4(66620, 600, 66530, 66710), Vector4(66420, 260, 65980, 66445), Vector4(67790, 345, 67390, 67815), Vector4(68640, 600, 68530, 68720), Vector4(71200, 600, 71110, 71290), Vector4(70220, 345, 69780, 70245), Vector4(71780, 430, 71380, 71805), Vector4(72640, 600, 72530, 72720), Vector4(74620, 600, 74530, 74710), Vector4(74480, 260, 74040, 74505), Vector4(75790, 345, 75390, 75815), Vector4(76640, 600, 76530, 76720), Vector4(78620, 600, 78530, 78710), Vector4(78420, 190, 77980, 78445), Vector4(79790, 345, 79390, 79815)])
+enemy_kinds = Array[String](["terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete"])
 object_spawns = Array[Vector3]([Vector3(1130, 574, 0), Vector3(2700, 574, 1), Vector3(4310, 574, 0), Vector3(5370, 574, 3), Vector3(7070, 574, 0), Vector3(9220, 574, 0), Vector3(13220, 574, 1), Vector3(17220, 574, 2), Vector3(21220, 574, 3), Vector3(25220, 574, 4), Vector3(29220, 574, 5), Vector3(33220, 574, 0), Vector3(37220, 574, 1), Vector3(41220, 574, 2), Vector3(45220, 574, 3), Vector3(49220, 574, 4), Vector3(53220, 574, 5), Vector3(57220, 574, 0), Vector3(61220, 574, 1), Vector3(65220, 574, 2), Vector3(69220, 574, 3), Vector3(73220, 574, 4), Vector3(77220, 574, 5)])
 crystal_positions = Array[Vector2]([Vector2(31990, 468), Vector2(55990, 468), Vector2(79990, 468)])
 width = 80600.0
 goal = Vector2(80400, 600)
 subtitle = "Las tres rutas del corazón del bosque"
 region_starts = Array[Vector2]([Vector2(0, 600), Vector2(8200, 600), Vector2(12200, 600), Vector2(16200, 600), Vector2(20200, 600), Vector2(24200, 600), Vector2(28200, 600), Vector2(32200, 600), Vector2(36200, 600), Vector2(40200, 600), Vector2(44200, 600), Vector2(48200, 600), Vector2(52200, 600), Vector2(56200, 600), Vector2(60200, 600), Vector2(64200, 600), Vector2(68200, 600), Vector2(72200, 600), Vector2(76200, 600)])
-region_names = Array[String](["Claro de aprendizaje", "Terrazas del helecho", "Barranco de raíces", "Copas viajeras", "Escaleras de guardianes", "Dos orillas", "Claro de la primera llave", "Sendero de los Terrones", "Pasarelas enlazadas", "La copa del Moflete", "Terrazas cruzadas", "Raíces y alturas", "Claro de la segunda llave", "Patrullas del corazón", "Barranco profundo", "Mirador viajero", "Guardianes del roble", "Últimas dos orillas", "Santuario de la tercera llave"])
+region_names = Array[String](["Claro de aprendizaje", "Terrazas del helecho", "Barranco de raíces", "Copas viajeras", "Escaleras de guardianes", "Dos orillas", "Claro de la primera llave", "Sendero de los guardianes", "La copa del Moflete", "Pasarelas enlazadas", "Terrazas cruzadas", "Raíces y alturas", "Claro de la segunda llave", "Mirador viajero", "Últimas dos orillas", "Guardianes del roble", "Barranco profundo", "Patrullas del corazón", "Santuario de la tercera llave"])
 root_gates = Array[ExtResource("5_gate")]([SubResource("Gate00"), SubResource("Gate01"), SubResource("Gate02"), SubResource("Gate03"), SubResource("Gate04"), SubResource("Gate05"), SubResource("Gate06"), SubResource("Gate07"), SubResource("Gate08"), SubResource("Gate09"), SubResource("Gate10"), SubResource("Gate11"), SubResource("Gate12"), SubResource("Gate13"), SubResource("Gate14"), SubResource("Gate15"), SubResource("Gate16"), SubResource("Gate17"), SubResource("Gate18")])

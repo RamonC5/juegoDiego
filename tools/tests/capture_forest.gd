@@ -75,6 +75,12 @@ func _capture() -> void:
 	main.player.respawn(Vector2(8200 + 5 * 4000 + 3750, 600))
 	await _frames(20)
 	_save("preview_first_key_route")
+	# Última ruta: el transporte diagonal lleva hasta la copa y deja el objetivo legible.
+	var diagonal: ForestMovingPlatform = main.stage.moving_platforms[6]
+	diagonal.reset_cycle()
+	main.player.respawn(diagonal.definition.start_position - Vector2(0, 28))
+	await _frames(260)
+	_save("preview_diagonal_canopy")
 	main.player.respawn(Vector2(3430, 600))
 	for target in main.stage.throw_targets:
 		main.stage._on_mechanism_activated(target.definition.mechanism_id)

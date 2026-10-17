@@ -126,6 +126,7 @@ func _build_root_gates() -> void:
 			var target := ForestThrowTarget.new()
 			target.definition = station
 			target.caption = "DIANA %d · LANZA AQUÍ" % (index + 1)
+			target.show_connection = false
 			target.activated.connect(_on_mechanism_activated)
 			add_child(target)
 			throw_targets.append(target)

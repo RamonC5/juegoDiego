@@ -103,6 +103,19 @@ func _run() -> void:
 	await step(300)
 	check(edge.position.x <= edge.movement_bounds.y + 0.1 and absf(edge.position.y - 600.0) < 2, "el perseguidor del suelo frena antes del hueco")
 	edge.set_physics_process(false)
+	# El paso cerrado bloquea también una carrera con salto; no se elude por arriba.
+	hero.set_physics_process(true)
+	hero.respawn(stage.root_gates[0].position - Vector2(150, 0))
+	hero.invulnerability = 99
+	await step(3)
+	hero.controls.automatic_run = true
+	hero.controls.full_jump = true
+	hero.controls.set_virtual_axis(1)
+	hero.controls.set_virtual_action(&"jump", true)
+	await step(100)
+	hero.controls.clear_virtual()
+	check(hero.position.x < stage.root_gates[0].position.x - 20, "las raíces cerradas bloquean una carrera y salto completo")
+	hero.set_physics_process(false)
 	# Reglas de los diecinueve pasos: una sola marca no abre; ambas sí y no se duplican.
 	for index in stage.root_gates.size():
 		var gate: ForestRootGate = stage.root_gates[index]
@@ -134,6 +147,11 @@ func _run() -> void:
 		if leaf.visible:
 			active_leaves += 1
 	check(active_leaves < 120 and stage.total_leaves > 500, "solo se animan y detectan las hojas de la zona cercana")
+	for leaf in stage.collectibles:
+		if leaf.visible and not leaf.taken:
+			leaf._on_body_entered(hero)
+			check(leaf.taken and not leaf.is_processing(), "una hoja recogida deja de consumir animación")
+			break
 	main.queue_free()
 	paused = false
 	await step(3)

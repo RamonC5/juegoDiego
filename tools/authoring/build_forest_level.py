@@ -13,10 +13,10 @@ DEST = ROOT / 'game/data/worlds/world_01/level_01.tres'
 NAMES = [
     'Terrazas del helecho', 'Barranco de raíces', 'Copas viajeras',
     'Escaleras de guardianes', 'Dos orillas', 'Claro de la primera llave',
-    'Sendero de los Terrones', 'Pasarelas enlazadas', 'La copa del Moflete',
+    'Sendero de los guardianes', 'La copa del Moflete', 'Pasarelas enlazadas',
     'Terrazas cruzadas', 'Raíces y alturas', 'Claro de la segunda llave',
-    'Patrullas del corazón', 'Barranco profundo', 'Mirador viajero',
-    'Guardianes del roble', 'Últimas dos orillas', 'Santuario de la tercera llave',
+    'Mirador viajero', 'Últimas dos orillas', 'Guardianes del roble',
+    'Barranco profundo', 'Patrullas del corazón', 'Santuario de la tercera llave',
 ]
 
 
@@ -83,7 +83,9 @@ def build():
         starts.append((x, 600))
         names.append(name)
         values['checkpoints'].append((x + 190, 600))
-        shape = i % 6
+        chapter = i // 6
+        # Reordenar y variar las composiciones: las rutas posteriores no repiten la anterior.
+        shape = ((0, 1, 2, 3, 4, 5), (3, 2, 4, 0, 1, 5), (2, 4, 3, 1, 0, 5))[chapter][i % 6]
         if shape in (1, 4):
             gap = x + 2300
             values['ground_sections'] += [(x, 600, 2300, 520), (gap + 450, 600, 1250, 520)]
@@ -104,27 +106,29 @@ def build():
         if shape in (2, 5):
             # La primera marca exige viajar; la repisa no se alcanza desde el suelo.
             m_id = f'MovingRoute{i:02d}'
+            canopy_x = x + 1520 + (190 if chapter == 2 else 0)
             resource_block(m_id, '4_moving', platform_id=f'&"tronco_ruta_{i:02d}"', display_name=json.dumps(name, ensure_ascii=False),
                            start_position=vec('Vector2', (x + 1350, 545)),
-                           end_position=vec('Vector2', (x + 1350, 225)), width='280.0', travel_seconds='3.0', stop_seconds='1.5')
+                           end_position=vec('Vector2', (canopy_x - 170, 225)), width='280.0', travel_seconds='3.0', stop_seconds='1.5')
             moving_ids.append(m_id)
-            values['raised_platforms'].append((x + 1520, 190, 600, 64))
-            pine1, floor1 = x + 1620, 190
-            crest1 = (x + 1520, 190, 600)
+            values['raised_platforms'].append((canopy_x, 190, 600, 64))
+            pine1, floor1 = canopy_x + 100, 190
+            crest1 = (canopy_x, 190, 600)
         else:
-            start1 = x + (850 if shape in (0, 1) else 790)
+            start1 = x + (850 if shape in (0, 1) else 790) + chapter * 70
             count1 = 3 if shape == 1 else 4
-            ledge, floor1 = stairs(start1, count1, 600)
+            crest_width = 600 - (chapter * 80 if shape == 4 else 0)
+            ledge, floor1 = stairs(start1, count1, crest_width)
             pine1 = ledge + 85
-            crest1 = (ledge, floor1, 600)
+            crest1 = (ledge, floor1, crest_width)
 
-        if shape in (0, 4):
+        if shape in (0, 4) and chapter == 0:
             # Tras la ruta alta, una marca baja permite respirar y preparar el cruce.
             pine2, floor2 = x + 3270, 600
             values['raised_platforms'].append((x + 2910, 515, 250, 64))
             crest2 = (x + 2910, 515, 250)
         else:
-            count2 = 2 if shape in (1, 2) else 3
+            count2 = 2 if shape in (1, 2) or chapter == 1 else 3
             start2 = x + (2850 if count2 == 2 else 2600)
             ledge2, floor2 = stairs(start2, count2, 560)
             pine2 = ledge2 + 85
@@ -132,7 +136,7 @@ def build():
         gate(i + 1, gate_x, [station(f'Ruta{i:02d}Diana1', pine1, floor1, gate_x, name + ' · marca 1'),
                                 station(f'Ruta{i:02d}Diana2', pine2, floor2, gate_x, name + ' · marca 2')], name)
 
-        first_kind = 'terron' if i % 2 == 0 else 'moflete'
+        first_kind = 'terron' if (i + chapter) % 2 == 0 else 'moflete'
         other_kind = 'moflete' if first_kind == 'terron' else 'terron'
         enemy(x + 440, 600, x + 330, x + 520, first_kind)
         # Un segundo perseguidor en una orilla firme; no sobre el hueco ni junto al farol.

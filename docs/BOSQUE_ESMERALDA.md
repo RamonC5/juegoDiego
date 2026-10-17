@@ -16,7 +16,7 @@ El bosque se amplía a tres rutas de llaves, tras un prólogo que enseña salto,
 | Opcionales | Hojas y tres cristales; nunca abren la puerta ni se cuentan en el presupuesto principal |
 | Salida | x=80 400; requiere las tres llaves y no consulta un temporizador |
 
-Las composiciones alternan terrazas de helecho, barrancos, copas viajeras, escaleras de guardianes y cruces de dos orillas. Las repisas se suben en peldaños de 85 px; las copas altas requieren viajar y saltar desde el tronco. La dificultad combina acciones conocidas. No se alarga el nivel con esperas impuestas.
+Las rutas posteriores cambian el orden, aumentan los ascensos de las segundas marcas y añaden troncos diagonales. Las composiciones alternan terrazas de helecho, barrancos, copas viajeras, escaleras de guardianes y cruces de dos orillas. Las repisas se suben en peldaños de 85 px; las copas altas requieren viajar y saltar desde el tronco. La dificultad combina acciones conocidas. No se alarga el nivel con esperas impuestas.
 
 [Recorrido de autoría](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json).
 
