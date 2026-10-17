@@ -63,7 +63,7 @@
     "activacion": "El tronco se mueve de forma cíclica. El transporte empieza al aterrizar sobre su superficie; no requiere tocar ni llevar objetos.",
     "exito": "Recoger automáticamente la tercera llave en la repisa. La salida sigue exigiendo las tres ranuras diferentes.",
     "fallo": "Perder el tronco o fallar el salto devuelve al suelo, sin daño propio de la mecánica. La llave sigue disponible.",
-    "recuperacion": "Ambos ciclos regresan a los puestos por sí solos. El suelo de y=600 permite volver; las superficies atraviesan desde abajo y no aplastan. Al morir se vuelve al farol y los ciclos reinician abajo sin instancias nuevas."
+    "recuperacion": "Ambos ciclos regresan a los puestos por sí solos. El suelo de y=600 permite volver; las superficies atraviesan desde abajo y no aplastan. Al morir se vuelve al farol y solo los ciclos posteriores reinician abajo, sin instancias nuevas."
   },
   "feedback": [
     "Movimiento visible y guía de recorrido",
@@ -78,7 +78,7 @@
   ],
   "dificultad": "Baja progresiva: superficies de 240/260 px, viaje de 3 s con aceleración suave y parada de 1,5 s; suelo seguro. No se añade precisión de apuntado. Presupuesto pendiente de medir con el público objetivo.",
   "persistencia": {
-    "al_morir": "Conservar las llaves, coleccionables y puentes abiertos del intento; volver al farol activo y situar los dos troncos en el puesto inicial después de retirar al pasajero.",
+    "al_morir": "Conservar llaves, hojas y cristales. Mantener puentes, portones, dianas, derrotas y ciclos del tramo anterior al punto de reaparición; rearmar solo lo posterior. Cada diana y su piña se reinician junto con el puente o portón que accionan, aunque la estación esté antes del farol. Reponer enemigos posteriores por su posición de origen, sin duplicar instancias ni derrotas.",
     "al_cerrar": "El intento se pierde como en el juego actual; se conservan resultados completados y ajustes. No se añade guardado intermedio.",
     "al_rejugar": "Crear dos ciclos nuevos y reponer las tres llaves y puentes. Mantener desbloqueos y mejores resultados."
   },

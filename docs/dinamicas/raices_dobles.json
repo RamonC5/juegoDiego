@@ -68,7 +68,7 @@
   ],
   "dificultad": "Baja progresiva. Terrazas anchas y 85 px de desnivel; cada farol recupera energía una vez. Variaciones nuevas de dos dinámicas ya aprendidas.",
   "persistencia": {
-    "al_morir": "Conservar llaves, hojas, cristales, puentes y marcas activadas del intento. Regresar al último farol con energía; devolver piñas y ciclos, y reiniciar la alerta de los enemigos vivos sin duplicarlos.",
+    "al_morir": "Conservar llaves, hojas y cristales. Mantener puentes, portones, dianas, derrotas y ciclos del tramo anterior al punto de reaparición; rearmar solo lo posterior. Cada diana y su piña se reinician junto con el puente o portón que accionan, aunque la estación esté antes del farol. Reponer enemigos posteriores por su posición de origen, sin duplicar instancias ni derrotas.",
     "al_cerrar": "El intento se reinicia. Se conservan los resultados completados y ajustes; no existe guardado intermedio.",
     "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes."
   },

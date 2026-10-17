@@ -133,9 +133,9 @@ func _physics_process(delta: float) -> void:
 		if is_instance_valid(held_object):
 			speed *= 0.82
 		if crouching:
-			speed = 0.0
+			speed = tuning.crouch_speed
 		var acceleration: float = tuning.acceleration if was_grounded else tuning.air_acceleration
-		if is_zero_approx(axis) or crouching:
+		if is_zero_approx(axis):
 			acceleration = tuning.braking if was_grounded else tuning.air_acceleration
 		# Conservar el impulso de la cuerda durante el salto sin quitar control aéreo.
 		var target_speed: float = axis * speed

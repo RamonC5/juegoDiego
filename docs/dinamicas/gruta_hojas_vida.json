@@ -62,7 +62,7 @@
   ],
   "dificultad": "Fácil y optativa, apropiada para la exploración de 10 años.",
   "persistencia": {
-    "al_morir": "El brote permanece recogido y los cuatro corazones de capacidad siguen disponibles en la partida; el ascensor reinicia el ciclo.",
+    "al_morir": "El brote permanece recogido y los cuatro corazones de capacidad siguen disponibles en la partida. El ascensor solo reinicia si la gruta queda después del punto de reaparición.",
     "al_cerrar": "Al iniciar otra partida, el brote y los tres corazones iniciales se restauran.",
     "al_rejugar": "Secreto nuevamente disponible desde el inicio del nivel; no condiciona las tres llaves."
   },

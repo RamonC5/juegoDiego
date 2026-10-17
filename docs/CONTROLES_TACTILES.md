@@ -21,7 +21,7 @@ Esta distribución es una adaptación para las acciones existentes de Diego, no 
 | Mitad izquierda mientras está colgado | Pulsar | Soltarse con el impulso de la liana; queda un salto aéreo disponible. |
 | Cualquier punto libre de la mitad derecha | Arrastrar ← / → | Movimiento analógico: poco recorrido camina; mucho recorrido corre. |
 | Mitad derecha | Soltar el arrastre | Frenar. |
-| Mitad derecha | Deslizar ↓ y mantener | Agacharse en el suelo; soltar permite levantarse si hay espacio. |
+| Mitad derecha | Deslizar ↓ y mantener; después arrastrar ← / → | Agacharse y avanzar despacio con el mismo dedo. Soltar permite levantarse al salir del techo; un nuevo arrastre permite salir si todavía no cabe de pie. |
 | Mitad derecha | Toque corto | Coger o lanzar, una vez al soltar. |
 | Botón Pausa | Pulsar | Abrir ajustes y liberar contactos. |
 
@@ -39,7 +39,7 @@ Los contactos nuevos se procesan después de la interfaz. Los ya capturados se l
 
 ## Comprobación
 
-`tools/tests/test_player.gd` ejecuta 91 comprobaciones de comportamiento, incluidas las mecánicas previas y regresiones de gestos, simultaneidad, interfaz, tablet 4:3 y persistencia. La CI las ejecuta antes de exportar el APK. `test_player_movement.gd` añade 30 comprobaciones de doble salto, límite de impulsos, caída, daño, reaparición, pausa y agarre visual durante dos ciclos.
+`tools/tests/test_player.gd` comprueba el comportamiento, incluidas las mecánicas previas y regresiones de gestos, simultaneidad, interfaz, tablet 4:3 y persistencia. La CI las ejecuta antes de exportar el APK. `test_player_movement.gd` añade 30 comprobaciones de doble salto, límite de impulsos, caída, daño, reaparición, pausa y agarre visual durante dos ciclos.
 
 `tools/tests/capture_player.gd` captura el entrenamiento, dos contactos activos, el menú y la proporción 4:3 mediante el renderizador real. Las capturas y el registro se encuentran en [la revisión de Diego](../art/characters/diego/qa.md).
 

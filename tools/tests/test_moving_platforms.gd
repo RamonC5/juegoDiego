@@ -128,7 +128,7 @@ func _run() -> void:
 	main._resume()
 	await _step(4)
 	_check(not hero.dead and hero.position.distance_to(stage.respawn_position) < 4.0, "morir devuelve al farol en suelo firme")
-	_check(stage.collected_keys == [0] and stage.bridges[0].state == RootBridge.State.CLOSED and stage.activated_mechanisms.is_empty(), "el reintento conserva la llave, recoge el puente y rearma las dianas")
+	_check(stage.collected_keys == [0] and stage.bridges[0].state == RootBridge.State.OPEN and stage.activated_mechanisms.has(stage.bridges[0].definition.mechanism_id), "el reintento conserva la llave y el puente anterior al farol")
 	_check(lift.position.distance_to(lift.definition.start_position) < 2.0 and stage.moving_platforms.size() == 2, "los dos troncos reinician su ciclo sin duplicarse")
 	_check(LevelProgress.new(STORAGE).levels.is_empty(), "viajar o recoger una llave no inventa guardado de intento")
 	# El salto normal desde abajo no alcanza la llave alta.

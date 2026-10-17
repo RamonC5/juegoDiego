@@ -53,6 +53,16 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 5. Las señales notifican hechos, como `level_completed`, y las llamadas explícitas solicitan acciones. Evitar un bus global para todos los eventos.
 6. No añadir autoloads hasta que un servicio necesite persistir entre escenas. No hay autoloads registrados en esta base.
 
+## Recuperación por farol y salida agachado · 0.7.4
+
+`DiegoPlayer` conserva la cápsula baja cuando no cabe de pie, pero permite moverse a 90 px/s en ambas direcciones. `HeroTouchControls` deja deslizar abajo y arrastrar con el mismo dedo; solo reclama el eje al empezar el desplazamiento horizontal, para conservar también el uso de dos dedos. Salir del techo permite levantarse al soltar abajo. Se reutiliza la animación baja existente y se mantienen el descarte de saltos pendientes, el daño y la limpieza de entradas en pausa y reaparición.
+
+`ForestStage.respawn_player()` usa el punto de reaparición como frontera espacial, independientemente del lugar de muerte o del orden temporal de las acciones. Conserva puentes, portones, dianas, activaciones y derrotas anteriores; reconstruye únicamente el tramo posterior. El extremo del puente y la barrera determinan a qué tramo pertenece un puzzle completo: una diana y su piña se rearman juntas aunque la estación quede antes del farol y accione algo posterior. Troncos, ascensor secreto, lianas y objetos generales siguen la misma regla según su recorrido o puesto de origen. Sin farol se reinicia todo desde el comienzo. Las llaves, hojas, cristales y el corazón secreto mantienen la persistencia del intento.
+
+Los índices de enemigos derrotados se consolidan según su origen al avanzar el farol. Un enemigo posterior eliminado antes de activar el farol todavía debe reaparecer; un enemigo anterior eliminado al retroceder permanece derrotado. Solo las patrullas vivas posteriores vuelven a su puesto. La recuperación no crea objetos adicionales ni acumula derrotas repetidas. Cerrar o rejugar sigue creando un intento nuevo.
+
+`test_player.gd` cubre el techo físico, salida y marcha atrás con teclado y contactos táctiles, uno o dos dedos y carrera automática. `test_checkpoint_recovery.gd` recorre faroles situados antes, después y dentro de un puzzle, muertes consecutivas, enemigos ya liberados, herramientas, ciclos y retorno a faroles anteriores. [Registro de validación](pruebas/recuperacion-0.7.4.md).
+
 ## Doble salto y agarre visible de Diego · 0.7.3
 
 `PlayerInputSource.request_tap_jump()` conserva hasta dos pulsaciones táctiles pendientes, sin mantener `Input` global ni esperar a detectar un doble clic. `HeroTouchControls` asigna por defecto la izquierda a salto inmediato y la derecha a arrastre horizontal, agacharse y toque corto de recoger/lanzar. El modo de cada contacto se conserva al cruzar el centro; el primer arrastre horizontal se adueña del eje y los otros dedos pueden actuar. Los lados siguen siendo intercambiables y Pausa recibe los contactos antes que el juego. Un arrastre no genera saltos ni lanzamientos. La pausa, el foco y la reaparición limpian las órdenes.
@@ -202,7 +212,7 @@ Los PNG HD de fondo, terreno y cuatro elementos de escenario están en `game/ass
 
 ## Agacharse
 
-La acción `crouch` se integra en InputMap, los gestos, la reasignación y el bloqueo de teclas al reanudar. `DiegoPlayer` intercambia cápsulas propias de 98 y 58 px, conserva la base y comprueba la forma erguida contra las capas del cuerpo antes de levantarse. La consulta se separa del suelo por el margen de seguridad. `PlayerTuning.crouch_height` permite ajustar la altura. El estado frena, mantiene el objeto a menor altura y conserva daño y sensores. [Reglas y controles](PROTAGONISTA.md).
+La acción `crouch` se integra en InputMap, los gestos, la reasignación y el bloqueo de teclas al reanudar. `DiegoPlayer` intercambia cápsulas propias de 98 y 58 px, conserva la base y comprueba la forma erguida contra las capas del cuerpo antes de levantarse. La consulta se separa del suelo por el margen de seguridad. `PlayerTuning.crouch_height` permite ajustar la altura. El estado limita el avance a `PlayerTuning.crouch_speed` (90 px/s), permite invertir dirección bajo techo, mantiene el objeto a menor altura y conserva daño y sensores. La postura baja permanece hasta poder levantarse; el arrastre funciona con el mismo contacto que mantiene abajo o con otro dedo. [Reglas y controles](PROTAGONISTA.md).
 
 ## Skill de dinámicas y progresión prevista
 
@@ -212,11 +222,11 @@ El plan establece tres aventuras antes del jefe de cada uno de los ocho mundos. 
 
 Las fichas futuras se guardarán en `docs/dinamicas/` y `docs/niveles/`; constituyen material de autoría y no sustituyen los recursos `.tres`, señales ni reglas de las funcionalidades. El skill y su comprobador no añaden dependencias al juego. Mantenerlos fuera de la exportación como el resto de `.agents/`.
 
-Avance agachado, setas de rebote, placas de peso y guardado de intentos siguen pendientes. Las plataformas móviles ya están integradas. La integración 0.3.0 añade dianas conectadas a dos puentes y tres faroles al bosque actual.
+El avance agachado está integrado desde 0.7.4. Setas de rebote, placas de peso y guardado de intentos siguen pendientes. Las plataformas móviles ya están integradas. La integración 0.3.0 añade dianas conectadas a dos puentes y tres faroles al bosque actual.
 
 ### Dianas y puentes integrados
 
-`RootBridgeDefinition` separa los datos de estación; `ForestThrowTarget` valida impactos y emite una activación única; `RootBridge` despliega la imagen durante 0,6 segundos y después habilita suelo estático. `ForestStage` compone referencias y conserva `activated_mechanisms` durante el intento. Al reaparecer (desde 0.6.3) cierra los puentes y barreras, limpia las activaciones, reconstruye las dianas y recupera las piñas; no guarda el intento en disco. Las dianas usan la capa 7 de interacción y los arrojadizos la incluyen en sus barridos; Diego no colisiona con ellas. El puente usa la capa de entorno.
+`RootBridgeDefinition` separa los datos de estación; `ForestThrowTarget` valida impactos y emite una activación única; `RootBridge` despliega la imagen durante 0,6 segundos y después habilita suelo estático. `ForestStage` compone referencias y conserva `activated_mechanisms` durante el intento. Al reaparecer (desde 0.7.4) conserva los puentes y barreras anteriores al farol junto con sus activaciones y dianas. Solo cierra y rearma los posteriores, recuperando las piñas del mismo puzzle; no guarda el intento en disco. Las dianas usan la capa 7 de interacción y los arrojadizos la incluyen en sus barridos; Diego no colisiona con ellas. El puente usa la capa de entorno.
 
 Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la segunda llave y tres faroles. La reaparición solo avanza a índices de farol posteriores. La cámara aumenta suavemente la anticipación en las estaciones y sigue la recuperación inferior. Las texturas raster tienen límites de importación de 1024 y 256 píxeles. [Diseño, evidencia y pendientes](dinamicas/puente_diana.md).
 
@@ -259,11 +269,11 @@ Desde 0.6.1 la composición original **Esmeralda en marcha** sustituye a Sendero
 
 ### Enemigos y faroles
 
-Cada `ForestEnemy.spawn_index` identifica su entrada en `enemy_spawns`. `ForestStage` registra los índices derrotados desde el último farol, incluso después de que sus nodos desaparezcan. Antes del primer farol el registro empieza en el inicio del nivel. Activar un farol posterior consolida las derrotas anteriores y vacía el registro; revisitar uno anterior no cambia ese estado.
+Cada `ForestEnemy.spawn_index` identifica su entrada en `enemy_spawns`. `ForestStage` registra los índices derrotados desde el último farol, incluso después de que sus nodos desaparezcan. Antes del primer farol el registro empieza en el inicio del nivel. Activar un farol posterior consolida las derrotas cuyo origen queda antes y mantiene pendientes las posteriores; revisitar uno anterior no cambia ese estado.
 
-Al reaparecer, el nivel reconstruye exactamente las patrullas registradas desde sus datos originales: posición, tipo, límites, sensores, salud activa, animación y persecución. Si una animación de derrota aún existe, primero retira esa instancia. Los enemigos activos vuelven a su patrulla inicial. Las derrotas consolidadas permanecen eliminadas durante el intento. El contador descuenta los enemigos restaurados para impedir sumar varias veces el mismo combate. La regla es temporal: también se restaura un enemigo derrotado al retroceder después de activar el farol.
+Al reaparecer, el nivel reconstruye exactamente las patrullas registradas desde sus datos originales: posición, tipo, límites, sensores, salud activa, animación y persecución. Si una animación de derrota aún existe, primero retira esa instancia. Los enemigos activos posteriores al farol vuelven a su patrulla inicial. Las derrotas consolidadas permanecen eliminadas durante el intento. El contador descuenta los enemigos restaurados para impedir sumar varias veces el mismo combate. Desde 0.7.4 la regla es espacial: una derrota anterior al punto de reaparición se conserva también si se produjo al retroceder.
 
-Llaves, hojas y cristales se conservan. Desde 0.6.3 los mecanismos resueltos se rearman al morir; las piñas y troncos recuperan su estado jugable. Reiniciar voluntariamente crea un intento completo con todos los enemigos. No se guarda el intento a mitad del nivel en disco.
+Llaves, hojas y cristales se conservan. Desde 0.7.4 solo se rearman los mecanismos posteriores al farol, junto con sus piñas y troncos. Reiniciar voluntariamente crea un intento completo con todos los enemigos. No se guarda el intento a mitad del nivel en disco.
 
 ### Escenario sin rótulos ni iconos · 0.6.1
 
@@ -282,7 +292,7 @@ Al reaparecer, `ForestStage` llama a `reset_to_intact` para **todas** las dianas
 
 `ForestThrowTarget` genera 19 celdas de Voronoi de distinto tamaño sobre la textura de la diana, con UV correctos, aristas brillantes y un destello corto. Los fragmentos salen despedidos, giran, caen acelerando y se desvanecen en 0,72 segundos. No tienen colisión, comparten material raster y respetan la pausa. La semilla aleatoria local permite repetir pruebas sin alterar el RNG del juego.
 
-`ForestStage.respawn_player()` rearma TODOS los puentes, incluso si se estaban desplegando, y las barreras de dos dianas; estas cancelan sus tweens y recuperan la colisión. Vacía `activated_mechanisms` y devuelve intactas todas las dianas, de forma que deben activarse de nuevo. Permanecen llaves, hojas, cristales, faroles y las reglas existentes de enemigos derrotados desde el último farol.
+**Comportamiento histórico 0.6.3, sustituido por la recuperación por farol de 0.7.4:** `ForestStage.respawn_player()` rearmaba TODOS los puentes, incluso si se estaban desplegando, y las barreras de dos dianas; estas cancelan sus tweens y recuperan la colisión. Vacía `activated_mechanisms` y devuelve intactas todas las dianas, de forma que deben activarse de nuevo. Permanecen llaves, hojas, cristales, faroles y las reglas existentes de enemigos derrotados desde el último farol.
 
 `EnemyVisual` introduce el modo `foot` en el perfil de Moflete: ambos pies se elevan y apoyan por turnos, se desplazan longitudinalmente con la velocidad y reducen su recorrido al frenar o caer. El movimiento no afecta al cuerpo físico ni a los sensores. La regresión prueba fases opuestas, desplazamiento y apoyo, geometría irregular, pausas y reactivación.
 

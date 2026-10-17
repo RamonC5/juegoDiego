@@ -2,6 +2,12 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Recuperación y pasos bajos · 0.7.4
+
+Diego puede avanzar y retroceder agachado bajo un bloque, con el mismo dedo que desliza abajo o con un contacto adicional. Si suelta abajo sin espacio para levantarse, otro arrastre le permite salir y recupera la postura al quedar libre.
+
+Morir conserva lo resuelto antes del farol y restablece únicamente el tramo posterior: puentes, portones, sus dianas y piñas, enemigos y ciclos móviles. La posición de origen decide la recuperación, incluso al volver atrás. Las llaves y coleccionables del intento se conservan. Esta regla sustituye los reinicios globales y temporales descritos en las versiones históricas inferiores. [Contrato y pruebas](ARQUITECTURA.md#recuperación-por-farol-y-salida-agachado--074).
+
 ## Gruta secreta de hojas · 0.7.2
 
 Junto al tótem de madera y musgo, alrededor de x=11610, agacharse abre la trampilla. El túnel permite caminar realmente por debajo del bosque: sigue las hojas hacia la izquierda, recoge el brote de vida y sal por el ascensor de x=10340. La galería mide 1890 px; el ascensor está separado de la entrada. Su cuarto corazón se concede una sola vez por intento y se conserva al reaparecer. El desvío es opcional y mantiene accesibles las tres llaves y los portones.
@@ -24,7 +30,7 @@ Para el **primer bosque** prevalece la reducción específica autorizada a unos 
 
 Dimensionar cada aventura para al menos 15 minutos de ruta principal en primera partida normal. Usar inicialmente un presupuesto de 18–22 minutos y comprobarlo jugando; descontar pausas, cargas, cinemáticas, secretos y repeticiones por derrota. Las rejugadas expertas pueden ser más cortas. No imponer un tiempo de espera para abrir la puerta.
 
-Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar plataformas, exploración, combate y pequeños rompecabezas. Enseñar primero en un lugar seguro, practicar y combinar después. Situar faroles aproximadamente cada 3–4 minutos. Conservar objetivos resueltos al reaparecer, reponer herramientas imprescindibles y permitir regresar a una llave pendiente. Proponer guardado del intento como sistema nuevo para poder continuar otro día.
+Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar plataformas, exploración, combate y pequeños rompecabezas. Enseñar primero en un lugar seguro, practicar y combinar después. Situar faroles aproximadamente cada 3–4 minutos. Al reaparecer conservar el tramo anterior al farol y repetir el posterior; una diana pertenece al puente o portón que acciona aunque esté situada antes. Reponer herramientas imprescindibles y permitir regresar a una llave pendiente. Proponer guardado del intento como sistema nuevo para poder continuar otro día.
 
 ## Progresión propuesta del primer mundo
 

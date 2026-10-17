@@ -106,7 +106,7 @@
     {
       "id": "estado_mecanismos_intento",
       "estado": "implementada",
-      "detalle": "ForestStage conserva activated_mechanisms durante el intento y restaura abiertos los mecanismos resueltos al reaparecer, incluso si el despliegue se interrumpió."
+      "detalle": "ForestStage conserva las activaciones anteriores al farol y rearma los puzzles posteriores como una unidad; una apertura posterior interrumpida se cancela."
     },
     {
       "id": "pistas_por_eventos",
@@ -128,7 +128,7 @@
     "activacion": "Cada diana valida un ThrowableObject lanzado mediante can_cause_thrown_damage y que su mechanism_id sigue cerrado. Aceptar cualquier arrojadizo válido; las piñas están garantizadas, pero llevar un barril no impide resolver el reto. Rechazar objetos sostenidos, apoyados, impactos sin velocidad válida y pisotones.",
     "exito": "Un acierto inicia cerrado → desplegando → abierto. Tras 0,6 segundos habilita suelo y anuncia el paso; permanece abierto durante el intento. La llave visible 2 aporta el índice interno 1 una sola vez y la salida sigue exigiendo las tres.",
     "fallo": "Fallar un lanzamiento no causa daño ni elimina llaves. La diana sigue pendiente y la piña queda recuperable o vuelve a su puesto. Caer en la práctica lleva a suelo seguro; una caída mortal posterior vuelve al farol con las activaciones y las llaves conservadas según el nuevo estado previsto.",
-    "recuperacion": "En cada puesto garantizar exactamente una piña: recuperable tras asentarse con reposición a 4 segundos, retorno al salir de límites locales y sin reposición mientras se sostiene. No copiarla ni acumular instancias. Mantener suelo libre en el puesto, rutas de vuelta desde ambos extremos y un farol antes del puente principal. Si se muere durante el despliegue, restaurar ese mecanismo abierto antes de habilitar al jugador. Pausa y pérdida de foco detienen despliegue, pistas y temporizadores."
+    "recuperacion": "En cada puesto garantizar exactamente una piña: recuperable tras asentarse con reposición a 4 segundos, retorno al salir de límites locales y sin reposición mientras se sostiene. No copiarla ni acumular instancias. Mantener suelo libre en el puesto, rutas de vuelta desde ambos extremos y un farol antes del puente principal. Si se muere durante el despliegue de un mecanismo posterior al farol, cancelarlo y rearmar su diana para repetirlo. Conservar los anteriores. Pausa y pérdida de foco detienen despliegue, pistas y temporizadores."
   },
   "feedback": [
     "La silueta circular con anillos identifica la diana; una raíz visible la conecta con la pasarela. No depender solo del verde o del sonido.",
@@ -145,7 +145,7 @@
   ],
   "dificultad": "Dos aplicaciones de la misma dinámica desde suelo firme. Dianas circulares de radio 58 con dibujo de 136 unidades; sin apuntado analógico ni cuenta atrás. Distancia inicial desde la mano aproximada de 211 y 251 unidades. El ensayo tiene suelo inferior y tres saltos de regreso; la patrulla principal aparece tras el puente. Ajuste final con un niño de 10 años pendiente. Los 4–5 minutos siguen siendo presupuesto de autoría, no medición de esta integración.",
   "persistencia": {
-    "al_morir": "Implementado: conservar ambas activaciones y las llaves del intento; restaurar abierto un despliegue interrumpido, sincronizar diana y reponer piñas, y reaparecer sobre suelo en el farol más avanzado. No hay serialización de estos hechos entre cierres de la aplicación.",
+    "al_morir": "Conservar llaves, hojas y cristales. Mantener puentes, portones, dianas, derrotas y ciclos del tramo anterior al punto de reaparición; rearmar solo lo posterior. Cada diana y su piña se reinician junto con el puente o portón que accionan, aunque la estación esté antes del farol. Reponer enemigos posteriores por su posición de origen, sin duplicar instancias ni derrotas.",
     "al_cerrar": "Comportamiento actual: un cierre real pierde el intento y sus mecanismos; solo se conservan resultados ya completados y ajustes. Esta dinámica no promete continuar otro día. Guardado de intentos versionado queda como mejora transversal separada, pendiente antes de anunciar esa capacidad.",
     "al_rejugar": "Cerrar ambos puentes, rearmar dianas, reponer piñas y las tres llaves al reiniciar o rejugar el nivel; conservar mejores resultados y desbloqueos. No persistir estas aperturas como progreso de nivel completado."
   },
@@ -159,7 +159,7 @@
     "funcional": [
       "Activación: un impacto válido abre solo el mecanismo asociado; sostenidos, apoyados, lentos y pisotones no lo abren. Un barril válido también lo resuelve. Rechazar duplicados y emitir activación una sola vez.",
       "Reposición: lanzar a ambos lados, dejar asentar, perder fuera de límites, recibir daño llevando la piña y morir deja exactamente una piña disponible por puesto. La piña sostenida no reaparece ni se duplica.",
-      "Colisiones: desplegar antes de habilitar el paso, sin crear suelo dentro de Diego. Morir o pausar a mitad de despliegue conserva una solución segura. Una apertura completada no se cierra al reaparecer.",
+      "Colisiones: desplegar antes de habilitar el paso, sin crear suelo dentro de Diego. Morir o pausar a mitad de despliegue conserva una solución segura. Una apertura anterior al farol no se cierra al reaparecer; una posterior vuelve a estar pendiente.",
       "Llaves: la recompensa usa el índice interno 1 y suma una sola vez; funciona si las ranuras 1 y 3 siguen pendientes. Con dos llaves la salida continúa cerrada; con las tres finaliza una sola vez.",
       "Recorrido: volver de la llave 2 a la 1 y a la salida sigue siendo posible. Un objeto transportado no bloquea el paso ni sustituye una llave.",
       "Pausa y foco: congelar movimiento visual, colisión pendiente y reposición; reanudar no consume un grab_throw retenido. Revisar teclado, mando y dos contactos táctiles.",

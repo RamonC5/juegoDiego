@@ -73,7 +73,7 @@
   ],
   "dificultad": "Media, pendiente de evaluación con 10 años: agarre automático tolerante de 70 px con barrido continuo, aproximación suave, impulso conservado y reintentos desde la orilla.",
   "persistencia": {
-    "al_morir": "Se libera el agarre, se reinician las oscilaciones y los puentes/dianas convencionales se rearman según las reglas existentes; las llaves se conservan.",
+    "al_morir": "Se libera el agarre de Diego. Al morir solo reinician las oscilaciones del barranco si queda después del farol; los puentes, dianas y portones siguen la misma frontera de recuperación. Las llaves se conservan. Una caída no mortal del propio barranco reinicia sus lianas para el reintento local.",
     "al_cerrar": "El intento reinicia desde el comienzo, no se guarda el punto de mitad de nivel.",
     "al_rejugar": "Las cinco lianas vuelven a su fase inicial. Las tres llaves siguen siendo necesarias."
   },

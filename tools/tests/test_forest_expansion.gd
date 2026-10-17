@@ -140,9 +140,10 @@ func _run() -> void:
 	stage.respawn_player()
 	await step(4)
 	await step(3)
-	check(stage.collected_keys == [0] and stage.root_gates.all(func(g: ForestRootGate): return not g.is_open and g.activated.is_empty() and not g._shape.disabled), "el reintento conserva la llave y cierra todos los pasos")
-	check(stage.activated_mechanisms.is_empty() and stage.bridges.all(func(b: RootBridge): return b.state == RootBridge.State.CLOSED and b._shape.disabled), "los puentes se repliegan y las activaciones vuelven a estar pendientes")
-	check(stage.enemies.filter(func(e: ForestEnemy): return is_instance_valid(e) and e.active).all(func(e: ForestEnemy): return e.behaviour == ForestEnemy.Behaviour.PATROL), "reaparecer borra el estado de alerta de las patrullas")
+	check(stage.collected_keys == [0] and stage.root_gates.slice(0, 3).all(func(g: ForestRootGate): return g.is_open and g._shape.disabled), "el reintento conserva la llave y los tres portones anteriores al farol")
+	check(stage.root_gates.slice(3).all(func(g: ForestRootGate): return not g.is_open and g.activated.is_empty() and not g._shape.disabled), "los siete portones posteriores vuelven a exigir sus dos marcas")
+	check(stage.activated_mechanisms.size() == 6 and stage.bridges[0].state == RootBridge.State.CLOSED, "las marcas anteriores se conservan sin abrir puentes que no se resolvieron")
+	check(stage.enemies.filter(func(e: ForestEnemy): return is_instance_valid(e) and e.active and e.spawn_index >= 17).all(func(e: ForestEnemy): return e.behaviour == ForestEnemy.Behaviour.PATROL), "reaparecer borra el estado de alerta de las patrullas posteriores")
 	stage._on_goal(hero)
 	check(not stage.completed, "una llave mantiene bloqueada la salida ampliada")
 	var active_leaves: int = 0

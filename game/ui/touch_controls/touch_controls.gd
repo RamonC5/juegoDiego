@@ -29,7 +29,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_move_hint = _hint_label("←  ●  →")
 	_action_hint = _hint_label("Salta · Salta otra vez")
-	_move_hint.accessibility_name = "Arrastra para moverte, desliza abajo para agacharte o toca para coger o lanzar"
+	_move_hint.accessibility_name = "Arrastra para moverte, desliza abajo y a los lados para avanzar agachado o toca para coger o lanzar"
 	_action_hint.accessibility_name = "Pulsa una vez para saltar y otra vez en el aire para hacer un doble salto"
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
@@ -168,6 +168,7 @@ func _move_pointer(index: int, point: Vector2) -> void:
 		var offset: Vector2 = point - pointer.start
 		if offset.y >= _jump_threshold and offset.y > absf(offset.x) * 0.65:
 			pointer.mode = &"crouch"
+			pointer.origin.x = point.x
 		elif absf(offset.x) > _dead_zone and absf(offset.x) >= absf(offset.y):
 			if _movement_pointer == NO_POINTER:
 				_movement_pointer = index
@@ -176,7 +177,11 @@ func _move_pointer(index: int, point: Vector2) -> void:
 				pointer.mode = &"ignored"
 		elif -offset.y >= _jump_threshold:
 			pointer.mode = &"ignored"
-	if pointer.mode == &"move":
+	# Agacharse no ocupa el eje hasta arrastrar horizontalmente: permite uno o dos dedos.
+	if pointer.mode == &"crouch" and _movement_pointer == NO_POINTER \
+			and absf(point.x - pointer.origin.x) > _dead_zone:
+		_movement_pointer = index
+	if _movement_pointer == index and pointer.mode in [&"move", &"crouch"]:
 		var offset: float = point.x-pointer.origin.x
 		if absf(offset) > _travel:
 			# El origen sigue al dedo al exceder el recorrido: invertir exige poco arrastre.

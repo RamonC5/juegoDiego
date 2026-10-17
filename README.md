@@ -121,3 +121,7 @@ Las dianas se rompen en 19 fragmentos irregulares de aspecto vítreo con destell
 ### Movimiento de Diego · 0.7.3
 
 Pulsa en la mitad izquierda para saltar y otra vez durante el vuelo para hacer un doble salto. Arrastra en la derecha para moverte; desliza abajo para agacharte o da un toque corto para coger/lanzar. Puedes intercambiar los lados en pausa. Diego se agarra a las lianas con ambas manos y conserva una corrección aérea al soltarse. [Controles](docs/CONTROLES_TACTILES.md) · [Animaciones y pruebas](docs/PROTAGONISTA.md).
+
+### Correcciones de recuperación · 0.7.4
+
+Diego puede salir de un techo avanzando o retrocediendo agachado, también con un único arrastre táctil. La reaparición conserva lo resuelto antes del farol y reconstruye solo lo posterior, agrupando cada diana con su puente o portón. Incluye regresiones físicas y de reinicio espacial en CI. [Reglas y validación](docs/pruebas/recuperacion-0.7.4.md).

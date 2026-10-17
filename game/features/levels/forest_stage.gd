@@ -28,6 +28,7 @@ var exit_door: KeyExitDoor
 var bridges: Array[RootBridge] = []
 var throw_targets: Array[ForestThrowTarget] = []
 var pine_stations: Array[ThrowableObject] = []
+var object_stations: Array[ThrowableObject] = []
 var activated_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
@@ -38,7 +39,7 @@ var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
-## Índices de datos estables; las instancias derrotadas pueden haberse liberado.
+## Derrotas posteriores al farol por índice de origen; las instancias pueden haberse liberado.
 var _defeated_since_checkpoint: Array[int] = []
 var _throw_hint_target: ForestThrowTarget
 var _throw_hint_seconds: float = 0.0
@@ -72,6 +73,7 @@ func _ready() -> void:
 		object.respawn_delay = 4.0
 		object.recovery_bounds = Rect2(-100, -400, DEFINITION.width + 200, 1500)
 		add_child(object)
+		object_stations.append(object)
 
 
 func start(hero: DiegoPlayer) -> void:
@@ -436,7 +438,8 @@ func _on_collected(collectible: ForestCollectible) -> void:
 func _on_enemy_defeated(enemy: ForestEnemy, by_throw: bool) -> void:
 	if _defeated_since_checkpoint.has(enemy.spawn_index):
 		return
-	_defeated_since_checkpoint.append(enemy.spawn_index)
+	if not _is_before_respawn(DEFINITION.enemy_spawns[enemy.spawn_index].x):
+		_defeated_since_checkpoint.append(enemy.spawn_index)
 	defeated_enemies += 1
 	hint_requested.emit("¡Buen lanzamiento!" if by_throw else "¡Buen pisotón! Mantén el salto para llegar más alto.")
 
@@ -453,8 +456,12 @@ func _on_checkpoint(body: Node2D, index: int = 0) -> void:
 	checkpoint_active = true
 	active_checkpoint_index = index
 	respawn_position = checkpoint_positions()[index] + Vector2(55, 0)
-	# Las derrotas anteriores al nuevo farol quedan consolidadas en el intento.
-	_defeated_since_checkpoint.clear()
+	# Consolidar solo el terreno que queda atrás, incluso si se atacó desde lejos.
+	var pending: Array[int] = []
+	for spawn_index in _defeated_since_checkpoint:
+		if not _is_before_respawn(DEFINITION.enemy_spawns[spawn_index].x):
+			pending.append(spawn_index)
+	_defeated_since_checkpoint = pending
 	player.recover_energy()
 	checkpoint_reached.emit()
 	hint_requested.emit("Farol activado · Energía recuperada. Si caes, volverás aquí.")
@@ -476,30 +483,49 @@ func _on_goal(body: Node2D) -> void:
 	})
 
 
+func _is_before_respawn(end_x: float) -> bool:
+	# Sin farol no hay tramo consolidado. La posición de muerte no decide el reinicio.
+	return checkpoint_active and end_x < respawn_position.x
+
+
 func respawn_player() -> void:
-	# Al agotar la energía se rearma TODO el puzzle: dianas intactas,
-	# puentes recogidos y barreras de dos dianas otra vez bloqueadas.
-	# Se limpian las activaciones para que el mismo golpe vuelva a contar.
+	# Conservar el tramo anterior al farol. Cada puzzle se reinicia como una unidad:
+	# una diana puede estar antes del farol y accionar una barrera que todavía queda después.
+	var reset_mechanisms: Array[StringName] = []
 	for bridge in bridges:
-		bridge.reset_closed()
+		if not _is_before_respawn(bridge.definition.bridge_rect.end.x):
+			bridge.reset_closed()
+			reset_mechanisms.append(bridge.definition.mechanism_id)
 	for gate in root_gates:
-		gate.reset_closed()
-	activated_mechanisms.clear()
+		if not _is_before_respawn(gate.definition.position.x + 38.0):
+			gate.reset_closed()
+			for station in gate.definition.stations:
+				reset_mechanisms.append(station.mechanism_id)
+	for mechanism_id in reset_mechanisms:
+		activated_mechanisms.erase(mechanism_id)
 	_throw_hint_target = null
 	_throw_hint_seconds = 0.0
-	for target in throw_targets:
-		target.reset_to_intact()
+	for index in throw_targets.size():
+		if reset_mechanisms.has(throw_targets[index].definition.mechanism_id):
+			throw_targets[index].reset_to_intact()
 	player.release_vine_on_failure()
 	for crossing in vine_crossings:
-		crossing.reset_vines()
+		if not _is_before_respawn(crossing.position.x + ForestVineCrossing.RAVINE_RIGHT):
+			crossing.reset_vines()
 	player.respawn(respawn_position)
 	for platform in moving_platforms:
-		platform.reset_cycle()
-	if is_instance_valid(secret_grove):
+		var end_x: float = maxf(platform.definition.start_position.x, platform.definition.end_position.x) + platform.definition.width / 2.0
+		if not _is_before_respawn(end_x):
+			platform.reset_cycle()
+	if is_instance_valid(secret_grove) and not _is_before_respawn(secret_grove.position.x + ForestSecretGrove.CAVE_RIGHT):
 		secret_grove.lift.reset_cycle()
 	# La reaparición suelta primero cualquier objeto. Cada puesto conserva su instancia.
-	for pine in pine_stations:
-		pine.reset_to_spawn()
+	for index in pine_stations.size():
+		if reset_mechanisms.has(throw_targets[index].definition.mechanism_id):
+			pine_stations[index].reset_to_spawn()
+	for index in object_stations.size():
+		if not _is_before_respawn(DEFINITION.object_spawns[index].x):
+			object_stations[index].reset_to_spawn()
 	for index in _defeated_since_checkpoint:
 		# Eliminar también una animación de derrota aún pendiente, sin duplicar cuerpos.
 		if is_instance_valid(enemies[index]):
@@ -509,12 +535,12 @@ func respawn_player() -> void:
 	defeated_enemies -= _defeated_since_checkpoint.size()
 	_defeated_since_checkpoint.clear()
 	for enemy in enemies:
-		if is_instance_valid(enemy) and enemy.active:
+		if is_instance_valid(enemy) and enemy.active and not _is_before_respawn(DEFINITION.enemy_spawns[enemy.spawn_index].x):
 			enemy.reset_awareness()
 	_update_activity()
 	player.invulnerability = 1.5
 	player.controls.block_current_physical()
-	hint_requested.emit("¡Otra oportunidad! Se han cerrado los puentes y reconstruido las dianas. Conservas las llaves, hojas y cristales.")
+	hint_requested.emit("¡Otra oportunidad! Conservas lo resuelto antes del farol. El tramo siguiente está listo para repetir. Mantienes las llaves, hojas y cristales.")
 
 
 func _physics_process(delta: float) -> void:

@@ -193,9 +193,10 @@ func _test_crouch() -> void:
 	_check(is_equal_approx((_player.body_collision.shape as CapsuleShape2D).height, 58.0), "agacharse reduce la cápsula a 58 píxeles")
 	_check(_player.position.distance_to(feet) < 0.2 and _player.is_on_floor(), "agacharse conserva el apoyo y la posición de los pies")
 	_check(is_equal_approx(_player.body_collision.position.y, -29.0), "la cápsula baja desde la cabeza sin hundirse en el suelo")
+	_player.controls.automatic_run = true
 	_player.controls.set_virtual_action(&"move_right", true)
 	await _step(15)
-	_check(absf(_player.velocity.x) < 0.1, "agachado permanece quieto incluso con carrera automática o dirección")
+	_check(absf(_player.velocity.x - _player.tuning.crouch_speed) < 0.1 and _player.position.x > feet.x + 15.0, "agachado avanza a velocidad reducida incluso con carrera automática")
 	_player.controls.set_virtual_action(&"jump", true)
 	await _step(2)
 	_check(_player.crouching and _player.is_on_floor(), "mantener abajo tiene prioridad sobre un salto simultáneo")
@@ -204,6 +205,7 @@ func _test_crouch() -> void:
 	_check(not _player.crouching and _player.motion_state == &"idle", "soltar abajo permite levantarse en espacio libre")
 	_check(is_equal_approx((_player.body_collision.shape as CapsuleShape2D).height, standing_height), "levantarse restaura la cápsula original")
 	_check(_player.is_on_floor(), "soltar abajo no ejecuta un salto acumulado")
+	await _reset()
 	_player.controls.set_virtual_action(&"crouch", true)
 	await _step(2)
 	var roof := StaticBody2D.new()
@@ -222,9 +224,23 @@ func _test_crouch() -> void:
 	_check(not _player.can_stand() and _player.crouching, "un techo a 70 píxeles impide levantarse al soltar")
 	_check(_player.is_on_floor() and _player.position.distance_to(feet) < 0.2, "bajo el techo no salta ni atraviesa el obstáculo")
 	_player.controls.clear_virtual()
+	_player.controls.set_virtual_axis(1.0)
+	await _step(45)
+	_check(_player.crouching and _player.velocity.x > 80.0 and not _player.can_stand(), "puede avanzar bajo el bloque después de soltar abajo")
+	var forward_x: float = _player.position.x
+	_player.controls.set_virtual_axis(-1.0)
+	await _step(25)
+	_check(_player.crouching and _player.position.x < forward_x - 15.0 and _player.facing < 0.0, "puede retroceder agachado sin quedar atrapado")
+	for frame in 100:
+		await _step(1)
+		if not _player.crouching:
+			break
+	_player.controls.clear_virtual()
+	await _step(6)
+	_check(not _player.crouching and _player.can_stand() and _player.position.x < -95.0, "se levanta al salir del bloque sin retirar el techo")
+	_check(_player.is_on_floor() and absf(_player.position.y - feet.y) < 0.2, "salir del techo conserva el suelo y no ejecuta saltos pendientes")
 	roof.queue_free()
 	await _step(4)
-	_check(not _player.crouching and _player.can_stand(), "se levanta automáticamente cuando vuelve a haber espacio")
 	var other: DiegoPlayer = HERO.instantiate()
 	other.position = Vector2(2000, 0)
 	_world.add_child(other)
@@ -300,6 +316,49 @@ func _drag(index: int, point: Vector2) -> void:
 	root.push_input(event, true)
 
 
+func _test_touch_crouch(main: Node2D, right: Vector2) -> void:
+	var hero: DiegoPlayer = main.player
+	hero.respawn(Vector2(200, 600))
+	await _step(5)
+	_touch(6, right, true)
+	_drag(6, right + Vector2(0, 65))
+	await _step(3)
+	var roof := StaticBody2D.new()
+	roof.position = Vector2(200, 518)
+	var shape := CollisionShape2D.new()
+	var box := RectangleShape2D.new()
+	box.size = Vector2(160, 24)
+	shape.shape = box
+	roof.add_child(shape)
+	main.stage.add_child(roof)
+	await _step(3)
+	_touch(6, right + Vector2(0, 65), false)
+	await _step(2)
+	_touch(6, right, true)
+	_drag(6, right + Vector2(55, 0))
+	await _step(18)
+	_check(hero.crouching and hero.position.x > 220.0 and not hero.can_stand(), "un nuevo arrastre táctil avanza bajo el techo tras soltar abajo")
+	var forward_x: float = hero.position.x
+	_drag(6, right + Vector2(-80, 0))
+	await _step(18)
+	_check(hero.crouching and hero.position.x < forward_x - 15.0, "el arrastre táctil permite retroceder bajo el mismo techo")
+	_touch(6, right + Vector2(-80, 0), false)
+	_touch(6, right, true)
+	_drag(6, right + Vector2(0, 65))
+	_drag(6, right + Vector2(65, 65))
+	for frame in 120:
+		await _step(1)
+		if hero.position.x > 330.0:
+			break
+	_check(hero.crouching and hero.position.x > 330.0, "un solo contacto combina abajo y avance hasta salir del bloque")
+	_touch(6, right + Vector2(65, 65), false)
+	await _step(6)
+	_check(not hero.crouching and hero.is_on_floor() and is_zero_approx(hero.velocity.x), "soltar fuera del bloque recupera la postura y frena sin salto ni lanzamiento")
+	roof.queue_free()
+	hero.respawn(Vector2(200, 600))
+	await _step(3)
+
+
 func _test_interface() -> void:
 	var main: Node2D = MAIN.instantiate()
 	root.add_child(main)
@@ -315,9 +374,18 @@ func _test_interface() -> void:
 	_check(is_equal_approx(view.x/view.y, 16.0/9.0), "el lienzo de prueba inicial tiene proporción móvil 16:9")
 	var left := Vector2(view.x*0.2, view.y*0.3)
 	var right := Vector2(view.x*0.75, view.y*0.65)
+	await _test_touch_crouch(main, right)
 	_touch(6, right, true)
 	_drag(6, right+Vector2(0, 65))
 	_check(main.player.controls.held(&"crouch") and not main.player.controls.held(&"jump"), "deslizar abajo mantiene agacharse sin saltar")
+	_touch(7, right + Vector2(80, -90), true)
+	_drag(7, right + Vector2(145, -90))
+	_check(main.player.controls.held(&"crouch") and main.player.controls.horizontal() > 0.9, "otro dedo puede mover mientras el primero mantiene abajo")
+	_touch(7, right + Vector2(145, -90), false)
+	_drag(6, right+Vector2(55, 65))
+	_check(main.player.controls.held(&"crouch") and main.player.controls.horizontal() > 0.8, "el mismo dedo arrastra a la derecha manteniendo la postura baja")
+	_drag(6, right+Vector2(-80, 65))
+	_check(main.player.controls.held(&"crouch") and main.player.controls.horizontal() < -0.9, "el mismo dedo invierte el avance agachado")
 	_touch(6, right+Vector2(0, 65), false)
 	_check(not main.player.controls.held(&"crouch") and not main.player.controls.consume(&"grab_throw"), "soltar abajo libera agacharse sin coger ni lanzar")
 	_touch(6, right, true)

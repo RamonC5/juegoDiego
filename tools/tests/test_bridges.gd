@@ -264,7 +264,7 @@ func _run() -> void:
 	main._resume()
 	await _step(4)
 	_check(not hero.dead and hero.position.distance_to(stage.respawn_position) < 4, "el reintento aparece sobre suelo del último farol")
-	_check(practice.state == RootBridge.State.CLOSED and stage.bridges[1].state == RootBridge.State.CLOSED, "morir repliega también la pasarela resuelta")
+	_check(practice.state == RootBridge.State.OPEN and stage.bridges[1].state == RootBridge.State.CLOSED, "el farol conserva la pasarela anterior y rearma el puente posterior")
 	# Otro objeto válido también sirve: contrato de impacto físico, sin exigir un tipo exclusivo.
 	var alternate := ForestThrowTarget.new()
 	alternate.definition = stage.DEFINITION.bridges[1].duplicate()

@@ -10,7 +10,7 @@ La escena de arranque abre **Bosque Esmeralda 1-1**, y Pausa permite volver a la
 | --- | --- | --- | --- |
 | Moverse | Arrastrar horizontalmente desde cualquier punto de la mitad derecha; soltar para parar | A / D o flechas | Cruceta o palanca izquierda |
 | Saltar / doble salto | Pulsar una vez en la mitad izquierda y otra vez durante el vuelo | Espacio, dos pulsaciones | A, dos pulsaciones |
-| Agacharse | Deslizar hacia abajo en la mitad de acciones y mantener; soltar para levantarse | S / flecha abajo (reasignable) | Cruceta abajo o palanca izquierda hacia abajo |
+| Agacharse / avanzar agachado | Deslizar abajo en la mitad derecha y arrastrar horizontalmente con el mismo dedo; soltar para levantarse cuando haya espacio | S / flecha abajo (reasignable) | Cruceta abajo o palanca izquierda hacia abajo |
 | Recoger / lanzar | Toque corto en cualquier punto de la mitad derecha | E | X |
 | Correr | Arrastre largo; carrera con arrastre corto opcional | Mayús o carrera automática | B o carrera automática |
 | Pausar / ajustar | Botón Pausa | Escape | Start |
@@ -35,7 +35,7 @@ No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centr
 
 Se ajustan en `game/features/player/default_tuning.tres` y `player_tuning.gd`. La cápsula de colisión mide 38 × 98 px; el arte de pie ocupa aproximadamente 112 px de alto. Agachado baja a 38 × 58 px y conserva el apoyo de los pies. La forma de la imagen no define colisiones ni daño.
 
-Agacharse se activa sobre el suelo y frena el movimiento horizontal. Mantener abajo durante una caída aplica la postura al aterrizar. Soltarla permite levantarse cuando la cápsula completa cabe: un techo lo impide hasta que se retire. Mantener abajo tiene prioridad sobre saltar y descarta ese salto; la energía y el daño mantienen sus reglas. El objeto sostenido baja con la mano; recoger y lanzar vuelven a estar disponibles al levantarse. Pausa y pérdida de foco liberan los contactos, y reaparecer restablece la postura.
+Agacharse se activa sobre el suelo y permite avanzar o retroceder a 90 px/s, ajustables mediante `PlayerTuning.crouch_speed`, incluso con carrera automática. Mantener abajo durante una caída aplica la postura al aterrizar. Si un techo impide levantarse, Diego conserva la cápsula baja y puede moverse hasta salir; al soltar abajo se levanta automáticamente cuando cabe. El mismo contacto táctil puede deslizar abajo y después arrastrar a ambos lados; también se admiten dos dedos. Mantener abajo tiene prioridad sobre saltar y descarta ese salto; la energía y el daño mantienen sus reglas. El objeto sostenido baja con la mano; recoger y lanzar vuelven a estar disponibles al levantarse. Pausa y pérdida de foco liberan los contactos, y reaparecer restablece la postura.
 
 ## Animaciones
 
@@ -82,7 +82,7 @@ python tools/build_diego_atlas.py
 
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
-Las 91 pruebas de controles y 30 de movimientos cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+Las pruebas de controles y movimientos cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
 
 
 
