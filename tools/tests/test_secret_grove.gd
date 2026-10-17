@@ -44,6 +44,12 @@ func _run() -> void:
 		"la entrada oculta no introduce un barranco inaccesible en el recorrido obligatorio")
 	check(stage.moving_platforms.size() == 5 and is_instance_valid(grove.lift),
 		"ascensor independiente de los cinco troncos de la ruta")
+	var totem: ForestSecretTotem = stage.secret_totem
+	check(is_instance_valid(totem) and totem.position == grove.position + Vector2(-180, 0),
+		"tótem propio en el borde izquierdo de la trampilla oculta")
+	if is_instance_valid(totem):
+		check(totem.get_child_count() == 0 and totem.z_index == 4,
+			"el tótem es solo arte, sin colisión ni áreas que bloqueen el camino")
 	for enemy in stage.enemies:
 		enemy.set_physics_process(false)
 		enemy.collision_layer = 0
@@ -51,6 +57,9 @@ func _run() -> void:
 	hero.respawn(grove.global_position)
 	await step(4)
 	check(not grove.hatch_shape.disabled, "hojas sostienen al jugador sin agacharse")
+	if is_instance_valid(totem):
+		check(totem._nearby and totem._phase > 0.0,
+			"hojas y resplandor del tótem se animan al acercarse Diego")
 	hero.controls.set_virtual_action(&"crouch", true)
 	await step(5)
 	check(grove.hatch_shape.disabled, "agacharse abre el suelo falso sin nuevo botón")
@@ -79,6 +88,8 @@ func _run() -> void:
 		"la plataforma lleva al jugador desde la gruta hacia la superficie")
 	hero.respawn(Vector2(1450, 600))
 	await step(4)
+	if is_instance_valid(totem):
+		check(not totem._nearby, "el tótem detiene la animación al alejarse para ahorrar recursos")
 	check(hero.fall_limit_y == 980.0, "otros barrancos conservan el límite de caída anterior")
 	main.queue_free()
 	await step(3)
