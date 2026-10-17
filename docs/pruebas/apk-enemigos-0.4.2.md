@@ -13,7 +13,7 @@ Los APK 0.4.1-ci.28 y 0.4.1-ci.29 contienen el script de enemigos, las dos textu
 - Versión de compilación visible al abrir Pausa, leída del `build-info.json` empaquetado; alternativa a la versión de proyecto en escritorio.
 - Instalación del APK ARM64 real en emulador Android y movimiento mediante arrastre táctil. Capturas del inicio, acercamiento al primer enemigo y pausa, junto con logcat y checksum del APK instalado.
 - Registro de arranque de depuración con el número de patrullas y sprites cargados. Este registro no sustituye la revisión visual.
-- Comparación con 0.4.1-ci.29 mientras se conserve su artefacto en Actions. La caducidad de esa referencia no impide probar el APK actual.
+- Comparación opcional en ejecución manual con 0.4.1-ci.29 mientras se conserve su artefacto en Actions. La caducidad de esa referencia no impide probar el APK actual.
 
 ## Validación
 

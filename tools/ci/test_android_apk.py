@@ -116,11 +116,19 @@ def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     adb("shell", "wm", "size", "720x1280")
     adb("shell", "wm", "density", "160")
+    baseline = None
+    if args.baseline.is_file():
+        # Una referencia antigua defectuosa no debe impedir probar el APK actual.
+        try:
+            baseline = exercise(args.baseline, "anterior", False)
+        except (RuntimeError, subprocess.SubprocessError) as error:
+            baseline = {"error": str(error)}
+            print(f"Comparación anterior incompleta: {error}", flush=True)
     audit = {
         "device": adb("shell", "getprop", "ro.product.model").stdout.decode().strip(),
         "android_api": adb("shell", "getprop", "ro.build.version.sdk").stdout.decode().strip(),
         "device_abis": adb("shell", "getprop", "ro.product.cpu.abilist").stdout.decode().strip(),
-        "baseline": exercise(args.baseline, "anterior", False) if args.baseline.is_file() else None,
+        "baseline": baseline,
         "candidate": exercise(args.apk, "actual", True),
         "physical_device_test": False,
         "visual_review": "pending",

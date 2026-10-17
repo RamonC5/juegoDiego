@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      compare_previous:
+        description: Comparar también con el APK 0.4.1-ci.29 si sigue disponible
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -238,6 +243,7 @@ jobs:
           compression-level: 0
 
       - name: Recuperar el APK anterior para comparar en Android
+        if: github.event_name == 'workflow_dispatch' && inputs.compare_previous
         continue-on-error: true # La referencia es temporal; el APK actual siempre se prueba.
         env:
           GH_TOKEN: ${{ github.token }}
