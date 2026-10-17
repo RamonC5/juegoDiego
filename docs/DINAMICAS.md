@@ -57,7 +57,7 @@ La versión 0.4.0 añade una plataforma horizontal de ensayo y un tronco ascende
 
 ### Refuerzo de combate del nivel 1 · 0.4.1
 
-Se añaden dos encuentros de la dinámica conocida `pisoton_patrullas`: Terrón antes de la primera llave y Moflete en el tramo final. El bosque pasa a nueve patrullas, con las tres llaves como única condición de la puerta. [Posiciones, recuperación y tiempo informado por el usuario](BOSQUE_ESMERALDA.md). No se introduce una tercera dinámica obligatoria ni se atribuyen 15 minutos a este ajuste.
+Se añaden dos encuentros de la dinámica conocida `pisoton_patrullas`: Terrón después de la primera llave y Moflete en el tramo final. El bosque pasa a nueve patrullas, con las tres llaves como única condición de la puerta. [Posiciones, recuperación y tiempo informado por el usuario](BOSQUE_ESMERALDA.md). No se introduce una tercera dinámica obligatoria ni se atribuyen 15 minutos a este ajuste.
 
 ### Ejemplos del skill
 

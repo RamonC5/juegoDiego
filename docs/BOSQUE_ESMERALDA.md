@@ -30,7 +30,7 @@ Se mantienen ocho identificadores de mundo. Esta entrega incorpora solo `world_0
 
 | Enemigo | Puesto y patrulla | Papel |
 | --- | --- | --- |
-| Terrón | `(540,600)`, x=500–580 | Introducir el pisotón antes de la primera llave, con espacio desde el inicio. |
+| Terrón | `(1010,600)`, x=990–1030 | Añadir combate después de recoger la primera llave, antes del barril. |
 | Moflete | `(7180,600)`, x=7160–7200 | Recuperar el combate después de las dinámicas y antes del arco de salida. |
 
 El nivel pasa de siete a nueve instancias de los dos enemigos ya integrados. Se ajusta el límite izquierdo de la patrulla de Terrón del tramo final a x=7310 para separar los cuerpos. Las patrullas nuevas permanecen sobre suelo firme y no ocupan dianas, piñas, apoyos de recuperación, faroles ni puestos de embarque. No se exige derrotarlas para abrir la puerta: conserva las tres llaves como condición.

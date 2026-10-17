@@ -6,7 +6,7 @@ Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previ
 
 El juego abre **El despertar del bosque**, el primer nivel del Bosque Esmeralda. Incluye fondo raster con parallax, suelo con musgo, árboles, helechos, plataformas, tres brechas de salto, dos puentes de raíces, nueve patrullas de Terrón y Moflete, objetos arrojadizos, hojas doradas, tres cristales, tres faroles de control y arco de salida.
 
-**Dos encuentros adicionales en 0.4.1:** un Terrón antes de la primera llave y un Moflete en el tramo final. Ambos usan el pisotón y los lanzamientos existentes. Los puestos de diana, recuperación y troncos quedan fuera de sus patrullas.
+**Dos encuentros adicionales en 0.4.1:** un Terrón después de la primera llave y un Moflete en el tramo final. Ambos usan el pisotón y los lanzamientos existentes. Los puestos de diana, recuperación y troncos quedan fuera de sus patrullas.
 
 **Nueva dinámica: El puente de raíces.** Recoge una piña y lánzala a la diana para desplegar una pasarela de ensayo; repite después en el puente principal para alcanzar la segunda llave. Las piñas se recuperan y los puentes abiertos se conservan al volver al farol. El ensayo tiene suelo inferior y escalones de regreso. [Diseño e integración](docs/dinamicas/puente_diana.md).
 

@@ -34,7 +34,7 @@ func _capture() -> void:
 	main.touch.refresh()
 	await _frames(60)
 	_save("preview_start")
-	main.player.respawn(Vector2(350, 600))
+	main.player.respawn(Vector2(860, 600))
 	await _frames(10)
 	_save("preview_enemy_intro")
 	main.player.respawn(Vector2(7040, 600))
