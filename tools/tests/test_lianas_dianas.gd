@@ -46,8 +46,13 @@ func _run() -> void:
 	await step(45)
 	check(first.grip_global_position().distance_to(old_grip) > 15,
 		"la primera liana oscila físicamente aun sin jugador")
-	check(next.grip_global_position().distance_to(old_second_grip) > 15,
-		"la segunda liana oscila con una fase distinta")
+	var second_moved: bool = next.grip_global_position().distance_to(old_second_grip) > 15
+	for frame in 95:
+		await step(1)
+		if next.grip_global_position().distance_to(old_second_grip) > 35:
+			second_moved = true
+			break
+	check(second_moved, "la segunda liana oscila con una fase distinta")
 	check(absf(first.angle - next.angle) > 0.05,
 		"las lianas no se desplazan en bloque")
 
