@@ -198,7 +198,7 @@ func _build_secret() -> void:
 	add_child(secret_grove)
 	# Hojarasca densa sobre la trampilla y suelo de la cámara inferior.
 	for x in [-83.0, 0.0, 83.0]:
-		var bush: Sprite2D = _prop(1, DEFINITION.secret_grove + Vector2(x, 605), 89.0, 3)
+		var bush: Sprite2D = _prop(1, DEFINITION.secret_grove + Vector2(x, 5), 89.0, 3)
 		bush.modulate = Color(0.69, 0.88, 0.63, 0.90)
 	for x in [11397.0, 11939.0]:
 		_prop(1, Vector2(x, 1087), 116.0, 2)
