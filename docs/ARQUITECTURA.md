@@ -53,6 +53,12 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 5. Las señales notifican hechos, como `level_completed`, y las llamadas explícitas solicitan acciones. Evitar un bus global para todos los eventos.
 6. No añadir autoloads hasta que un servicio necesite persistir entre escenas. No hay autoloads registrados en esta base.
 
+## Gruta secreta opcional · 0.7.1
+
+`ForestLevelDefinition.secret_grove` define el centro de la trampilla del primer tramo. `ForestSecretGrove` genera una cubierta unilateral de hojas, una cámara bajo el suelo y un ascensor `ForestMovingPlatform` independiente de los cinco troncos de la ruta principal; `ForestStage` conecta su señal `bonus_collected` con `DiegoPlayer.gain_bonus_heart()`. El máximo de energía crece de tres a cuatro en el intento, se conserva al reaparecer y no se puede duplicar. La gruta contiene hojas opcionales, no llaves ni pasos obligatorios. `ForestStage` limita la profundidad extra únicamente a la zona del secreto y `main.gd` desplaza la cámara para mantener visible el descenso. Los recursos procedurales 2D se complementan con la vegetación raster del atlas existente.
+
+[Dinámica y reglas](dinamicas/gruta_hojas_vida.json) · [prueba nueva](../tools/tests/test_secret_grove.gd). Android y Windows físicos pendientes de comprobar.
+
 ## Contratos para las mecánicas
 
 | Sistema | Contrato previsto |
