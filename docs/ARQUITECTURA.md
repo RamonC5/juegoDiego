@@ -156,7 +156,7 @@ El workflow `.github/workflows/validate.yml` valida el proyecto y genera automá
 
 La exportación mantiene el perfil Android existente, sin Gradle. Antes de publicar el artefacto se verifica la firma, el identificador del paquete y la arquitectura. Los APK se conservan en Actions durante 30 días junto a su checksum y los metadatos del commit; las claves de depuración permanecen fuera de Git y se reutilizan mediante una caché temporal.
 
-El flujo ejecuta 297 comprobaciones: 88 del protagonista y controles, 63 de objetos arrojadizos, 61 del nivel y llaves, 55 de dianas y puentes, 27 de plataformas móviles y tres de los datos binarios extraídos del APK. Genera capturas Compatibility de móvil y tablet e instala el APK ARM64 real en emulador Android API 35 para comprobar las nueve patrullas y revisar su visibilidad. La evidencia y los límites de esta prueba están en [el diagnóstico de enemigos](pruebas/apk-enemigos-0.4.2.md). La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
+La integración anterior 0.4.2 ejecutaba 297 comprobaciones: 88 del protagonista y controles, 63 de objetos arrojadizos, 61 del nivel y llaves, 55 de dianas y puentes, 27 de plataformas móviles y tres de los datos binarios extraídos del APK. Genera capturas Compatibility de móvil y tablet e instala el APK ARM64 real en emulador Android API 35 para comprobar las nueve patrullas y revisar su visibilidad. La evidencia y los límites de esta prueba están en [el diagnóstico de enemigos](pruebas/apk-enemigos-0.4.2.md). La firma estable de distribución y las pruebas en dispositivos reales se configurarán al preparar una versión para usuarios. Las instrucciones de descarga, instalación y cambio de firma están en [Desarrollo y exportación](DESARROLLO.md#integración-continua).
 
 ## Referencias técnicas
 
@@ -188,7 +188,7 @@ El plan establece tres aventuras antes del jefe de cada uno de los ocho mundos. 
 
 Las fichas futuras se guardarán en `docs/dinamicas/` y `docs/niveles/`; constituyen material de autoría y no sustituyen los recursos `.tres`, señales ni reglas de las funcionalidades. El skill y su comprobador no añaden dependencias al juego. Mantenerlos fuera de la exportación como el resto de `.agents/`.
 
-Avance agachado, plataformas móviles, setas de rebote, placas de peso y guardado de intentos siguen pendientes. La integración 0.3.0 añade dianas conectadas a dos puentes y tres faroles al bosque actual.
+Avance agachado, setas de rebote, placas de peso y guardado de intentos siguen pendientes. Las plataformas móviles ya están integradas. La integración 0.3.0 añade dianas conectadas a dos puentes y tres faroles al bosque actual.
 
 ### Dianas y puentes integrados
 
@@ -197,3 +197,13 @@ Avance agachado, plataformas móviles, setas de rebote, placas de peso y guardad
 Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la segunda llave y tres faroles. La reaparición solo avanza a índices de farol posteriores. La cámara aumenta suavemente la anticipación en las estaciones y sigue la recuperación inferior. Las texturas raster tienen límites de importación de 1024 y 256 píxeles. [Diseño, evidencia y pendientes](dinamicas/puente_diana.md).
 
 
+
+## Ampliación del bosque · 0.5.0
+
+`ForestLevelDefinition` añade pasos `ForestRootGateDefinition` y nombres/inicios de tramo. `ForestRootGate` mantiene sus dos marcas, actualiza números y retira la colisión del paso al completarlas. Reutiliza `RootBridgeDefinition` para los puestos y `ForestThrowTarget` para impactos, sin crear una segunda forma de recoger o lanzar. Los pasos nunca se vuelven a cerrar durante el intento.
+
+`ForestEnemy` distingue patrulla, aviso, persecución y retorno. La visión consulta la capa de entorno; el nivel deduce los límites de suelo o plataforma de los rectángulos de datos. Un sondeo adelantado y límites de cuerpo impiden abandonar bordes. La simulación de enemigos lejanos se omite y solo se animan/detectan coleccionables cercanos. `DiegoPlayer.recover_energy` cura un farol nuevo sin alterar posición, controles ni objeto sostenido. La cámara sigue alturas sin coordenadas exclusivas del antiguo ascensor.
+
+`boot/main.gd` acepta un recurso de nivel configurable antes de entrar en el árbol. El juego usa el bosque completo; las suites antiguas de mecanismos inyectan un fixture estable para mantener sus pruebas físicas. Las suites nuevas prueban el recurso completo, IA y ruta geométrica continua. `tools/authoring/build_forest_level.py` recompone el `.tres` de autoría; no se ejecuta ni se exporta dentro del juego. Los JSON de diseño permanecen separados.
+
+La CI exige las suites nuevas y verifica 81 enemigos con arte en el APK instalado, además de conservar los contratos anteriores. La ruta automatizada de geometría excluye el combate y no acredita duración del público objetivo. Consultar [el recorrido](BOSQUE_ESMERALDA.md) para los límites de validación y el presupuesto estimado.

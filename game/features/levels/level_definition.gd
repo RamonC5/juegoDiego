@@ -17,6 +17,10 @@ extends Resource
 @export var recovery_platforms: Array[Rect2] = []
 @export var bridges: Array[RootBridgeDefinition] = []
 @export var moving_platforms: Array[MovingPlatformDefinition] = []
+@export var root_gates: Array[ForestRootGateDefinition] = []
+## Inicio de cada tramo y nombre para orientar el recorrido largo.
+@export var region_starts: Array[Vector2] = []
+@export var region_names: Array[String] = []
 ## x, y, límite izquierdo y límite derecho de cada patrulla.
 @export var enemy_spawns: Array[Vector4] = []
 ## Array tipado: PackedStringArray se exportaba vacío en el recurso binario del APK.

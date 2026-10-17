@@ -10,6 +10,7 @@ var definition: RootBridgeDefinition
 var active: bool = true
 var _caption: Label
 var _sprite: Sprite2D
+var caption: String = ""
 
 
 func _ready() -> void:
@@ -31,6 +32,8 @@ func _ready() -> void:
 	add_child(_sprite)
 	_caption = Label.new()
 	_caption.text = "ENSAYO · LANZA AQUÍ" if definition.tutorial else "PUENTE · LANZA AQUÍ"
+	if not caption.is_empty():
+		_caption.text = caption
 	_caption.position = Vector2(-145, -116)
 	_caption.size = Vector2(290, 40)
 	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -70,3 +73,4 @@ func _draw() -> void:
 	if not active:
 		draw_circle(Vector2.ZERO, 27, Color("12382e"))
 		draw_polyline(PackedVector2Array([Vector2(-15, 0), Vector2(-3, 12), Vector2(18, -14)]), Color("fff3cb"), 6, true)
+

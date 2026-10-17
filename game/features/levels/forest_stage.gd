@@ -8,7 +8,7 @@ signal keys_changed(collected: int, required: int)
 signal checkpoint_reached
 signal level_completed(level_id: String, result: Dictionary)
 
-const DEFINITION: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_01.tres")
+var DEFINITION: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_01.tres")
 const PROPS: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_props_v001.png")
 
 var player: DiegoPlayer
@@ -30,6 +30,8 @@ var throw_targets: Array[ForestThrowTarget] = []
 var pine_stations: Array[ThrowableObject] = []
 var activated_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
+var root_gates: Array[ForestRootGate] = []
+var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
 var _hints_passed: Dictionary = {}
@@ -42,6 +44,7 @@ var _miss_hints_shown: Array[StringName] = []
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	respawn_position = DEFINITION.spawn
 	for section in DEFINITION.ground_sections:
 		_add_platform(section, true)
 	for section in DEFINITION.raised_platforms:
@@ -55,6 +58,7 @@ func _ready() -> void:
 	_build_keys()
 	_build_markers()
 	_build_bridges()
+	_build_root_gates()
 	_build_moving_platforms()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
@@ -77,9 +81,11 @@ func start(hero: DiegoPlayer) -> void:
 		enemy.patrol = Vector2(spec.z, spec.w)
 		enemy.kind = DEFINITION.enemy_kinds[index]
 		enemy.player = player
+		_set_enemy_support(enemy, spec)
 		enemy.defeated.connect(_on_enemy_defeated)
 		add_child(enemy)
 		enemies.append(enemy)
+	_update_activity()
 	# El primer encuentro se presenta por nombre y acción, además de su aspecto.
 	if not enemies.is_empty():
 		var first_enemy: ForestEnemy = enemies[0]
@@ -93,6 +99,44 @@ func start(hero: DiegoPlayer) -> void:
 			if enemy.has_visible_art():
 				visible_art += 1
 		print("SALTO_FOREST_READY level=world_01_level_01 enemies=%d art=%d" % [enemies.size(), visible_art])
+
+
+func _set_enemy_support(enemy: ForestEnemy, spec: Vector4) -> void:
+	var margin: float = 32.0 if enemy.kind == "moflete" else 60.0
+	for rect in DEFINITION.raised_platforms:
+		if absf(spec.y - rect.position.y) < 2.0 and spec.x >= rect.position.x and spec.x <= rect.end.x:
+			enemy.platform_guard = true
+			enemy.movement_bounds = Vector2(rect.position.x + margin, rect.end.x - margin)
+			enemy.patrol = Vector2(maxf(spec.z, enemy.movement_bounds.x), minf(spec.w, enemy.movement_bounds.y))
+			return
+	for rect in DEFINITION.ground_sections:
+		if absf(spec.y - rect.position.y) < 2.0 and spec.x >= rect.position.x and spec.x <= rect.end.x:
+			enemy.movement_bounds = Vector2(maxf(rect.position.x + margin, spec.x - 950.0), minf(rect.end.x - margin, spec.x + 950.0))
+			return
+
+
+func _build_root_gates() -> void:
+	for definition in DEFINITION.root_gates:
+		var gate := ForestRootGate.new()
+		gate.definition = definition
+		add_child(gate)
+		root_gates.append(gate)
+		for index in definition.stations.size():
+			var station: RootBridgeDefinition = definition.stations[index]
+			var target := ForestThrowTarget.new()
+			target.definition = station
+			target.caption = "DIANA %d · LANZA AQUÍ" % (index + 1)
+			target.activated.connect(_on_mechanism_activated)
+			add_child(target)
+			throw_targets.append(target)
+			var pine := ThrowableObject.new()
+			pine.definition = ThrowableCatalog.DEFINITIONS[2]
+			pine.position = station.pine_position
+			pine.respawn_delay = 4.0
+			pine.recovery_bounds = station.recovery_bounds
+			add_child(pine)
+			pine_stations.append(pine)
+			_world_label("PIÑA · DIANA %d" % (index + 1), station.pine_position + Vector2(0, -116), 230)
 
 
 func _build_bridges() -> void:
@@ -129,7 +173,7 @@ func _build_moving_platforms() -> void:
 		platform.definition = definition
 		add_child(platform)
 		moving_platforms.append(platform)
-		var caption: String = "TRONCO 1 · SUBE Y VIAJA ↔" if definition.tutorial else "TRONCO 2 · SUBE A LA LLAVE ↑"
+		var caption: String = "TRONCO · SUBE Y VIAJA ↔" if is_equal_approx(definition.start_position.y, definition.end_position.y) else "TRONCO · SUBE A LA COPA ↑"
 		var caption_offset := Vector2(-60, -180) if definition.tutorial else Vector2(-310, -210)
 		_world_label(caption, definition.start_position + caption_offset, 370)
 
@@ -146,12 +190,22 @@ func _on_mechanism_activated(mechanism_id: StringName) -> void:
 			hint_requested.emit("¡Diana activada! Las raíces están abriendo el paso.")
 			return
 
+	for gate in root_gates:
+		for station in gate.definition.stations:
+			if station.mechanism_id == mechanism_id:
+				activated_mechanisms.append(mechanism_id)
+				gate.activate_station(mechanism_id)
+				_throw_hint_target = null
+				_throw_hint_seconds = 0.0
+				hint_requested.emit("¡Paso abierto! Puedes cruzar y volver cuando quieras." if gate.is_open else "¡Primera diana activada! Busca la otra marca de este tramo.")
+				return
+
 
 func _on_bridge_opened(mechanism_id: StringName) -> void:
 	if mechanism_id == &"puente_diana_ensayo":
 		hint_requested.emit("¡Puente abierto! Cruza la pasarela. La siguiente diana funciona igual.")
 	else:
-		hint_requested.emit("¡Puente abierto! Cruza y busca la llave de ramas 2 en la plataforma.")
+		hint_requested.emit("¡Puente abierto! Cruza la pasarela y continúa explorando el bosque.")
 
 
 func _on_object_released() -> void:
@@ -197,9 +251,11 @@ func _prop(index: int, at: Vector2, height: float, depth: int) -> Sprite2D:
 
 
 func _build_scenery() -> void:
-	for x in [80.0, 1550.0, 2840.0, 4620.0, 5500.0, 6760.0, 8110.0]:
+	for x in range(80, int(DEFINITION.width), 1350):
 		var tree: Sprite2D = _prop(0, Vector2(x, 610), 495.0, -8)
 		tree.modulate = Color(0.65, 0.8, 0.7, 0.9)
+	for index in DEFINITION.region_starts.size():
+		_world_label("%02d · %s" % [index + 1, DEFINITION.region_names[index]], DEFINITION.region_starts[index] + Vector2(210, -250), 540)
 	for section in DEFINITION.ground_sections:
 		for x in [section.position.x + 55.0, section.end.x - 75.0]:
 			_prop(1, Vector2(x, 611), 92.0, 2)
@@ -342,8 +398,9 @@ func _on_checkpoint(body: Node2D, index: int = 0) -> void:
 		_checkpoint_label.text = "FAROL ACTIVADO"
 	_checkpoint_label = _checkpoint_labels[index]
 	_checkpoint_label.text = "FAROL ACTIVADO · REAPARECES AQUÍ"
+	player.recover_energy()
 	checkpoint_reached.emit()
-	hint_requested.emit("Punto de control activado. Si caes, volverás a este farol.")
+	hint_requested.emit("Farol activado · Energía recuperada. Si caes, volverás aquí.")
 
 
 func _on_goal(body: Node2D) -> void:
@@ -372,6 +429,10 @@ func respawn_player() -> void:
 	# La reaparición suelta primero cualquier objeto. Cada puesto conserva su instancia.
 	for pine in pine_stations:
 		pine.reset_to_spawn()
+	for enemy in enemies:
+		if is_instance_valid(enemy) and enemy.active:
+			enemy.reset_awareness()
+	_update_activity()
 	player.invulnerability = 1.5
 	player.controls.block_current_physical()
 	hint_requested.emit("¡Otra oportunidad! Las llaves, hojas y cristales recogidos se conservan en este intento.")
@@ -381,10 +442,14 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player) or player.dead or completed:
 		return
 	seconds += delta
+	_activity_seconds -= delta
+	if _activity_seconds <= 0.0:
+		_activity_seconds = 0.25
+		_update_activity()
 	for platform in moving_platforms:
 		if not _platform_hints_shown.has(platform.definition.platform_id) and platform.carries(player):
 			_platform_hints_shown.append(platform.definition.platform_id)
-			hint_requested.emit("¡El tronco te lleva! Suelta el arrastre para viajar. Salta cuando llegues a la repisa." if platform.definition.tutorial else "Deja que el tronco suba. Acércate a su borde derecho y salta a la repisa de la llave 3.")
+			hint_requested.emit("¡El tronco te lleva! Suelta el arrastre para viajar. Salta cuando llegues a la repisa." if platform.definition.tutorial else "Deja que el tronco suba. Salta desde su borde hacia la repisa de la copa.")
 	if _throw_hint_seconds > 0.0:
 		_throw_hint_seconds = maxf(0.0, _throw_hint_seconds - delta)
 		if is_zero_approx(_throw_hint_seconds) and is_instance_valid(_throw_hint_target) and _throw_hint_target.active:
@@ -395,13 +460,14 @@ func _physics_process(delta: float) -> void:
 		350: "Consigue tres llaves de ramas para abrir la salida. Salta encima de Terrón para eliminarlo; tocarlo de lado hace daño.",
 		950: "Toca para coger el barril. Otro toque lo lanza en la dirección que miras.",
 		1490: "Las hojas dibujan el salto sobre el hueco. Puedes caminar o correr.",
-		2240: "Busca llaves también en las plataformas. Los cristales son opcionales. Más adelante practicarás con una piña.",
+		2240: "Las tres llaves están repartidas por las tres rutas del bosque. Los cristales son opcionales. Más adelante practicarás con una piña.",
 		2460: "EL PUENTE DE RAÍCES · Toca para coger la piña. Mira a la diana y toca otra vez para lanzar.",
-		3330: "Activa el farol. Repite el lanzamiento a la segunda diana para abrir el puente hacia la llave 2.",
-		4380: "La llave de ramas 2 está en la plataforma. Puedes volver por los puentes abiertos si falta otra llave.",
+		3330: "Activa el farol. Repite el lanzamiento a la segunda diana para abrir el puente hacia las rutas del bosque.",
+		4380: "Combina saltos y pisotones. Los enemigos del suelo te perseguirán al verte.",
 		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
 		5450: "TRONCOS VIAJEROS · Salta sobre el tronco y suelta el arrastre: te llevará. Si caes, vuelve a probar desde el suelo.",
-		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa para conseguir la tercera llave.",
+		7150: "RAÍCES · DOS MARCAS: activa DIANA 1 en la repisa y DIANA 2 en el suelo. Cada una tiene su piña. Al abrir el paso podrás regresar.",
+		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa alta. Más adelante combinarás este viaje con dianas.",
 	}
 	for x in hints:
 		if player.position.x >= float(x) and not _hints_passed.has(x):
@@ -409,3 +475,16 @@ func _physics_process(delta: float) -> void:
 			hint_requested.emit(hints[x])
 
 
+
+
+func _update_activity() -> void:
+	if not is_instance_valid(player):
+		return
+	for collectible in collectibles:
+		if collectible.taken:
+			continue
+		var nearby: bool = absf(collectible.position.x - player.position.x) < 1900.0
+		if collectible.visible != nearby:
+			collectible.visible = nearby
+			collectible.set_process(nearby)
+			collectible.set_deferred("monitoring", nearby)

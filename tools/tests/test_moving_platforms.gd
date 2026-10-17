@@ -29,6 +29,7 @@ func _new_level() -> void:
 		paused = false
 		await _step(3)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.level_definition = preload("res://tools/tests/fixtures/forest_mechanics.tres")
 	root.add_child(main)
 	main.progress = LevelProgress.new(STORAGE)
 	main.settings.show_touch = true

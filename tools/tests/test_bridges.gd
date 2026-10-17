@@ -38,7 +38,11 @@ func _new_level() -> void:
 		paused = false
 		await _step(3)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.level_definition = preload("res://tools/tests/fixtures/forest_mechanics.tres")
 	root.add_child(main)
+	# Suite de mecanismos aislada del combate; la percepción tiene su propia suite.
+	for enemy in main.stage.enemies:
+		enemy.set_physics_process(false)
 	main.progress = LevelProgress.new(STORAGE)
 	main.settings.show_touch = true
 	main._apply_settings()

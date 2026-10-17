@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "tipo": "nivel",
+  "id": "world_01_level_01",
+  "nombre": "Bosque Esmeralda · Las tres rutas",
+  "estado": "ampliacion",
+  "fuentes": [
+    {
+      "ruta": "encargo:ampliación del primer bosque y persecución",
+      "revision": "2026-10-17",
+      "observacion": "El usuario pide más duración, complejidad y enemigos de ambos tipos, persecución y guardianes que permanezcan en plataformas."
+    },
+    {
+      "ruta": "RamonC5/juegoDiego",
+      "revision": "main@43bb7dc91e44e04b2f29da3b040255944a9c500f",
+      "observacion": "Inventario contrastado: nueve patrullas, dos puentes, dos troncos, tres faroles y tres llaves; el recorrido observado por el usuario era demasiado corto."
+    }
+  ],
+  "mundo_id": "world_01",
+  "categoria": "aventura",
+  "orden": 1,
+  "desbloqueo_requiere": [],
+  "dinamicas_nuevas_obligatorias": [
+    "raices_dobles",
+    "persecucion_bosque"
+  ],
+  "segmentos": [
+    {
+      "id": "prologo",
+      "nombre": "Claro de aprendizaje",
+      "principal": true,
+      "minutos_estimados": [
+        2,
+        2
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "troncos_viajeros",
+        "raices_dobles",
+        "persecucion_bosque"
+      ],
+      "proposito": "Enseñar los gestos y la primera combinación segura antes de las tres rutas."
+    },
+    {
+      "id": "tramo_01",
+      "nombre": "Terrazas del helecho",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_02",
+      "nombre": "Barranco de raíces",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_03",
+      "nombre": "Copas viajeras",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_04",
+      "nombre": "Escaleras de guardianes",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_05",
+      "nombre": "Dos orillas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_06",
+      "nombre": "Claro de la primera llave",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_07",
+      "nombre": "Sendero de los Terrones",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_08",
+      "nombre": "Pasarelas enlazadas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_09",
+      "nombre": "La copa del Moflete",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_10",
+      "nombre": "Terrazas cruzadas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_11",
+      "nombre": "Raíces y alturas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_12",
+      "nombre": "Claro de la segunda llave",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_13",
+      "nombre": "Patrullas del corazón",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_14",
+      "nombre": "Barranco profundo",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_15",
+      "nombre": "Mirador viajero",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_16",
+      "nombre": "Guardianes del roble",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "salto_terrazas"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_17",
+      "nombre": "Últimas dos orillas",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "puente_diana"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    },
+    {
+      "id": "tramo_18",
+      "nombre": "Santuario de la tercera llave",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "raices_dobles",
+        "persecucion_bosque",
+        "troncos_viajeros"
+      ],
+      "proposito": "Resolver las dos estaciones variando exploración vertical, combate y cruces. La ruta no incluye secretos, esperas impuestas ni reintentos."
+    }
+  ],
+  "llaves": [
+    {
+      "ranura": 1,
+      "segmento_id": "tramo_06",
+      "obtencion": "Tras abrir el paso de las dos marcas de esta ruta. Recogida automática y manos libres."
+    },
+    {
+      "ranura": 2,
+      "segmento_id": "tramo_12",
+      "obtencion": "Tras abrir el paso de las dos marcas de esta ruta. Recogida automática y manos libres."
+    },
+    {
+      "ranura": 3,
+      "segmento_id": "tramo_18",
+      "obtencion": "Tras abrir el paso de las dos marcas de esta ruta. Recogida automática y manos libres."
+    }
+  ],
+  "salida": {
+    "condicion": "tres_llaves",
+    "descripcion": "Puerta permanente al final; sin condición de reloj. Todos los pasos abiertos permiten regresar.",
+    "retorno_objetivos_pendientes": true
+  },
+  "puntos_control": [
+    {
+      "id": "farol_prologo",
+      "despues_de_segmento_id": "prologo"
+    },
+    {
+      "id": "farol_01",
+      "despues_de_segmento_id": "tramo_01"
+    },
+    {
+      "id": "farol_02",
+      "despues_de_segmento_id": "tramo_02"
+    },
+    {
+      "id": "farol_03",
+      "despues_de_segmento_id": "tramo_03"
+    },
+    {
+      "id": "farol_04",
+      "despues_de_segmento_id": "tramo_04"
+    },
+    {
+      "id": "farol_05",
+      "despues_de_segmento_id": "tramo_05"
+    },
+    {
+      "id": "farol_06",
+      "despues_de_segmento_id": "tramo_06"
+    },
+    {
+      "id": "farol_07",
+      "despues_de_segmento_id": "tramo_07"
+    },
+    {
+      "id": "farol_08",
+      "despues_de_segmento_id": "tramo_08"
+    },
+    {
+      "id": "farol_09",
+      "despues_de_segmento_id": "tramo_09"
+    },
+    {
+      "id": "farol_10",
+      "despues_de_segmento_id": "tramo_10"
+    },
+    {
+      "id": "farol_11",
+      "despues_de_segmento_id": "tramo_11"
+    },
+    {
+      "id": "farol_12",
+      "despues_de_segmento_id": "tramo_12"
+    },
+    {
+      "id": "farol_13",
+      "despues_de_segmento_id": "tramo_13"
+    },
+    {
+      "id": "farol_14",
+      "despues_de_segmento_id": "tramo_14"
+    },
+    {
+      "id": "farol_15",
+      "despues_de_segmento_id": "tramo_15"
+    },
+    {
+      "id": "farol_16",
+      "despues_de_segmento_id": "tramo_16"
+    },
+    {
+      "id": "farol_17",
+      "despues_de_segmento_id": "tramo_17"
+    }
+  ],
+  "intervalo_maximo_faroles_minutos": 4,
+  "duracion": {
+    "minimo_primera_partida_minutos": 15,
+    "objetivo_minutos": [
+      18,
+      22
+    ],
+    "estado": "estimada",
+    "muestras": []
+  },
+  "persistencia": {
+    "al_morir": "Conservar llaves, hojas, cristales, puentes y marcas activadas del intento. Regresar al último farol con energía; devolver piñas y ciclos, y reiniciar la alerta de los enemigos vivos sin duplicarlos.",
+    "al_cerrar": "El intento se reinicia. Se conservan los resultados completados y ajustes; no existe guardado intermedio.",
+    "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Signo ! y pausa de aviso antes de perseguir, marcas numeradas 1/2 con ✓, carteles de tramo y texto de farol.",
+    "equivalencia_visual_sonora": "La información necesaria es visual; no se exige audio. Audio y lector de pantalla pendientes.",
+    "legibilidad_movil": "Textos grandes, cámara que acompaña las alturas y mismos controles táctiles. Capturas y Android nativo se verifican antes de entregar.",
+    "ajustes_control": "Se mantienen sensibilidad, lados intercambiados, salto completo, carrera opcional y reasignación."
+  },
+  "validacion": {
+    "funcional": [
+      "19 tramos, 81 enemigos, 38 guardianes de repisa, 19 pasos dobles, 8 puentes, 8 troncos y tres llaves repartidas",
+      "Recorrido continuo de geometría aislado del combate; lanzamientos y transporte reales",
+      "Regresión de mecanismos, objetivos, pausa y resultados"
+    ],
+    "jugando": [
+      "El usuario informó aproximadamente 45 s en la versión anterior; no es una muestra de esta ampliación",
+      "18,2–21,8 min es presupuesto de autoría, pendiente de primeras partidas del público objetivo",
+      "Hay más faroles que la pauta general porque anteceden a combinaciones largas y recuperan energía. No se suma morir ni secretos para alcanzar el presupuesto",
+      "Pendiente: tacto y rendimiento físico en Android/Windows"
+    ],
+    "evidencias": [
+      "game/data/worlds/world_01/level_01.tres",
+      "tools/authoring/build_forest_level.py",
+      "tools/tests/test_forest_expansion.gd",
+      "tools/tests/test_forest_route.gd"
+    ]
+  }
+}

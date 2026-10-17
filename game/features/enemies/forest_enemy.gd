@@ -21,9 +21,22 @@ var _height: float = 58.0
 var _stomp: StompTarget
 var _contact: Area2D
 var _intro_hint: Label
+enum Behaviour { PATROL, NOTICE, CHASE, RETURN }
+var behaviour: Behaviour = Behaviour.PATROL
+## El nivel asigna los bordes físicos; una patrulla elevada nunca los abandona.
+var platform_guard: bool = false
+var movement_bounds: Vector2 = Vector2(-1000000, 1000000)
+var _home: Vector2
+var _notice_seconds: float = 0.0
+var _lost_seconds: float = 0.0
+var _last_seen_x: float = 0.0
+var _alert: Label
+var _half_width: float = 52.0
 
 
 func _ready() -> void:
+	_home = position
+	_half_width = 24.0 if kind == "moflete" else 52.0
 	collision_layer = 4
 	collision_mask = 1
 	_height = 76.0 if kind == "moflete" else 52.0
@@ -70,6 +83,17 @@ func _ready() -> void:
 	contact_shape.position = body.position
 	_contact.add_child(contact_shape)
 	add_child(_contact)
+	_alert = Label.new()
+	_alert.text = "!"
+	_alert.position = Vector2(-22, -_height - 50)
+	_alert.size = Vector2(44, 42)
+	_alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_alert.add_theme_font_size_override("font_size", 32)
+	_alert.add_theme_color_override("font_color", Color("fff1ba"))
+	_alert.add_theme_color_override("font_outline_color", Color("182d21"))
+	_alert.add_theme_constant_override("outline_size", 8)
+	_alert.visible = false
+	add_child(_alert)
 
 
 func show_intro_hint() -> void:
@@ -108,15 +132,58 @@ func _opaque_region(texture: Texture2D) -> Rect2:
 func _physics_process(delta: float) -> void:
 	if not active:
 		return
+	# Solo la zona cercana necesita simulación de enemigos, también al volver atrás.
+	if is_instance_valid(player) and absf(player.position.x - position.x) > 2200.0:
+		if behaviour != Behaviour.PATROL:
+			reset_awareness()
+		return
 	_time += delta
-	if position.x <= patrol.x:
-		_direction = 1.0
-	elif position.x >= patrol.y:
-		_direction = -1.0
-	velocity.x = _direction * (58.0 if kind == "moflete" else 43.0)
+	var sees_player: bool = can_see_player()
+	if not is_instance_valid(player) or player.dead or player.celebrating:
+		if behaviour != Behaviour.PATROL:
+			behaviour = Behaviour.RETURN
+	elif sees_player:
+		_last_seen_x = player.position.x
+		_lost_seconds = 0.0
+		if behaviour == Behaviour.PATROL or behaviour == Behaviour.RETURN:
+			behaviour = Behaviour.NOTICE
+			_notice_seconds = 0.42
+	elif behaviour == Behaviour.CHASE:
+		_lost_seconds += delta
+		if _lost_seconds > 1.3 or absf(position.x - _home.x) > 950.0:
+			behaviour = Behaviour.RETURN
+	var speed: float = 58.0 if kind == "moflete" else 43.0
+	match behaviour:
+		Behaviour.NOTICE:
+			_notice_seconds = maxf(0.0, _notice_seconds - delta)
+			_direction = signf(_last_seen_x - position.x)
+			speed = 0.0
+			if _notice_seconds <= 0.0:
+				behaviour = Behaviour.CHASE
+		Behaviour.CHASE:
+			_direction = signf(_last_seen_x - position.x)
+			speed = 142.0 if kind == "moflete" else 112.0
+		Behaviour.RETURN:
+			_direction = signf(_home.x - position.x)
+			if absf(position.x - _home.x) < 12.0:
+				behaviour = Behaviour.PATROL
+		Behaviour.PATROL:
+			if position.x <= patrol.x:
+				_direction = 1.0
+			elif position.x >= patrol.y:
+				_direction = -1.0
+	_alert.visible = behaviour == Behaviour.NOTICE or behaviour == Behaviour.CHASE
+	if not _can_step(_direction, speed * delta):
+		if behaviour == Behaviour.PATROL:
+			_direction *= -1.0
+		else:
+			speed = 0.0
+	velocity.x = _direction * speed
 	velocity.y = minf(velocity.y + 1700.0 * delta, 900.0)
 	move_and_slide()
-	if is_on_wall():
+	# También se limita después del movimiento para impedir una deriva en el borde.
+	position.x = clampf(position.x, movement_bounds.x, movement_bounds.y)
+	if is_on_wall() and behaviour == Behaviour.PATROL:
 		_direction *= -1.0
 	_visual.flip_h = _direction < 0.0
 	_visual.position.y = -absf(sin(_time * 8.0)) * 2.5
@@ -125,6 +192,44 @@ func _physics_process(delta: float) -> void:
 	if is_instance_valid(player) and not player.dead and _contact.overlaps_body(player):
 		if player.global_position.y > global_position.y - _height + 16.0:
 			player.take_damage(global_position)
+
+
+func can_see_player() -> bool:
+	if not is_instance_valid(player) or player.dead or player.celebrating:
+		return false
+	var difference: Vector2 = player.global_position - global_position
+	var distance: float = 540.0 if kind == "moflete" else 460.0
+	if absf(difference.x) > distance or absf(difference.y) > 125.0:
+		return false
+	if absf(player.position.x - _home.x) > 950.0:
+		return false
+	if platform_guard and (player.position.x < movement_bounds.x - 100.0 or player.position.x > movement_bounds.y + 100.0):
+		return false
+	var query := PhysicsRayQueryParameters2D.create(global_position - Vector2(0, _height * 0.6), player.global_position - Vector2(0, 52), 1)
+	query.exclude = [get_rid()]
+	return get_world_2d().direct_space_state.intersect_ray(query).is_empty()
+
+
+func _can_step(direction: float, advance: float) -> bool:
+	if is_zero_approx(direction):
+		return true
+	var next_x: float = position.x + direction * advance
+	if next_x < movement_bounds.x or next_x > movement_bounds.y:
+		return false
+	var probe := global_position + Vector2(direction * (_half_width + advance + 10.0), -12.0)
+	var query := PhysicsRayQueryParameters2D.create(probe, probe + Vector2(0, 55), 1)
+	query.exclude = [get_rid()]
+	return not get_world_2d().direct_space_state.intersect_ray(query).is_empty()
+
+
+func reset_awareness() -> void:
+	behaviour = Behaviour.PATROL
+	position = _home
+	velocity = Vector2.ZERO
+	_notice_seconds = 0.0
+	_lost_seconds = 0.0
+	if is_instance_valid(_alert):
+		_alert.hide()
 
 
 func receive_thrown_hit(object: ThrowableObject) -> void:
@@ -136,6 +241,7 @@ func defeat(by_throw: bool) -> void:
 	if not active:
 		return
 	active = false
+	_alert.hide()
 	if is_instance_valid(_intro_hint):
 		_intro_hint.hide()
 	_stomp.enabled = false
