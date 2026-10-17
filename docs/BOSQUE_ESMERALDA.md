@@ -54,3 +54,8 @@ La corrección de los enemigos ausentes en APK 0.4.2 se conserva: `enemy_kinds` 
 
 [CI de 0.5.0-ci.41](https://github.com/RamonC5/juegoDiego/actions/runs/39017850472), sobre `a160e9825cee34727a03480099d72067c34bd83d`: **474 comprobaciones correctas**, exportación y firma verificadas e instalación Android API 35 terminada correctamente. Revisadas las capturas finales de escritorio, Terrón visible en Android y Pausa mostrando la versión correcta. [Auditoría, checksum y límites](pruebas/bosque-0.5.0.json). La duración de 18–22 minutos conserva el estado estimado.
 
+
+
+## Ajuste 0.5.2 · Persecución desde plataformas y presentación
+
+La petición posterior permite a todos los enemigos perseguir y bajar de estructuras. Sustituye la restricción anterior de los guardianes de plataforma durante la persecución; la patrulla tranquila sigue respetando los bordes. El HUD usa iconos con cantidades, el salto tiene un impulso de 680 px/s y la cámara acompaña la caída sin limitarse a 260 px/s. El componente `game/ui/hud/hud_counter.gd` reúne presentación y descripciones accesibles; las reglas de combate y recogida siguen en sus funcionalidades. [Detalles y pruebas](PULIDO_0.5.2.md).

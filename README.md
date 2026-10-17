@@ -4,9 +4,11 @@ Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previ
 
 La versión **0.5.1** estrena el nombre **Super Diego** y un icono original con el protagonista, sus gafas y el Bosque Esmeralda. Conserva las partidas y ajustes de Salto Heroes cuando se instala como actualización con la misma firma. [Diseño del icono y compatibilidad](docs/IDENTIDAD_VISUAL.md).
 
-## Bosque Esmeralda 1-1 · versión 0.5.0
+La versión **0.5.2** permite que Terrón y Moflete bajen de estructuras al perseguir, presenta energía, llaves, hojas y cristales con **iconos y cantidades**, aumenta el impulso del salto a **680 px/s** y sincroniza la cámara vertical con Diego. [Cambios y validación](docs/PULIDO_0.5.2.md).
 
-El primer bosque se amplía a **19 tramos y tres rutas de llaves**, con **81 enemigos**: 41 Terrones y 40 Mofletes. Los del suelo detectan, avisan y persiguen a Diego; los 38 guardianes de plataforma se mantienen dentro de sus bordes. Se conservan pisotones y lanzamientos.
+## Bosque Esmeralda 1-1 · versión 0.5.2
+
+El primer bosque se amplía a **19 tramos y tres rutas de llaves**, con **81 enemigos**: 41 Terrones y 40 Mofletes. Todos detectan, avisan y persiguen a Diego. Desde 0.5.2, los 38 que nacen en plataformas también pueden bajar a terreno inferior durante la persecución; las patrullas tranquilas respetan los bordes. Se conservan pisotones y lanzamientos.
 
 El recorrido combina terrazas, barrancos, ocho puentes, ocho troncos móviles y 19 pasos de dos dianas. Las rutas posteriores cambian el orden y las alturas, e incluyen viajes diagonales. Los 21 faroles recuperan energía al activarse. Piñas y apoyos permiten volver a intentar cada reto; los pasos resueltos permanecen abiertos durante el intento.
 
@@ -48,9 +50,10 @@ godot --headless --fixed-fps 60 --path . --script tools/tests/test_bridges.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_moving_platforms.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest_expansion.gd
 godot --headless --fixed-fps 60 --path . --script tools/tests/test_forest_route.gd
+godot --headless --fixed-fps 60 --path . --script tools/tests/test_gameplay_polish.gd
 ```
 
-La CI reúne **474 comprobaciones**: 88 de protagonista, 63 de objetos, 61 de bosque, 55 de puentes, 27 de troncos, 105 de ampliación/persecución, 70 de ruta continua y cinco de los datos binarios extraídos del APK. Instala el APK ARM64 en emulador Android API 35 y conserva capturas y auditoría.
+La validación 0.5.1 reunía **474 comprobaciones**; 0.5.2 añade y actualiza las regresiones de persecución, salto y HUD. La base anterior incluía: 88 de protagonista, 63 de objetos, 61 de bosque, 55 de puentes, 27 de troncos, 105 de ampliación/persecución, 70 de ruta continua y cinco de los datos binarios extraídos del APK. Instala el APK ARM64 en emulador Android API 35 y conserva capturas y auditoría.
 
 Las suites antiguas de mecanismos usan un fixture estable; las nuevas cargan el bosque completo. La ruta geométrica continua usa controles y lanzamientos reales y excluye la colisión enemiga para aislar geometría; el combate se prueba aparte. Su tiempo simulado no mide una primera partida del público objetivo. `capture_forest.gd` captura móvil, tablet, panorámico y viaje diagonal. El tacto, el objetivo de 60 FPS y la duración con un niño de 10 años requieren comprobación física.
 

@@ -13,6 +13,7 @@ var touch: HeroTouchControls
 var _camera: Camera2D
 var _ui: Control
 var _health: Label
+var _health_counter: HudCounter
 var _message: Label
 var _menu: Control
 var _panel: PanelContainer
@@ -56,7 +57,7 @@ func _ready() -> void:
 	_build_ui()
 	settings.changed.connect(_apply_settings)
 	_apply_settings()
-	player.health_changed.connect(func(value: int): _health.text = "Energía: %d / 3" % value)
+	player.health_changed.connect(_update_health)
 	player.defeated.connect(func(): _open_menu("¡Otra oportunidad!", false))
 	get_viewport().size_changed.connect(_layout_menu)
 
@@ -164,9 +165,11 @@ func _build_ui() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size", 25)
 	row.add_child(title)
-	_health = Label.new()
-	_health.text = "Energía: 3 / 3"
-	row.add_child(_health)
+	_health_counter = HudCounter.new()
+	_health_counter.configure(preload("res://game/assets/ui/hud_heart.svg"), "Energía")
+	row.add_child(_health_counter)
+	_health = _health_counter.value_label
+	_update_health(player.health)
 	var pause_button := _button("Pausa", func(): _toggle_pause())
 	pause_button.custom_minimum_size = Vector2(114, 58)
 	row.add_child(pause_button)
@@ -379,3 +382,7 @@ func _notification(what: int) -> void:
 
 
 
+
+
+func _update_health(value: int) -> void:
+	_health_counter.set_count(value, 3)

@@ -102,6 +102,7 @@ func start(hero: DiegoPlayer) -> void:
 
 
 func _set_enemy_support(enemy: ForestEnemy, spec: Vector4) -> void:
+	enemy.pursuit_bounds = Vector2(60.0, DEFINITION.width - 60.0)
 	var margin: float = 32.0 if enemy.kind == "moflete" else 60.0
 	for rect in DEFINITION.raised_platforms:
 		if absf(spec.y - rect.position.y) < 2.0 and spec.x >= rect.position.x and spec.x <= rect.end.x:

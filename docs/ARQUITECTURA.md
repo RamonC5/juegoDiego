@@ -208,3 +208,8 @@ Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la
 
 La CI suma 474 comprobaciones, exige las suites nuevas y verifica 81 enemigos con arte en el APK instalado, además de conservar los contratos anteriores. La ruta automatizada de geometría excluye el combate y no acredita duración del público objetivo. Consultar [el recorrido](BOSQUE_ESMERALDA.md) para los límites de validación y el presupuesto estimado.
 
+
+
+## Ajuste 0.5.2 · Persecución desde plataformas y presentación
+
+La petición posterior permite a todos los enemigos perseguir y bajar de estructuras. Sustituye la restricción anterior de los guardianes de plataforma durante la persecución; la patrulla tranquila sigue respetando los bordes. El HUD usa iconos con cantidades, el salto tiene un impulso de 680 px/s y la cámara acompaña la caída sin limitarse a 260 px/s. El componente `game/ui/hud/hud_counter.gd` reúne presentación y descripciones accesibles; las reglas de combate y recogida siguen en sus funcionalidades. [Detalles y pruebas](PULIDO_0.5.2.md).

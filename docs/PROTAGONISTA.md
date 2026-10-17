@@ -27,7 +27,7 @@ No hay botones de juego fijos. Cada dedo conserva su función al cruzar el centr
 | Aceleración en suelo / aire | 1900 / 1100 px/s² |
 | Frenado en suelo | 2400 px/s² |
 | Gravedad / límite de caída | 1700 px/s² / 900 px/s |
-| Impulso de salto / rebote | 620 / 470 px/s hacia arriba |
+| Impulso de salto / rebote | 680 / 470 px/s hacia arriba |
 | Tolerancia al abandonar un borde | 0,12 s |
 | Anticipación antes de aterrizar | 0,14 s |
 | Energía / protección tras daño | 3 / 1,2 s |

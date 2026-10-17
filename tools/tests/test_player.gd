@@ -84,6 +84,7 @@ func _run() -> void:
 	var held_height: float = await _jump_height(60)
 	print("Alturas medidas: corto=%.2f, mantenido=%.2f" % [tap_height, held_height])
 	_check(held_height > tap_height+35.0, "salto de altura variable")
+	_check(held_height >= 125.0 and held_height <= 142.0, "salto completo más alto sin perder control: 125–142 px medidos")
 	await _reset()
 	_player.controls.full_jump = true
 	_player.controls.set_virtual_action(&"jump", true)

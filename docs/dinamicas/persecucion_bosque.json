@@ -19,9 +19,14 @@
       "ruta": "https://github.com/RamonC5/juegoDiego/actions/runs/39017850472",
       "revision": "a160e9825cee34727a03480099d72067c34bd83d",
       "observacion": "474 comprobaciones correctas; APK 0.5.0-ci.41 instalado en emulador Android API 35 y capturas revisadas. La duración del público objetivo sigue pendiente."
+    },
+    {
+      "ruta": "encargo:persecución desde plataformas, HUD, salto y cámara",
+      "revision": "2026-10-17 · 0.5.2",
+      "observacion": "El usuario elimina la excepción de los enemigos de plataforma: todos pueden perseguir y descender de estructuras."
     }
   ],
-  "objetivo": "Leer el aviso, saltar o lanzar para vencer al perseguidor y distinguir guardianes de plataforma.",
+  "objetivo": "Leer el aviso y usar salto o lanzamiento para vencer a Terrón y Moflete, también cuando persiguen desde una plataforma.",
   "dependencias": [
     {
       "id": "enemigos_pisoton",
@@ -31,7 +36,7 @@
     {
       "id": "percepcion_persecucion",
       "estado": "implementada",
-      "detalle": "Visión con distancia, altura y obstáculos; aviso 0,42 s, persecución, pérdida de vista, retorno y freno ante bordes."
+      "detalle": "Visión con distancia, altura y obstáculos; aviso 0,42 s, persecución fuera de plataformas hacia apoyos inferiores, pérdida de vista y patrulla segura."
     }
   ],
   "controles": {
@@ -42,13 +47,13 @@
   "aprendizaje": {
     "presentacion": "El primer Terrón muestra su nombre y la acción Salta encima. ! señala que ha visto a Diego antes de avanzar.",
     "practica": "Terrón avanza a 112 px/s; Moflete a 142 px/s; ambos más lentos que Diego andando.",
-    "combinacion": "Patrullas de suelo abandonan su tramo corto para perseguir dentro de terreno firme. Guardianes de repisa persiguen dentro de los bordes seguros y no saltan detrás de Diego."
+    "combinacion": "Ambos tipos abandonan su tramo y pueden bajar de estructuras al perseguir. Las patrullas tranquilas respetan los bordes; un sondeo de aterrizaje evita vacíos sin suelo."
   },
   "reglas": {
-    "activacion": "Objetivo vivo, dentro de rango y altura, con línea de visión libre. Respetar el área de origen y las plataformas.",
+    "activacion": "Objetivo vivo, dentro de rango, con línea de visión libre. Detecta también a Diego hasta 440 px por debajo; el terreno sigue ocultándolo.",
     "exito": "Pisotón o lanzamiento válido eliminan al enemigo normal. Eludirlo también permite avanzar.",
     "fallo": "Contacto lateral resta energía, con protección temporal existente; el enemigo no causa daño por ser visto.",
-    "recuperacion": "Al perder de vista a Diego vuelve a su origen; al morir, pausar o reintentar no conserva una persecución injusta. Los guardianes nunca abandonan su plataforma."
+    "recuperacion": "Al perder al jugador, regresa a un punto de patrulla del suelo donde aterrizó, sin teletransporte. Reintentar en el farol devuelve a los enemigos vivos a sus posiciones iniciales."
   },
   "feedback": [
     "Signo ! con contorno",
@@ -76,7 +81,7 @@
   "validacion": {
     "funcional": [
       "Ambas especies detectan, avisan, persiguen fuera de su patrulla, respetan paredes y detienen la persecución al morir",
-      "Guardianes de ambas especies permanecen en los dos bordes; suelo frena ante huecos",
+      "Ambas especies abandonan la plataforma por los dos lados, aterrizan y continúan persiguiendo; la patrulla tranquila y el perseguidor ante un vacío sin apoyo frenan en el borde.",
       "Pausa y reintento limpian el estado; pisotón y lanzamiento conservan sus contratos"
     ],
     "jugando": [

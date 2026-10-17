@@ -66,7 +66,7 @@ func _run() -> void:
 	_check(stage.collected_keys.size() == 1, "una llave ajena al nivel no aumenta el contador")
 	stage._on_goal(hero)
 	_check(not stage.completed and not stage.exit_door.is_open, "una llave mantiene bloqueada la salida")
-	_check(main._key_counter.text == "Llaves  1 / 3" and main._key_numbers[0].text.contains("✓"), "el HUD combina contador, número y marca de recogida")
+	_check(main._key_counter.text == "1 / 3" and main._keys_card.accessibility_description.contains("Llave 1 recogida"), "el HUD combina icono, cantidad y descripción de llaves recogidas")
 	hero.respawn(stage.DEFINITION.goal - Vector2(220, 0))
 	hero.controls.set_virtual_axis(1)
 	await _step(70)

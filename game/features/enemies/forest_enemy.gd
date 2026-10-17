@@ -23,7 +23,7 @@ var _contact: Area2D
 var _intro_hint: Label
 enum Behaviour { PATROL, NOTICE, CHASE, RETURN }
 var behaviour: Behaviour = Behaviour.PATROL
-## El nivel asigna los bordes físicos; una patrulla elevada nunca los abandona.
+## El origen elevado limita la patrulla; la persecución permite descender.
 var platform_guard: bool = false
 var movement_bounds: Vector2 = Vector2(-1000000, 1000000)
 var _home: Vector2
@@ -32,10 +32,20 @@ var _lost_seconds: float = 0.0
 var _last_seen_x: float = 0.0
 var _alert: Label
 var _half_width: float = 52.0
+var pursuit_bounds: Vector2 = Vector2(-1000000, 1000000)
+var _has_pursued: bool = false
+var _return_x: float = 0.0
+var _roaming_patrol: Vector2
+var _last_floor_y: float = 0.0
+var _last_seen_y: float = 0.0
+var _drop_direction: float = 0.0
 
 
 func _ready() -> void:
 	_home = position
+	_return_x = _home.x
+	_last_floor_y = _home.y
+	_roaming_patrol = patrol
 	_half_width = 24.0 if kind == "moflete" else 52.0
 	collision_layer = 4
 	collision_mask = 1
@@ -144,6 +154,7 @@ func _physics_process(delta: float) -> void:
 			behaviour = Behaviour.RETURN
 	elif sees_player:
 		_last_seen_x = player.position.x
+		_last_seen_y = player.position.y
 		_lost_seconds = 0.0
 		if behaviour == Behaviour.PATROL or behaviour == Behaviour.RETURN:
 			behaviour = Behaviour.NOTICE
@@ -161,16 +172,17 @@ func _physics_process(delta: float) -> void:
 			if _notice_seconds <= 0.0:
 				behaviour = Behaviour.CHASE
 		Behaviour.CHASE:
-			_direction = signf(_last_seen_x - position.x)
+			_has_pursued = true
+			_direction = _chase_direction()
 			speed = 142.0 if kind == "moflete" else 112.0
 		Behaviour.RETURN:
-			_direction = signf(_home.x - position.x)
-			if absf(position.x - _home.x) < 12.0:
+			_direction = signf(_return_x - position.x)
+			if absf(position.x - _return_x) < 12.0:
 				behaviour = Behaviour.PATROL
 		Behaviour.PATROL:
-			if position.x <= patrol.x:
+			if position.x <= _roaming_patrol.x:
 				_direction = 1.0
-			elif position.x >= patrol.y:
+			elif position.x >= _roaming_patrol.y:
 				_direction = -1.0
 	_alert.visible = behaviour == Behaviour.NOTICE or behaviour == Behaviour.CHASE
 	if not _can_step(_direction, speed * delta):
@@ -181,8 +193,15 @@ func _physics_process(delta: float) -> void:
 	velocity.x = _direction * speed
 	velocity.y = minf(velocity.y + 1700.0 * delta, 900.0)
 	move_and_slide()
-	# También se limita después del movimiento para impedir una deriva en el borde.
-	position.x = clampf(position.x, movement_bounds.x, movement_bounds.y)
+	var bounds: Vector2 = pursuit_bounds if _has_pursued else movement_bounds
+	position.x = clampf(position.x, bounds.x, bounds.y)
+	if is_on_floor() and position.y > _last_floor_y + 32.0:
+		# Tras bajar, regresar y patrullar desde el nuevo suelo, sin intentar subir ni teletransportarse.
+		_return_x = position.x
+		_roaming_patrol = Vector2(position.x - 120.0, position.x + 120.0)
+		_drop_direction = 0.0
+	if is_on_floor():
+		_last_floor_y = position.y
 	if is_on_wall() and behaviour == Behaviour.PATROL:
 		_direction *= -1.0
 	_visual.flip_h = _direction < 0.0
@@ -199,11 +218,9 @@ func can_see_player() -> bool:
 		return false
 	var difference: Vector2 = player.global_position - global_position
 	var distance: float = 540.0 if kind == "moflete" else 460.0
-	if absf(difference.x) > distance or absf(difference.y) > 125.0:
+	if absf(difference.x) > distance or difference.y < -160.0 or difference.y > 440.0:
 		return false
 	if absf(player.position.x - _home.x) > 950.0:
-		return false
-	if platform_guard and (player.position.x < movement_bounds.x - 100.0 or player.position.x > movement_bounds.y + 100.0):
 		return false
 	var query := PhysicsRayQueryParameters2D.create(global_position - Vector2(0, _height * 0.6), player.global_position - Vector2(0, 52), 1)
 	query.exclude = [get_rid()]
@@ -214,18 +231,45 @@ func _can_step(direction: float, advance: float) -> bool:
 	if is_zero_approx(direction):
 		return true
 	var next_x: float = position.x + direction * advance
-	if next_x < movement_bounds.x or next_x > movement_bounds.y:
+	var bounds: Vector2 = pursuit_bounds if _has_pursued else movement_bounds
+	if next_x < bounds.x or next_x > bounds.y:
 		return false
+	if not is_on_floor():
+		return true
 	var probe := global_position + Vector2(direction * (_half_width + advance + 10.0), -12.0)
 	var query := PhysicsRayQueryParameters2D.create(probe, probe + Vector2(0, 55), 1)
 	query.exclude = [get_rid()]
+	if not get_world_2d().direct_space_state.intersect_ray(query).is_empty():
+		return true
+	if behaviour != Behaviour.CHASE or _last_seen_y < position.y - 24.0:
+		return false
+	# El sondeo largo permite bajar estructuras y evita lanzarse a un vacío sin suelo.
+	query.to = probe + Vector2(0, 720)
 	return not get_world_2d().direct_space_state.intersect_ray(query).is_empty()
+
+
+func _chase_direction() -> float:
+	if platform_guard and _last_seen_y > position.y + 64.0 and position.y <= _home.y + 24.0:
+		if is_zero_approx(_drop_direction):
+			if _last_seen_x < movement_bounds.x:
+				_drop_direction = -1.0
+			elif _last_seen_x > movement_bounds.y:
+				_drop_direction = 1.0
+			else:
+				_drop_direction = -1.0 if position.x - movement_bounds.x < movement_bounds.y - position.x else 1.0
+		return _drop_direction
+	return signf(_last_seen_x - position.x)
 
 
 func reset_awareness() -> void:
 	behaviour = Behaviour.PATROL
 	position = _home
 	velocity = Vector2.ZERO
+	_has_pursued = false
+	_return_x = _home.x
+	_last_floor_y = _home.y
+	_roaming_patrol = patrol
+	_drop_direction = 0.0
 	_notice_seconds = 0.0
 	_lost_seconds = 0.0
 	if is_instance_valid(_alert):

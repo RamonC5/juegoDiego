@@ -6,14 +6,15 @@ extends "res://game/boot/practice.gd"
 var stage: ForestStage
 var progress: LevelProgress
 var backdrop: ForestBackdrop
-var _stats: Label
+var _leaves_counter: HudCounter
+var _crystals_counter: HudCounter
+var _keys_card: HudCounter
+var _hud_title: Label
 var _distance: ProgressBar
 var _tip_seconds: float = 9.0
 var _result: Dictionary = {}
 var _top_panel: PanelContainer
 var _key_counter: Label
-var _key_icons: Array[TextureRect] = []
-var _key_numbers: Array[Label] = []
 var _look_ahead: float = 125.0
 
 
@@ -45,7 +46,7 @@ func _ready() -> void:
 	_build_ui()
 	settings.changed.connect(_apply_settings)
 	_apply_settings()
-	player.health_changed.connect(func(value: int): _health.text = "Energía  %d / 3" % value)
+	player.health_changed.connect(_update_health)
 	player.defeated.connect(func(): _open_menu("¡Otra oportunidad!", true))
 	stage.hint_requested.connect(_show_hint)
 	stage.counts_changed.connect(_update_counts)
@@ -72,11 +73,10 @@ func _process(delta: float) -> void:
 		_look_ahead = move_toward(_look_ahead, desired_look_ahead, delta * 300.0)
 	_camera.position.x = clampf(player.position.x + _look_ahead, half_width,
 		maxf(half_width, stage.DEFINITION.width - half_width))
-	# El ascensor necesita aire sobre la repisa para dejar al personaje fuera del HUD y las pistas.
-	var camera_top: float = -170.0
-	var desired_camera_y: float = clampf(player.position.y - 240.0, camera_top, 580.0)
+	# Un desplazamiento vertical de Diego mueve la cámara la misma distancia.
+	# Sin límite de velocidad: una caída a 900 px/s no puede dejar la cámara atrás.
 	if not get_tree().paused:
-		_camera.position.y = move_toward(_camera.position.y, desired_camera_y, delta * 260.0)
+		_camera.position.y = clampf(player.position.y - 240.0, -170.0, 740.0)
 	backdrop.camera_x = _camera.position.x
 	_distance.value = clampf(player.position.x / stage.DEFINITION.goal.x * 100.0, 0.0, 100.0)
 	if not get_tree().paused:
@@ -96,16 +96,15 @@ func _show_hint(text: String) -> void:
 
 
 func _update_counts(leaves: int, crystals: int) -> void:
-	_stats.text = "Hojas  %d / %d     Cristales  %d / 3" % [leaves, stage.total_leaves, crystals]
+	_leaves_counter.set_count(leaves, stage.total_leaves)
+	_crystals_counter.set_count(crystals, 3)
 
 
 func _update_keys(collected: int, required: int) -> void:
-	_key_counter.text = "Llaves  %d / %d" % [collected, required]
-	for index in _key_icons.size():
-		var found: bool = stage.collected_keys.has(index)
-		_key_icons[index].modulate.a = 1.0 if found else 0.28
-		_key_numbers[index].text = "%d %s" % [index + 1, "✓" if found else "–"]
-		_key_icons[index].tooltip_text = "Llave %d · %s" % [index + 1, "recogida" if found else "pendiente"]
+	var slots := PackedStringArray()
+	for index in required:
+		slots.append("Llave %d %s" % [index + 1, "recogida" if stage.collected_keys.has(index) else "pendiente"])
+	_keys_card.set_count(collected, required, "; ".join(slots))
 
 
 func _build_ui() -> void:
@@ -132,7 +131,7 @@ func _build_ui() -> void:
 	var panel_style := StyleBoxFlat.new()
 	panel_style.bg_color = Color(0.025, 0.12, 0.10, 0.94)
 	panel_style.set_corner_radius_all(14)
-	panel_style.content_margin_left = 20
+	panel_style.content_margin_left = 14
 	panel_style.content_margin_right = 14
 	panel_style.content_margin_top = 8
 	panel_style.content_margin_bottom = 8
@@ -140,47 +139,40 @@ func _build_ui() -> void:
 	_ui.add_child(_top_panel)
 	var column := VBoxContainer.new()
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_theme_constant_override("separation", 8)
 	_top_panel.add_child(column)
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_theme_constant_override("separation", 18)
+	row.add_theme_constant_override("separation", 10)
 	column.add_child(row)
-	var title := Label.new()
-	title.text = "1–1  BOSQUE ESMERALDA"
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_size_override("font_size", 25)
-	title.add_theme_color_override("font_color", Color("fff2c9"))
-	row.add_child(title)
-	_health = Label.new()
-	_health.text = "Energía  3 / 3"
-	row.add_child(_health)
-	_stats = Label.new()
-	var pause_button := _button("Pausa", _toggle_pause)
-	pause_button.custom_minimum_size = Vector2(110, 54)
+	_hud_title = Label.new()
+	_hud_title.text = "1–1  BOSQUE ESMERALDA"
+	_hud_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_hud_title.add_theme_font_size_override("font_size", 23)
+	_hud_title.add_theme_color_override("font_color", Color("fff2c9"))
+	_hud_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(_hud_title)
+	_health_counter = HudCounter.new()
+	_health_counter.configure(preload("res://game/assets/ui/hud_heart.svg"), "Energía")
+	row.add_child(_health_counter)
+	_health = _health_counter.value_label
+	_update_health(player.health)
+	_keys_card = HudCounter.new()
+	_keys_card.configure(stage.DEFINITION.key_definition.icon_for(0), "Llaves")
+	_keys_card.icon.material = stage.DEFINITION.key_definition.sprite_material()
+	row.add_child(_keys_card)
+	_key_counter = _keys_card.value_label
+	_leaves_counter = HudCounter.new()
+	_leaves_counter.configure(preload("res://game/assets/ui/hud_leaf.svg"), "Hojas")
+	row.add_child(_leaves_counter)
+	_crystals_counter = HudCounter.new()
+	_crystals_counter.configure(preload("res://game/assets/ui/hud_crystal.svg"), "Cristales")
+	row.add_child(_crystals_counter)
+	var pause_button := _button("Ⅱ", _toggle_pause)
+	pause_button.tooltip_text = "Pausa y opciones"
+	pause_button.accessibility_name = "Pausa y opciones"
+	pause_button.custom_minimum_size = Vector2(60, 54)
 	row.add_child(pause_button)
-	var status_row := HBoxContainer.new()
-	status_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	status_row.add_theme_constant_override("separation", 12)
-	column.add_child(status_row)
-	_key_counter = Label.new()
-	status_row.add_child(_key_counter)
-	for index in KeyExitDoor.REQUIRED_KEYS:
-		var icon := TextureRect.new()
-		icon.texture = stage.DEFINITION.key_definition.icon_for(index)
-		icon.material = stage.DEFINITION.key_definition.sprite_material()
-		icon.custom_minimum_size = Vector2(34, 34)
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		status_row.add_child(icon)
-		_key_icons.append(icon)
-		var number := Label.new()
-		number.custom_minimum_size.x = 43
-		status_row.add_child(number)
-		_key_numbers.append(number)
-	_stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_stats.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	status_row.add_child(_stats)
 	_distance = ProgressBar.new()
 	_distance.custom_minimum_size.y = 4
 	_distance.show_percentage = false
@@ -246,7 +238,8 @@ func _layout_hud() -> void:
 		var inverse: Transform2D = get_viewport().get_screen_transform().affine_inverse()
 		safe = inverse * Rect2(physical)
 	_top_panel.position = safe.position + Vector2(16, 12)
-	_top_panel.size = Vector2(safe.size.x - 32, 126)
+	_hud_title.visible = safe.size.x >= 1100
+	_top_panel.size = Vector2(safe.size.x - 32, 82)
 	_message.position = _top_panel.position + Vector2(0, _top_panel.size.y + 10)
 	_message.size = Vector2(minf(760, safe.size.x - 32), 0)
 
