@@ -4,11 +4,12 @@ extends Sprite2D
 ## derrota y suspensión lejana. Cada instancia tiene material propio y comparte malla.
 
 const MOTION_SHADER: Shader = preload("res://game/features/enemies/enemy_limb_motion.gdshader")
-const GRID: int = 32
+const GRID: int = 40
 static var _meshes: Dictionary = {}
 
 var profile: Dictionary
 var pose_angles := PackedFloat32Array()
+var pose_offsets := PackedVector2Array()
 var phase: float = 0.0
 var reduced_motion: bool = false
 var _mesh: MeshInstance2D
@@ -43,6 +44,7 @@ func configure(id: String, source: Texture2D) -> void:
 	var pivots := PackedVector2Array()
 	var zones := PackedVector4Array()
 	pose_angles.resize(8)
+	pose_offsets.resize(8)
 	for index in 8:
 		var enabled: bool = index < profile.joints.size()
 		pivots.append(profile.joints[index].pivot if enabled else Vector2.ZERO)
@@ -51,6 +53,9 @@ func configure(id: String, source: Texture2D) -> void:
 	_motion_material.set_shader_parameter("pivots", pivots)
 	_motion_material.set_shader_parameter("zones", zones)
 	_motion_material.set_shader_parameter("source_size", source_size)
+	# Los perfiles usan UV locales del recorte, no del atlas completo.
+	_motion_material.set_shader_parameter("region_origin", region.position)
+	_motion_material.set_shader_parameter("region_extent", region.size)
 	_apply_pose(false, false)
 
 
@@ -98,19 +103,28 @@ func _apply_pose(airborne: bool, alert: bool) -> void:
 		var item: Dictionary = profile.joints[index]
 		var amplitude: float = float(item.amplitude) * strength
 		var wave: float = sin(phase + float(item.phase))
+		var activity: float = 0.55 + _gait * 0.45
+		var travel: float = 0.042
 		if item.mode == "wing" or item.mode == "tip":
-			# Dos alas comparten frecuencia; puntas con retraso suave, sin rebotes bruscos.
-			amplitude *= 1.0 if profile.flying else 0.55 + _gait * 0.45
+			# Aleteo armónico en el plano: punta retrasada respecto del ala.
+			activity = 1.0 if profile.flying else 0.65 + _gait * 0.35
+			travel = 0.075 if item.mode == "tip" else 0.064
 		elif item.mode == "soft":
-			amplitude *= 0.5 + _gait * 0.5
-		else:
-			amplitude *= 0.2 + _gait * 0.8
-			if airborne:
-				amplitude *= 0.45
-			if alert and item.mode == "hand":
-				amplitude *= 1.15
-		pose_angles[index] = wave * amplitude
+			activity = 0.80 + _gait * 0.20
+			travel = 0.034
+		elif item.mode == "hand":
+			travel = 0.060
+		elif item.mode == "root":
+			travel = 0.052
+		if airborne and item.mode != "wing" and item.mode != "tip" and item.mode != "soft":
+			activity *= 0.60
+		if alert and item.mode == "hand":
+			activity *= 1.16
+		pose_angles[index] = wave * amplitude * activity
+		# Traslación local visible a escala móvil, sin desplazar colisiones.
+		pose_offsets[index] = Vector2(wave * travel, cos(phase + float(item.phase)) * travel * 0.30) * activity * strength
 	_motion_material.set_shader_parameter("angles", pose_angles)
+	_motion_material.set_shader_parameter("translations", pose_offsets)
 	# Solo presentación; nunca mover el cuerpo físico ni los sensores.
-	position.y = -sin(phase) * (1.8 if profile.flying else _gait * 1.2) * strength
-	rotation = sin(phase) * (0.012 if profile.flying else 0.008) * strength
+	position.y = -sin(phase) * (2.0 if profile.flying else _gait * 1.2) * strength
+	rotation = sin(phase) * (0.016 if profile.flying else 0.008) * strength

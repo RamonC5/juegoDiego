@@ -41,3 +41,12 @@ El visor ofrece pausa y movimiento reducido, botones con foco de teclado y etiqu
 La revisión visual usa renderizado de escritorio por software. Las pruebas físicas en Android y tablet Windows, el rendimiento de 60 FPS y la valoración del movimiento con el niño siguen pendientes. El visor permite reducir la animación secundaria; esa opción todavía no forma parte de los ajustes de partida.
 
 El [skill de personajes](../.agents/skills/generar-personajes-salto-heroes/SKILL.md), su contrato de producción y la plantilla de encargo ya exigen miembros móviles, aleteo armónico y comprobación visual de ciclos para los próximos personajes.
+
+
+## Corrección de legibilidad en Android · 0.6.2
+
+Al observar que los movimientos no se apreciaban en el APK se identificaron dos causas en el código: los perfiles estaban descritos con coordenadas relativas al recorte de cada personaje, pero el shader trataba los valores como coordenadas del atlas completo; y la amplitud en reposo/patrulla era muy pequeña a tamaño móvil. La malla convierte ahora UV globales a coordenadas locales y mezcla flexión y traslación localizada senoidal, con zonas mayores en las manos de Moflete y las raíces de Terrón. El cuerpo físico, sensores y reglas de daño siguen sin modificarse.
+
+**Alcance del APK:** en Bosque Esmeralda aparecen **Terrón y Moflete**. Los otros cinco personajes (Goterón, Vainete, Plumín, Remiendo y Nóctilo) están animados solamente en el visor y aún no se incluyen como enemigos jugables. Las alas de Nóctilo se revisan en `enemy_gallery.tscn`, no en el nivel de bosque.
+
+Se amplió la comprobación automática para validar UV de recorte, continuidad de desplazamientos y cambios de píxeles reales entre poses capturadas con Compatibility **sin balancear el cuerpo entero**. La nueva versión requiere descargar e instalar de nuevo el APK generado por Actions para este commit. La apreciación visual y los FPS en móviles físicos aún requieren comprobación.

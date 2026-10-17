@@ -1,6 +1,6 @@
 class_name EnemyMotionProfiles
 extends RefCounted
-## Articulaciones sobre el PNG original, en coordenadas normalizadas antes del espejo.
+## Articulaciones sobre el recorte del PNG (UV locales de 0 a 1), antes del espejo.
 ## Las zonas elípticas aíslan cada miembro sin cortar ni repintar el recurso raster.
 
 const IDS: Array[String] = ["terron", "moflete", "goteron", "vainete", "plumin", "remiendo", "noctilo"]
@@ -20,19 +20,19 @@ static func get_profile(id: String) -> Dictionary:
 			region = Rect2(0.0215, 0.3198, 0.9665, 0.4482)
 			frequency = 1.1
 			joints = [
-				joint("raíz trasera", Vector2(0.24, 0.67), Vector4(0.24, 0.72, 0.17, 0.07), 0.14),
-				joint("raíz delantera", Vector2(0.76, 0.67), Vector4(0.76, 0.72, 0.17, 0.07), 0.14, PI),
+				joint("raíz trasera", Vector2(0.24, 0.67), Vector4(0.24, 0.72, 0.19, 0.10), 0.25, 0.0, "root"),
+				joint("raíz delantera", Vector2(0.76, 0.67), Vector4(0.76, 0.72, 0.19, 0.10), 0.25, PI, "root"),
 			]
 		"moflete":
 			region = Rect2(0.2321, 0.1212, 0.5997, 0.7887)
 			frequency = 1.8
 			joints = [
-				joint("brazo cercano", Vector2(0.59, 0.51), Vector4(0.65, 0.48, 0.13, 0.09), 0.20),
-				joint("mano cercana", Vector2(0.70, 0.44), Vector4(0.71, 0.42, 0.045, 0.055), 0.20, 0.35, "hand"),
-				joint("brazo lejano", Vector2(0.70, 0.51), Vector4(0.76, 0.46, 0.045, 0.10), 0.16, PI),
-				joint("mano lejana", Vector2(0.76, 0.43), Vector4(0.77, 0.41, 0.033, 0.04), 0.18, PI + 0.35, "hand"),
-				joint("pie trasero", Vector2(0.40, 0.77), Vector4(0.37, 0.86, 0.10, 0.08), 0.12, PI),
-				joint("pie delantero", Vector2(0.56, 0.77), Vector4(0.60, 0.86, 0.12, 0.08), 0.12),
+				joint("brazo cercano", Vector2(0.59, 0.51), Vector4(0.65, 0.48, 0.16, 0.13), 0.28),
+				joint("mano cercana", Vector2(0.70, 0.44), Vector4(0.71, 0.42, 0.072, 0.072), 0.28, 0.35, "hand"),
+				joint("brazo lejano", Vector2(0.70, 0.51), Vector4(0.76, 0.46, 0.075, 0.12), 0.24, PI),
+				joint("mano lejana", Vector2(0.76, 0.43), Vector4(0.77, 0.41, 0.06, 0.07), 0.26, PI + 0.35, "hand"),
+				joint("pie trasero", Vector2(0.40, 0.77), Vector4(0.37, 0.86, 0.12, 0.10), 0.18, PI),
+				joint("pie delantero", Vector2(0.56, 0.77), Vector4(0.60, 0.86, 0.14, 0.10), 0.18),
 			]
 		"goteron":
 			frequency = 0.85

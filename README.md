@@ -104,3 +104,8 @@ Bosque Esmeralda incluye música instrumental original en bucle y volumen ajusta
 ### Dianas y música · 0.6.1
 
 Nueva música de plataformas de estilo electrónico moderno, sin iconos flotantes en el escenario. Las dianas se rompen al recibir un lanzamiento y se reconstruyen al morir, conservando llaves y pasos abiertos. Contratos y pruebas en [Arquitectura](docs/ARQUITECTURA.md#rotura-y-reconstrucción-de-dianas--061).
+
+
+### Animaciones legibles en el móvil · 0.6.2
+
+Corregidas las coordenadas de recorte de las mallas y ampliado el recorrido de extremidades de Terrón y Moflete para que se aprecien durante la partida. Los otros cinco enemigos siguen en el visor de animaciones y todavía no aparecen en el bosque. La CI comprueba que cambian píxeles de las extremidades, no solo los ángulos o el balanceo del cuerpo. Instala el nuevo APK desde la ejecución más reciente de Actions. [Detalle y pruebas](docs/ANIMACION_ENEMIGOS.md#corrección-de-legibilidad-en-android--062).

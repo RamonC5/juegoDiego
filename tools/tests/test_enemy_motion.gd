@@ -26,6 +26,8 @@ func _run() -> void:
 		var first: PackedFloat32Array = visual.pose_angles.duplicate()
 		visual.advance(0.12, 70.0, not visual.profile.flying)
 		check(first != visual.pose_angles, "%s mueve articulaciones, no solo el sprite completo" % id)
+		check(visual.pose_offsets[0].length() > 0.001, "%s añade movimiento localizado al miembro" % id)
+		check(visual._motion_material.get_shader_parameter("region_origin") == visual.profile.region.position, "%s usa UV locales del recorte" % id)
 		for angle in visual.pose_angles:
 			check(is_finite(angle) and absf(angle) <= 0.3, "%s amplitud controlada" % id)
 		visual.face_left(true)
@@ -38,16 +40,19 @@ func _run() -> void:
 		visual.phase = TAU - 0.0001
 		visual.advance(0.0, 70.0, true)
 		var end: PackedFloat32Array = visual.pose_angles.duplicate()
+		var end_offset: PackedVector2Array = visual.pose_offsets.duplicate()
 		visual.phase = 0.0001
 		visual.advance(0.0, 70.0, true)
 		for index in visual.profile.joints.size():
 			check(absf(end[index] - visual.pose_angles[index]) < 0.001, "%s cierra el bucle sin salto" % id)
+			check(end_offset[index].distance_to(visual.pose_offsets[index]) < 0.001, "%s traslación cierra el bucle" % id)
 		visual.phase = 0.7
 		visual.advance(0.0, 70.0, true)
 		var normal: PackedFloat32Array = visual.pose_angles.duplicate()
 		visual.reduced_motion = true
 		visual.advance(0.0, 70.0, true)
 		check(absf(visual.pose_angles[0]) < absf(normal[0]), "%s reduce el movimiento secundario" % id)
+		check(visual.pose_offsets[0].length() < 0.08, "%s limita el desplazamiento de extremidad" % id)
 		var other := EnemyVisual.new()
 		other.configure(id, source)
 		root.add_child(other)

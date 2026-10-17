@@ -26,3 +26,11 @@ Aplicar a personajes nuevos y revisiones; requisito confirmado el 17 de octubre 
 - Ejecutar `tools/tests/test_enemy_motion.gd`, las regresiones de combate/persecución afectadas y una captura con Compatibility. Los ángulos numéricos no certifican por sí solos que el raster se vea animado.
 - Usar `game/features/enemies/enemy_gallery.tscn` para revisar el reparto, con pausa y movimiento reducido. Distinguir visor visual y enemigo integrado en un nivel.
 - Conservar evidencias y actualizar ficha, `character.json` y `docs/PERSONAJES.md`. No afirmar que existen hojas nuevas cuando se ha animado el PNG mediante malla.
+
+
+## Evitar animaciones imperceptibles en APK (octubre de 2026)
+
+- Las articulaciones deben definirse en UV relativos al **recorte del personaje**. El shader recibe `region_origin` y `region_extent` desde `EnemyVisual`; nunca mezclar UV del atlas con UV locales para decidir la influencia.
+- Junto al giro, permitir desplazamientos localizados periódicos que cambien la silueta a tamaño real de juego (~60–80 px de alto para enemigos terrestres). Calibrar en Android y no solo en el visor ampliado.
+- No aceptar únicamente tests de cambios en `pose_angles`: capturar dos poses con el renderizador Compatibility, congelar `position` y `rotation` del sprite completo y contar píxeles cambiados dentro del enemigo.
+- Documentar por separado la animación disponible en **visor** y su **aparición jugable** en niveles. Mantener pendientes pruebas físicas cuando no se dispone del dispositivo.
