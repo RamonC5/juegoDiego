@@ -44,7 +44,7 @@ func _ready() -> void:
 	_camera.limit_left = 0
 	_camera.limit_right = int(stage.DEFINITION.width)
 	_camera.limit_top = -600
-	_camera.limit_bottom = 1200
+	_camera.limit_bottom = 1550
 	add_child(_camera)
 	_build_ui()
 	settings.changed.connect(_apply_settings)
@@ -79,7 +79,7 @@ func _process(delta: float) -> void:
 	# Un desplazamiento vertical de Diego mueve la cámara la misma distancia.
 	# Sin límite de velocidad: una caída a 900 px/s no puede dejar la cámara atrás.
 	if not get_tree().paused:
-		_camera.position.y = clampf(player.position.y - 240.0, -170.0, 740.0)
+		_camera.position.y = clampf(player.position.y - 240.0, -170.0, 1020.0)
 	backdrop.camera_x = _camera.position.x
 	_distance.value = clampf(player.position.x / stage.DEFINITION.goal.x * 100.0, 0.0, 100.0)
 	if not get_tree().paused:
@@ -97,6 +97,10 @@ func _show_hint(text: String) -> void:
 	_message.accessibility_description = text
 	_message.text = ""
 	_message.visible = false
+
+
+func _update_health(value: int) -> void:
+	_health_counter.set_count(value, player.maximum_health)
 
 
 func _update_counts(leaves: int, crystals: int) -> void:
