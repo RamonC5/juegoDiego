@@ -173,7 +173,7 @@ def build():
     cave_rect = (8960.0, 600.0, 3240.0, 520.0)
     cave_index = values['ground_sections'].index(cave_rect)
     values['ground_sections'][cave_index:cave_index + 1] = [
-        (8960, 600, 2390, 520), (12000, 600, 200, 520),
+        (8960, 600, 2560, 520), (11700, 600, 500, 520),
     ]
     fields.update(width='44600.0', goal='Vector2(44400, 600)', subtitle='"Las tres rutas del corazón del bosque"',
                   enemy_kinds='Array[String](' + json.dumps(kinds) + ')', key_positions=array('Vector2', keys),
