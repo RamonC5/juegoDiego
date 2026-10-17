@@ -20,7 +20,8 @@ func _initialize() -> void:
 			"las posiciones y patrullas sobreviven a la exportación binaria")
 		_check(exported.enemy_kinds == preload("res://game/data/worlds/world_01/level_01.tres").enemy_kinds and exported.enemy_kinds.size() == exported.enemy_spawns.size(),
 			"los tipos de enemigos sobreviven a la exportación binaria")
-		_check(exported.root_gates.size() == 19 and exported.root_gates[18].stations.size() == 2, "los pasos dobles y sus estaciones sobreviven al APK")
+		_check(exported.root_gates.size() == 10 and exported.root_gates[9].stations.size() == 2, "los pasos dobles y sus estaciones sobreviven al APK")
+		_check(exported.vine_crossings.size() == 1 and exported.vine_crossings[0] == Vector2(24200, 0), "la liana sobrevive al recurso binario del APK")
 		_check(exported.key_positions == preload("res://game/data/worlds/world_01/level_01.tres").key_positions, "las tres llaves repartidas sobreviven al APK")
 	print("RESULTADO DATOS APK: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
