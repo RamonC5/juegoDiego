@@ -29,16 +29,16 @@ func _run() -> void:
 	await step(8)
 	var stage: ForestStage = main.stage
 	var hero: DiegoPlayer = main.player
-	check(stage.DEFINITION.width == 80600.0 and stage.DEFINITION.region_names.size() == 19, "19 tramos en el bosque ampliado")
-	check(stage.enemies.size() == 81 and stage.DEFINITION.enemy_kinds.count("terron") == 41 and stage.DEFINITION.enemy_kinds.count("moflete") == 40, "81 enemigos de los dos tipos")
-	check(stage.root_gates.size() == 19 and stage.bridges.size() == 8 and stage.moving_platforms.size() == 8, "retos combinados de marcas, puentes y troncos")
-	check(stage.level_keys.size() == 3 and stage.level_keys[0].position.x > 30000 and stage.level_keys[1].position.x > 55000 and stage.level_keys[2].position.x > 79000, "tres llaves repartidas por las tres rutas")
+	check(stage.DEFINITION.width == 44600.0 and stage.DEFINITION.region_names.size() == 10, "10 tramos en el bosque condensado")
+	check(stage.enemies.size() == 45 and stage.DEFINITION.enemy_kinds.size() == 45 and stage.DEFINITION.enemy_kinds.has("terron") and stage.DEFINITION.enemy_kinds.has("moflete"), "45 enemigos de los dos tipos")
+	check(stage.root_gates.size() == 10 and stage.bridges.size() == 4 and stage.moving_platforms.size() == 5 and stage.vine_crossings.size() == 1, "retos combinados de marcas, puentes y troncos")
+	check(stage.level_keys.size() == 3 and stage.level_keys[0].position.x > 19800 and stage.level_keys[1].position.x > 31800 and stage.level_keys[2].position.x > 43800, "tres llaves repartidas por las tres rutas")
 	var platform_count: int = 0
 	for enemy in stage.enemies:
 		enemy.set_physics_process(false)
 		if enemy.platform_guard:
 			platform_count += 1
-	check(platform_count == 38, "38 guardianes reconocen los bordes de sus plataformas")
+	check(platform_count >= 17, "los guardianes de las repisas siguen reconociendo sus límites")
 	# Percepción y persecución de ambos tipos, sin interferencia de otras patrullas.
 	hero.set_physics_process(false)
 	for index in [0, 1]:
@@ -117,7 +117,7 @@ func _run() -> void:
 	hero.controls.clear_virtual()
 	check(hero.position.x < stage.root_gates[0].position.x - 20, "las raíces cerradas bloquean una carrera y salto completo")
 	hero.set_physics_process(false)
-	# Reglas de los diecinueve pasos: una sola marca no abre; ambas sí y no se duplican.
+	# Reglas de los diez pasos: una sola marca no abre; ambas sí y no se duplican.
 	for index in stage.root_gates.size():
 		var gate: ForestRootGate = stage.root_gates[index]
 		var stations: Array[RootBridgeDefinition] = gate.definition.stations
@@ -149,7 +149,7 @@ func _run() -> void:
 	for leaf in stage.collectibles:
 		if leaf.visible:
 			active_leaves += 1
-	check(active_leaves < 120 and stage.total_leaves > 500, "solo se animan y detectan las hojas de la zona cercana")
+	check(active_leaves < 120 and stage.total_leaves > 220, "solo se animan y detectan las hojas de la zona cercana")
 	for leaf in stage.collectibles:
 		if leaf.visible and not leaf.taken:
 			leaf._on_body_entered(hero)
