@@ -1,7 +1,8 @@
 """Compone el bosque de autoría; la ejecución consume únicamente level_01.tres.
 
-El prólogo conserva los ensayos de las dos mecánicas. Las siguientes tres rutas
-alternan seis composiciones, con estaciones propias, retorno y faroles seguros.
+Edición breve solicitada: prólogo y nueve tramos (antes dieciocho), tres llaves
+repartidas y un barranco de liana con cinco dianas elásticas. No compactar
+simplemente las coordenadas: los saltos conservarán amplitud y recuperación.
 """
 from pathlib import Path
 import json
@@ -12,13 +13,10 @@ BASE = ROOT / 'tools/tests/fixtures/forest_mechanics.tres'
 DEST = ROOT / 'game/data/worlds/world_01/level_01.tres'
 NAMES = [
     'Terrazas del helecho', 'Barranco de raíces', 'Copas viajeras',
-    'Escaleras de guardianes', 'Dos orillas', 'Claro de la primera llave',
-    'Sendero de los guardianes', 'La copa del Moflete', 'Pasarelas enlazadas',
-    'Terrazas cruzadas', 'Raíces y alturas', 'Claro de la segunda llave',
-    'Mirador viajero', 'Últimas dos orillas', 'Guardianes del roble',
-    'Barranco profundo', 'Patrullas del corazón', 'Santuario de la tercera llave',
+    'Escaleras de guardianes', 'Barranco de las lianas',
+    'Claro de la primera llave', 'Sendero de los guardianes',
+    'La copa del Moflete', 'Santuario de la tercera llave',
 ]
-
 
 def vec(kind, values):
     return f'{kind}(' + ', '.join(f'{n:g}' for n in values) + ')'
@@ -86,7 +84,11 @@ def build():
         chapter = i // 6
         # Reordenar y variar las composiciones: las rutas posteriores no repiten la anterior.
         shape = ((0, 1, 2, 3, 4, 5), (3, 2, 4, 0, 1, 5), (2, 4, 3, 1, 0, 5))[chapter][i % 6]
-        if shape in (1, 4):
+        if i == 4:
+            # Barranco largo: no puede saltarse de orilla a orilla.
+            # El nuevo nodo coloca liana y cinco dianas entre las dos orillas.
+            values['ground_sections'] += [(x, 600, 1900, 520), (x + 3260, 600, 740, 520)]
+        elif shape in (1, 4):
             gap = x + 2300
             values['ground_sections'] += [(x, 600, 2300, 520), (gap + 450, 600, 1250, 520)]
             # Suelo de recuperación y tres peldaños hacia la orilla de lanzamiento.
@@ -147,21 +149,22 @@ def build():
             ex = left + width - (90 if width > 300 else 75)
             enemy(ex, y, left + 70, left + width - 65, other_kind if n == 0 else first_kind)
         values['object_spawns'].append((x + 1020, 574, i % 6))
-        if i in (5, 11, 17):
+        if i in (2, 5, 8):
             keys.append((gate_x + 95, 550))
             # Cristal opcional en una repisa adicional; nunca abre las raíces.
             values['raised_platforms'].append((x + 3700, 515, 180, 64))
             crystals.append((x + 3790, 468))
 
-    fields.update(width='80600.0', goal='Vector2(80400, 600)', subtitle='"Las tres rutas del corazón del bosque"',
+    fields.update(width='44600.0', goal='Vector2(44400, 600)', subtitle='"Las tres rutas del corazón del bosque"',
                   enemy_kinds='Array[String](' + json.dumps(kinds) + ')', key_positions=array('Vector2', keys),
                   crystal_positions=array('Vector2', crystals), region_starts=array('Vector2', starts),
-                  region_names='Array[String](' + json.dumps(names, ensure_ascii=False) + ')')
+                  region_names='Array[String](' + json.dumps(names, ensure_ascii=False) + ')',
+                   vine_crossings=array('Vector2', [(24200, 0)]))
     for key, kind in [('ground_sections', 'Rect2'), ('raised_platforms', 'Rect2'), ('recovery_platforms', 'Rect2'),
                       ('enemy_spawns', 'Vector4'), ('object_spawns', 'Vector3'), ('checkpoints', 'Vector2')]:
         fields[key] = array(kind, values[key])
     # Último claro tras las raíces, con espacio para la tercera llave y la puerta.
-    values['ground_sections'].append((80200, 600, 400, 520))
+    values['ground_sections'].append((44200, 600, 400, 520))
     fields['ground_sections'] = array('Rect2', values['ground_sections'])
     for field, kind, ids in [('bridges', '3_bridge', bridge_ids), ('moving_platforms', '4_moving', moving_ids), ('root_gates', '5_gate', gates)]:
         fields[field] = f'Array[ExtResource("{kind}")]([' + ', '.join(f'SubResource("{id}")' for id in ids) + '])'
