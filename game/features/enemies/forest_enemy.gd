@@ -163,7 +163,7 @@ func _physics_process(delta: float) -> void:
 			_notice_seconds = 0.42
 	elif behaviour == Behaviour.CHASE:
 		_lost_seconds += delta
-		var search_seconds: float = 3.5 if _last_seen_y > position.y + 64.0 else 1.3
+		var search_seconds: float = 3.5 if _last_seen_y > position.y + 32.0 else 1.3
 		if _lost_seconds > search_seconds or absf(position.x - _home.x) > 950.0:
 			behaviour = Behaviour.RETURN
 	var speed: float = 58.0 if kind == "moflete" else 43.0
@@ -291,7 +291,7 @@ func _update_support() -> void:
 func _chase_direction() -> float:
 	if not is_on_floor() and not is_zero_approx(_drop_direction):
 		return _drop_direction
-	if _last_seen_y > position.y + 64.0 and _support_rid.is_valid():
+	if _last_seen_y > position.y + 32.0 and _support_rid.is_valid():
 		if is_zero_approx(_drop_direction):
 			if _last_seen_x < _support_span.x:
 				_drop_direction = -1.0

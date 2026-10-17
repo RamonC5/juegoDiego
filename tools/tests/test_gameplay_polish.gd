@@ -124,6 +124,32 @@ func _test_descents() -> void:
 			check(enemy.position == Vector2(500, 400), "el farol restablece a %s" % kind)
 		enemy.queue_free()
 		await step(2)
+	# Otro apoyo a solo 55 px del suelo: debe volver a elegir una salida y seguir bajando.
+	var lower_ledge := ForestPlatform.new()
+	lower_ledge.position = Vector2(650, 545)
+	lower_ledge.dimensions = Vector2(200, 24)
+	arena.add_child(lower_ledge)
+	for kind in ["terron", "moflete"]:
+		var enemy := ForestEnemy.new()
+		enemy.kind = kind
+		enemy.position = Vector2(500, 400)
+		enemy.patrol = Vector2(420, 580)
+		enemy.movement_bounds = Vector2(410, 590)
+		enemy.pursuit_bounds = Vector2(-40, 1040)
+		enemy.platform_guard = true
+		enemy.player = hero
+		arena.add_child(enemy)
+		hero.respawn(Vector2(950, 400))
+		hero.invulnerability = 99
+		await step(35)
+		hero.position.y = 600
+		await step(480)
+		print("DESCENSO SUCESIVO ", kind, " posición=", enemy.position, " estado=", enemy.behaviour)
+		check(absf(enemy.position.y - 600.0) < 2 and enemy.is_on_floor(), "%s baja también del segundo apoyo cercano al suelo" % kind)
+		check(absf(enemy.position.x - 950) < 35 and enemy.behaviour == ForestEnemy.Behaviour.CHASE, "%s continúa tras encadenar los descensos" % kind)
+		enemy.queue_free()
+		await step(2)
+	lower_ledge.queue_free()
 	floor.queue_free()
 	await step(2)
 	var cautious := ForestEnemy.new()
