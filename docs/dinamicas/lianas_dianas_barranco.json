@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "tipo": "dinamica",
+  "id": "lianas_dianas_barranco",
+  "nombre": "Liana y dianas del barranco",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "encargo:nueva dinámica del primer bosque",
+      "revision": "2026-10-17",
+      "observacion": "Ascender una liana y avanzar de diana en diana para superar un barranco; reducir a la mitad la duración del nivel."
+    },
+    {
+      "ruta": "game/features/levels/mechanisms/vine_crossing.gd",
+      "revision": "main · 2026-10-17",
+      "observacion": "Una liana, cinco dianas elásticas y sensor de caída local."
+    },
+    {
+      "ruta": "game/features/player/diego.gd",
+      "revision": "main · 2026-10-17",
+      "observacion": "Ascenso por gesto de salto mantenido, impulso al soltar y rebote en el contacto físico."
+    }
+  ],
+  "objetivo": "Superar un barranco no saltable desde el suelo, trepando por una liana y rebotando sobre cinco dianas suspendidas.",
+  "dependencias": [
+    {
+      "id": "salto",
+      "estado": "implementada",
+      "detalle": "Diego mueve y salta mediante controles táctiles y teclado."
+    },
+    {
+      "id": "gestos_tactiles",
+      "estado": "implementada",
+      "detalle": "Deslizamiento arriba sostenido para ascenso; arrastre horizontal para enlazar las dianas."
+    },
+    {
+      "id": "fisica_dianas",
+      "estado": "implementada",
+      "detalle": "Nueva colisión unilateral con rebote, rotura irregular y restauración automática."
+    }
+  ],
+  "controles": {
+    "tactil": "Desliza arriba y mantén mientras estés junto a la liana. Suelta el gesto y arrastra hacia la derecha para salir impulsado. Los cinco rebotes se producen al aterrizar, sin pulsar otra tecla.",
+    "teclado": "Mantén salto junto a la liana para trepar; suelta salto y mantén derecha para pasar de diana en diana.",
+    "mando": "Mantén el botón de salto para trepar; suéltalo y desplaza el stick a la derecha para impulsarte y enlazar los rebotes."
+  },
+  "aprendizaje": {
+    "presentacion": "La liana se ve desde la orilla y el primer disco está cerca. Un aviso no flotante explica mantener salto y soltar hacia la derecha.",
+    "practica": "Cinco discos de ancho generoso y separación de unos 260 px; el primer rebote prepara automáticamente el siguiente.",
+    "combinacion": "El jugador debe resolver una estación de raíces a cada lado antes de franquear el siguiente portón."
+  },
+  "reglas": {
+    "activacion": "Diego entra en la franja de la liana y mantiene el gesto de salto, sin portar objetos.",
+    "exito": "Aterrizar y rebotar de disco en disco hasta el terreno firme del otro lado; el avance sigue estando bloqueado por la puerta de tres llaves.",
+    "fallo": "Caer bajo el barranco consume una unidad de energía y devuelve a Diego a la entrada local; si se agota la energía, rigen el farol y la reaparición normal.",
+    "recuperacion": "Cada disco se recompone automáticamente a los 3,2 segundos y todos se rearman al fallar el cruce o reaparecer desde un farol. No hay consumo de objetos ni de munición."
+  },
+  "feedback": [
+    "Liana grande y trenzada con hojas, diferenciable del fondo sin letras ni iconos.",
+    "Dianas suspendidas con anillos concéntricos, cristal quebradizo y fragmentos asimétricos al recibir el peso.",
+    "Rebote inmediato y restauración legible de discos; pista breve en HUD al acceder al tramo.",
+    "La caída resta salud y permite reintentar desde la orilla inicial."
+  ],
+  "recompensa": "Paso hacia la segunda llave y el santuario sin necesidad de un nuevo objeto.",
+  "minutos_estimados": [
+    1.2,
+    1.5
+  ],
+  "dificultad": "Media para 10 años; rebotes automáticos, separación compatible con la carrera y recuperación corta.",
+  "persistencia": {
+    "al_morir": "Los cinco discos se restablecen. Se conservan las llaves ya recogidas, pero se rearman las barreras y otros puentes, como en el resto del bosque.",
+    "al_cerrar": "El intento reinicia desde el comienzo, no se guarda el punto de mitad de nivel.",
+    "al_rejugar": "Todos los discos y dianas vuelven a estar intactos; las llaves deben recogerse nuevamente."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "La trepa se reconoce por forma y postura; los discos muestran círculos concéntricos y rotura visible sin depender solo de color.",
+    "equivalencia_visual_sonora": "Las señales imprescindibles son visuales; no se exige escuchar sonidos.",
+    "legibilidad_movil": "Liana y discos grandes, cámara con seguimiento vertical y sin etiquetas flotantes ni iconos de objetivo.",
+    "ajustes_control": "Mantener gesto de salto existente; teclado, mando y pantalla táctil equivalentes. Confirmar maniobra en varios formatos de pantalla."
+  },
+  "validacion": {
+    "funcional": [
+      "Comprobar que mantener salto asciende solo dentro de la zona de liana.",
+      "Comprobar que soltar e impulsar llega al primer disco y los rebotes a los siguientes.",
+      "Comprobar rotura de disco, restauración automática, daño de caída y reset al reaparecer.",
+      "Comprobar que la salida sigue exigiendo tres llaves."
+    ],
+    "jugando": [
+      "Medir cruces reales de cinco discos sin ayudas textuales ni saltos ciegos en Android y Windows.",
+      "Ajustar la separación si la secuencia exige demasiada precisión para un niño de 10 años.",
+      "Revisar el rendimiento y la física a 60 Hz."
+    ],
+    "evidencias": [
+      "game/features/levels/mechanisms/vine_target.gd",
+      "game/features/levels/mechanisms/vine_crossing.gd",
+      "game/features/levels/forest_stage.gd",
+      "game/features/player/diego.gd",
+      "tools/tests/test_lianas_dianas.gd (suite integrada, ejecución pendiente)"
+    ]
+  }
+}
