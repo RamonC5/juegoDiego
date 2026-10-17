@@ -173,7 +173,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for suite in test_forest_expansion test_gameplay_polish test_audio_respawn test_breakable_targets test_forest_route; do
+          for suite in test_forest_expansion test_gameplay_polish test_audio_respawn test_breakable_targets test_lianas_dianas test_forest_route; do
             "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
@@ -182,6 +182,7 @@ jobs:
           done
           python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py \
             docs/dinamicas/raices_dobles.json docs/dinamicas/persecucion_bosque.json \
+            docs/dinamicas/lianas_dianas_barranco.json \
             docs/niveles/world_01_level_01.json
 
       - name: Comprobar dianas y puentes de raíces
