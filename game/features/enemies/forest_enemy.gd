@@ -275,7 +275,7 @@ func _update_support() -> void:
 		var collider := collision.get_collider() as CollisionObject2D
 		if collider == null:
 			continue
-		var shape_owner: int = collider.shape_find_owner(collision.get_collider_shape())
+		var shape_owner: int = collider.shape_find_owner(collision.get_collider_shape_index())
 		var shape_node := collider.shape_owner_get_owner(shape_owner) as CollisionShape2D
 		if shape_node == null or not shape_node.shape is RectangleShape2D:
 			continue
