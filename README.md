@@ -1,5 +1,7 @@
 # Super Diego · Juego Diego
 
+Versión **0.8.0**: colección permanente de hojas y cristales, vestuario desbloqueable y Luci, un ayudante que despierta reuniendo tres fragmentos. Abre el icono de camiseta o **Pausa → Colección** para probar y equipar prendas. [Reglas y recompensas](docs/RECOMPENSAS.md).
+
 Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
 
 La versión **0.7.2** integra un tótem raster de corteza y musgo, un túnel transitable bajo el bosque con brote de vida y ascensor en otro extremo, lianas texturadas con impulso conservado y una marcha de enemigos ligada a su velocidad. [Recorrido y reglas actuales](docs/ARQUITECTURA.md#tótem-y-recorrido-bajo-el-bosque--072). Las referencias a versiones anteriores que siguen son históricas.
@@ -129,3 +131,4 @@ Diego puede salir de un techo avanzando o retrocediendo agachado, también con u
 ### Plataformas y regreso por los portones · 0.7.5
 
 Ponerse de pie respeta las plataformas atravesables y admite deslizar arriba con el mismo dedo. El farol consolida las aperturas anteriores y restaura sus colisiones, dianas y marcas al reaparecer; los puzzles posteriores vuelven a estar pendientes. La regresión recorre físicamente los nueve portones con farol posterior. [Validación y límites](docs/pruebas/recuperacion-0.7.5.md).
+

@@ -8,6 +8,16 @@ Esta base configura un juego de plataformas lateral 2D para Android y Windows. M
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
+## Colección permanente · 0.8.0
+
+`CollectionProgress` (0.8.0) añade colección permanente por ID, vestuario y ayudante. Es un servicio `RefCounted` separado de `LevelProgress`, del intento y de las opciones. `boot/main.gd` lo compone e inyecta en `ForestStage`, `CollectionMenu` y `ForestFirefly`. `CollectionRewards`, bajo `core/contracts`, define hitos de 12, 45 y 100 hojas, tres fragmentos y los IDs de vestuario; no se añade autoload.
+
+Las recogidas validan ID y tipo contra el manifiesto antes de ocultar el objeto. `collection.json`, esquema 1, persiste cada operación con temporal y renombrado, copia de seguridad y reversión ante error. Morir, cerrar o rejugar conserva colección y equipo; llaves y mecanismos mantienen las reglas del intento. Los resultados anteriores permanecen en `progress.json` y no se convierten en monedas sin IDs.
+
+`PlayerWardrobe` aplica material propio sobre todas las poses raster existentes, con máscaras de material y tejido de helechos generado, conservando manos, agarre, movimiento y colisiones. `CollectionMenu` presenta vista previa, hitos, equipo, foco, scroll, zona segura y acciones de al menos 48 px. `ForestFirefly`, en `features/companions`, integra el acompañante sin colisión ni daño: aleteo de cuatro poses, pista lenta de secreto y recogida de hojas cercanas con oclusión contra el entorno. Los fragmentos se declaran en el recurso de nivel y su generador.
+
+[Reglas de recompensas](RECOMPENSAS.md) · [Ficha](dinamicas/coleccion_bosque.json) · [Pruebas y límites](pruebas/coleccion-0.8.0.md). La posición del intento sigue sin guardarse. Android y Windows físicos pendientes.
+
 ## Decisión técnica
 
 | Área | Decisión | Motivo |
@@ -320,3 +330,4 @@ El sistema anterior de trepa automática de `DiegoPlayer.vine_climb_zone` se ha 
 `ForestSecretTotem` es un `Node2D` independiente, sin `CollisionObject2D`, que dibuja un tótem original de madera, raíces, cara tallada y hojas. Su representación usa `_draw()` y anima únicamente con `_process()` dentro de un radio de 390 px respecto a `DiegoPlayer`: hojas oscilantes, tres hojas flotantes y luz suave. La pausa del árbol de escena interrumpe el ciclo. Evita textos, carteles, controles nuevos y materiales compartidos.
 
 `ForestStage._build_secret()` lo instancia una sola vez a 180 px a la izquierda del centro de la trampilla definido en `ForestLevelDefinition.secret_grove`; `start()` inyecta la referencia del jugador para la proximidad. La señalización no modifica el acceso (agacharse), la geometría, la recompensa ni el retorno en ascensor. `test_secret_grove.gd` cubre ubicación, ausencia de colisión y animación en proximidad, y `capture_forest.gd` guarda `preview_secret_totem.png` durante la CI. El dibujo requiere revisión visual del PNG producido por Godot.
+

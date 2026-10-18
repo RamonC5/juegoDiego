@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "character_id": "luci",
+  "role": "companion",
+  "world_ids": [
+    "world_01"
+  ],
+  "design_status": "proposed",
+  "visual_reference": "Diseño nuevo autorizado en el plan de colección; estilo del bosque existente.",
+  "frame_size": [
+    627,
+    627
+  ],
+  "pivot_px": [
+    [
+      470,
+      342
+    ],
+    [
+      460,
+      342
+    ],
+    [
+      470,
+      309
+    ],
+    [
+      461,
+      326
+    ]
+  ],
+  "display_scale": 0.105,
+  "animations": [
+    {
+      "id": "flutter",
+      "path": "game/assets/textures/characters/luci/flutter_v001.png",
+      "grid": [
+        2,
+        2
+      ],
+      "frames": 4,
+      "fps": 12,
+      "loop": true
+    }
+  ],
+  "generation": {
+    "tool": "image_gen",
+    "prompts": "art/characters/luci/prompts.md",
+    "references": []
+  },
+  "motion": {
+    "technique": "sprite_frames_with_eye_pivot",
+    "frequency_hz": 3,
+    "actions": [
+      "sleep",
+      "follow",
+      "hint",
+      "celebrate"
+    ],
+    "pause": "Node.PROCESS_MODE_PAUSABLE"
+  },
+  "validation": {
+    "raw_padding_check": "Fails default 4px padding due to low alpha residue; structural check passes with --min-padding 0.",
+    "effective_padding_px": [
+      39,
+      31,
+      15,
+      36
+    ],
+    "alpha_pipeline": "sprite_alpha.gdshader smoothstep(0.13,0.40)",
+    "functional_tests": "tools/tests/test_collection_rewards.gd",
+    "pending": [
+      "Revisión de dispositivo físico Android y Windows"
+    ]
+  },
+  "integration_status": "godot_checked"
+}
+

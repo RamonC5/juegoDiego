@@ -38,6 +38,7 @@ func _new_level() -> void:
 		paused = false
 		await _step(3)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_bridges-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	main.level_definition = preload("res://tools/tests/fixtures/forest_mechanics.tres")
 	root.add_child(main)
 	# Suite de mecanismos aislada del combate; la percepción tiene su propia suite.
@@ -338,5 +339,6 @@ func _run() -> void:
 	DirAccess.remove_absolute(STORAGE)
 	print("RESULTADO PUENTES: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+
 
 

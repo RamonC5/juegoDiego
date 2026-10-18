@@ -12,6 +12,9 @@ var DEFINITION: ForestLevelDefinition = preload("res://game/data/worlds/world_01
 const PROPS: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_props_v001.png")
 
 var player: DiegoPlayer
+var collection_progress: CollectionProgress
+var fragments: Array[ForestFragment] = []
+var firefly: ForestFirefly
 var leaves: int = 0
 var crystals: int = 0
 var total_leaves: int = 0
@@ -68,6 +71,7 @@ func _ready() -> void:
 	_build_moving_platforms()
 	_build_vine_crossings()
 	_build_secret()
+	_build_collection_rewards()
 	for spec in DEFINITION.object_spawns:
 		var object := ThrowableObject.new()
 		object.definition = ThrowableCatalog.DEFINITIONS[int(spec.z)]
@@ -82,6 +86,13 @@ func start(hero: DiegoPlayer) -> void:
 	player = hero
 	player.fall_limit_y = 980.0
 	player.position = DEFINITION.spawn
+	if is_instance_valid(firefly):
+		firefly.hero = hero
+		firefly._refresh()
+		player.jumped.connect(func():
+			if player.jumps_used == 2:
+				firefly.celebrate()
+		)
 	if is_instance_valid(secret_grove):
 		secret_grove.hero = hero
 	if is_instance_valid(secret_totem):
@@ -347,12 +358,62 @@ func _add_collectible(at: Vector2, crystal: bool = false) -> void:
 	var collectible := ForestCollectible.new()
 	collectible.position = at
 	collectible.crystal = crystal
+	collectible.persistent_id = "%s/%s/%d/%d" % [DEFINITION.level_id, "crystal" if crystal else "leaf", int(at.x), int(at.y)]
+	collectible.request_collection = _request_collection
 	collectible.z_index = 1
 	collectible.collected.connect(_on_collected)
 	add_child(collectible)
+	if collection_progress != null and collection_progress.has_item(collectible.persistent_id):
+		collectible.mark_taken()
+		if crystal:
+			crystals += 1
+		else:
+			leaves += 1
 	collectibles.append(collectible)
 	if not crystal:
 		total_leaves += 1
+
+
+func _build_collection_rewards() -> void:
+	var manifest: Dictionary = {}
+	for collectible in collectibles:
+		manifest[collectible.persistent_id] = "crystal" if collectible.crystal else "leaf"
+	assert(DEFINITION.fragment_positions.size() == DEFINITION.fragment_ids.size())
+	for index in DEFINITION.fragment_ids.size():
+		var fragment := ForestFragment.new()
+		fragment.position = DEFINITION.fragment_positions[index]
+		fragment.persistent_id = DEFINITION.level_id + "/fragment/" + DEFINITION.fragment_ids[index]
+		fragment.request_collection = _request_collection
+		fragment.collected.connect(_on_fragment_collected)
+		add_child(fragment)
+		fragments.append(fragment)
+		manifest[fragment.persistent_id] = "fragment"
+		if collection_progress != null and collection_progress.has_item(fragment.persistent_id):
+			fragment.mark_taken()
+	if collection_progress != null:
+		collection_progress.register_level(DEFINITION.level_id, manifest)
+	if DEFINITION.firefly_nest.x >= 0.0:
+		# La planta reutiliza el atlas del escenario y no añade una barrera.
+		_prop(1, DEFINITION.firefly_nest + Vector2(0, 35), 80, 2)
+		firefly = ForestFirefly.new()
+		firefly.position = DEFINITION.firefly_nest
+		firefly.progress = collection_progress
+		firefly.collectibles = collectibles
+		firefly.secret_position = DEFINITION.secret_grove
+		add_child(firefly)
+
+
+func _request_collection(item: ForestCollectible) -> bool:
+	if completed:
+		return false
+	if collection_progress == null:
+		return true
+	var kind: String = "fragment" if item is ForestFragment else ("crystal" if item.crystal else "leaf")
+	return collection_progress.collect_item(DEFINITION.level_id, item.persistent_id, kind)
+
+
+func _on_fragment_collected(_item: ForestCollectible) -> void:
+	hint_requested.emit("Fragmento de luz recogido. Reúne los tres para despertar a Luci; consulta tu colección en pausa.")
 
 
 func _build_collectibles() -> void:
@@ -393,6 +454,8 @@ func _on_key_collected(key: LevelKey) -> void:
 	if completed or not level_keys.has(key) or not key.taken or collected_keys.has(key.slot):
 		return
 	collected_keys.append(key.slot)
+	if is_instance_valid(firefly):
+		firefly.celebrate()
 	exit_door.set_keys(collected_keys)
 	keys_changed.emit(collected_keys.size(), KeyExitDoor.REQUIRED_KEYS)
 	if exit_door.is_open:
@@ -540,6 +603,8 @@ func respawn_player() -> void:
 		if not _is_before_respawn(crossing.position.x + ForestVineCrossing.RAVINE_RIGHT):
 			crossing.reset_vines()
 	player.respawn(respawn_position)
+	if is_instance_valid(firefly) and firefly.awake:
+		firefly.position = player.position + Vector2(-75, -135)
 	for platform in moving_platforms:
 		var end_x: float = maxf(platform.definition.start_position.x, platform.definition.end_position.x) + platform.definition.width / 2.0
 		if not _is_before_respawn(end_x):
@@ -625,4 +690,5 @@ func _update_activity() -> void:
 			collectible.visible = nearby
 			collectible.set_process(nearby)
 			collectible.set_deferred("monitoring", nearby)
+
 

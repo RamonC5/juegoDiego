@@ -2,7 +2,15 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
-## Corrección sobre plataformas reales · 0.7.5
+## Colección y recompensas · 0.8.0
+
+Las hojas desbloquean pañuelo (12), chaleco de hojas (45) y traje de explorador (100), sin gastarse. Todas las hojas, cristales y fragmentos del bosque desbloquean Guardián dorado. Tres fragmentos opcionales, en el claro inicial, la gruta y las lianas, despiertan al acompañante Luci. La ropa es cosmética y estas recompensas no condicionan las tres llaves ni la salida.
+
+El guardado inmediato conserva colección y equipo al morir, cerrar y rejugar, evitando duplicados por ID. Es independiente del reinicio espacial de los mecanismos y de los resultados. El vestuario pausa el juego; Luci se puede desactivar y no añade gestos. La duración principal mantiene la excepción anterior y no se atribuye tiempo medido a los coleccionables.
+
+[Ficha de dinámica](dinamicas/coleccion_bosque.json) · [Reglas](RECOMPENSAS.md) · [Evidencia](pruebas/coleccion-0.8.0.md).
+
+## Corrección anterior sobre plataformas reales · 0.7.5
 
 Soltar abajo o deslizar arriba permite ponerse de pie debajo de las plataformas que se atraviesan al saltar. Solo un techo sólido mantiene la cápsula baja; sigue siendo posible salir avanzando o retrocediendo. El farol guarda las aperturas anteriores y restaura expresamente sus dianas, portones y colisiones, mientras rearma los puzzles posteriores. [Pruebas de retorno](pruebas/recuperacion-0.7.5.md).
 
@@ -121,3 +129,4 @@ Se sustituye la liana fija que hacía ascender automáticamente y los cinco disc
 ## Controles y reserva aérea · 0.7.3
 
 Una pulsación en la mitad izquierda inicia un salto completo y otra en el aire añade un único segundo impulso. El arrastre pasa a la derecha junto con agacharse y recoger/lanzar; las mitades siguen siendo intercambiables. Al soltarse de una liana queda un salto aéreo, y el siguiente agarre renueva la reserva. La pose de manos elevadas gira alrededor del contacto con la cuerda; las colisiones y las reglas de recuperación se conservan. [Controles y pruebas](CONTROLES_TACTILES.md).
+

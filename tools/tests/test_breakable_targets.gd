@@ -25,6 +25,7 @@ func check(value: bool, description: String) -> void:
 
 func run() -> void:
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_breakable_targets-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await step(4)
 	var stage: ForestStage = main.stage
@@ -128,3 +129,4 @@ func _has_no_badges(node: Node) -> bool:
 		if not _has_no_badges(child):
 			return false
 	return true
+

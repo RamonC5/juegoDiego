@@ -31,6 +31,7 @@ func _capture() -> void:
 	root.size = Vector2i(1280, 720)
 	root.content_scale_size = Vector2i(1280, 720)
 	main = preload("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-capture_player_movement-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await frames(12)
 	for enemy in main.stage.enemies:
@@ -71,3 +72,4 @@ func _capture() -> void:
 	await frames(2)
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit()
+

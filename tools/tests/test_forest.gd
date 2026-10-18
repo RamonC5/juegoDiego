@@ -26,6 +26,7 @@ func _check(condition: bool, description: String) -> void:
 func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_forest-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	main.level_definition = preload("res://tools/tests/fixtures/forest_mechanics.tres")
 	root.add_child(main)
 	main.progress = LevelProgress.new("user://forest-test-progress.json")
@@ -279,6 +280,7 @@ func _run() -> void:
 	print("RESULTADO BOSQUE: %d comprobaciones, %d fallos" % [_checks, _failures])
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if _failures == 0 else 1)
+
 
 
 

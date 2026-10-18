@@ -25,6 +25,7 @@ func step(frames: int) -> void:
 
 func _run() -> void:
 	var main = preload("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_lianas_dianas-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await step(7)
 	var stage: ForestStage = main.stage
@@ -114,3 +115,4 @@ func _run() -> void:
 	print("LIANAS OSCILANTES: %d comprobaciones, %d fallos" % [checks, failures])
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if failures == 0 else 1)
+

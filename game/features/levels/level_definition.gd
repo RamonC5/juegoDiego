@@ -23,6 +23,10 @@ extends Resource
 @export var vine_crossings: Array[Vector2] = []
 ## Centro de la trampilla opcional (x, altura de la superficie); x < 0 la desactiva.
 @export var secret_grove: Vector2 = Vector2(-1, -1)
+## Fragmentos opcionales con IDs estables; no ocupan las manos ni abren la salida.
+@export var fragment_ids: Array[String] = []
+@export var fragment_positions: Array[Vector2] = []
+@export var firefly_nest: Vector2 = Vector2(-1, -1)
 ## Inicio de cada tramo y nombre para orientar el recorrido largo.
 @export var region_starts: Array[Vector2] = []
 @export var region_names: Array[String] = []
@@ -36,6 +40,7 @@ extends Resource
 ## Exactamente tres llaves por intento. El arte se elige por entorno, no por color.
 @export var key_definition: LevelKeyDefinition
 @export var key_positions: Array[Vector2] = []
+
 
 
 

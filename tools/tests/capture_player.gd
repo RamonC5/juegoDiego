@@ -26,6 +26,7 @@ func _save(name: String) -> void:
 func _capture() -> void:
 	root.size = Vector2i(1280, 720)
 	_main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-capture_player-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(_main)
 	await _frames(12)
 	_main.settings.left_handed = false
@@ -130,5 +131,6 @@ func _animation_board() -> void:
 	_save("preview_animations")
 	board.queue_free()
 	await _frames(2)
+
 
 

@@ -179,7 +179,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for suite in test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route; do
+          for suite in test_collection_rewards test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route; do
             "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
@@ -189,7 +189,7 @@ jobs:
           python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py \
             docs/dinamicas/raices_dobles.json docs/dinamicas/persecucion_bosque.json \
             docs/dinamicas/lianas_dianas_barranco.json docs/dinamicas/gruta_hojas_vida.json \
-            docs/niveles/world_01_level_01.json
+            docs/niveles/world_01_level_01.json docs/dinamicas/coleccion_bosque.json
 
       - name: Comprobar dianas y puentes de raíces
         shell: bash
@@ -227,6 +227,25 @@ jobs:
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-render.log; then
             exit 1
           fi
+
+      - name: Capturar colección y vestuario con Compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
+            --script tools/tests/capture_collection.gd 2>&1 | tee .godot-logs/collection-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/collection-render.log; then
+            exit 1
+          fi
+
+      - name: Guardar vistas de colección y vestuario
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: coleccion-vestuario-${{ github.run_number }}
+          path: art/characters/luci/preview_*.png
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Capturar miembros y alas con Compatibility
         shell: bash
@@ -398,6 +417,7 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
 
 
 

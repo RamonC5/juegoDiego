@@ -180,7 +180,10 @@ def build():
                   crystal_positions=array('Vector2', crystals), region_starts=array('Vector2', starts),
                   region_names='Array[String](' + json.dumps(names, ensure_ascii=False) + ')',
                    vine_crossings=array('Vector2', [(24200, 0)]),
-                   secret_grove='Vector2(11610, 600)')
+                   secret_grove='Vector2(11610, 600)',
+                   fragment_ids='Array[String](["clear", "grove", "vines"])',
+                   fragment_positions=array('Vector2', [(1175, 390), (11025, 1026), (26680, 470)]),
+                   firefly_nest='Vector2(480, 565)')
     for key, kind in [('ground_sections', 'Rect2'), ('raised_platforms', 'Rect2'), ('recovery_platforms', 'Rect2'),
                       ('enemy_spawns', 'Vector4'), ('object_spawns', 'Vector3'), ('checkpoints', 'Vector2')]:
         fields[key] = array(kind, values[key])
@@ -199,4 +202,5 @@ def build():
 
 if __name__ == '__main__':
     build()
+
 

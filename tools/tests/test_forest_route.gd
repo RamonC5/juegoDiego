@@ -240,6 +240,7 @@ func cross_vine_ravine() -> bool:
 
 func _run() -> void:
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_forest_route-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	stage = main.stage
 	hero = main.player
@@ -293,4 +294,5 @@ func _finish() -> void:
 	print("RESULTADO RUTA AMPLIADA: %d comprobaciones, %d fallos" % [checks, failures])
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if failures == 0 else 1)
+
 

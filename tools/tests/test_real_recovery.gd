@@ -43,6 +43,7 @@ func run() -> void:
 	root.size = Vector2i(1280, 720)
 	root.content_scale_size = Vector2i(1280, 720)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_real_recovery-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await step(5)
 	var hero: DiegoPlayer = main.player
@@ -159,3 +160,4 @@ func run() -> void:
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	print("RECUPERACIÓN REAL: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(1 if failures else 0)
+

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "tipo": "dinamica",
+  "id": "coleccion_bosque",
+  "nombre": "Colección permanente, vestuario y ayudante del bosque",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "encargo:implementar plan de recompensas",
+      "revision": "2026-10-18",
+      "observacion": "Hojas para ropa, tres fragmentos para luciérnaga, progreso permanente y menú de equipamiento."
+    },
+    {
+      "ruta": "game/features/levels/forest_stage.gd",
+      "revision": "base 3f324c0 + implementación 0.8.0",
+      "observacion": "Manifiesto de IDs, recogida guardada, fragmentos y ayudante integrados."
+    }
+  ],
+  "objetivo": "Dar valor a recoger hojas y cristales y explorar desvíos opcionales mediante prendas y un ayudante persistente.",
+  "dependencias": [
+    {
+      "id": "coleccion_persistente",
+      "estado": "implementada",
+      "detalle": "CollectionProgress guarda cada ID sin duplicados y valida el manifiesto del nivel."
+    },
+    {
+      "id": "vestuario",
+      "estado": "implementada",
+      "detalle": "PlayerWardrobe y CollectionMenu presentan y equipan los hitos sin alterar física."
+    },
+    {
+      "id": "ayudante_luci",
+      "estado": "implementada",
+      "detalle": "ForestFirefly despierta con tres fragmentos, señala el secreto y recoge hojas cercanas."
+    }
+  ],
+  "controles": {
+    "tactil": "Recogida automática por contacto; icono de camiseta o Pausa → Colección para previsualizar y equipar.",
+    "teclado": "Movimiento y saltos existentes; pausa, Tab/flechas y aceptar para recorrer el vestuario.",
+    "mando": "Movimiento y saltos existentes; Start y navegación de foco para equipar."
+  },
+  "aprendizaje": {
+    "presentacion": "Contador hacia la próxima prenda y aviso breve; Luci duerme en una planta del primer claro.",
+    "practica": "Primera prenda tras doce hojas y primer fragmento en una repisa del claro.",
+    "combinacion": "Segundo fragmento bajo tierra y tercero en las lianas; combinación opcional del repertorio existente."
+  },
+  "reglas": {
+    "activacion": "Cada hoja, cristal o fragmento se acepta una sola vez por perfil tras guardar su ID.",
+    "exito": "Hitos de 12/45/100 hojas, tres fragmentos para Luci, colección íntegra para Guardián dorado.",
+    "fallo": "Morir no resta recompensas. Un error de guardado impide aceptar la recogida y deja el objeto disponible.",
+    "recuperacion": "Reaparición mantiene el perfil; los faroles conservan/rearman mecanismos según el tramo. Cerrar o rejugar recupera prendas y colección."
+  },
+  "feedback": [
+    "Contadores, estados escritos y vista previa del equipo en el vestuario.",
+    "Confirmación breve de desbloqueo con acceso voluntario a Colección.",
+    "Fragmentos de amuleto con silueta distinta del cristal; Luci muestra alas y pista de proximidad lenta."
+  ],
+  "recompensa": "Tres prendas cosméticas por hojas, variante dorada por completar la colección y Luci por reunir los tres fragmentos.",
+  "minutos_estimados": [
+    1,
+    3
+  ],
+  "dificultad": "Opcional; la exploración reutiliza saltos, lianas y gruta. Este tiempo estima solo desvíos, no prolonga la ruta principal.",
+  "persistencia": {
+    "al_morir": "Conserva inmediatamente todos los IDs, desbloqueos, equipo y preferencia de Luci; no cambia el reinicio espacial del farol.",
+    "al_cerrar": "CollectionProgress recupera colección y equipo desde JSON versionado o su copia. La posición del intento no se guarda.",
+    "al_rejugar": "Las llaves y mecanismos vuelven al inicio; la colección permanece y solo siguen disponibles los objetos pendientes."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Estados bloqueado/disponible/equipado mediante texto y botones; fragmento con forma distinta; vista de Diego.",
+    "equivalencia_visual_sonora": "Ninguna recompensa exige audio; el ayudante usa desplazamiento y brillo lento.",
+    "legibilidad_movil": "Menú con scroll, foco visible, acciones de al menos 48 px y zona segura; capturas reproducibles móvil/tablet.",
+    "ajustes_control": "Sin nuevos gestos, pausa limpia entradas y conserva reasignación y lados. Luci puede descansar desde el menú."
+  },
+  "validacion": {
+    "funcional": [
+      "Probar recogida única y umbrales de ropa sin consumo de hojas.",
+      "Probar cerrar/reabrir, corrupción y fallo de escritura con reversión.",
+      "Probar pausa, vestuario, materiales, ayudante y reaparición sin cambiar llaves."
+    ],
+    "jugando": [
+      "Pendiente observar los tiempos hasta cada hito, descubrimiento de fragmentos y tacto en Android y tablet Windows físicos."
+    ],
+    "evidencias": [
+      "tools/tests/test_collection_rewards.gd: 40 comprobaciones correctas.",
+      "docs/pruebas/coleccion-0.8.0.md: 882 comprobaciones Godot y cinco Python sin fallos.",
+      "tools/tests/capture_collection.gd: captura del renderizador Compatibility."
+    ]
+  }
+}

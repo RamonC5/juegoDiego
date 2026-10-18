@@ -24,5 +24,9 @@ func _initialize() -> void:
 		_check(exported.vine_crossings.size() == 1 and exported.vine_crossings[0] == Vector2(24200, 0), "la liana sobrevive al recurso binario del APK")
 		_check(exported.key_positions == preload("res://game/data/worlds/world_01/level_01.tres").key_positions, "las tres llaves repartidas sobreviven al APK")
 		_check(exported.secret_grove == Vector2(11610, 600), "la gruta secreta sobrevive a la exportación binaria del APK")
+		_check(exported.fragment_ids == ["clear", "grove", "vines"] and exported.fragment_positions.size() == 3,
+			"los tres fragmentos y sus IDs sobreviven al recurso del APK")
+		_check(exported.firefly_nest == Vector2(480, 565), "el nido del ayudante sobrevive a la exportación binaria")
 	print("RESULTADO DATOS APK: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+

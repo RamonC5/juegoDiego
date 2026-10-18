@@ -8,7 +8,17 @@ El usuario valoró los seis conceptos anteriores y pidió diferenciar sus person
 
 Los siete diseños tienen movimiento local del raster por malla 2D: brazos y manos donde existen, raíces y gel según su anatomía, ala plegada de Plumín y aleteo armónico de Nóctilo con flexión desfasada de las puntas. Terrón y Moflete lo reproducen en el bosque. Los otros cinco tienen integración visual en el visor; su IA y combate de nivel siguen pendientes. No se han creado hojas nuevas. [Técnica, visor y pruebas](ANIMACION_ENEMIGOS.md).
 
-## Protagonista
+## Ayudante del bosque · Luci (0.8.0)
+
+| Personaje | ID | Rol y mundos | Estado |
+| --- | --- | --- | --- |
+| [Luci](../art/characters/luci/ficha.md) | `luci` | Acompañante opcional; `world_01` | Diseño propuesto integrado, cuatro poses de aleteo y desbloqueo persistente |
+
+![Luci, luciérnaga verde de abdomen ámbar y alas translúcidas en cuatro poses laterales.](../art/characters/luci/concept_v001.png)
+
+Se despierta con tres fragmentos, acompaña a Diego, señala la entrada secreta y recoge hojas próximas sin atravesar paredes. Puede descansar desde Colección. [Ficha](../art/characters/luci/ficha.md), [prompts](../art/characters/luci/prompts.md), [metadatos](../art/characters/luci/character.json) y [revisión](../art/characters/luci/qa.md). Las prendas de Diego reutilizan sus poses con material propio y tejido raster; [vestuario y recompensas](RECOMPENSAS.md).
+
+## Protagonista Diego
 
 | Personaje | ID | Rol y mundos | Estado |
 | --- | --- | --- | --- |
@@ -130,3 +140,4 @@ Terrón y Moflete avanzan y frenan progresivamente, sincronizan su zancada con e
 ### Diego: doble salto y lianas (0.7.3)
 
 Nueva [pose de agarre con ambas manos](../art/characters/diego/vine_hang_source_v001.png), con texto alternativo y parámetros en [su ficha](../art/characters/diego/ficha.md). `vine_hang` fija las manos al nudo mientras se balancea; `double_jump` reinicia la animación de impulso. El conjunto suma 49 poses fuente y 16 estados.
+

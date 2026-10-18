@@ -25,6 +25,7 @@ func check(ok: bool, message: String) -> void:
 
 func _run() -> void:
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_forest_expansion-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await step(8)
 	var stage: ForestStage = main.stage
@@ -162,4 +163,5 @@ func _run() -> void:
 	print("RESULTADO AMPLIACIÓN: %d comprobaciones, %d fallos" % [checks, failures])
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if failures == 0 else 1)
+
 

@@ -5,6 +5,14 @@ extends "res://game/boot/practice.gd"
 
 var stage: ForestStage
 var progress: LevelProgress
+## Inyección explícita para pruebas y composición; nunca depende de un autoload.
+var collection_progress: CollectionProgress
+var _collection_menu: CollectionMenu
+var _wardrobe_button: Button
+var _reward_toast: Button
+var _toast_seconds: float = 0.0
+var _reward_queue: Array[String] = []
+var _applied_outfit: String = ""
 var backdrop: ForestBackdrop
 var _leaves_counter: HudCounter
 var _crystals_counter: HudCounter
@@ -23,6 +31,8 @@ func _ready() -> void:
 	settings = ControlSettings.new()
 	add_child(settings)
 	progress = LevelProgress.new()
+	if collection_progress == null:
+		collection_progress = CollectionProgress.new()
 	var background_layer := CanvasLayer.new()
 	background_layer.layer = -20
 	add_child(background_layer)
@@ -30,6 +40,7 @@ func _ready() -> void:
 	background_layer.add_child(backdrop)
 	stage = ForestStage.new()
 	stage.DEFINITION = level_definition
+	stage.collection_progress = collection_progress
 	stage.name = "BosqueEsmeralda"
 	add_child(stage)
 	player = PLAYER_SCENE.instantiate()
@@ -47,6 +58,14 @@ func _ready() -> void:
 	_camera.limit_bottom = 1550
 	add_child(_camera)
 	_build_ui()
+	collection_progress.changed.connect(_apply_collection)
+	collection_progress.reward_unlocked.connect(_on_reward_unlocked)
+	collection_progress.save_failed.connect(func(_error: Error):
+		_show_reward_toast("No se pudo guardar la colección. El objeto sigue disponible.")
+	)
+	_apply_collection()
+	if collection_progress.count("leaf") == 0:
+		_show_reward_toast("Recoge 12 hojas para desbloquear tu primer pañuelo · Colección")
 	settings.changed.connect(_apply_settings)
 	_apply_settings()
 	player.health_changed.connect(_update_health)
@@ -58,7 +77,7 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout_menu)
 	get_viewport().size_changed.connect(_layout_hud)
 	_layout_hud()
-	_update_counts(0, 0)
+	_update_counts(stage.leaves, stage.crystals)
 	_update_keys(0, KeyExitDoor.REQUIRED_KEYS)
 	_show_hint("BOSQUE ESMERALDA · Reúne tres llaves de ramas para abrir la salida. Pulsa a la izquierda para saltar y otra vez en el aire para el doble salto. Arrastra a la derecha para moverte. Puedes intercambiar los lados en pausa.")
 
@@ -85,6 +104,12 @@ func _process(delta: float) -> void:
 	if not get_tree().paused:
 		_tip_seconds = maxf(0.0, _tip_seconds - delta)
 		_message.visible = false
+		if _toast_seconds > 0.0:
+			_toast_seconds = maxf(0.0, _toast_seconds - delta)
+			if is_zero_approx(_toast_seconds):
+				_reward_toast.hide()
+				if not _reward_queue.is_empty():
+					_show_reward_toast(_reward_queue.pop_front())
 	if player.held_object != _last_held_object:
 		_last_held_object = player.held_object
 		if is_instance_valid(_last_held_object):
@@ -177,6 +202,13 @@ func _build_ui() -> void:
 	_crystals_counter = HudCounter.new()
 	_crystals_counter.configure(preload("res://game/assets/ui/hud_crystal.svg"), "Cristales")
 	row.add_child(_crystals_counter)
+	_wardrobe_button = _button("", _open_wardrobe)
+	_wardrobe_button.icon = preload("res://game/assets/ui/hud_wardrobe.svg")
+	_wardrobe_button.expand_icon = true
+	_wardrobe_button.add_theme_constant_override("icon_max_width", 30)
+	_wardrobe_button.custom_minimum_size = Vector2(110, 54)
+	_wardrobe_button.accessibility_name = "Colección y vestuario"
+	row.add_child(_wardrobe_button)
 	var pause_button := _button("Ⅱ", _toggle_pause)
 	pause_button.tooltip_text = "Pausa y opciones"
 	pause_button.accessibility_name = "Pausa y opciones"
@@ -208,7 +240,7 @@ func _build_ui() -> void:
 	touch = HeroTouchControls.new()
 	touch.settings = settings
 	touch.input_source = player.controls
-	touch.excluded_controls = [pause_button]
+	touch.excluded_controls = [pause_button, _wardrobe_button]
 	_ui.add_child(touch)
 	_build_menu()
 	_menu_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -221,6 +253,23 @@ func _build_ui() -> void:
 	menu_column.add_child(version)
 	menu_column.move_child(version, 1)
 	var buttons: Container = _resume_button.get_parent()
+	var collection_button := _button("Colección", _open_wardrobe)
+	buttons.add_child(collection_button)
+	buttons.move_child(collection_button, 1)
+	_collection_menu = CollectionMenu.new()
+	_collection_menu.progress = collection_progress
+	_collection_menu.level_id = stage.DEFINITION.level_id
+	_collection_menu.total_leaves = stage.total_leaves
+	_collection_menu.total_crystals = stage.DEFINITION.crystal_positions.size()
+	_ui.add_child(_collection_menu)
+	_collection_menu.closed.connect(_close_wardrobe)
+	_reward_toast = _button("", _open_wardrobe)
+	_reward_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_reward_toast.custom_minimum_size = Vector2(0, 58)
+	_reward_toast.add_theme_font_size_override("font_size", 20)
+	_reward_toast.hide()
+	_ui.add_child(_reward_toast)
+	touch.excluded_controls.append(_reward_toast)
 	buttons.add_child(_button("Entrenamiento", func():
 		touch.release_all()
 		get_tree().paused = false
@@ -251,10 +300,15 @@ func _layout_hud() -> void:
 	_top_panel.size = Vector2(safe.size.x - 32, 82)
 	_message.position = _top_panel.position + Vector2(0, _top_panel.size.y + 10)
 	_message.size = Vector2(minf(760, safe.size.x - 32), 0)
+	if is_instance_valid(_reward_toast):
+		_reward_toast.position = _top_panel.position + Vector2(0, _top_panel.size.y + 12)
+		_reward_toast.size = Vector2(minf(650, safe.size.x - 32), 72)
 
 
 func _toggle_pause() -> void:
-	if stage.completed:
+	if is_instance_valid(_collection_menu) and _collection_menu.visible:
+		_close_wardrobe()
+	elif stage.completed:
 		_open_menu(_completion_text(), false)
 	elif player.dead:
 		_open_menu("¡Otra oportunidad!", true)
@@ -263,6 +317,8 @@ func _toggle_pause() -> void:
 
 
 func _open_menu(title: String, allow_resume: bool = true) -> void:
+	if is_instance_valid(_collection_menu):
+		_collection_menu.hide()
 	if is_instance_valid(stage) and stage.completed:
 		title = _completion_text()
 		allow_resume = false
@@ -275,7 +331,47 @@ func _resume() -> void:
 		return
 	if player.dead:
 		stage.respawn_player()
+	_collection_menu.hide()
 	super._resume()
+
+
+func _apply_collection() -> void:
+	if _applied_outfit != collection_progress.equipped:
+		_applied_outfit = collection_progress.equipped
+		player.sprite.material = PlayerWardrobe.material_for(_applied_outfit)
+	var next: Dictionary = collection_progress.next_reward()
+	_wardrobe_button.text = "%d/%d" % [collection_progress.count("leaf"), int(next.leaves)] if int(next.leaves) > 0 else (
+		"✓" if collection_progress.is_unlocked("golden_forest") else "%d/%d" % [collection_progress.count("leaf", stage.DEFINITION.level_id), stage.total_leaves])
+	_wardrobe_button.tooltip_text = "Colección · " + next.name
+	_wardrobe_button.accessibility_description = "%d hojas permanentes. Próxima recompensa: %s" % [collection_progress.count("leaf"), next.name]
+
+
+func _on_reward_unlocked(id: String) -> void:
+	var name: String = "Luci despierta" if id == "luci" else CollectionRewards.outfit(id).name
+	var message: String = "¡%s! · Toca para ver tu colección" % name
+	if _toast_seconds > 0.0:
+		_reward_queue.append(message)
+	else:
+		_show_reward_toast(message)
+
+
+func _show_reward_toast(text: String) -> void:
+	_reward_toast.text = text
+	_reward_toast.accessibility_name = text
+	_reward_toast.show()
+	_toast_seconds = 6.0
+
+
+func _open_wardrobe() -> void:
+	_open_menu("Pausa y colección", not stage.completed)
+	_menu.hide()
+	_reward_toast.hide()
+	_collection_menu.open()
+
+
+func _close_wardrobe() -> void:
+	_collection_menu.hide()
+	_open_menu("Pausa y controles", not stage.completed)
 
 
 func _on_level_completed(level_id: String, result: Dictionary) -> void:
@@ -294,6 +390,7 @@ func _completion_text() -> String:
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+
 
 
 

@@ -1,0 +1,9 @@
+character_id: luci
+role: companion
+world_ids: [world_01]
+request: "Implementar el plan autorizado de ropa y ayudante por hojas y fragmentos."
+visual_style: "Raster 2D HD, textura y sombreado suave, vista lateral."
+design_status: proposed
+anatomy: "Seis patas, antenas y dos pares de alas translúcidas."
+motion: "Cuatro poses de aleteo, 12 FPS, bucle, pausa del árbol."
+

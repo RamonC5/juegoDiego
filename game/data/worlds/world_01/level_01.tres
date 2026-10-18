@@ -371,3 +371,6 @@ root_gates = Array[ExtResource("5_gate")]([SubResource("Gate00"), SubResource("G
 music_stream = ExtResource("6_music")
 vine_crossings = Array[Vector2]([Vector2(24200, 0)])
 secret_grove = Vector2(11610, 600)
+fragment_ids = Array[String](["clear", "grove", "vines"])
+fragment_positions = Array[Vector2]([Vector2(1175, 390), Vector2(11025, 1026), Vector2(26680, 470)])
+firefly_nest = Vector2(480, 565)

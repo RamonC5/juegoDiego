@@ -4,6 +4,8 @@ extends Area2D
 signal collected(collectible: ForestCollectible)
 
 @export var crystal: bool = false
+var persistent_id: String = ""
+var request_collection: Callable
 var taken: bool = false
 var _time: float = 0.0
 
@@ -22,11 +24,17 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if taken or not body is DiegoPlayer or body.dead:
 		return
+	if request_collection.is_valid() and not request_collection.call(self):
+		return
+	mark_taken()
+	collected.emit(self)
+
+
+func mark_taken() -> void:
 	taken = true
 	set_process(false)
 	set_deferred("monitoring", false)
 	visible = false
-	collected.emit(self)
 
 
 func _process(delta: float) -> void:
@@ -53,4 +61,5 @@ func _draw() -> void:
 			points[index] += bob
 		draw_colored_polygon(points, Color("f4c85e"))
 		draw_line(bob + Vector2(-12, 13), bob + Vector2(11, -13), Color("fff4b7"), 2.5, true)
+
 

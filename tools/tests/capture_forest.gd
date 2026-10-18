@@ -27,6 +27,7 @@ func _capture() -> void:
 	root.size = Vector2i(1280, 720)
 	root.content_scale_size = Vector2i(1280, 720)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-capture_forest-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	main.settings.show_touch = true
 	main.settings.show_gesture_hints = true
@@ -182,6 +183,7 @@ func _capture() -> void:
 	await _frames(2)
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit()
+
 
 
 

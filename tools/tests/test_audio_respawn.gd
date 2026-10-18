@@ -31,6 +31,7 @@ func freeze_enemies(stage: ForestStage) -> void:
 
 func _run() -> void:
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_audio_respawn-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await step(3)
 	var stage: ForestStage = main.stage
@@ -117,6 +118,7 @@ func _run() -> void:
 	main.queue_free()
 	await step(2)
 	main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-test_audio_respawn-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(main)
 	await step(2)
 	check(main.stage.defeated_enemies == 0 and main.stage.enemies.size() == 45, "reiniciar el nivel crea todas las patrullas de nuevo")
@@ -137,3 +139,4 @@ func _has_letters(node: Node) -> bool:
 		if _has_letters(child):
 			return true
 	return false
+

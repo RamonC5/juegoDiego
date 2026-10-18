@@ -76,6 +76,7 @@ func _capture() -> void:
 	board.queue_free()
 	await _frames(2)
 	_main = load("res://game/boot/main.tscn").instantiate()
+	main.collection_progress = CollectionProgress.new("user://collection-capture_throwables-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	root.add_child(_main)
 	_main.settings.show_gesture_hints = false
 	_main._apply_settings()
@@ -99,3 +100,4 @@ func _capture() -> void:
 	_main.queue_free()
 	await _frames(2)
 	quit()
+
