@@ -7,6 +7,7 @@ signal world_requested(world_id: String)
 const PAINTING: Texture2D = preload("res://game/assets/textures/world_map/adventure_islands_v001.webp")
 var map_rect := Rect2()
 var world_buttons: Array[Button] = []
+var _world_labels: Array[Label] = []
 var reduced_motion: bool = false
 var _clock: float = 0.0
 
@@ -18,15 +19,33 @@ func _ready() -> void:
 		var unlocked: bool = not WorldCatalog.scene_for(world.id).is_empty()
 		var button := Button.new()
 		button.name = world.id
-		button.text = "%d · %s\n%s" % [index + 1, world.name, "ENTRAR AL BOSQUE" if unlocked else "BLOQUEADO"]
 		button.accessibility_name = "%s. %s" % [world.name, "Disponible, entrar al nivel uno" if unlocked else "Bloqueado, próximamente"]
 		button.accessibility_description = world.detail
 		button.tooltip_text = button.accessibility_name
 		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		button.add_theme_font_size_override("font_size", 19)
+		# Un único botón abarca toda la isla, incluida la ilustración y su rótulo.
+		button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		button.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
+		button.add_theme_stylebox_override("pressed", StyleBoxEmpty.new())
 		button.pressed.connect(func(): world_requested.emit(world.id))
 		add_child(button)
 		world_buttons.append(button)
+		var label := Label.new()
+		label.text = "%d · %s\n%s" % [index + 1, world.name, "ENTRAR AL BOSQUE" if unlocked else "BLOQUEADO"]
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 19)
+		label.add_theme_color_override("font_color", Color("fff2cd"))
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var card := StyleBoxFlat.new()
+		card.bg_color = Color(0.025, 0.12, 0.14, 0.97)
+		card.border_color = Color("ffe3a3") if unlocked else Color("638d88")
+		card.set_border_width_all(2)
+		card.set_corner_radius_all(14)
+		label.add_theme_stylebox_override("normal", card)
+		button.add_child(label)
+		_world_labels.append(label)
 	resized.connect(_layout)
 	_layout()
 
@@ -42,8 +61,10 @@ func _layout() -> void:
 	for index in world_buttons.size():
 		var cell: Vector2i = WorldCatalog.WORLDS[index].cell
 		var button: Button = world_buttons[index]
-		button.size = Vector2(cell_size.x - 12, 62)
-		button.position = map_rect.position + Vector2(cell) * cell_size + Vector2(6, cell_size.y - 67)
+		button.size = cell_size - Vector2(12, 8)
+		button.position = map_rect.position + Vector2(cell) * cell_size + Vector2(6, 4)
+		_world_labels[index].position = Vector2(0, button.size.y - 62)
+		_world_labels[index].size = Vector2(button.size.x, 62)
 	queue_redraw()
 
 

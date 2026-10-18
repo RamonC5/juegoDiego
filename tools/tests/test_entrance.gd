@@ -84,11 +84,13 @@ func _run() -> void:
 	for index in range(1, 8):
 		entrance._request_world(WorldCatalog.WORLDS[index].id)
 		check(current_scene == entrance, "El bloqueo se aplica a todos los mundos pendientes")
+	Input.action_press(&"jump")
 	await tap(entrance.world_map.world_buttons[0])
 	await frames(12)
 	var forest: Node2D = current_scene
 	check(forest != entrance and is_instance_valid(forest.get("stage")), "Tocar el bosque abre su nivel real")
 	check(forest.player.jumps_used == 0, "El toque de selección no se convierte en salto")
+	Input.action_release(&"jump")
 	check(not forest.stage.completed, "Nuevo intento al entrar")
 	forest._toggle_pause()
 	check(paused, "Pausa disponible después de entrar")

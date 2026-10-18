@@ -29,6 +29,8 @@ func _capture() -> void:
 	root.content_scale_size = Vector2i(1280, 720)
 	entrance = load("res://game/boot/entrance.tscn").instantiate()
 	root.add_child(entrance)
+	entrance.settings.menu_reduced_motion = false
+	entrance._apply_motion()
 	await frames(8)
 	entrance.intro.set_process(false)
 	entrance.intro.set_reduced_motion(false)
@@ -48,7 +50,8 @@ func _capture() -> void:
 	await frames(8)
 	save("map_tablet")
 	entrance.show_intro()
-	entrance.intro.set_reduced_motion(true)
+	entrance.settings.menu_reduced_motion = true
+	entrance._apply_motion()
 	await frames()
 	save("intro_tablet_reduced_motion")
 	entrance.queue_free()

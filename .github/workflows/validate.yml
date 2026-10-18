@@ -42,16 +42,6 @@ jobs:
             "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=$RUNNER_TEMP/android-signing/debug.keystore" \
             >> "$GITHUB_ENV"
 
-      - name: Preparar recursos para revisión del mapa
-        run: tar -czf "$RUNNER_TEMP/entrance-runtime.tar.gz" game project.godot
-
-      - name: Guardar recursos temporales de revisión
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: entrance-runtime-${{ github.run_number }}
-          path: ${{ runner.temp }}/entrance-runtime.tar.gz
-          retention-days: 1
-
       - name: Preparar Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:

@@ -48,6 +48,8 @@ func _ready() -> void:
 	play_button.add_theme_stylebox_override("normal", primary)
 	play_button.add_theme_color_override("font_color", Color("173d37"))
 	play_button.add_theme_color_override("font_hover_color", Color("173d37"))
+	play_button.add_theme_color_override("font_focus_color", Color("173d37"))
+	play_button.add_theme_color_override("font_pressed_color", Color("173d37"))
 	play_button.add_theme_stylebox_override("hover", _style(Color("ffdb8c"), Color("fff1c7")))
 	back_button = _button("‹  Inicio", show_intro)
 	back_button.name = "BackToIntro"

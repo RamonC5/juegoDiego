@@ -46,6 +46,7 @@ func _ready() -> void:
 	player = PLAYER_SCENE.instantiate()
 	stage.add_child(player)
 	stage.start(player)
+	player.controls.block_current_physical()
 	_music = LevelMusic.new()
 	add_child(_music)
 	_music.play_track(level_definition.music_stream)

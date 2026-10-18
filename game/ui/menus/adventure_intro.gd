@@ -10,6 +10,8 @@ var clock: float = 0.0
 var current_beat: int = -1
 var actor: AnimatedSprite2D
 var _island: TextureRect
+var _rope: Line2D
+var _prop: Sprite2D
 var _caption: Label
 var _place: Label
 var _stage_rect := Rect2()
@@ -22,6 +24,11 @@ func _ready() -> void:
 	_island.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_island.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_island)
+	_rope = Line2D.new()
+	_rope.width = 7
+	_rope.default_color = Color("d5bd78")
+	_rope.end_cap_mode = Line2D.LINE_CAP_ROUND
+	add_child(_rope)
 	actor = AnimatedSprite2D.new()
 	actor.sprite_frames = FRAMES
 	actor.centered = false
@@ -30,6 +37,11 @@ func _ready() -> void:
 	material.shader = preload("res://game/features/player/sprite_alpha.gdshader")
 	actor.material = material
 	add_child(actor)
+	_prop = Sprite2D.new()
+	_prop.texture = preload("res://game/features/objects/definitions/vasija_barro.tres").make_sprite_texture()
+	_prop.material = material
+	_prop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	add_child(_prop)
 	_place = _label(18, Color("ffd779"))
 	_caption = _label(24, Color("fff4d5"))
 	resized.connect(_layout)
@@ -51,7 +63,7 @@ func _layout() -> void:
 	_stage_rect = Rect2(Vector2(size.x * 0.44, size.y * 0.12), Vector2(size.x * 0.53, size.y * 0.70))
 	_island.position = _stage_rect.position
 	_island.size = _stage_rect.size
-	_place.position = Vector2(_stage_rect.position.x, size.y * 0.79)
+	_place.position = Vector2(_stage_rect.position.x, size.y * 0.83)
 	_place.size = Vector2(_stage_rect.size.x, 28)
 	_caption.position = _place.position + Vector2(0, 30)
 	_caption.size = Vector2(_stage_rect.size.x, 40)
@@ -124,11 +136,16 @@ func _update_actor() -> void:
 			base = _stage_rect.position + _stage_rect.size * Vector2(0.5, 0.2) + Vector2(sin(angle), cos(angle)) * 95
 			actor.rotation = -angle
 	actor.position = base
-
-
-func _draw() -> void:
-	if current_beat < 0 or not is_instance_valid(actor):
-		return
-	if actor.animation == &"vine_hang" and not reduced_motion:
+	_prop.visible = pose in [&"carry_run", &"throw"] and not reduced_motion
+	if _prop.visible:
+		_prop.scale = Vector2.ONE * (40.0 * magnification / _prop.texture.get_width())
+		_prop.position = base + Vector2(29, -65) * magnification
+		_prop.rotation = 0
+		if pose == &"throw" and phase > 0.25:
+			var flight: float = (phase - 0.25) / 0.75
+			_prop.position += Vector2(flight * 170, -sin(flight * PI) * 85)
+			_prop.rotation = flight * TAU
+	_rope.visible = pose == &"vine_hang" and not reduced_motion
+	if _rope.visible:
 		var origin := _stage_rect.position + _stage_rect.size * Vector2(0.5, 0.2)
-		draw_line(origin, actor.position, Color("d5bd78"), 7, true)
+		_rope.points = PackedVector2Array([origin, actor.position])
