@@ -383,7 +383,8 @@ func _apply_collection() -> void:
 
 func _on_reward_unlocked(id: String) -> void:
 	var name: String = "Luci despierta" if id == "luci" else CollectionRewards.outfit(id).name
-	var message: String = "¡%s! · Toca para ver tu colección" % name
+	var rarity: String = "" if id == "luci" else str(CollectionRewards.outfit(id).get("rarity", ""))
+	var message: String = ("¡Traje %s desbloqueado! %s · Ver colección" % [rarity, name]) if not rarity.is_empty() else "¡%s! · Toca para ver tu colección" % name
 	if _toast_seconds > 0.0:
 		_reward_queue.append(message)
 	else:
