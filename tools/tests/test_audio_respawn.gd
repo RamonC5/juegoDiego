@@ -34,8 +34,9 @@ func _run() -> void:
 	main.collection_progress = CollectionProgress.new("user://collection-test_audio_respawn-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
 	# Distribución aislada para probar enemigos a ambos lados; el bosque exportado
 	# y sus tres posiciones reales se verifican en las suites de nivel y APK.
-	main.level_definition = preload("res://game/data/worlds/world_01/level_01.tres").duplicate()
-	main.level_definition.checkpoints = [Vector2(2470, 600), Vector2(3390, 600), Vector2(4820, 600)]
+	var test_level: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_01.tres").duplicate()
+	test_level.checkpoints.assign([Vector2(2470, 600), Vector2(3390, 600), Vector2(4820, 600)])
+	main.level_definition = test_level
 	root.add_child(main)
 	await step(3)
 	var stage: ForestStage = main.stage

@@ -180,7 +180,7 @@ jobs:
         run: |
           set -euo pipefail
           for suite in test_collection_rewards test_reward_presentation test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route; do
-            "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            timeout 180s "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
               exit 1
@@ -446,12 +446,3 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
-
-
-
-
-
-
-
-
-
