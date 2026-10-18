@@ -109,7 +109,9 @@ func helper_unlocked() -> bool:
 func is_unlocked(id: String) -> bool:
 	for entry in CollectionRewards.OUTFITS:
 		if entry.id == id:
-			return _golden if id == "golden_forest" else count("leaf") >= int(entry.leaves)
+			if entry.get("requires_complete", false):
+				return _golden
+			return count("leaf") >= int(entry.leaves) and (not entry.get("requires_fragments", false) or helper_unlocked())
 	return false
 
 
@@ -147,7 +149,7 @@ func set_helper_enabled(value: bool) -> bool:
 
 func next_reward() -> Dictionary:
 	for entry in CollectionRewards.OUTFITS:
-		if int(entry.leaves) > count("leaf"):
+		if not is_unlocked(entry.id):
 			return entry
 	return CollectionRewards.OUTFITS[-1]
 
