@@ -150,6 +150,42 @@ func _run() -> void:
 	check(forest != entrance and is_instance_valid(forest.get("stage")), "Tocar el bosque abre su nivel real")
 	check(forest.player.jumps_used == 0, "El toque de selección no se convierte en salto")
 	Input.action_release(&"jump")
+	# El selector no debe seguir interceptando gestos después de cambiar de escena.
+	var start_x: float = forest.player.position.x
+	var contact := InputEventScreenTouch.new()
+	contact.index = 4
+	contact.position = Vector2(832, 518)
+	contact.pressed = true
+	Input.parse_input_event(contact)
+	await frames(2)
+	var drag := InputEventScreenDrag.new()
+	drag.index = 4
+	drag.position = Vector2(1024, 518)
+	drag.relative = Vector2(192, 0)
+	Input.parse_input_event(drag)
+	for tick in 25:
+		await physics_frame
+		await process_frame
+	check(forest.player.position.x > start_x + 40, "El arrastre funciona después del selector")
+	contact.pressed = false
+	contact.position = drag.position
+	Input.parse_input_event(contact)
+	await frames(4)
+	contact.pressed = true
+	contact.position = Vector2(832, 360)
+	Input.parse_input_event(contact)
+	await frames(2)
+	drag.position = Vector2(832, 504)
+	drag.relative = Vector2(0, 144)
+	Input.parse_input_event(drag)
+	for tick in 5:
+		await physics_frame
+		await process_frame
+	check(forest.player.crouching, "Agacharse funciona después del selector")
+	contact.pressed = false
+	contact.position = drag.position
+	Input.parse_input_event(contact)
+	await frames(3)
 	check(not forest.stage.completed, "Nuevo intento al entrar")
 	forest._toggle_pause()
 	check(paused, "Pausa disponible después de entrar")
