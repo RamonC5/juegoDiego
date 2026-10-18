@@ -11,6 +11,7 @@ var back_button: Button
 var motion_button: Button
 var _replay_button: Button
 var _title: Label
+var _hero_title: SuperheroTitle
 var _eyebrow: Label
 var _subtitle: Label
 var _status: Label
@@ -34,6 +35,8 @@ func _ready() -> void:
 	add_child(world_map)
 	world_map.world_requested.connect(_request_world)
 	_title = _label("", 88, Color("fff2cd"))
+	_hero_title = SuperheroTitle.new()
+	add_child(_hero_title)
 	_eyebrow = _label("OCHO MUNDOS · UNA GRAN AVENTURA", 19, Color("e4b968"))
 	_subtitle = _label("", 24, Color("c4dcd9"))
 	_subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -55,7 +58,7 @@ func _ready() -> void:
 	back_button.name = "BackToIntro"
 	motion_button = _button("", _toggle_motion)
 	motion_button.name = "ReducedMotion"
-	_replay_button = _button("Repetir aventuras", func(): intro.restart())
+	_replay_button = _button("Repetir aventuras", _restart_intro)
 	_replay_button.accessibility_name = "Repetir la animación de aventuras"
 	get_viewport().size_changed.connect(_layout)
 	_apply_motion()
@@ -115,11 +118,13 @@ func show_intro() -> void:
 		return
 	page = &"intro"
 	intro.show()
+	_title.hide()
+	_hero_title.show()
 	world_map.hide()
 	play_button.show()
 	back_button.hide()
 	_replay_button.visible = not settings.menu_reduced_motion
-	_title.text = "SUPER\nDIEGO"
+	_hero_title.restart()
 	_subtitle.text = "Saltos, secretos y un montón\nde aventuras por descubrir."
 	_eyebrow.text = "OCHO MUNDOS · UNA GRAN AVENTURA"
 	_status.text = ""
@@ -133,6 +138,8 @@ func show_map() -> void:
 		return
 	page = &"map"
 	intro.hide()
+	_title.show()
+	_hero_title.hide()
 	world_map.show()
 	play_button.hide()
 	back_button.show()
@@ -163,8 +170,15 @@ func _toggle_motion() -> void:
 	_apply_motion()
 
 
+func _restart_intro() -> void:
+	intro.restart()
+	_hero_title.restart()
+
+
 func _apply_motion() -> void:
 	intro.set_reduced_motion(settings.menu_reduced_motion)
+	_hero_title.reduced_motion = settings.menu_reduced_motion
+	_hero_title.queue_redraw()
 	world_map.reduced_motion = settings.menu_reduced_motion
 	motion_button.text = "Movimiento reducido: sí" if settings.menu_reduced_motion else "Movimiento reducido: no"
 	motion_button.accessibility_name = motion_button.text + ". Cambiar animación del menú"
@@ -199,6 +213,8 @@ func _layout() -> void:
 		_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_title.position = area.position + Vector2(30, area.size.y * 0.20)
 		_title.size = Vector2(area.size.x * 0.43, 220)
+		_hero_title.position = _title.position - Vector2(18, 10)
+		_hero_title.size = Vector2(area.size.x * 0.43, 230)
 		_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_eyebrow.position = _title.position - Vector2(0, 40)
 		_eyebrow.size = Vector2(480, 30)
@@ -249,3 +265,4 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(back_button):
 		if page == &"map":
 			show_intro()
+

@@ -60,12 +60,40 @@ func _run() -> void:
 		entrance.intro.clock = index * AdventureIntro.BEAT_SECONDS + 0.5
 		entrance.intro._process(0.0)
 		check(entrance.intro.current_beat == index, "Montaje de cada aventura")
-		check(entrance.intro.actor.animation == WorldCatalog.WORLDS[index].pose, "Pose real del protagonista")
+		check(entrance.intro.actor.animation == entrance.intro.sample_action(index, 0.5).pose, "Pose real de la secuencia")
 		check(entrance.intro.actor.position.is_finite(), "Actor con posición válida")
+	check(entrance._hero_title.visible and entrance._hero_title.accessibility_name == "Super Diego", "Título de superhéroe con nombre accesible")
+	# Dos vueltas completas: cambios reales de miembros y acciones, sin saltos de raíz.
+	entrance.intro.set_process(false)
+	for cycle in 2:
+		for index in WorldCatalog.WORLDS.size():
+			var poses: Dictionary = {}
+			var frames_used: Dictionary = {}
+			var previous_position := Vector2.ZERO
+			for tick in range(192):
+				var seconds: float = tick / 60.0
+				entrance.intro.clock = (cycle * 8 + index) * AdventureIntro.BEAT_SECONDS + seconds
+				entrance.intro._process(0.0)
+				var sprite: AnimatedSprite2D = entrance.intro.actor
+				poses[sprite.animation] = true
+				frames_used["%s:%d" % [sprite.animation, sprite.frame]] = true
+				if tick > 1:
+					check(sprite.position.distance_to(previous_position) < 24.0, "Trayectoria continua a 60 Hz")
+				previous_position = sprite.position
+			check(frames_used.size() >= 3 or index == 5, "Movimiento local de miembros con fotogramas reales")
+			if index in [1, 4, 6, 7]:
+				check(poses.size() >= 3, "Acción completa con preparación y recuperación")
+	entrance.intro.clock = AdventureIntro.BEAT_SECONDS + 0.15
+	entrance.intro._process(0.0)
+	check(entrance.intro._island.modulate.a > 0.0 and entrance.intro._island.modulate.a < 1.0, "Fundido de mundos intermedio")
+	entrance.intro.clock = 4 * AdventureIntro.BEAT_SECONDS + 2.75
+	entrance.intro._process(0.0)
+	check(not entrance.intro._prop.visible, "La vasija lanzada no vuelve a aparecer en la mano")
 	entrance.intro.set_reduced_motion(true)
 	var clock: float = entrance.intro.clock
 	entrance.intro._process(2.0)
 	check(entrance.intro.clock == clock and not entrance.intro.actor.is_playing(), "Movimiento reducido congela montaje y sprite")
+	check(not entrance.intro._rope.visible and not entrance.intro._next_frame.visible and not entrance.intro._prop.visible, "Movimiento reducido detiene todos los adornos")
 	entrance.settings.menu_reduced_motion = false
 	entrance._toggle_motion()
 	var persisted := ControlSettings.new()
@@ -75,6 +103,7 @@ func _run() -> void:
 	await tap(entrance.play_button)
 	await frames()
 	check(entrance.page == &"map" and entrance.world_map.visible, "Toque Jugar ahora abre el mapa")
+	check(not entrance._hero_title.visible and entrance._title.visible, "El mapa conserva su encabezado legible")
 	check(entrance.world_map.world_buttons.size() == 8, "Ocho botones de mundo")
 	for button in entrance.world_map.world_buttons:
 		check(button.size.y >= 48 and not button.accessibility_name.is_empty(), "Botón táctil y nombre accesible")
@@ -108,3 +137,4 @@ func _run() -> void:
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	print("ENTRADA: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(1 if failures else 0)
+

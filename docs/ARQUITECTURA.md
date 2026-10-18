@@ -339,3 +339,10 @@ El sistema anterior de trepa automática de `DiegoPlayer.vine_climb_zone` se ha 
 `WorldCatalog` ofrece ocho identificadores estables, etiquetas editables y una única ruta jugable. `AdventureWorldMap` presenta la ilustración raster, botones numerados, candados y estado textual. `AdventureIntro` reutiliza SpriteFrames y escalas de Diego en ocho viñetas decorativas de 3,2 segundos, sin cuerpo físico. El botón Jugar ahora está disponible desde el primer instante. El ajuste de movimiento reducido persiste en controls.cfg y detiene el montaje y el pulso del mapa.
 
 Volver al mapa desde pausa libera entradas, audio y escena del intento; la colección y mejores resultados conservan sus servicios. La vuelta inyecta initial_page en la nueva escena, sin autoload ni metadatos globales. No se desbloquean otros mundos al completar el bosque. Los siete ambientes pendientes del catálogo se usan como propuestas de ilustración y nombres editables, sin añadir niveles.
+
+### Fluidez e identidad del inicio · 0.9.1
+
+`AdventureIntro.sample_action()` encadena los SpriteFrames existentes con un reloj local por acción: carrera, salto, caída, apoyo, lanzamiento y celebración. El actor avanza continuamente, funde fotogramas y oculta su recolocación en los límites de las viñetas. El fondo se disuelve entre mundos; la vasija continúa desde la mano con una trayectoria independiente. `intro_actor.gdshader` conserva la opacidad sin modificar el material del jugador físico.
+
+`SuperheroTitle` mantiene el título accesible con letras vectoriales inclinadas, relieve coral, contorno azul y dorado, usando la fuente integrada. Entrada, repetición y movimiento reducido coordinan sus relojes. El mapa conserva un título de texto sencillo. [Contrato visual, tiempos y validación](pruebas/entrada-0.9.1.md).
+

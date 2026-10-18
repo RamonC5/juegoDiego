@@ -34,11 +34,21 @@ func _capture() -> void:
 	await frames(8)
 	entrance.intro.set_process(false)
 	entrance.intro.set_reduced_motion(false)
+	entrance._hero_title.set_process(false)
+	entrance._hero_title.clock = 1.0
+	entrance._hero_title.queue_redraw()
 	for index in WorldCatalog.WORLDS.size():
 		entrance.intro.clock = index * AdventureIntro.BEAT_SECONDS + 0.8
 		entrance.intro._process(0)
 		await frames()
 		save("intro_world_%02d" % (index + 1))
+	# Fotogramas consecutivos para revisar miembros, impulso, apoyo y balanceo.
+	for world in [0, 1, 4, 5, 6]:
+		for frame in range(12):
+			entrance.intro.clock = world * AdventureIntro.BEAT_SECONDS + 0.16 + frame * 0.24
+			entrance.intro._process(0.0)
+			await frames(1)
+			save("motion_%02d_%02d" % [world, frame])
 	entrance.show_map()
 	await frames()
 	save("map_mobile")
@@ -57,3 +67,4 @@ func _capture() -> void:
 	entrance.queue_free()
 	await frames()
 	quit()
+
