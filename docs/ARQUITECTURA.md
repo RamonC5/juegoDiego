@@ -4,7 +4,7 @@
 
 Esta base configura un juego de plataformas lateral 2D para Android y Windows. Mantiene los ocho mundos, la posibilidad de volver a niveles superados, la eliminación de enemigos al saltar sobre ellos y los combates contra jefes mediante objetos lanzables como requisitos del desarrollo posterior.
 
-`game/boot/main.tscn` inicia Bosque Esmeralda 1-1. El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 16 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads. Desde 0.6.0 Bosque Esmeralda incluye música instrumental en bucle, volumen persistente y pausa del audio; los otros cinco enemigos siguen como conceptos. Desde 0.5.1 el nombre visible es Super Diego y el icono original del protagonista está en `game/assets/branding/`. El paquete Android `com.ramonc5.saltoheroes`, el directorio de datos `SaltoHeroes` y los identificadores internos se mantienen para conservar actualizaciones y guardados. [Identidad visual](IDENTIDAD_VISUAL.md).
+`game/boot/entrance.tscn` inicia la presentación de aventuras y el mapa de ocho mundos. Solo Bosque Esmeralda está disponible y abre `game/boot/main.tscn`; el resto permanece bloqueado. Véase [entrada y mundos](ENTRADA_Y_MUNDOS.md). El entrenamiento se conserva en `game/features/player/practice.tscn` con cuerpo 2D, entrada, 16 estados de animación, sensores, seis objetos arrojadizos, plataformas, dianas, cámara, HUD, pausa y opciones persistentes de control. El primer nivel integra a Terrón y Moflete, punto de control, coleccionables, meta y progreso local. No hay autoloads. Desde 0.6.0 Bosque Esmeralda incluye música instrumental en bucle, volumen persistente y pausa del audio; los otros cinco enemigos siguen como conceptos. Desde 0.5.1 el nombre visible es Super Diego y el icono original del protagonista está en `game/assets/branding/`. El paquete Android `com.ramonc5.saltoheroes`, el directorio de datos `SaltoHeroes` y los identificadores internos se mantienen para conservar actualizaciones y guardados. [Identidad visual](IDENTIDAD_VISUAL.md).
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
@@ -331,3 +331,11 @@ El sistema anterior de trepa automática de `DiegoPlayer.vine_climb_zone` se ha 
 
 `ForestStage._build_secret()` lo instancia una sola vez a 180 px a la izquierda del centro de la trampilla definido en `ForestLevelDefinition.secret_grove`; `start()` inyecta la referencia del jugador para la proximidad. La señalización no modifica el acceso (agacharse), la geometría, la recompensa ni el retorno en ascensor. `test_secret_grove.gd` cubre ubicación, ausencia de colisión y animación en proximidad, y `capture_forest.gd` guarda `preview_secret_totem.png` durante la CI. El dibujo requiere revisión visual del PNG producido por Godot.
 
+
+
+
+## Entrada y mapa · 0.9.0
+
+`WorldCatalog` ofrece ocho identificadores estables, etiquetas editables y una única ruta jugable. `AdventureWorldMap` presenta la ilustración raster, botones numerados, candados y estado textual. `AdventureIntro` reutiliza SpriteFrames y escalas de Diego en ocho viñetas decorativas de 3,2 segundos, sin cuerpo físico. El botón Jugar ahora está disponible desde el primer instante. El ajuste de movimiento reducido persiste en controls.cfg y detiene el montaje y el pulso del mapa.
+
+Volver al mapa desde pausa libera entradas, audio y escena del intento; la colección y mejores resultados conservan sus servicios. La vuelta inyecta initial_page en la nueva escena, sin autoload ni metadatos globales. No se desbloquean otros mundos al completar el bosque. Los siete ambientes pendientes del catálogo se usan como propuestas de ilustración y nombres editables, sin añadir niveles.

@@ -275,6 +275,34 @@ func _build_ui() -> void:
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://game/features/player/practice.tscn")
 	))
+	var map_button := _button("Mapa de mundos", _return_to_map)
+	map_button.accessibility_description = "Salir del intento y volver al mapa. La colección y los mejores resultados se conservan; el recorrido comienza de nuevo al entrar."
+	map_button.tooltip_text = map_button.accessibility_description
+	buttons.add_child(map_button)
+	var actions := GridContainer.new()
+	actions.columns = 2
+	actions.add_theme_constant_override("h_separation", 12)
+	actions.add_theme_constant_override("v_separation", 10)
+	var actions_column: Container = buttons.get_parent()
+	actions_column.add_child(actions)
+	actions_column.move_child(actions, buttons.get_index())
+	for button in buttons.get_children():
+		button.reparent(actions)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buttons.queue_free()
+
+
+func _return_to_map() -> void:
+	touch.release_all()
+	player.controls.clear_virtual()
+	player.controls.block_current_physical()
+	get_tree().paused = false
+	# Inyección explícita de la página de retorno, sin autoload ni estado global.
+	var entrance: Control = load("res://game/boot/entrance.tscn").instantiate()
+	entrance.set("initial_page", &"map")
+	get_tree().root.add_child(entrance)
+	get_tree().current_scene = entrance
+	queue_free()
 
 
 func _build_version() -> String:
@@ -390,6 +418,7 @@ func _completion_text() -> String:
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+
 
 
 

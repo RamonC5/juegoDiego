@@ -42,6 +42,16 @@ jobs:
             "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=$RUNNER_TEMP/android-signing/debug.keystore" \
             >> "$GITHUB_ENV"
 
+      - name: Preparar recursos para revisión del mapa
+        run: tar -czf "$RUNNER_TEMP/entrance-runtime.tar.gz" game project.godot
+
+      - name: Guardar recursos temporales de revisión
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: entrance-runtime-${{ github.run_number }}
+          path: ${{ runner.temp }}/entrance-runtime.tar.gz
+          retention-days: 1
+
       - name: Preparar Java 17
         uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
@@ -227,6 +237,35 @@ jobs:
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-render.log; then
             exit 1
           fi
+
+      - name: Comprobar entrada y mapa de mundos
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --fixed-fps 60 --path . \
+            --script tools/tests/test_entrance.gd 2>&1 | tee .godot-logs/entrance-tests.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/entrance-tests.log; then
+            exit 1
+          fi
+
+      - name: Capturar entrada y ocho mundos con Compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
+            --script tools/tests/capture_entrance.gd 2>&1 | tee .godot-logs/entrance-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/entrance-render.log; then
+            exit 1
+          fi
+
+      - name: Guardar capturas de entrada y mundos
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: entrada-mundos-${{ github.run_number }}
+          path: art/entrance/previews/*.png
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Capturar colección y vestuario con Compatibility
         shell: bash
@@ -417,6 +456,7 @@ jobs:
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
 
 
 

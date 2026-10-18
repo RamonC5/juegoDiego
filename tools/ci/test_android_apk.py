@@ -196,6 +196,43 @@ def verify_installed_identity(prefix: str) -> None:
     raise RuntimeError("Android no mostró la ficha Super Diego tras esperar a que terminase de cargar.")
 
 
+def enter_forest_from_map(prefix: str) -> str:
+    """Recorrer entrada, mapa y candado mediante toques reales en el APK."""
+    collected = ""
+    deadline = time.monotonic() + 90
+    match = None
+    while time.monotonic() < deadline:
+        collected += logs()
+        match = re.search(r"SUPER_DIEGO_ENTRANCE_READY play=([0-9.]+),([0-9.]+)", collected)
+        if match:
+            break
+        time.sleep(1)
+    if not match:
+        raise RuntimeError("El APK no mostró la nueva entrada de Super Diego.")
+    dismiss_fullscreen_hint()
+    width, height = screenshot(f"{prefix}_entrada.png")
+    adb("shell", "input", "tap", str(int(width * float(match[1]))), str(int(height * float(match[2]))))
+    deadline = time.monotonic() + 30
+    match = None
+    while time.monotonic() < deadline:
+        collected += logs()
+        match = re.search(r"SUPER_DIEGO_MAP_READY worlds=8 unlocked=world_01 forest=([0-9.]+),([0-9.]+) locked=([0-9.]+),([0-9.]+)", collected)
+        if match:
+            break
+        time.sleep(1)
+    if not match:
+        raise RuntimeError("Jugar ahora no abrió el mapa de ocho mundos.")
+    screenshot(f"{prefix}_mapa.png")
+    adb("shell", "input", "tap", str(int(width * float(match[3]))), str(int(height * float(match[4]))))
+    time.sleep(.7)
+    collected += logs()
+    if forest_art_ready(collected, EXPECTED_ENEMIES):
+        raise RuntimeError("Un mundo bloqueado abrió el bosque.")
+    screenshot(f"{prefix}_mundo_bloqueado.png")
+    adb("shell", "input", "tap", str(int(width * float(match[1]))), str(int(height * float(match[2]))))
+    return collected
+
+
 def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
     print(f"Instalando {prefix}: {apk}", flush=True)
     result = adb("install", "-r", str(apk))
@@ -208,6 +245,8 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
     adb("shell", "monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1")
     collected = ""
     try:
+        if require_marker:
+            collected += enter_forest_from_map(prefix)
         deadline = time.monotonic() + 180
         ready = False
         while time.monotonic() < deadline:
@@ -255,6 +294,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
             "identity_screenshot": f"{prefix}_identidad.png" if require_marker else None,
             "screen": [width, height],
             "enemy_art_marker": forest_art_ready(collected, EXPECTED_ENEMIES),
+            "entrance_map_verified": require_marker,
             "platform_posture": posture,
             "screenshots": [f"{prefix}_{suffix}.png" for suffix in ("inicio", "enemigo", "pausa")],
         }
@@ -303,5 +343,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
