@@ -24,6 +24,12 @@ El catálogo añade paletas y tratamiento visual explícitos por ID. `PlayerWard
 
 `CollectionMenu` separa cabecera fija, cuerpo con catálogo desplazable y estado inferior. Un `Panel` sin mínimo de contenido evita el desbordamiento que ocultaba Volver. La cabecera ofrece volver a pausa o seguir jugando; Android Atrás usa el mismo flujo de pausa que Escape/Start. Los gestos se limpian al continuar y no se reanuda un nivel completado. El HUD muestra equipaciones obtenidas. La regresión de presentación usa clics/toques reales y tamaños compactos; el guardado sigue en esquema 1.
 
+## Rareza en vestuario · 0.11.1
+
+Dos recompensas especiales amplían el catálogo sin migrar `collection.json`: `ladybug_hero` (100 hojas y los tres fragmentos del bosque) y `ladybug_legend` (todos los coleccionables del bosque). `CollectionRewards` declara `rarity`, `requires_fragments` y `requires_complete`; `CollectionProgress.is_unlocked()` evalúa los requisitos a partir de los objetos persistidos y de `_golden`. El mensaje de siguiente recompensa y las barras del vestuario admiten hojas y fragmentos combinados. El hito `golden_forest` permanece intacto.
+
+Los estilos 5 y 6 del shader `wardrobe.gdshader` superponen lunares oscuros y un bordado opcional sobre las máscaras de tela de los atlas actuales. No cambian silueta, identidad, animaciones, física, colisiones ni progreso por partida. Se conservan los IDs, guardados y sistemas anteriores. `test_collection_rewards.gd`, `test_reward_presentation.gd` y `capture_collection.gd` cubren nuevos desbloqueos y apariencias; la revisión de capturas y las pruebas en dispositivos físicos permanecen pendientes.
+
 ## Decisión técnica
 
 La entrada 0.11.0 compone un atlas propio de ocho escenarios laterales, una carrera raster de ocho poses y actores decorativos `EnemyVisual`. El mapa conserva su recurso y navegación independientes. `AdventureIntro` comparte reloj y distancia para seleccionar apoyos y acciones; las parábolas y la frenada analítica no dependen de temporizadores encadenados. El modo reducido congela el montaje y oculta enemigos, cuerda y objetos. No se modifican física, progreso ni colisiones del bosque. [Detalles](ENTRADA_Y_MUNDOS.md).
