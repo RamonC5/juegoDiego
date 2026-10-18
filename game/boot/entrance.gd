@@ -29,7 +29,7 @@ func _ready() -> void:
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
 	intro = AdventureIntro.new()
-	intro.accessibility_name = "Diego explora ocho mundos: corre, salta y se balancea en una liana. Puedes ir al mapa en cualquier momento."
+	intro.accessibility_name = "Diego explora ocho escenarios de aventura, escapa de Moflete y esquiva a Nóctilo. Corre, salta y se balancea en una liana. Puedes ir al mapa en cualquier momento."
 	add_child(intro)
 	world_map = AdventureWorldMap.new()
 	add_child(world_map)
@@ -265,4 +265,5 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(back_button):
 		if page == &"map":
 			show_intro()
+
 

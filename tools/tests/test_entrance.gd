@@ -65,12 +65,14 @@ func _run() -> void:
 	check(entrance._hero_title.visible and entrance._hero_title.accessibility_name == "Super Diego", "Título de superhéroe con nombre accesible")
 	# Dos vueltas completas: cambios reales de miembros y acciones, sin saltos de raíz.
 	entrance.intro.set_process(false)
+	check(entrance.intro._frames.get_frame_count(&"run") == 8, "La entrada utiliza ocho poses de carrera propias")
+	check(entrance.intro._island.texture.atlas == AdventureIntro.SCENES, "El decorado usa escenas y no recortes del mapa")
 	for cycle in 2:
 		for index in WorldCatalog.WORLDS.size():
 			var poses: Dictionary = {}
 			var frames_used: Dictionary = {}
 			var previous_position := Vector2.ZERO
-			for tick in range(192):
+			for tick in range(int(AdventureIntro.BEAT_SECONDS * 60)):
 				var seconds: float = tick / 60.0
 				entrance.intro.clock = (cycle * 8 + index) * AdventureIntro.BEAT_SECONDS + seconds
 				entrance.intro._process(0.0)
@@ -89,11 +91,34 @@ func _run() -> void:
 	entrance.intro.clock = 4 * AdventureIntro.BEAT_SECONDS + 2.75
 	entrance.intro._process(0.0)
 	check(not entrance.intro._prop.visible, "La vasija lanzada no vuelve a aparecer en la mano")
+	# Caída, lanzamiento y aterrizaje recuperan carrera sin sostener el último dibujo.
+	for world in [0, 1, 3, 4, 6, 7]:
+		check(entrance.intro.sample_action(world, 3.1).pose == &"run", "La acción termina y recupera carrera")
+	entrance.intro.clock = 1.0
+	entrance.intro._process(0.0)
+	check(entrance.intro.actor.modulate.a == 1.0, "El personaje tiene una única silueta opaca")
+	var enemy_phase: float = entrance.intro._ground_enemy.phase
+	entrance.intro._process(0.2)
+	check(entrance.intro._ground_root.visible and entrance.intro._ground_enemy.phase != enemy_phase, "Moflete persigue con movimiento local de sus miembros")
+	entrance.intro.clock = 4.0 * AdventureIntro.BEAT_SECONDS + 0.6
+	entrance.intro._process(0.0)
+	enemy_phase = entrance.intro._flying_enemy.phase
+	entrance.intro._process(0.2)
+	check(entrance.intro._flying_root.visible and entrance.intro._flying_enemy.phase != enemy_phase, "Nóctilo avanza el aleteo en la escena")
+	# Un tirón del render no corta el tiempo ni deja la pose detenida.
+	for rate in [30, 60, 120]:
+		entrance.intro.restart()
+		for tick in range(rate * 2):
+			entrance.intro._process(1.0 / rate)
+		check(entrance.intro.actor.position.is_finite() and is_equal_approx(entrance.intro.clock, 2.0), "Tiempo independiente de la tasa de fotogramas")
+	entrance.intro._process(0.35)
+	check(entrance.intro.sample_action(0, fmod(entrance.intro.clock, AdventureIntro.BEAT_SECONDS)).pose == &"land", "Un fotograma lento llega al aterrizaje sin atascar el estado")
 	entrance.intro.set_reduced_motion(true)
 	var clock: float = entrance.intro.clock
 	entrance.intro._process(2.0)
 	check(entrance.intro.clock == clock and not entrance.intro.actor.is_playing(), "Movimiento reducido congela montaje y sprite")
-	check(not entrance.intro._rope.visible and not entrance.intro._next_frame.visible and not entrance.intro._prop.visible, "Movimiento reducido detiene todos los adornos")
+	check(not entrance.intro._rope.visible and not entrance.intro._prop.visible, "Movimiento reducido detiene todos los adornos")
+	check(not entrance.intro._ground_root.visible and not entrance.intro._flying_root.visible, "Movimiento reducido detiene los enemigos decorativos")
 	entrance.settings.menu_reduced_motion = false
 	entrance._toggle_motion()
 	var persisted := ControlSettings.new()
@@ -137,4 +162,5 @@ func _run() -> void:
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	print("ENTRADA: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(1 if failures else 0)
+
 

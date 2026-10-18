@@ -20,6 +20,8 @@ Se despierta con tres fragmentos, acompaña a Diego, señala la entrada secreta 
 
 ## Protagonista Diego
 
+La entrada 0.11.0 añade [ocho poses de carrera](../game/assets/textures/characters/diego/intro_run_v001.png) para Diego y reutiliza a Moflete y Nóctilo como actores articulados de la presentación. Esta aparición decorativa de Nóctilo no añade combate en el nivel. [Ficha de Diego](../art/characters/diego/ficha.md) · [Procedencia](../art/entrance/prompts-0.11.0.md) · [Validación](pruebas/entrada-0.11.0.md).
+
 | Personaje | ID | Rol y mundos | Estado |
 | --- | --- | --- | --- |
 | [Diego](../art/characters/diego/ficha.md) | `diego` | Protagonista compartido; sin mundo exclusivo | Diseño propuesto; 48 poses, 14 estados (incluido agacharse) y controles comprobados en Godot |
@@ -140,4 +142,5 @@ Terrón y Moflete avanzan y frenan progresivamente, sincronizan su zancada con e
 ### Diego: doble salto y lianas (0.7.3)
 
 Nueva [pose de agarre con ambas manos](../art/characters/diego/vine_hang_source_v001.png), con texto alternativo y parámetros en [su ficha](../art/characters/diego/ficha.md). `vine_hang` fija las manos al nudo mientras se balancea; `double_jump` reinicia la animación de impulso. El conjunto suma 49 poses fuente y 16 estados.
+
 

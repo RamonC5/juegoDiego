@@ -44,9 +44,9 @@ func _capture() -> void:
 		save("intro_world_%02d" % (index + 1))
 	# Fotogramas consecutivos para revisar miembros, impulso, apoyo y balanceo.
 	for world in [0, 1, 4, 5, 6]:
-		for frame in range(12):
-			entrance.intro.clock = world * AdventureIntro.BEAT_SECONDS + 0.16 + frame * 0.24
-			entrance.intro._process(0.0)
+		for frame in range(20):
+			entrance.intro.clock = world * AdventureIntro.BEAT_SECONDS + 0.16 + frame * 0.18
+			entrance.intro._process(0.18)
 			await frames(1)
 			save("motion_%02d_%02d" % [world, frame])
 	entrance.show_map()
@@ -67,4 +67,5 @@ func _capture() -> void:
 	entrance.queue_free()
 	await frames()
 	quit()
+
 

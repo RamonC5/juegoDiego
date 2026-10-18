@@ -463,5 +463,31 @@
       "behavior_checks_total": 817,
       "visual_review": "Captura móvil Compatibility de Actions 144: manos sobre el nudo y pose suspendida"
     }
+  },
+  "intro_motion_0_11_0": {
+    "technique": "eight raster keyframes; distance-based playback; ballistic paths",
+    "path": "game/assets/textures/characters/diego/intro_run_v001.png",
+    "source_size": [
+      1774,
+      887
+    ],
+    "frame_size": [
+      1024,
+      1024
+    ],
+    "layout": "eight explicit AtlasTexture regions, shared origin per source row",
+    "frames": 8,
+    "loop": true,
+    "stride_reference_px": 132,
+    "playback": "cursor follows travel; nominal resource speed 10 fps",
+    "pivot_px": [
+      512,
+      906
+    ],
+    "display_scale": 0.26046511627906976,
+    "integration": "opening cinematic only; player physics and game animations unchanged",
+    "generation": "art/entrance/prompts-0.11.0.md",
+    "validation": "docs/pruebas/entrada-0.11.0.md",
+    "physical_devices": "pending"
   }
 }

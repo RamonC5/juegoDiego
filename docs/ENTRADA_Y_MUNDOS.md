@@ -1,6 +1,12 @@
-# Entrada y mapa de Super Diego · 0.9.0
+# Entrada y mapa de Super Diego · 0.11.0
 
-La aplicación abre una presentación de Diego corriendo, saltando, transportando una vasija, resbalando, lanzando, balanceándose en una liana y celebrando. Cada una de las ocho aventuras dura 3,2 segundos y el conjunto se repite. Se usan las poses raster existentes. «Jugar ahora» está disponible desde el primer momento y abre el mapa completo.
+La aplicación abre ocho escenas laterales de aventura de cuatro segundos cada una. El fondo ocupa la pantalla y muestra caminos cercanos, vegetación, mar, ruinas, nieve, cristales, manglares, nubes y lava; no utiliza la ilustración del mapa. Un degradado oscuro protege la lectura del título y los controles. «Jugar ahora» está disponible desde el primer momento y abre el mapa completo.
+
+Diego utiliza ocho poses nuevas de carrera únicamente en la entrada. Los fotogramas siguen la distancia recorrida y una zancada de 132 unidades de referencia; el reloj no mantiene una carrera rápida mientras el cuerpo apenas avanza. Se elimina la superposición de dos dibujos que duplicaba manos y botas. Los recortes tienen lienzo virtual 1024 × 1024 y una raíz común por fila, sin recentrar cada silueta.
+
+Los saltos usan parábolas con preparación y recuperación breves. El doble salto conserva la posición al añadir el segundo impulso. Lanzar incluye frenada continua y trayectoria independiente de la vasija; termina volviendo a correr. El resbalón dura 0,34 segundos. Ya no se mantiene una pose no cíclica durante la mayor parte de una escena. La liana sigue anclada a las manos y gira alrededor de su agarre.
+
+Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo con aleteo articulado. Reutilizan `EnemyVisual` y sus perfiles, con materiales propios, brazos/manos/pies y alas/puntas. Son actores de la presentación: no crean colisiones, daño ni niveles nuevos. La opción de movimiento reducido los oculta y congela los adornos.
 
 | ID | Nombre del avance visual | Acceso |
 | --- | --- | --- |
@@ -21,4 +27,5 @@ Botones de al menos 52 px, foco contrastado, nombres accesibles, zona segura And
 
 `test_entrance.gd` verifica el flujo real, los siete bloqueos, poses, movimiento reducido, foco, tamaños táctiles y retorno desde pausa. `capture_entrance.gd` produce vistas Compatibility de móvil y tablet. La prueba del APK navega con toques reales por entrada, mapa y una isla bloqueada antes de jugar al bosque. La validación en los dispositivos físicos del usuario sigue pendiente.
 
-Arte nuevo generado con image_gen integrada, sin referencias externas, convertido a WebP calidad 88. No se crean ni modifican sprites del protagonista. [Prompt](../art/entrance/prompts.md).
+El mapa conserva su WebP original. Las escenas nuevas y la carrera se generan con image_gen integrada; el PNG de carrera se conserva intacto y se integra mediante recortes explícitos. [Prompts y procedencia](../art/entrance/prompts.md) · [Validación y límites](pruebas/entrada-0.11.0.md).
+

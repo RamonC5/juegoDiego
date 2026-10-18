@@ -151,5 +151,14 @@
       "wing_tip_lag_radians": 0.45,
       "rotation_space": "texture_pixels"
     }
+  },
+  "intro_0_11_0": {
+    "integration": "decorative EnemyVisual actor in AdventureIntro",
+    "actions": [
+      "flight"
+    ],
+    "new_gameplay": false,
+    "new_raster": false,
+    "validation": "docs/pruebas/entrada-0.11.0.md"
   }
 }
