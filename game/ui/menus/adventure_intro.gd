@@ -277,6 +277,8 @@ func _update_actor() -> void:
 	_previous_island.visible = dissolve < 1.0
 	_previous_island.modulate.a = 1.0 - dissolve
 	_update_prop(seconds, base, magnification, opacity)
+	# También al cambiar accesibilidad, redimensionar o buscar una captura sin proceso.
+	_update_enemies(0.0)
 
 
 func _set_pose(pose: StringName, seconds: float) -> void:

@@ -114,6 +114,7 @@ func _run() -> void:
 	entrance.intro._process(0.35)
 	check(entrance.intro.sample_action(0, fmod(entrance.intro.clock, AdventureIntro.BEAT_SECONDS)).pose == &"land", "Un fotograma lento llega al aterrizaje sin atascar el estado")
 	entrance.intro.set_reduced_motion(true)
+	check(not entrance.intro._ground_root.visible and not entrance.intro._flying_root.visible, "Activar movimiento reducido oculta los malvados inmediatamente")
 	var clock: float = entrance.intro.clock
 	entrance.intro._process(2.0)
 	check(entrance.intro.clock == clock and not entrance.intro.actor.is_playing(), "Movimiento reducido congela montaje y sprite")

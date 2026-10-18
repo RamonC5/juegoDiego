@@ -7,11 +7,13 @@ Ocho escenarios laterales a pantalla completa, carrera raster propia de ocho pos
 ## Comprobaciones
 
 - Godot 4.7.2: importación completa sin errores de script.
-- `test_entrance.gd`: dos vueltas de las ocho escenas, trayectorias a 60 Hz, poses, navegación por toque real, bloqueo de los siete mundos, foco, tamaños táctiles y retorno desde pausa. Añade recuperación tras cada acción, opacidad de la silueta, avance local de ambos malvados, 30/60/120 Hz y un fotograma de 0,35 segundos.
+- `test_entrance.gd`: 3.939 comprobaciones sin fallos, incluidas dos vueltas de las ocho escenas, trayectorias a 60 Hz, poses, navegación por toque real, bloqueo de los siete mundos, foco, tamaños táctiles y retorno desde pausa. Añade recuperación tras cada acción, opacidad de la silueta, avance local de ambos malvados, 30/60/120 Hz, un fotograma de 0,35 segundos y ocultación inmediata de enemigos al activar movimiento reducido.
 - `test_enemy_motion.gd`: 198 comprobaciones sin fallos, incluidos miembros, apoyos, espejo y alas.
 - `test_android_readiness.py`: nueve casos sin fallos.
 
 `capture_entrance.gd` captura cada mundo, veinte muestras de las acciones principales, mapa y tablet con movimiento reducido usando Compatibility. Actions vuelve a importar, ejecutar las regresiones, capturar y exportar antes de probar el APK.
+
+Revisión local con Compatibility/llvmpipe: 112 capturas sin errores de renderizado. Se han inspeccionado bosque con perseguidor, pantano con manos ancladas, Nóctilo, salto, mapa y tablet. Esta revisión detectó un malvado residual al activar movimiento reducido mientras el proceso estaba detenido para capturas; se corrige actualizando la visibilidad también en la actualización visual inmediata.
 
 ## Recursos y límites
 
