@@ -107,11 +107,11 @@ func _run() -> void:
 			break
 		if not item.crystal:
 			item._on_body_entered(main.player)
-	for fragment in main.stage.fragments:
-		fragment._on_body_entered(main.player)
-	check(main.collection_progress.is_unlocked("ladybug_hero") and not main.collection_progress.is_unlocked("ladybug_legend"), "Ladybug épica requiere hojas y fragmentos, la legendaria sigue bloqueada")
+	check(main.collection_progress.is_unlocked("ladybug_hero") and not main.collection_progress.is_unlocked("ladybug_legend"), "100 hojas bastan para Ladybug épica, la estelar sigue bloqueada")
 	main._open_wardrobe()
 	await frames()
+	check(main._collection_menu._requirements["ladybug_legend"].text.contains("100 / 150 hojas acumuladas"), "el menú muestra una meta de hojas alcanzable")
+	check(main._collection_menu._bars["ladybug_legend"].max_value == 150 and main._collection_menu._bars["ladybug_legend"].value == 100, "la barra cuenta únicamente hojas")
 	var ladybug_button: Button = main._collection_menu._actions["ladybug_hero"]
 	ladybug_button.grab_focus()
 	await frames()
@@ -120,6 +120,24 @@ func _run() -> void:
 	check(int(main.player.sprite.material.get_shader_parameter("outfit")) == 5, "el estampado Ladybug se aplica a Diego de verdad")
 	check(main.player.sprite.material != main._collection_menu._preview.material, "vista previa del traje especial usa su propio material")
 	check(CollectionProgress.new(storage).equipped == "ladybug_hero", "el equipamiento épico se conserva al reiniciar")
+	main._close_wardrobe()
+	main._resume()
+	for item in main.stage.collectibles:
+		if main.collection_progress.count("leaf") >= 150:
+			break
+		if not item.crystal:
+			item._on_body_entered(main.player)
+	check(main.collection_progress.is_unlocked("ladybug_legend") and not main.collection_progress.helper_unlocked(), "Ladybug estelar se obtiene sin los fragmentos de Luci")
+	check(not main.collection_progress.level_complete(CollectionRewards.FOREST_ID), "la colección puede seguir incompleta al obtener todos los trajes")
+	main._open_wardrobe()
+	await frames()
+	var legend_button: Button = main._collection_menu._actions["ladybug_legend"]
+	legend_button.grab_focus()
+	await frames()
+	await click(legend_button, true)
+	check(main.collection_progress.equipped == "ladybug_legend" and int(main.player.sprite.material.get_shader_parameter("outfit")) == 6, "toque real equipa el traje estelar en Diego")
+	check(CollectionProgress.new(storage).equipped == "ladybug_legend", "el traje estelar persiste al reabrir")
+	check(main._collection_menu._summary.text.contains("¡Todos los trajes desbloqueados!"), "el vestuario celebra los trajes sin exigir colección completa")
 	main._close_wardrobe()
 	main._resume()
 	main.stage.completed = true

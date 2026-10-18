@@ -9,7 +9,7 @@ description: "Diseñar, generar, integrar y verificar recompensas modernas de Su
 
 1. Localizar el checkout de `RamonC5/juegoDiego`; leer `AGENTS.md`, `docs/ARQUITECTURA.md`, `docs/RECOMPENSAS.md` y [el contrato de integración](references/integracion.md).
 2. Revisar el catálogo y la implementación actuales antes de ampliar nada. Distinguir diseño visual, arte, nueva recompensa e integración; ejecutar únicamente el alcance pedido.
-3. Fijar para cada recompensa ID estable, nombre, motivo de colección, requisito alcanzable (también combinaciones de hojas, fragmentos o colección completa), categoría y rareza, apariencia visible, miniatura y estados bloqueado/disponible/equipado. Reutilizar el progreso real y conservar los guardados existentes.
+3. Fijar para cada recompensa ID estable, nombre, motivo de colección, requisito alcanzable para un niño de 10 años (sin exigir colección completa para la ropa), categoría y rareza, apariencia visible, miniatura y estados bloqueado/disponible/equipado. Reutilizar el progreso real y conservar los guardados existentes.
 4. Resolver elecciones rutinarias con la identidad del juego. Pedir solo información que bloquee el encargo; no solicitar confirmaciones para integrar lo ya autorizado.
 
 ## Diseñar y producir
@@ -22,7 +22,7 @@ description: "Diseñar, generar, integrar y verificar recompensas modernas de Su
 
 ## Integrar
 
-1. Declarar datos en el catálogo, incluidos rareza y requisitos combinados cuando se pidan; aplicar un material propio por instancia en jugador, miniaturas y vista previa. Mantener un único origen de apariencia y un ID que no dependa de la posición del catálogo.
+1. Declarar datos en el catálogo, incluidos rareza e hitos de hojas acumuladas; reservar los fragmentos para Luci; aplicar un material propio por instancia en jugador, miniaturas y vista previa. Mantener un único origen de apariencia y un ID que no dependa de la posición del catálogo.
 2. Mostrar todas las recompensas existentes, las etiquetas de rareza y progreso por requisito (no solo hojas). Permitir probar las pendientes sin equiparlas; permitir equipar únicamente las desbloqueadas y confirmar cuál está en uso. Hacer visible el número obtenido y la siguiente meta.
 3. Conservar la colección al morir, reiniciar y cerrar. Validar recogidas por ID, no duplicarlas y guardar antes de conceder. Revertir al fallar la escritura. Mantener compatibilidad con `collection.json` y su copia válida.
 4. Dejar Volver y Seguir jugando siempre visibles fuera del catálogo desplazable, también cuando haya numerosas recompensas legendarias. Soportar Atrás de Android, Escape y Start, restaurar foco y limpiar gestos al continuar. Respetar fin del nivel y reaparición.

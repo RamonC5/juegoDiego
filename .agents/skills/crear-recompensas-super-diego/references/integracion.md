@@ -19,10 +19,10 @@ Leer el código del checkout actual: estas rutas son puntos de entrada, no copia
 ## Datos actuales
 
 Conservar IDs: `original`, `autumn_scarf`, `fern_vest`, `forest_explorer`, `golden_forest`, `ladybug_hero`, `ladybug_legend`.
-Conservar hitos: inicio, 12, 45, 100 hojas y colección completa; Luci requiere los tres fragmentos existentes. Ladybug épica requiere 100 hojas más los tres fragmentos; la variante legendaria, colección completa.
+Conservar hitos: inicio, 12, 45, 60, 80, 100 y 150 hojas acumuladas. Guardián dorado requiere 80 hojas; Ladybug épica, 100; Ladybug estelar, 150. Ninguna prenda exige recogerlo todo, cristales o fragmentos. Luci conserva los tres fragmentos opcionales.
 No cambiar hitos, física o ayudante al pedir únicamente diseño.
 
-Cada prenda incluye `id`, `name`, `description`, `leaves`, `accent`, `scarf`, `vest`, `pants` y `style`. El catálogo admite además `rarity`, `requires_fragments` y `requires_complete`; el desbloqueo es una regla de `CollectionProgress`, nunca solo un estado visual.
+Cada prenda incluye `id`, `name`, `description`, `leaves`, `accent`, `scarf`, `vest`, `pants` y `style`. El catálogo admite además `rarity`; el desbloqueo por hojas es una regla de `CollectionProgress`, nunca solo un estado visual. El flag antiguo `_golden` conserva premios ya obtenidos, sin ser una condición de las prendas nuevas.
 Usar colores hexadecimales sin almohadilla. El ID de guardado debe ser estable e independiente del nombre.
 `style` selecciona el tratamiento: 0 original, 1 pañuelo, 2 añade chaleco, 3 añade pantalón, 4 conjunto dorado, 5 traje rojo con lunares negros, 6 lunares con bordado dorado. Los estilos 5 y 6 usan el mismo atlas de animación; son tejidos shader y no un personaje o silueta nuevo.
 Una nueva combinación puede reutilizar un tratamiento con paleta propia. Para siluetas nuevas ampliar explícitamente
@@ -56,4 +56,4 @@ agachado, cargando y en liana. Separar evidencia automática, inspección visual
 
 ## Rareza y propiedad intelectual
 
-Los premios de mayor dificultad deben mostrar rareza y condiciones combinadas en texto accesible, además de una miniatura real y una barra. Probar sin equipar, persistencia y vuelta deben seguir funcionando. Si se solicita una franquicia reconocible, documentar la situación de licencia antes de distribuirla; no presentar como oficial una variante del protagonista. Para una publicación sin licencia usar denominación y diseño propios.
+Los premios de mayor dificultad deben mostrar rareza y hojas acumuladas en texto accesible, además de una miniatura real y una barra. Probar sin equipar, persistencia y vuelta deben seguir funcionando. Si se solicita una franquicia reconocible, documentar la situación de licencia antes de distribuirla; no presentar como oficial una variante del protagonista. Para una publicación sin licencia usar denominación y diseño propios.

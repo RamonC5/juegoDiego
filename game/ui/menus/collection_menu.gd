@@ -263,7 +263,7 @@ func refresh() -> void:
 	if not is_instance_valid(_summary):
 		return
 	var next: Dictionary = progress.next_reward()
-	var next_text: String = "¡Colección completa!" if progress.unlocked_outfits().size() == CollectionRewards.OUTFITS.size() else (
+	var next_text: String = "¡Todos los trajes desbloqueados!" if progress.unlocked_outfits().size() == CollectionRewards.OUTFITS.size() else (
 		"Próximo: %s · %s" % [next.name, _requirement_for(next)])
 	_summary.text = "%d / %d equipaciones · %d / %d hojas · %d / %d cristales · %d / 3 fragmentos\n%s" % [
 		progress.unlocked_outfits().size(), CollectionRewards.OUTFITS.size(),
@@ -282,17 +282,8 @@ func refresh() -> void:
 			requirement.text += str(outfit.rarity) + " · "
 		requirement.text += _requirement_for(outfit)
 		var bar: ProgressBar = _bars[outfit.id]
-		if outfit.get("requires_complete", false):
-			bar.max_value = maxi(1, total_leaves + total_crystals + 3)
-			bar.value = bar.max_value if unlocked else (
-				progress.count("leaf", level_id) + progress.count("crystal", level_id) + progress.count("fragment", level_id))
-		elif outfit.get("requires_fragments", false):
-			bar.max_value = maxi(1, int(outfit.leaves) + CollectionRewards.FRAGMENT_IDS.size())
-			bar.value = bar.max_value if unlocked else (
-				mini(progress.count("leaf"), int(outfit.leaves)) + mini(progress.count("fragment", CollectionRewards.FOREST_ID), CollectionRewards.FRAGMENT_IDS.size()))
-		else:
-			bar.max_value = maxi(1, int(outfit.leaves))
-			bar.value = mini(progress.count("leaf"), int(outfit.leaves))
+		bar.max_value = maxi(1, int(outfit.leaves))
+		bar.value = bar.max_value if unlocked else mini(progress.count("leaf"), int(outfit.leaves))
 	_helper_label.text = "Desbloqueada · Señala secretos y acerca hojas próximas." if progress.helper_unlocked() else (
 		"Fragmentos: %d / 3 · Busca en las primeras repisas, la gruta y las lianas." % progress.count("fragment", level_id))
 	_helper_button.disabled = not progress.helper_unlocked()
@@ -301,14 +292,9 @@ func refresh() -> void:
 
 
 func _requirement_for(outfit: Dictionary) -> String:
-	if outfit.get("requires_complete", false):
-		return "Todas las hojas, cristales y fragmentos"
 	if int(outfit.leaves) == 0:
 		return "Desde el inicio"
-	var requirement: String = "%d / %d hojas" % [mini(progress.count("leaf"), int(outfit.leaves)), int(outfit.leaves)]
-	if outfit.get("requires_fragments", false):
-		requirement += " · %d / %d fragmentos" % [mini(progress.count("fragment", CollectionRewards.FOREST_ID), CollectionRewards.FRAGMENT_IDS.size()), CollectionRewards.FRAGMENT_IDS.size()]
-	return requirement
+	return "%d / %d hojas acumuladas" % [mini(progress.count("leaf"), int(outfit.leaves)), int(outfit.leaves)]
 
 
 func _layout() -> void:
@@ -329,4 +315,3 @@ func _layout() -> void:
 	_portrait.custom_minimum_size.x = clampf(_panel.size.x * 0.25, 200, 280)
 	_status.position = Vector2(20, _panel.size.y - 40)
 	_status.size = Vector2(_panel.size.x - 40, 28)
-

@@ -109,9 +109,10 @@ func helper_unlocked() -> bool:
 func is_unlocked(id: String) -> bool:
 	for entry in CollectionRewards.OUTFITS:
 		if entry.id == id:
-			if entry.get("requires_complete", false):
-				return _golden
-			return count("leaf") >= int(entry.leaves) and (not entry.get("requires_fragments", false) or helper_unlocked())
+			# Conservar los premios obtenidos con la regla antigua de colección completa.
+			if _golden and id in ["golden_forest", "ladybug_legend"]:
+				return true
+			return count("leaf") >= int(entry.leaves)
 	return false
 
 

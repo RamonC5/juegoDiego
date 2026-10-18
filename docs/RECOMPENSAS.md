@@ -1,4 +1,4 @@
-# Colección, vestuario y Luci · Super Diego 0.10.0
+# Colección, vestuario y Luci · Super Diego 0.11.1
 
 Las hojas ahora desbloquean prendas permanentes sin gastarse. Los cristales forman parte de la colección del bosque y tres fragmentos opcionales despiertan a Luci, una luciérnaga acompañante. La salida sigue requiriendo únicamente las tres llaves del intento.
 
@@ -7,13 +7,13 @@ Las hojas ahora desbloquean prendas permanentes sin gastarse. Los cristales form
 | Inicio | Aventurero | Vestuario original de Diego |
 | 12 hojas | Pañuelo de otoño | Pañuelo coral intenso |
 | 45 hojas | Chaleco de hojas | Chaleco esmeralda con trama textil y pañuelo lima |
-| 100 hojas | Explorador del bosque | Chaleco azul glaciar, pañuelo turquesa y pantalón azul noche |
-| 100 hojas **y los 3 fragmentos de luz** | Traje Ladybug · épico | Tejidos rojos con lunares negros, visibles al caminar, saltar y agarrarse a lianas |
-| Todas las hojas, cristales y fragmentos del bosque | Guardián dorado | Equipo dorado y pañuelo marfil |
-| **Todas las hojas, cristales y fragmentos del bosque** | **Ladybug estelar · legendario** | Rojo escarlata y negro con bordados dorados |
+| 60 hojas | Explorador del bosque | Chaleco azul glaciar, pañuelo turquesa y pantalón azul noche |
+| 80 hojas | Guardián dorado | Equipo dorado y pañuelo marfil |
+| 100 hojas | Traje Ladybug · épico | Tejidos rojos con lunares negros, visibles al caminar, saltar y agarrarse a lianas |
+| 150 hojas | Ladybug estelar · legendario | Rojo escarlata y negro con bordados dorados |
 | Tres fragmentos de luz | Luci | Ayudante opcional permanente |
 
-Los hitos son un primer balance de autoría; los tiempos hasta cada recompensa requieren observación jugando. La duración y el recorrido principal del bosque permanecen en su presupuesto anterior de 9,2–10,94 minutos estimados. Los objetos arrojadizos siguen resolviendo dianas y combates; la ropa no consume sus herramientas ni altera velocidad, colisión, saltos o agarres.
+Las hojas se acumulan entre partidas y no se gastan. Ningún traje exige recogerlo todo, encontrar cristales ni entrar en secretos. Luci conserva su desbloqueo opcional con tres fragmentos. El bosque ofrece más de 300 hojas; las 150 de la última prenda permiten omitir más de la mitad. Estos hitos reducen la exigencia para un niño de 10 años; los tiempos hasta cada recompensa requieren observación jugando. La duración y el recorrido principal del bosque permanecen en su presupuesto anterior de 9,2–10,94 minutos estimados. Los objetos arrojadizos siguen resolviendo dianas y combates; la ropa no consume sus herramientas ni altera velocidad, colisión, saltos o agarres.
 
 ## Cómo se usa
 
@@ -66,11 +66,14 @@ La cabecera fija corrige el desbordamiento anterior: el mínimo del listado no a
 
 Se incorporan dos equipaciones opcionales con estética de superheroína de lunares, sin sustituir el aspecto facial de Diego ni incorporar personajes nuevos: `ladybug_hero` (épica) y `ladybug_legend` (legendaria). Sus ID son estables y se guardan en el campo `equipped` ya existente de `collection.json` (esquema 1). No se introducen compras, nuevas monedas ni mejoras de velocidad, daño o salto.
 
-- **Ladybug**: 100 hojas acumuladas en la colección y los tres fragmentos de luz del bosque. Tener solo las 100 hojas no la desbloquea.
-- **Ladybug estelar**: colección total del Bosque Esmeralda: todas las hojas, cristales y fragmentos, comprobados contra el manifiesto del nivel. Coincide con el hito original del Guardián dorado; ambos trajes se mantienen como recompensas distintas.
+- **Ladybug**: 100 hojas acumuladas. No requiere los fragmentos de Luci.
+- **Ladybug estelar**: 150 hojas acumuladas. No requiere colección completa, cristales ni secretos.
+- **Guardián dorado**: 80 hojas; desaparece su requisito anterior de colección completa. Conserva su ID y las equipaciones guardadas.
 
-El vestuario muestra la rareza por escrito, la condición pendiente y una barra de progreso combinada para hojas + fragmentos, sin esconder los botones Volver ni Seguir jugando. El shader existente incorpora manchas negras sobre las regiones de ropa ya segmentadas; la versión estelar suma un contorno bordado cálido, sin sustituir siluetas raster ni prometer máscara, arma o poderes que todavía no existen. La previsualización y el personaje usan materiales independientes. La galería de capturas y las regresiones incorporan ambas variantes.
+El vestuario muestra la rareza por escrito, las hojas actuales y la meta, junto con una barra de progreso. Volver y Seguir jugando permanecen fijos. Al desbloquear toda la ropa se muestra «¡Todos los trajes desbloqueados!» aunque queden coleccionables. Las metas aparecen en orden de dificultad: 12, 45, 60, 80, 100 y 150.
 
-**Propiedad intelectual:** Ladybug es un personaje de *Miraculous*. Las prendas aquí descritas son variantes visuales realizadas sobre Diego, no una aparición oficial del personaje ni un producto autorizado. Antes de distribuir públicamente un juego que use su nombre o identidad reconocible, comprobar los derechos/licencias aplicables; una publicación comercial debería usar diseños y denominaciones originales si no dispone de autorización.
+Los trajes Ladybug conservan la cara, las gafas, las proporciones y el acabado raster 2D HD de Diego. El material aplica rojo y lunares negros a su ropa, manteniendo luz, volumen y textura; la variante estelar suma bordado dorado. Son equipaciones del protagonista, con los mismos atlas y animaciones, sin personaje adicional. La previsualización y el jugador usan materiales independientes.
 
-**Validación pendiente:** comprobación del renderizado y del tacto en Android y Windows físicos, además de revisión visual de todas las poses y del estampado a escala de juego.
+El esquema de guardado sigue en 1. Los perfiles antiguos que ya obtuvieron el premio por colección completa conservan ese desbloqueo. Morir, cerrar y rejugar siguen conservando hojas y equipo; no se conceden hojas duplicadas.
+
+Las regresiones comprueban los límites de 60, 80, 100 y 150 hojas, desbloqueo sin fragmentos/cristales, persistencia, compatibilidad anterior y equipamiento con clic/toque real. Las capturas Compatibility incluyen ambos trajes. Tacto y rendimiento en Android y Windows físicos siguen pendientes.
