@@ -1,14 +1,29 @@
 """Regresión del falso fallo Android por mantener el recuento del bosque largo."""
 
 import unittest
+import xml.etree.ElementTree as ET
 from unittest.mock import patch
 
 from test_android_apk import (EXPECTED_ENEMIES, FOREST_LEVEL,
                               enemy_count_from_level, forest_art_ready, platform_stand_ready,
                               exercise_platform_posture)
+from test_android_apk import verify_installed_identity
 
 
 class ForestReadinessTests(unittest.TestCase):
+    def test_identity_reopens_settings_after_observed_return_to_launcher(self):
+        home = ET.fromstring('<hierarchy><node package="com.google.android.apps.nexuslauncher" text="" /></hierarchy>')
+        details = ET.fromstring('<hierarchy><node package="com.android.settings" text="Super Diego" /></hierarchy>')
+        with patch('test_android_apk.adb') as adb_mock, \
+                patch('test_android_apk.time.sleep'), \
+                patch('test_android_apk.window_xml', side_effect=[home, details]), \
+                patch('test_android_apk.screenshot'), \
+                patch('test_android_apk.Path.write_bytes'):
+            verify_installed_identity('test')
+        self.assertEqual(adb_mock.call_count, 2)
+        for call in adb_mock.call_args_list:
+            self.assertEqual(call.args[1:5], ('am', 'start', '-W', '-a'))
+
     def test_slow_emulator_keeps_walking_until_the_real_platform(self):
         # Cuatro intentos no bastaban: el APK 0.8.0-ci.148 llegó solo a x=660.
         records = [
@@ -87,4 +102,5 @@ class ForestReadinessTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
 

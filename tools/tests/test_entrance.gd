@@ -94,6 +94,7 @@ func _run() -> void:
 	check(not forest.stage.completed, "Nuevo intento al entrar")
 	forest._toggle_pause()
 	check(paused, "Pausa disponible después de entrar")
+	check(not forest._reward_toast.visible, "Los avisos de recompensa no tapan los botones de navegación en pausa")
 	forest._return_to_map()
 	await frames()
 	entrance = current_scene

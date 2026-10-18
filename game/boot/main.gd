@@ -346,6 +346,8 @@ func _toggle_pause() -> void:
 
 
 func _open_menu(title: String, allow_resume: bool = true) -> void:
+	if is_instance_valid(_reward_toast):
+		_reward_toast.hide()
 	if is_instance_valid(_collection_menu):
 		_collection_menu.hide()
 	if is_instance_valid(stage) and stage.completed:
@@ -362,6 +364,8 @@ func _resume() -> void:
 		stage.respawn_player()
 	_collection_menu.hide()
 	super._resume()
+	if _toast_seconds > 0.0:
+		_reward_toast.show()
 
 
 func _apply_collection() -> void:

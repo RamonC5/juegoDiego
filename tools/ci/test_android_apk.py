@@ -172,6 +172,7 @@ def verify_installed_identity(prefix: str) -> None:
 
     open_details()
     deadline = time.monotonic() + 90
+    next_details_retry = time.monotonic()
     last_document = None
     while time.monotonic() < deadline:
         document = window_xml("/sdcard/super-diego-identidad.xml")
@@ -189,6 +190,13 @@ def verify_installed_identity(prefix: str) -> None:
                         time.sleep(1)
                         open_details()
                         break
+            elif any(node.get("package") == "com.google.android.apps.nexuslauncher" for node in nodes):
+                # Evidencia de Actions 151: Ajustes volvió al escritorio después
+                # del arranque, sin un diálogo ANR visible en el XML. Reabrir la
+                # ficha; nunca aceptar el escritorio como prueba de identidad.
+                if time.monotonic() >= next_details_retry:
+                    open_details()
+                    next_details_retry = time.monotonic() + 10
         time.sleep(2)
     screenshot(f"{prefix}_identidad.png")
     if last_document is not None:
