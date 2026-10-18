@@ -20,7 +20,7 @@ func _ready() -> void:
 	_base_scale = Vector2(176.0, 80.0) / atlas.region.size
 	_mushroom.scale = _base_scale
 	var material := ShaderMaterial.new()
-	material.shader = preload("res://game/features/player/sprite_alpha.gdshader")
+	material.shader = preload("res://game/features/levels/mechanisms/spring_foliage.gdshader")
 	_mushroom.material = material
 	add_child(_mushroom)
 

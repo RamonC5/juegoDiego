@@ -14,6 +14,7 @@ func _ready() -> void:
 		progress = LevelProgress.new()
 	var palette := Theme.new()
 	palette.default_font_size = 23
+	palette.set_color("font_disabled_color", "Button", Color("bfd0c8"))
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color("193d3e")
 	normal.set_corner_radius_all(14)
@@ -74,6 +75,7 @@ func _ready() -> void:
 	column.add_child(back)
 	get_viewport().size_changed.connect(_layout)
 	_layout()
+	_layout.call_deferred()
 	level_buttons[1 if progress.is_completed("world_01_level_01") else 0].grab_focus()
 	_log_ready.call_deferred()
 
@@ -84,8 +86,9 @@ func _layout() -> void:
 	if OS.has_feature("android") and physical.has_area():
 		safe = get_viewport().get_screen_transform().affine_inverse() * Rect2(physical)
 	var width: float = minf(760, safe.size.x - 40)
-	_panel.position = safe.position + Vector2((safe.size.x - width) / 2.0, 20)
-	_panel.size = Vector2(width, safe.size.y - 40)
+	var height: float = minf(500, safe.size.y - 40)
+	_panel.position = safe.position + Vector2((safe.size.x - width) / 2.0, (safe.size.y - height) / 2.0)
+	_panel.size = Vector2(width, height)
 
 
 func _log_ready() -> void:

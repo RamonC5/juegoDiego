@@ -16,6 +16,13 @@ func _capture() -> void:
 	await _frames(5)
 	_save("preview_level02_selection_compact")
 	menu.queue_free()
+	menu = ForestAdventureMenu.new()
+	menu.progress = LevelProgress.new("user://capture-forest02-new-profile.json")
+	menu.progress.levels = {}
+	root.add_child(menu)
+	await _frames(3)
+	_save("preview_level02_selection_locked")
+	menu.queue_free()
 	await _frames(3)
 	root.size = Vector2i(1280, 720)
 	root.content_scale_size = Vector2i(1280, 720)
