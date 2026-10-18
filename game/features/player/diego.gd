@@ -56,6 +56,8 @@ var _vine_regrab_seconds: float = 0.0
 var _vine_jump_lock: float = 0.0
 var _vine_attach_offset: Vector2 = Vector2.ZERO
 var _vine_momentum_seconds: float = 0.0
+var vine_climb_distance: float = 0.0
+const VINE_TOP_MARGIN: float = 48.0
 const VINE_HAND_OFFSET: Vector2 = Vector2(0, -118.56)
 const VINE_SPRITE_GRIP: Vector2 = Vector2(697, 149)
 const VINE_SPRITE_PIVOT: Vector2 = Vector2(697, 1137)
@@ -125,7 +127,10 @@ func _physics_process(delta: float) -> void:
 		_buffer = 0.0
 		controls.discard_jumps()
 	var axis: float = controls.horizontal()
-	if _action.is_empty():
+	var action_was_running: bool = not _action.is_empty()
+	# Lanzar en vuelo conserva dirección, aceleración y el segundo salto.
+	var airborne_throw: bool = _action == &"throw" and not was_grounded
+	if _action.is_empty() or airborne_throw:
 		if not is_zero_approx(axis):
 			facing = signf(axis)
 		facing_node.scale.x = facing
@@ -145,7 +150,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, target_speed, acceleration * delta)
 		if _buffer > 0.0 and (_coyote > 0.0 or jumps_used < 2):
 			_start_jump(_coyote <= 0.0)
-		if controls.consume(&"grab_throw") and not crouching:
+		if controls.consume(&"grab_throw") and not crouching and _action.is_empty():
 			_interact()
 	else:
 		# Un golpe o una acción no deja un salto esperando para ejecutarse después.
@@ -154,6 +159,7 @@ func _physics_process(delta: float) -> void:
 		controls.consume(&"grab_throw")
 		if _action != &"hurt":
 			velocity.x = move_toward(velocity.x, 0.0, tuning.braking * delta)
+	if action_was_running:
 		_action_time += delta
 		if _action_time >= _action_duration():
 			_action = &""
@@ -211,7 +217,7 @@ func _start_jump(in_air: bool) -> void:
 	_landing = 0.0
 	_air_jump_pose = 0.18 if in_air else 0.0
 	# Reiniciar las poses de impulso incluso si el salto anterior sigue ascendiendo.
-	if not is_instance_valid(held_object):
+	if not is_instance_valid(held_object) and _action.is_empty():
 		_play(&"double_jump" if in_air else &"jump_up")
 		sprite.set_frame_and_progress(0, 0.0)
 		sprite.play()
@@ -245,6 +251,7 @@ func _try_grab_swinging_vine(previous_hand: Vector2 = Vector2.INF) -> void:
 	if nearest == null:
 		return
 	attached_vine = nearest
+	vine_climb_distance = 0.0
 	_recent_vine = null
 	_vine_jump_lock = 0.19
 	_buffer = 0.0
@@ -269,8 +276,15 @@ func _swing_on_vine(delta: float) -> void:
 		facing = signf(axis)
 	facing_node.scale.x = facing
 	var last_position: Vector2 = global_position
+	if controls.held(&"climb_up"):
+		var next_distance: float = minf(vine_climb_distance + tuning.vine_climb_speed * delta,
+			ForestSwingingVine.LENGTH - VINE_TOP_MARGIN)
+		var climb_step: Vector2 = vine.grip_global_position(next_distance) - vine.grip_global_position(vine_climb_distance)
+		# Un techo sólido detiene la trepa; una plataforma unilateral deja pasar.
+		if not test_move(global_transform, climb_step):
+			vine_climb_distance = next_distance
 	_vine_attach_offset = _vine_attach_offset.move_toward(Vector2.ZERO, delta * 800.0)
-	global_position = vine.grip_global_position() - VINE_HAND_OFFSET + _vine_attach_offset
+	global_position = vine.grip_global_position(vine_climb_distance) - VINE_HAND_OFFSET + _vine_attach_offset
 	velocity = (global_position - last_position) / maxf(delta, 0.001)
 	_play(&"vine_hang")
 	_update_vine_pose(vine)
@@ -282,13 +296,15 @@ func _swing_on_vine(delta: float) -> void:
 	# Un toque durante el breve ajuste del agarre se conserva hasta poder soltar.
 	if _vine_jump_lock <= 0.0 and _buffer > 0.0:
 		var direction: float = signf(axis) if absf(axis) > 0.15 else facing
-		var impulse: float = clampf(direction * 320.0 + vine.grip_velocity.x * 0.75, -510.0, 510.0)
+		var grip_velocity: Vector2 = vine.velocity_at(vine_climb_distance)
+		var impulse: float = clampf(direction * 320.0 + grip_velocity.x * 0.75, -510.0, 510.0)
 		_recent_vine = vine
 		_vine_regrab_seconds = 0.72
 		attached_vine = null
+		vine_climb_distance = 0.0
 		facing_node.rotation = 0.0
 		facing_node.position = Vector2.ZERO
-		velocity = Vector2(impulse, -510.0 + minf(vine.grip_velocity.y * 0.35, 0.0))
+		velocity = Vector2(impulse, -510.0 + minf(grip_velocity.y * 0.35, 0.0))
 		_vine_momentum_seconds = 0.85
 		_buffer = 0.0
 		_coyote = 0.0
@@ -316,6 +332,7 @@ func vine_hand_global_position() -> Vector2:
 
 func release_vine_on_failure() -> void:
 	attached_vine = null
+	vine_climb_distance = 0.0
 	_recent_vine = null
 	_vine_regrab_seconds = 0.0
 	_vine_jump_lock = 0.0
@@ -562,5 +579,6 @@ func _draw() -> void:
 	# Protección continua y visible: sin parpadeos ni destellos.
 	if invulnerability > 0.0:
 		draw_arc(Vector2(0, -52), 62.0, 0.0, TAU, 48, Color("ffe4a8"), 3.0, true)
+
 
 

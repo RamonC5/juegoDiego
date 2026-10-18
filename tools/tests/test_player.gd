@@ -487,8 +487,29 @@ func _test_interface() -> void:
 	_touch(3, right, false, true)
 	_check(not main.player.controls.consume(&"grab_throw"), "cancelar un contacto no lanza")
 	_touch(3, right, true)
+	_drag(3, right-Vector2(0, 70))
+	_check(main.player.controls.held(&"climb_up") and is_zero_approx(main.player.controls.horizontal()), "arriba en movimiento mantiene trepa sin desplazamiento horizontal")
+	_drag(3, right+Vector2(65, -70))
+	_check(main.player.controls.held(&"climb_up") and main.player.controls.horizontal() > 0.9, "arriba y lateral combinan trepa y balanceo con un dedo")
+	_drag(3, right+Vector2(65, 0))
+	_check(not main.player.controls.held(&"climb_up") and main.player.controls.horizontal() > 0.9, "volver al eje horizontal deja de trepar y conserva el balanceo")
+	main.touch.release_all()
+	_touch(3, right, true)
 	_touch(3, right-Vector2(0, 70), false)
 	_check(not main.player.controls.consume(&"jump") and not main.player.controls.consume(&"grab_throw"), "deslizar arriba a la derecha no salta ni lanza")
+	_check(not main.player.controls.held(&"climb_up"), "soltar arriba libera la trepa")
+	_touch(3, right, true)
+	_drag(3, right-Vector2(0, 70))
+	_touch(3, right-Vector2(0, 70), false, true)
+	_check(not main.player.controls.held(&"climb_up"), "cancelar el contacto libera la trepa")
+	main.settings.left_handed = true
+	main.touch.refresh()
+	_touch(3, left, true)
+	_drag(3, left-Vector2(0, 70))
+	_check(main.player.controls.held(&"climb_up") and not main.player.controls.consume(&"jump"), "los lados intercambiados permiten trepar en la mitad izquierda")
+	main.settings.left_handed = false
+	main.touch.refresh()
+	_check(not main.player.controls.held(&"climb_up"), "cambiar ajustes elimina una orden de trepa activa")
 	var mouse := InputEventMouseButton.new()
 	mouse.device = InputEvent.DEVICE_ID_EMULATION
 	mouse.button_index = MOUSE_BUTTON_LEFT
@@ -499,10 +520,20 @@ func _test_interface() -> void:
 	root.push_input(mouse, true)
 	_check(not main.player.controls.consume(&"jump"), "ratón emulado no duplica el salto táctil")
 	_touch(1, left, true)
+	_touch(3, right, true)
+	_drag(3, right-Vector2(0, 70))
 	main._toggle_pause()
 	_check(paused and not main.player.controls.enabled and main.touch._pointers.is_empty(), "pausa libera todos los contactos")
+	_check(not main.player.controls.held(&"climb_up"), "pausar libera la trepa activa")
 	Input.action_press(&"jump")
+	Input.action_press(&"climb_up")
 	main._toggle_pause()
+	_check(not main.player.controls.held(&"climb_up"), "reanudar bloquea arriba si seguía pulsado durante la pausa")
+	Input.action_release(&"climb_up")
+	await _step(1)
+	Input.action_press(&"climb_up")
+	_check(main.player.controls.held(&"climb_up"), "soltar arriba fuera de una liana permite una nueva pulsación física")
+	Input.action_release(&"climb_up")
 	_check(not paused and not main.player.controls.consume(&"jump") and not main.player.controls.held(&"jump"), "reanudar descarta saltos pendientes y teclas mantenidas")
 	Input.action_release(&"jump")
 	var pause_control: Control = main.touch.excluded_controls[0]
@@ -599,5 +630,6 @@ func _test_settings_migration() -> void:
 	else:
 		DirAccess.remove_absolute(ControlSettings.PATH)
 	await _step(1)
+
 
 

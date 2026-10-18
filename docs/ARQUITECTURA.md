@@ -367,3 +367,15 @@ Volver al mapa desde pausa libera entradas, audio y escena del intento; la colec
 `AdventureIntro.sample_action()` encadena los SpriteFrames existentes con un reloj local por acción: carrera, salto, caída, apoyo, lanzamiento y celebración. El actor avanza continuamente, funde fotogramas y oculta su recolocación en los límites de las viñetas. El fondo se disuelve entre mundos; la vasija continúa desde la mano con una trayectoria independiente. `intro_actor.gdshader` conserva la opacidad sin modificar el material del jugador físico.
 
 `SuperheroTitle` mantiene el título accesible con letras vectoriales inclinadas, relieve coral, contorno azul y dorado, usando la fuente integrada. Entrada, repetición y movimiento reducido coordinan sus relojes. El mapa conserva un título de texto sencillo. [Contrato visual, tiempos y validación](pruebas/entrada-0.9.1.md).
+
+
+
+## Lanzamiento aéreo y trepa manual · 0.12.0
+
+`DiegoPlayer` permite mover y orientar el cuerpo durante `throw` en el aire, sin cancelar el segundo salto ni el marcador único de suelta. El reloj de la acción avanza aunque haya control aéreo; daño, recogida y lanzamiento en suelo mantienen sus reglas. `PlayerTuning.vine_climb_speed` configura la subida a 160 px/s.
+
+La acción independiente `climb_up` enlaza el arrastre ascendente de la zona de movimiento, W / ↑ reasignables y arriba en mando. `HeroTouchControls` combina subida y eje horizontal con el mismo contacto, libera al soltar/cancelar y conserva mitades intercambiables. `ControlSettings`, el bloqueo físico al reanudar y las instrucciones accesibles de pausa incorporan la acción. No se convierte el gesto de subida en salto.
+
+El jugador conserva una distancia de trepa desde el nudo inferior. `ForestSwingingVine.grip_global_position(distance)` y `velocity_at(distance)` calculan agarre y velocidad tangencial a esa altura; las llamadas sin distancia conservan el contrato anterior. Un margen superior de 48 px y `test_move` impiden ascender a través de techos sólidos, respetando superficies unilaterales. Soltar arriba conserva altura y balanceo; saltar, daño y reaparición limpian el estado correspondiente. El recurso del nivel, sus tres puntos y los IDs de colección se conservan.
+
+Las regresiones se integran en `test_player.gd` y `test_player_movement.gd`, ya ejecutadas por CI. Cubren tacto, cancelación, lados, pausa, lanzamiento en ascenso/descenso, doble salto, manos, altura máxima y techos. Las capturas Compatibility amplían `capture_player_movement.gd` con trepa y lanzamiento aéreo.

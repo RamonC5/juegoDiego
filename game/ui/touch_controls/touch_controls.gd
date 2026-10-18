@@ -1,6 +1,6 @@
 class_name HeroTouchControls
 extends Control
-## Izquierda: pulsar para saltar. Derecha: arrastrar, agacharse y coger/lanzar.
+## Izquierda: saltar. Derecha: moverse, trepar hacia arriba, agacharse y coger/lanzar.
 ## Cada contacto conserva su función aunque cruce la mitad de la pantalla.
 
 const NO_POINTER: int = -2
@@ -29,7 +29,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_move_hint = _hint_label("←  ●  →")
 	_action_hint = _hint_label("Salta · Salta otra vez")
-	_move_hint.accessibility_name = "Arrastra para moverte, desliza abajo y a los lados para avanzar agachado o toca para coger o lanzar"
+	_move_hint.accessibility_name = "Arrastra para moverte, mantén arriba para trepar por una liana, desliza abajo y a los lados para avanzar agachado o toca para coger o lanzar, también en el aire"
 	_action_hint.accessibility_name = "Pulsa una vez para saltar y otra vez en el aire para hacer un doble salto"
 	resized.connect(refresh)
 	settings.changed.connect(refresh)
@@ -177,12 +177,18 @@ func _move_pointer(index: int, point: Vector2) -> void:
 			else:
 				pointer.mode = &"ignored"
 		elif -offset.y >= _jump_threshold:
-			pointer.mode = &"ignored"
-	if pointer.mode == &"move":
+			if _movement_pointer == NO_POINTER:
+				_movement_pointer = index
+				pointer.mode = &"climb"
+			else:
+				pointer.mode = &"ignored"
+	if pointer.mode in [&"move", &"climb"]:
 		var offset: Vector2 = point - pointer.origin
 		if offset.y >= _jump_threshold and offset.y > absf(offset.x) * 0.65:
 			pointer.mode = &"crouch"
 			pointer.crouch_y = point.y
+		else:
+			pointer.mode = &"climb" if -offset.y >= _jump_threshold else &"move"
 	if pointer.mode == &"crouch" and point.y < float(pointer.crouch_y) - _jump_threshold:
 		# Deslizar arriba libera la postura con el mismo contacto, sin pedir un salto.
 		pointer.mode = &"move" if _movement_pointer in [NO_POINTER, index] else &"ignored"
@@ -194,7 +200,7 @@ func _move_pointer(index: int, point: Vector2) -> void:
 	if pointer.mode == &"crouch" and _movement_pointer == NO_POINTER \
 			and absf(point.x - pointer.origin.x) > _dead_zone:
 		_movement_pointer = index
-	if _movement_pointer == index and pointer.mode in [&"move", &"crouch"]:
+	if _movement_pointer == index and pointer.mode in [&"move", &"climb", &"crouch"]:
 		var offset: float = point.x-pointer.origin.x
 		if absf(offset) > _travel:
 			# El origen sigue al dedo al exceder el recorrido: invertir exige poco arrastre.
@@ -225,9 +231,12 @@ func _sync_virtual() -> void:
 	input_source.set_virtual_axis(_axis)
 	input_source.set_virtual_action(&"run", absf(_axis) >= 0.95)
 	var crouching: bool = false
+	var climbing: bool = false
 	for pointer in _pointers.values():
 		crouching = crouching or pointer.mode == &"crouch"
+		climbing = climbing or pointer.mode == &"climb"
 	input_source.set_virtual_action(&"crouch", crouching)
+	input_source.set_virtual_action(&"climb_up", climbing)
 
 
 func release_all() -> void:
@@ -248,11 +257,16 @@ func _draw() -> void:
 	# Solo hay trazos mientras se toca; no existen objetivos fijos que acertar.
 	for pointer in _pointers.values():
 		var point: Vector2 = pointer.point
-		if pointer.mode == &"move":
+		if pointer.mode in [&"move", &"climb"]:
 			var origin: Vector2 = pointer.origin
 			draw_line(origin-Vector2(_travel, 0), origin+Vector2(_travel, 0), Color("142e37"), 14, true)
 			draw_line(origin-Vector2(_travel, 0), origin+Vector2(_travel, 0), Color("d5e6df"), 2, true)
 			draw_circle(origin+Vector2(clampf(point.x-origin.x, -_travel, _travel), 0), 11, Color("ffdc90"))
+			if pointer.mode == &"climb":
+				var tip: Vector2 = origin - Vector2(0, _travel)
+				draw_line(origin, tip, Color("ffdc90"), 4, true)
+				draw_line(tip+Vector2(-9, 11), tip, Color("ffdc90"), 4, true)
+				draw_line(tip+Vector2(9, 11), tip, Color("ffdc90"), 4, true)
 		elif pointer.mode == &"jump":
 			draw_line(pointer.start, point, Color("ffdc90"), 4, true)
 			draw_line(point+Vector2(-9, 11), point, Color("ffdc90"), 4, true)
@@ -263,5 +277,6 @@ func _draw() -> void:
 			draw_line(point+Vector2(9, -11), point, Color("ffdc90"), 4, true)
 		else:
 			draw_arc(point, 14, 0, TAU, 32, Color("ffdc90"), 2, true)
+
 
 

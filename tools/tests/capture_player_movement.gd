@@ -53,6 +53,10 @@ func _capture() -> void:
 	hero.controls.set_virtual_axis(-1.0)
 	await frames(12)
 	save("vine_hang_mirrored")
+	hero.controls.set_virtual_action(&"climb_up", true)
+	await frames(36)
+	hero.controls.set_virtual_action(&"climb_up", false)
+	save("vine_climb_detail")
 	hero.controls.set_virtual_axis(1.0)
 	hero.controls.request_tap_jump()
 	await frames(2)
@@ -60,6 +64,17 @@ func _capture() -> void:
 	hero.controls.request_tap_jump()
 	await frames(2)
 	save("double_jump")
+	var ball := ThrowableObject.new()
+	main.add_child(ball)
+	hero.held_object = ball
+	ball.pick_up(hero.hand)
+	hero.controls.set_virtual_action(&"grab_throw", true)
+	await frames(4)
+	hero.controls.set_virtual_action(&"grab_throw", false)
+	save("air_throw")
+	await frames(10)
+	save("air_throw_release")
+	ball.queue_free()
 	main._camera.zoom = Vector2.ONE
 	main.set_process(true)
 	root.size = Vector2i(1024, 768)
@@ -72,4 +87,5 @@ func _capture() -> void:
 	await frames(2)
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit()
+
 

@@ -13,6 +13,13 @@ var _tap_jumps: int = 0
 var consumed_tap_jump: bool = false
 
 
+func _process(_delta: float) -> void:
+	# Observar la suelta aunque la acción contextual (trepar) no se consulte fuera de la liana.
+	for action in _blocked_physical.keys():
+		if not Input.is_action_pressed(action):
+			_blocked_physical.erase(action)
+
+
 func set_virtual_axis(value: float) -> void:
 	_virtual_axis = clampf(value, -1.0, 1.0) if enabled else 0.0
 
@@ -71,7 +78,7 @@ func clear_virtual() -> void:
 
 
 func block_current_physical() -> void:
-	for action in [&"move_left", &"move_right", &"jump", &"crouch", &"grab_throw", &"run"]:
+	for action in [&"move_left", &"move_right", &"climb_up", &"jump", &"crouch", &"grab_throw", &"run"]:
 		if Input.is_action_pressed(action):
 			_blocked_physical[action] = true
 
@@ -82,4 +89,5 @@ func _physical_held(action: StringName) -> bool:
 			_blocked_physical.erase(action)
 		return false
 	return Input.is_action_pressed(action)
+
 

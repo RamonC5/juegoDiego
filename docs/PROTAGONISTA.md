@@ -10,8 +10,9 @@ La escena de arranque abre **Bosque Esmeralda 1-1**, y Pausa permite volver a la
 | --- | --- | --- | --- |
 | Moverse | Arrastrar horizontalmente desde cualquier punto de la mitad derecha; soltar para parar | A / D o flechas | Cruceta o palanca izquierda |
 | Saltar / doble salto | Pulsar una vez en la mitad izquierda y otra vez durante el vuelo | Espacio, dos pulsaciones | A, dos pulsaciones |
+| Trepar por liana | Mientras está agarrado, arrastrar arriba en la mitad derecha y mantener; soltar conserva la altura | W / flecha arriba (reasignable) | Cruceta arriba o palanca izquierda hacia arriba |
 | Agacharse / avanzar agachado | Deslizar abajo en la mitad derecha y arrastrar horizontalmente con el mismo dedo; soltar para levantarse cuando haya espacio | S / flecha abajo (reasignable) | Cruceta abajo o palanca izquierda hacia abajo |
-| Recoger / lanzar | Toque corto en cualquier punto de la mitad derecha | E | X |
+| Recoger / lanzar | Toque corto en cualquier punto de la mitad derecha; también se lanza mientras salta | E | X |
 | Correr | Arrastre largo; carrera con arrastre corto opcional | Mayús o carrera automática | B o carrera automática |
 | Pausar / ajustar | Botón Pausa | Escape | Start |
 
@@ -38,6 +39,8 @@ Se ajustan en `game/features/player/default_tuning.tres` y `player_tuning.gd`. L
 Agacharse se activa sobre el suelo y permite avanzar o retroceder a 90 px/s, ajustables mediante `PlayerTuning.crouch_speed`, incluso con carrera automática. Mantener abajo durante una caída aplica la postura al aterrizar. Si un techo impide levantarse, Diego conserva la cápsula baja y puede moverse hasta salir; al soltar abajo o deslizar arriba se levanta automáticamente cuando cabe. Las plataformas atravesables desde abajo permiten levantarse debajo, sin cambiar la altura de los pies. El mismo contacto táctil puede deslizar abajo y después arrastrar a ambos lados; también se admiten dos dedos. Mantener abajo tiene prioridad sobre saltar y descarta ese salto; la energía y el daño mantienen sus reglas. El objeto sostenido baja con la mano; recoger y lanzar vuelven a estar disponibles al levantarse. Pausa y pérdida de foco liberan los contactos, y reaparecer restablece la postura.
 
 ## Animaciones
+
+En 0.12.0 el lanzamiento aéreo conserva la aceleración y el control de dirección. Un segundo salto durante esa acción mantiene la animación de lanzamiento hasta completar su única suelta en el fotograma 2. La trepa manual usa la pose `vine_hang`, mantiene las manos sobre la cuerda a la altura alcanzada y conserva el balanceo; su velocidad ajustable es `PlayerTuning.vine_climb_speed` (160 px/s). Un margen superior de 48 px impide sobrepasar el anclaje y la consulta del cuerpo detiene el ascenso bajo techos sólidos. Saltar sigue soltando la liana y deja un impulso aéreo disponible.
 
 | Estado | Hoja fuente e índices desde cero | FPS | Uso |
 | --- | --- | --- | --- |
@@ -83,6 +86,7 @@ python tools/build_diego_atlas.py
 El último comando reconstruye `SpriteFrames` y escalas desde `art/characters/diego/atlas_layout.json`, sin modificar los PNG. Solo al cambiar imágenes, `--discover` propone regiones que deben revisarse. Ese descubrimiento necesita Pillow, NumPy y SciPy fuera del juego. Para capturas, `godot --audio-driver Dummy --path . --script tools/tests/capture_player.gd` requiere una sesión gráfica o Xvfb.
 
 Las pruebas de controles y movimientos cubren movimiento, agacharse y levantarse, techo bajo, objeto sostenido, tolerancias de salto, pisotón, recoger/lanzar, daño, derrota, reaparición, gestos analógicos, tres contactos simultáneos, cancelaciones, pausa, cambio de lados, tablet 4:3, migración de ajustes y reasignación sin perder el mando. La CI las ejecuta antes de exportar el APK. Las capturas verifican el renderizado en Compatibility y dos proporciones; no sustituyen la comprobación de tacto, rendimiento y GPU en Android y tablet Windows físicos.
+
 
 
 

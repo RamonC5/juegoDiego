@@ -21,8 +21,9 @@ Esta distribución es una adaptación para las acciones existentes de Diego, no 
 | Mitad izquierda mientras está colgado | Pulsar | Soltarse con el impulso de la liana; queda un salto aéreo disponible. |
 | Cualquier punto libre de la mitad derecha | Arrastrar ← / → | Movimiento analógico: poco recorrido camina; mucho recorrido corre. |
 | Mitad derecha | Soltar el arrastre | Frenar. |
+| Mitad derecha mientras está colgado | Arrastrar ↑ y mantener | Trepar por la liana. Volver al eje horizontal o soltar conserva la altura; se puede combinar con ← / → para balancearse. |
 | Mitad derecha | Deslizar ↓ y mantener; después arrastrar ← / → | Agacharse y avanzar despacio con el mismo dedo. Soltar o deslizar arriba permite ponerse de pie, también debajo de una plataforma atravesable. Si el techo es sólido, un arrastre permite salir agachado. |
-| Mitad derecha | Toque corto | Coger o lanzar, una vez al soltar. |
+| Mitad derecha | Toque corto | Coger o lanzar, una vez al soltar; el lanzamiento funciona durante el ascenso y el descenso del salto. |
 | Botón Pausa | Pulsar | Abrir ajustes y liberar contactos. |
 
 Se pueden intercambiar las mitades. Cada contacto conserva su función al cruzar el centro. Un arrastre de movimiento o agacharse nunca dispara un salto o un lanzamiento. Se puede mover, saltar y actuar simultáneamente. Mantener el contacto de salto no repite impulsos; dos pulsaciones entre pasos físicos se conservan como dos órdenes. Se ignora el ratón emulado desde touch para evitar duplicados.
@@ -30,6 +31,8 @@ Se pueden intercambiar las mitades. Cada contacto conserva su función al cruzar
 Hay un máximo de dos impulsos antes de aterrizar. Al salir andando de un borde queda un salto aéreo, además de la tolerancia inicial de borde. Aterrizar o agarrarse a una liana renueva la reserva; un pisotón deja un salto aéreo después del rebote. Agacharse tiene prioridad en el suelo y descarta saltos acumulados. Daño, pausa y reaparición limpian las órdenes que ya no corresponden. Teclado y mando usan dos pulsaciones de su botón de salto; conservan altura variable o el ajuste de salto completo.
 
 ## Respuesta y ayuda
+
+Desde 0.12.0, lanzar durante el salto conserva el avance, el cambio de dirección y el segundo impulso disponible. La suelta sigue ocurriendo una sola vez en el fotograma 2. Mantener arriba solo trepa mientras Diego está sujeto a una liana; fuera de ella no salta ni lanza. En teclado se usa W / ↑ (reasignable) y en mando la cruceta o palanca izquierda hacia arriba. La trepa avanza a 160 px/s, se detiene antes del anclaje y respeta techos sólidos. Las manos siguen la altura elegida y el salto de salida conserva la velocidad tangencial correspondiente. No hay ascenso automático.
 
 El eje horizontal parte del punto de apoyo. Tiene zona muerta, recorrido limitado y origen que sigue al dedo cuando se sobrepasa el recorrido. No hay botones ni palancas fijas. Solo se dibujan un trazo horizontal, una flecha de salto o agacharse o un pequeño aro durante el contacto.
 
@@ -44,5 +47,6 @@ Los contactos nuevos se procesan después de la interfaz. Los ya capturados se l
 `tools/tests/capture_player.gd` captura el entrenamiento, dos contactos activos, el menú y la proporción 4:3 mediante el renderizador real. Las capturas y el registro se encuentran en [la revisión de Diego](../art/characters/diego/qa.md).
 
 Queda por comprobar la sensación del arrastre, el multitoque del hardware y el rendimiento en el móvil Android y la tablet Windows del usuario.
+
 
 

@@ -9,7 +9,7 @@ config/name="Super Diego"
 config/icon="res://game/assets/branding/super_diego_icon.png"
 config/windows_native_icon="res://game/assets/branding/super_diego.ico"
 config/description="Super Diego: aventura de plataformas 2D HD para Android y Windows. Bosque Esmeralda: El despertar del bosque."
-config/version="0.11.2"
+config/version="0.12.0"
 run/main_scene="res://game/boot/entrance.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/use_custom_user_dir=true
@@ -38,6 +38,10 @@ move_left={
 move_right={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"physical_keycode":68), Object(InputEventKey,"physical_keycode":4194321), Object(InputEventJoypadMotion,"device":-1,"axis":0,"axis_value":1.0), Object(InputEventJoypadButton,"device":-1,"button_index":14)]
+}
+climb_up={
+"deadzone": 0.35,
+"events": [Object(InputEventKey,"physical_keycode":87), Object(InputEventKey,"physical_keycode":4194320), Object(InputEventJoypadMotion,"device":-1,"axis":1,"axis_value":-1.0), Object(InputEventJoypadButton,"device":-1,"button_index":11)]
 }
 jump={
 "deadzone": 0.2,
@@ -101,3 +105,4 @@ environment/defaults/default_clear_color=Color(0.08, 0.09, 0.12, 1)
 [audio]
 
 buses/default_bus_layout="res://game/assets/audio/default_bus_layout.tres"
+

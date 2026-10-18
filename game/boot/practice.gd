@@ -5,7 +5,7 @@ const PLAYER_SCENE: PackedScene = preload("res://game/features/player/diego.tscn
 const STAGE_SCRIPT = preload("res://game/features/player/practice_stage.gd")
 const TARGET_SCRIPT = preload("res://game/features/player/practice_target.gd")
 const ACTION_LABELS: Dictionary = {&"move_left": "Izquierda", &"move_right": "Derecha",
-	&"jump": "Saltar", &"crouch": "Agacharse", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
+	&"climb_up": "Subir por liana", &"jump": "Saltar", &"crouch": "Agacharse", &"grab_throw": "Coger / lanzar", &"run": "Correr", &"pause": "Pausa"}
 
 var player: DiegoPlayer
 var _music: LevelMusic
@@ -222,7 +222,7 @@ func _build_menu() -> void:
 	box.add_theme_constant_override("separation", 13)
 	scroll.add_child(box)
 	var instructions := Label.new()
-	instructions.text = "GESTOS SIN BOTONES\nPulsa una vez en cualquier punto libre de la mitad izquierda para saltar y otra vez durante el vuelo para el doble salto. Cada toque da un salto completo, sin mantener.\nEn la mitad derecha, arrastra ← → para moverte. Un arrastre corto camina; uno largo corre. Suelta para frenar. Desliza ↓ y mantén para agacharte; arrastra a los lados para avanzar despacio con el mismo dedo. Suelta o desliza arriba para ponerte de pie. Las plataformas atravesables no lo impiden; si el techo es sólido, sigue arrastrando hasta salir. Un toque corto coge o lanza. Puedes mover y saltar a la vez, e intercambiar los lados en los ajustes.\nEn una liana, pulsa en la zona de salto para soltarte; puedes hacer un salto aéreo antes de agarrar otra.\nTeclado inicial: A / D, Espacio (dos pulsaciones para doble salto), S / ↓ y E. Mando: A salta, abajo agacha, X actúa, Start pausa."
+	instructions.text = "GESTOS SIN BOTONES\nPulsa una vez en cualquier punto libre de la mitad izquierda para saltar y otra vez durante el vuelo para el doble salto. Cada toque da un salto completo, sin mantener.\nEn la mitad derecha, arrastra ← → para moverte. Un arrastre corto camina; uno largo corre. Suelta para frenar. Desliza ↓ y mantén para agacharte; arrastra a los lados para avanzar despacio con el mismo dedo. Suelta o desliza arriba para ponerte de pie. Las plataformas atravesables no lo impiden; si el techo es sólido, sigue arrastrando hasta salir. Un toque corto coge o lanza, también mientras saltas. Puedes mover, saltar y lanzar a la vez, e intercambiar los lados en los ajustes.\nEn una liana, arrastra arriba y mantén en la zona de movimiento para trepar. Al soltar, conservas la altura y sigues balanceándote. Pulsa en la zona de salto para soltarte; puedes hacer un salto aéreo antes de agarrar otra.\nTeclado inicial: A / D, Espacio (dos pulsaciones para doble salto), S / ↓, W / ↑ para trepar y E para coger o lanzar. Mando: A salta, arriba trepa, abajo agacha, X actúa, Start pausa."
 	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(instructions)
 	for spec in [["Correr también con arrastres cortos / teclado", "automatic_run"],
@@ -392,4 +392,5 @@ func _notification(what: int) -> void:
 
 func _update_health(value: int) -> void:
 	_health_counter.set_count(value, 3)
+
 

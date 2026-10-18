@@ -98,7 +98,9 @@ func _run() -> void:
 	await step(5)
 	check(hero.is_on_floor() and jumps == 0, "reaparecer limpia los toques pendientes")
 	await _test_stomp()
+	await _test_air_throw()
 	await _test_vine()
+	await _test_climb_ceiling()
 	world.queue_free()
 	await step(3)
 	print("MOVIMIENTOS: %d comprobaciones, %d fallos" % [checks, failures])
@@ -129,6 +131,58 @@ func _test_stomp() -> void:
 	await step(2)
 
 
+func _test_air_throw() -> void:
+	for direction in [-1.0, 1.0]:
+		await reset()
+		var ball := ThrowableObject.new()
+		world.add_child(ball)
+		hero.held_object = ball
+		ball.pick_up(hero.hand)
+		var releases: Array[int] = [0]
+		var connection: Callable = func(): releases[0] += 1
+		hero.object_released.connect(connection)
+		hero.controls.set_virtual_axis(direction)
+		await step(12)
+		hero.controls.request_tap_jump()
+		hero.controls.set_virtual_action(&"grab_throw", true)
+		await step()
+		hero.controls.set_virtual_action(&"grab_throw", false)
+		check(hero._action == &"throw" and hero.velocity.y < -600 and hero.facing == direction, "salto y lanzamiento simultáneos en dirección %s" % direction)
+		await step(5)
+		check(hero.velocity.x * direction > 150, "lanzar en vuelo conserva el avance")
+		hero.controls.request_tap_jump()
+		await step()
+		check(hero.jumps_used == 2 and hero.velocity.y < -550 and hero.sprite.animation == &"throw", "el segundo salto durante el lanzamiento conserva el marcador de suelta")
+		hero.controls.set_virtual_action(&"grab_throw", true)
+		await step()
+		hero.controls.set_virtual_action(&"grab_throw", false)
+		await step(14)
+		check(releases[0] == 1 and hero.held_object == null and ball.state == ThrowableObject.State.THROWN, "el marcador libera un único objeto físico en el aire")
+		check(ball.velocity.x * direction > 100, "el objeto viaja en la dirección elegida")
+		hero.controls.request_tap_jump()
+		await step()
+		check(hero.jumps_used == 2, "lanzar no renueva la reserva de saltos")
+		await step(8)
+		check(hero._action.is_empty() and hero.sprite.animation != &"throw", "al terminar el lanzamiento vuelve a la pose aérea")
+		hero.object_released.disconnect(connection)
+		ball.queue_free()
+		await step()
+	# El lanzamiento también se inicia durante el descenso.
+	await reset(Vector2(800, 180))
+	var falling_ball := ThrowableObject.new()
+	world.add_child(falling_ball)
+	hero.held_object = falling_ball
+	falling_ball.pick_up(hero.hand)
+	hero.velocity.y = 120
+	hero.controls.set_virtual_action(&"grab_throw", true)
+	await step()
+	hero.controls.set_virtual_action(&"grab_throw", false)
+	await step(14)
+	check(hero.held_object == null and falling_ball.state == ThrowableObject.State.THROWN and not hero.is_on_floor(), "se puede lanzar durante la caída")
+	falling_ball.queue_free()
+	await step()
+
+
 func _test_vine() -> void:
 	var vine := ForestSwingingVine.new()
 	vine.position = Vector2(1000, -300)
@@ -146,6 +200,7 @@ func _test_vine() -> void:
 		maximum_error = maxf(maximum_error, hero.vine_hand_global_position().distance_to(vine.grip_global_position()))
 	check(maximum_error < 0.1, "dos ciclos y cambios de orientación conservan las manos ancladas")
 	check(hero.jumps_used == 0, "agarrarse renueva la reserva de salto")
+	await _test_climb(vine)
 	paused = true
 	var previous_hand: Vector2 = hero.vine_hand_global_position()
 	var previous_grip: Vector2 = vine.grip_global_position()
@@ -174,3 +229,58 @@ func _test_vine() -> void:
 	hero.take_damage(hero.position + Vector2(100, 0))
 	check(hero.attached_vine == null and hero.facing_node.position == Vector2.ZERO and hero.motion_state == &"hurt", "recibir daño colgado libera el agarre y recupera la pose de golpe")
 	hero.swinging_vines.clear()
+
+
+func _test_climb(vine: ForestSwingingVine) -> void:
+	var initial_radius: float = hero.vine_hand_global_position().distance_to(vine.global_position)
+	hero.controls.set_virtual_action(&"climb_up", true)
+	await step(30)
+	check(hero.vine_climb_distance > 70.0 and hero.vine_hand_global_position().distance_to(vine.global_position) < initial_radius - 70, "mantener arriba trepa por la cuerda mientras oscila")
+	check(hero.vine_hand_global_position().distance_to(vine.grip_global_position(hero.vine_climb_distance)) < 0.1, "las manos siguen el agarre a la nueva altura")
+	hero.controls.set_virtual_action(&"climb_up", false)
+
+	var stopped: float = hero.vine_climb_distance
+	await step(20)
+	check(is_equal_approx(hero.vine_climb_distance, stopped), "soltar arriba conserva la altura sin trepa automática")
+	hero.controls.set_virtual_action(&"climb_up", true)
+	paused = true
+	await step(8)
+	check(is_equal_approx(hero.vine_climb_distance, stopped), "la pausa detiene la trepa")
+	paused = false
+	await step(150)
+	check(is_equal_approx(hero.vine_climb_distance, ForestSwingingVine.LENGTH - DiegoPlayer.VINE_TOP_MARGIN), "el extremo superior limita la trepa sin sobrepasar la liana")
+	check(hero.attached_vine == vine and hero.vine_hand_global_position().distance_to(vine.grip_global_position(hero.vine_climb_distance)) < 0.1, "llegar arriba conserva el agarre y el control")
+	hero.controls.set_virtual_action(&"climb_up", false)
+
+
+
+func _test_climb_ceiling() -> void:
+	var vine := ForestSwingingVine.new()
+	vine.position = Vector2(1600, 0)
+	world.add_child(vine)
+	vine.set_physics_process(false)
+	var roof := StaticBody2D.new()
+	roof.position = Vector2(1600, 200)
+	var collision := CollisionShape2D.new()
+	var box := RectangleShape2D.new()
+	box.size = Vector2(400, 30)
+	collision.shape = box
+	roof.add_child(collision)
+	world.add_child(roof)
+	hero.respawn(vine.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET)
+	hero.swinging_vines = [vine]
+	hero._try_grab_swinging_vine()
+	hero.controls.set_virtual_action(&"climb_up", true)
+	await step(120)
+	check(hero.attached_vine == vine and hero.vine_climb_distance > 100 and hero.position.y >= 313, "un techo sólido detiene la trepa antes de atravesarlo")
+	collision.one_way_collision = true
+	await step(120)
+	check(is_equal_approx(hero.vine_climb_distance, ForestSwingingVine.LENGTH - DiegoPlayer.VINE_TOP_MARGIN), "trepar atraviesa desde abajo una plataforma unilateral")
+	hero.take_damage(hero.position + Vector2(100, 0))
+	check(hero.attached_vine == null and is_zero_approx(hero.vine_climb_distance), "el daño limpia la altura de trepa")
+	hero.respawn(vine.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET)
+	check(not hero.controls.held(&"climb_up") and is_zero_approx(hero.vine_climb_distance), "reaparecer limpia la entrada y la altura de trepa")
+	hero.swinging_vines.clear()
+	roof.queue_free()
+	vine.queue_free()
+	await step(2)

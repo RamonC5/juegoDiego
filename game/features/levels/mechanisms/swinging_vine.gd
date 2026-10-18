@@ -49,8 +49,12 @@ func push(axis: float, delta: float) -> void:
 	_lean_velocity = clampf(_lean_velocity + axis * delta * 0.90, -0.40, 0.40)
 
 
-func grip_global_position() -> Vector2:
-	return to_global(Vector2(sin(angle), cos(angle)) * LENGTH)
+func grip_global_position(climb_distance: float = 0.0) -> Vector2:
+	return to_global(Vector2(sin(angle), cos(angle)) * (LENGTH - clampf(climb_distance, 0.0, LENGTH)))
+
+
+func velocity_at(climb_distance: float) -> Vector2:
+	return grip_velocity * (1.0 - clampf(climb_distance / LENGTH, 0.0, 1.0))
 
 
 func reset_cycle() -> void:
@@ -70,3 +74,4 @@ func _draw() -> void:
 	var source := Rect2(TEXTURE.get_size() * Vector2(0.30, 0), TEXTURE.get_size() * Vector2(0.40, 1.0))
 	draw_texture_rect_region(TEXTURE, Rect2(-40, -8, 80, LENGTH + 30), source)
 	draw_set_transform(Vector2.ZERO)
+

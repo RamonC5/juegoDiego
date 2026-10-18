@@ -5,6 +5,7 @@ extends Resource
 @export var walk_speed: float = 210.0
 @export var run_speed: float = 330.0
 @export var crouch_speed: float = 90.0
+@export var vine_climb_speed: float = 160.0
 @export var acceleration: float = 1900.0
 @export var braking: float = 2400.0
 @export var air_acceleration: float = 1100.0
@@ -18,4 +19,5 @@ extends Resource
 @export var stomp_bounce: float = 470.0
 @export var invulnerability_seconds: float = 1.2
 @export_range(38.0, 96.0, 1.0) var crouch_height: float = 58.0
+
 
