@@ -40,11 +40,15 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
     # Llegar andando: saltar antes podría dejar al jugador encima de la repisa.
     adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .72)),
         str(int(width * .80)), str(int(height * .72)), "2100")
-    time.sleep(.4)
-    for attempt in range(4):
+    time.sleep(.7)
+    # QEMU puede entregar menos avance por gesto que el tiempo de pared sugiere.
+    # El log de posición decide si llegamos; conservar la comprobación estricta
+    # de incorporarse sin desplazarse dentro de la plataforma real.
+    positions = []
+    for attempt in range(10):
         adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .50)),
             str(int(width * .65)), str(int(height * .70)), "350")
-        time.sleep(.4)
+        time.sleep(.7)
         record = logs()
         if platform_stand_ready(record):
             screenshot(f"{prefix}_de_pie_bajo_plataforma.png")
@@ -54,6 +58,7 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
         if not crouches:
             raise RuntimeError("El APK no registró el gesto táctil de agacharse.")
         x = float(crouches[-1][1])
+        positions.append(x)
         if 670 <= x <= 876:
             raise RuntimeError("El protagonista se quedó agachado bajo la plataforma real.")
         direction = 1 if x < 740 else -1
@@ -61,8 +66,10 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
         duration = min(2200, max(450, int(abs(740 - x) / 330 * 1000) + 450))
         adb("shell", "input", "swipe", str(int(width * start)), str(int(height * .72)),
             str(int(width * end)), str(int(height * .72)), str(duration))
-        time.sleep(.3)
-    raise RuntimeError("El recorrido táctil no alcanzó el interior de la primera plataforma.")
+        time.sleep(.7)
+    screenshot(f"{prefix}_recorrido_plataforma_incompleto.png")
+    raise RuntimeError("El recorrido táctil no alcanzó el interior de la primera plataforma. "
+                       f"Posiciones observadas: {positions}")
 
 
 def enemy_count_from_level(source: str) -> int:
@@ -296,4 +303,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

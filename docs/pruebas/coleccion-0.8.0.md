@@ -12,7 +12,13 @@ Las suites y capturas existentes inyectan un perfil de colección temporal antes
 
 El recorrido geométrico principal conserva su validación automatizada, con protección contra combate. No acredita duración de primera partida ni el descubrimiento natural de los tres fragmentos. La integración de la colección no amplía el presupuesto principal del nivel.
 
-## Arte y revisión visual
+## Comprobación del APK en CI
+
+Actions 148 compiló, firmó e instaló `0.8.0-ci.148`, superó las suites de proyecto, las capturas Compatibility y nueve comprobaciones del recurso binario extraído del APK. El registro Android confirmó 45 enemigos con arte. Falló el recorrido previo a la prueba de postura: los cuatro intentos alcanzaron posiciones x=285,18, 473,83 y 660,39, antes del intervalo exigido [670, 876]. Los gestos sí produjeron agacharse e incorporarse; no se registró un bloqueo bajo la plataforma.
+
+Se amplía a diez intentos con pausas de entrega de eventos más amplias, usando la posición registrada para aproximarse. Se conservan las condiciones de plataforma real, pies en y=600 y desplazamiento inferior a 3 px entre agacharse e incorporarse. Un bloqueo dentro del intervalo sigue fallando y agotar los intentos también; ahora se guarda una captura adicional. Tres regresiones Python cubren emulador lento, postura bloqueada y agotamiento del recorrido. Ocho regresiones Python pasan localmente. La nueva ejecución Android debe confirmar el resultado.
+
+## Arte y revisión visual final
 
 El arte usa `image_gen`: cuatro poses de Luci y una textura de helechos para las prendas. Los prompts exactos y resultados se conservan junto al personaje. Se aplica el shader de alfa ya utilizado por el resto del reparto.
 

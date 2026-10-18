@@ -1,12 +1,47 @@
 """Regresión del falso fallo Android por mantener el recuento del bosque largo."""
 
 import unittest
+from unittest.mock import patch
 
 from test_android_apk import (EXPECTED_ENEMIES, FOREST_LEVEL,
-                              enemy_count_from_level, forest_art_ready, platform_stand_ready)
+                              enemy_count_from_level, forest_art_ready, platform_stand_ready,
+                              exercise_platform_posture)
 
 
 class ForestReadinessTests(unittest.TestCase):
+    def test_slow_emulator_keeps_walking_until_the_real_platform(self):
+        # Cuatro intentos no bastaban: el APK 0.8.0-ci.148 llegó solo a x=660.
+        records = [
+            f"SALTO_POSTURE state=crouch x={x:.2f} y=600.00\n"
+            f"SALTO_POSTURE state=stand x={x:.2f} y=600.00"
+            for x in [285, 474, 660, 664, 668, 740]
+        ]
+        with patch('test_android_apk.adb') as adb_mock, \
+                patch('test_android_apk.time.sleep'), \
+                patch('test_android_apk.logs', side_effect=records), \
+                patch('test_android_apk.screenshot'):
+            result = exercise_platform_posture(1280, 720, 'test')
+        self.assertTrue(result['stood_under_platform'])
+        self.assertFalse(result['teleported'])
+        self.assertEqual(adb_mock.call_count, 12)
+
+    def test_more_travel_attempts_do_not_accept_a_player_stuck_crouching(self):
+        record = "SALTO_POSTURE state=crouch x=740.00 y=600.00"
+        with patch('test_android_apk.adb'), patch('test_android_apk.time.sleep'), \
+                patch('test_android_apk.logs', return_value=record):
+            with self.assertRaisesRegex(RuntimeError, 'se quedó agachado'):
+                exercise_platform_posture(1280, 720, 'test')
+
+    def test_travel_timeout_still_fails_and_records_evidence(self):
+        record = ("SALTO_POSTURE state=crouch x=300.00 y=600.00\n"
+                  "SALTO_POSTURE state=stand x=300.00 y=600.00")
+        with patch('test_android_apk.adb'), patch('test_android_apk.time.sleep'), \
+                patch('test_android_apk.logs', return_value=record), \
+                patch('test_android_apk.screenshot') as capture:
+            with self.assertRaisesRegex(RuntimeError, 'Posiciones observadas'):
+                exercise_platform_posture(1280, 720, 'test')
+        capture.assert_called_once_with('test_recorrido_plataforma_incompleto.png')
+
     def test_stand_under_platform_requires_same_position_on_floor(self):
         self.assertTrue(platform_stand_ready(
             "SALTO_POSTURE state=crouch x=740.00 y=600.00\n"
@@ -52,3 +87,4 @@ class ForestReadinessTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
