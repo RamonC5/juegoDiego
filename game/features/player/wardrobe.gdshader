@@ -12,8 +12,9 @@ void fragment() {
 	float light = max(max(rgb.r, rgb.g), rgb.b);
 	// Máscaras también en sombra; conservar piel, pelo, gafas y camiseta.
 	float warmth = (rgb.g - rgb.b) / max(rgb.r - rgb.b, 0.001);
-	float scarf = smoothstep(0.64, 0.77, warmth) * step(rgb.b * 1.65, rgb.g)
-		* step(rgb.g, rgb.r) * step(0.18, rgb.r);
+	float scarf = smoothstep(0.44, 0.55, warmth)
+		* (1.0 - smoothstep(0.22, 0.42, rgb.b / max(rgb.g, 0.001)))
+		* step(rgb.g, rgb.r) * step(0.12, rgb.r);
 	float vest = step(rgb.r * 1.12, rgb.g) * step(rgb.r * 1.10, rgb.b)
 		* step(rgb.b * 0.98, rgb.g) * step(0.10, rgb.g);
 	float shorts = step(rgb.g * 1.10, rgb.b) * step(rgb.r * 1.25, rgb.b);
