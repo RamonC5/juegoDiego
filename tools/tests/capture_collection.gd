@@ -87,10 +87,13 @@ func _capture() -> void:
 	main._reward_toast.hide()
 	main._toast_seconds = 0.0
 	main._reward_queue.clear()
-	for id in ["original", "autumn_scarf", "fern_vest", "forest_explorer", "golden_forest"]:
-		main.collection_progress.equip(id)
+	for outfit in CollectionRewards.OUTFITS:
+		if not main.collection_progress.equip(outfit.id):
+			push_error("No se pudo desbloquear la equipación de captura: " + outfit.id)
+			quit(1)
+			return
 		await frames(8)
-		save("preview_outfit_" + id)
+		save("preview_outfit_" + outfit.id)
 	main._open_wardrobe()
 	main._collection_menu._select("fern_vest")
 	await frames()

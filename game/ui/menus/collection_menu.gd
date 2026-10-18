@@ -263,9 +263,8 @@ func refresh() -> void:
 	if not is_instance_valid(_summary):
 		return
 	var next: Dictionary = progress.next_reward()
-	var next_text: String = "¡Colección completa!" if progress.is_unlocked("golden_forest") else (
-		"Próximo: %s · %d / %d hojas" % [next.name, progress.count("leaf"), int(next.leaves)]
-		if int(next.leaves) > 0 else "Próximo: Guardián dorado · completa el bosque")
+	var next_text: String = "¡Todos los trajes desbloqueados!" if progress.unlocked_outfits().size() == CollectionRewards.OUTFITS.size() else (
+		"Próximo: %s · %s" % [next.name, _requirement_for(next)])
 	_summary.text = "%d / %d equipaciones · %d / %d hojas · %d / %d cristales · %d / 3 fragmentos\n%s" % [
 		progress.unlocked_outfits().size(), CollectionRewards.OUTFITS.size(),
 		progress.count("leaf", level_id), total_leaves, progress.count("crystal", level_id),
@@ -276,22 +275,26 @@ func refresh() -> void:
 		var equipped: bool = progress.equipped == outfit.id
 		action.disabled = not unlocked or equipped
 		action.text = "✓ Equipado" if equipped else ("Equipar" if unlocked else "Bloqueado")
-		action.accessibility_name = outfit.name + ": " + action.text
+		action.accessibility_name = outfit.name + ". " + str(outfit.get("rarity", "Equipo")) + ": " + action.text
 		var requirement: Label = _requirements[outfit.id]
 		requirement.text = ("En uso · " if equipped else "Desbloqueado · ") if unlocked else "Pendiente · "
-		requirement.text += ("Desde el inicio" if int(outfit.leaves) == 0 else (
-			"%d / %d hojas" % [mini(progress.count("leaf"), int(outfit.leaves)), int(outfit.leaves)]
-			if int(outfit.leaves) > 0 else "Todas las hojas, cristales y fragmentos"))
+		if outfit.has("rarity"):
+			requirement.text += str(outfit.rarity) + " · "
+		requirement.text += _requirement_for(outfit)
 		var bar: ProgressBar = _bars[outfit.id]
-		bar.max_value = maxi(1, int(outfit.leaves)) if int(outfit.leaves) >= 0 else maxi(1, total_leaves + total_crystals + 3)
-		bar.value = bar.max_value if unlocked else (
-			progress.count("leaf") if int(outfit.leaves) > 0 else
-			progress.count("leaf", level_id) + progress.count("crystal", level_id) + progress.count("fragment", level_id))
+		bar.max_value = maxi(1, int(outfit.leaves))
+		bar.value = bar.max_value if unlocked else mini(progress.count("leaf"), int(outfit.leaves))
 	_helper_label.text = "Desbloqueada · Señala secretos y acerca hojas próximas." if progress.helper_unlocked() else (
 		"Fragmentos: %d / 3 · Busca en las primeras repisas, la gruta y las lianas." % progress.count("fragment", level_id))
 	_helper_button.disabled = not progress.helper_unlocked()
 	_helper_button.text = ("Dejar descansar a Luci" if progress.helper_enabled else "Activar a Luci") if progress.helper_unlocked() else "Luci está bloqueada · Reúne tres fragmentos"
 	_select(_selected)
+
+
+func _requirement_for(outfit: Dictionary) -> String:
+	if int(outfit.leaves) == 0:
+		return "Desde el inicio"
+	return "%d / %d hojas acumuladas" % [mini(progress.count("leaf"), int(outfit.leaves)), int(outfit.leaves)]
 
 
 func _layout() -> void:
@@ -312,4 +315,3 @@ func _layout() -> void:
 	_portrait.custom_minimum_size.x = clampf(_panel.size.x * 0.25, 200, 280)
 	_status.position = Vector2(20, _panel.size.y - 40)
 	_status.size = Vector2(_panel.size.x - 40, 28)
-

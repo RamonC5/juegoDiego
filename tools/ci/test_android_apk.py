@@ -45,6 +45,7 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
     # El log de posición decide si llegamos; conservar la comprobación estricta
     # de incorporarse sin desplazarse dentro de la plataforma real.
     positions = []
+    retried_at_rest = False
     for attempt in range(10):
         adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .50)),
             str(int(width * .65)), str(int(height * .70)), "350")
@@ -60,6 +61,13 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
         x = float(crouches[-1][1])
         positions.append(x)
         if 670 <= x <= 876:
+            # Actions 172: se incorporó de x=703 a x=717 mientras terminaba de
+            # frenar. Repetir una vez sin otro arrastre horizontal; seguir
+            # exigiendo el mismo punto de apoyo, nunca aceptar esa deriva.
+            if not retried_at_rest:
+                retried_at_rest = True
+                time.sleep(.7)
+                continue
             raise RuntimeError("El protagonista se quedó agachado bajo la plataforma real.")
         direction = 1 if x < 740 else -1
         start, end = (.65, .85) if direction > 0 else (.85, .65)
@@ -165,7 +173,8 @@ def dismiss_fullscreen_hint() -> None:
 
 def verify_installed_identity(prefix: str) -> None:
     # El emulador recién iniciado puede mostrar aún el splash de Ajustes o un ANR
-    # de Pixel Launcher. Solo se cierra ese diálogo del lanzador, nunca uno del juego.
+    # de Pixel Launcher o Google SDK Setup. Cerrar solo esos diálogos conocidos,
+    # nunca uno del juego ni de otra aplicación.
     def open_details() -> None:
         adb("shell", "am", "start", "-W", "-a", "android.settings.APPLICATION_DETAILS_SETTINGS",
             "-d", f"package:{PACKAGE}")
@@ -183,8 +192,11 @@ def verify_installed_identity(prefix: str) -> None:
                 (OUTPUT / f"{prefix}_identidad.xml").write_bytes(ET.tostring(document, encoding="utf-8"))
                 screenshot(f"{prefix}_identidad.png")
                 return
-            launcher_anr = any("Pixel Launcher" in node.get("text", "") and "isn't responding" in node.get("text", "") for node in nodes)
-            if launcher_anr:
+            startup_anr = any(node.get("text", "").strip() in (
+                "Pixel Launcher isn't responding",
+                "com.google.android.googlesdksetup isn't responding",
+            ) for node in nodes)
+            if startup_anr:
                 for node in nodes:
                     if node.get("text") == "Close app" and tap_node(node):
                         time.sleep(1)
@@ -351,6 +363,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-

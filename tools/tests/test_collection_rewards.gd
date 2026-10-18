@@ -32,11 +32,11 @@ func _run() -> void:
 	cleanup(storage)
 	var profile := CollectionProgress.new(storage)
 	check(profile.count("leaf") == 0 and profile.equipped == "original", "perfil nuevo con traje original")
-	check(not profile.helper_unlocked() and not profile.is_unlocked("golden_forest"), "ayudante y traje especial empiezan bloqueados")
+	check(not profile.helper_unlocked() and not profile.is_unlocked("golden_forest") and not profile.is_unlocked("ladybug_hero") and not profile.is_unlocked("ladybug_legend"), "ayudante y traje especial empiezan bloqueados")
 	check(not profile.equip("forest_explorer"), "no permite equipar un traje bloqueado")
 	check(not profile.collect_item("test", "forged", "leaf"), "rechaza identificadores ajenos al manifiesto")
 	var manifest: Dictionary = {}
-	for i in 100:
+	for i in 150:
 		manifest["leaf-%d" % i] = "leaf"
 	profile.register_level("test", manifest)
 	for i in 11:
@@ -46,13 +46,39 @@ func _run() -> void:
 	check(profile.is_unlocked("autumn_scarf") and profile.count("leaf") == 12, "doce hojas desbloquean la primera prenda")
 	check(not profile.collect_item("test", "leaf-11", "leaf") and profile.count("leaf") == 12, "una hoja solo cuenta una vez")
 	check(not profile.collect_item("test", "leaf-12", "crystal"), "no acepta alterar el tipo del objeto")
-	for i in range(12, 100):
+	for i in range(12, 45):
 		profile.collect_item("test", "leaf-%d" % i, "leaf")
-	check(profile.is_unlocked("fern_vest") and profile.is_unlocked("forest_explorer"), "45 y 100 hojas desbloquean chaleco y explorador")
+	check(profile.is_unlocked("fern_vest") and not profile.is_unlocked("forest_explorer"), "45 hojas desbloquean chaleco pero no explorador")
+	for i in range(45, 59):
+		profile.collect_item("test", "leaf-%d" % i, "leaf")
+	check(not profile.is_unlocked("forest_explorer"), "59 hojas todavía no desbloquean explorador")
+	profile.collect_item("test", "leaf-59", "leaf")
+	check(profile.is_unlocked("forest_explorer"), "60 hojas desbloquean explorador")
+	for i in range(60, 79):
+		profile.collect_item("test", "leaf-%d" % i, "leaf")
+	check(not profile.is_unlocked("golden_forest"), "79 hojas todavía no desbloquean el traje dorado")
+	profile.collect_item("test", "leaf-79", "leaf")
+	check(profile.is_unlocked("golden_forest"), "80 hojas desbloquean Guardián dorado sin completar el bosque")
+	check(profile.next_reward().id == "ladybug_hero", "el siguiente hito anuncia el traje Ladybug épico")
+	for i in range(80, 99):
+		profile.collect_item("test", "leaf-%d" % i, "leaf")
+	check(not profile.is_unlocked("ladybug_hero") and not profile.equip("ladybug_hero"), "99 hojas mantienen bloqueado el traje épico")
+	profile.collect_item("test", "leaf-99", "leaf")
+	check(profile.is_unlocked("ladybug_hero") and profile.count("fragment") == 0 and profile.count("crystal") == 0, "100 hojas desbloquean Ladybug sin fragmentos ni cristales")
 	check(profile.equip("fern_vest") and profile.count("leaf") == 100, "equipar no gasta hojas")
 	var reopened := CollectionProgress.new(storage)
 	check(reopened.count("leaf") == 100 and reopened.equipped == "fern_vest", "cerrar y reabrir conserva hojas y ropa equipada")
 	check(not reopened.equip("unknown"), "identificador desconocido no sustituye el traje")
+	check(reopened.equip("ladybug_hero") and CollectionProgress.new(storage).equipped == "ladybug_hero", "Ladybug se equipa y se guarda sin cambiar el esquema")
+	check(not reopened.is_unlocked("ladybug_legend") and reopened.next_reward().id == "ladybug_legend", "la última meta es Ladybug estelar")
+	reopened.register_level("test", manifest)
+	for i in range(100, 149):
+		reopened.collect_item("test", "leaf-%d" % i, "leaf")
+	check(not reopened.is_unlocked("ladybug_legend") and not reopened.equip("ladybug_legend"), "149 hojas todavía no desbloquean Ladybug estelar")
+	reopened.collect_item("test", "leaf-149", "leaf")
+	check(reopened.is_unlocked("ladybug_legend") and not reopened.helper_unlocked() and not reopened.level_complete(CollectionRewards.FOREST_ID), "150 hojas desbloquean Ladybug estelar sin secretos ni colección completa")
+	check(reopened.equip("ladybug_legend") and CollectionProgress.new(storage).equipped == "ladybug_legend", "el traje legendario sobrevive a reabrir el juego")
+	check(reopened.unlocked_outfits().size() == CollectionRewards.OUTFITS.size(), "todos los trajes se obtienen solo con hojas")
 	var fragments: Dictionary = {}
 	for id in CollectionRewards.FRAGMENT_IDS:
 		fragments[CollectionRewards.FOREST_ID + "/fragment/" + id] = "fragment"
@@ -62,24 +88,32 @@ func _run() -> void:
 	for id in CollectionRewards.FRAGMENT_IDS:
 		reopened.collect_item(CollectionRewards.FOREST_ID, CollectionRewards.FOREST_ID + "/fragment/" + id, "fragment")
 	check(reopened.helper_unlocked(), "los tres fragmentos despiertan al ayudante")
-	check(not reopened.is_unlocked("golden_forest"), "el ayudante no desbloquea por sí solo el traje especial")
+	check(reopened.is_unlocked("ladybug_hero") and reopened.is_unlocked("ladybug_legend"), "Luci es opcional y no condiciona los trajes")
 	reopened.collect_item(CollectionRewards.FOREST_ID, "forest-leaf", "leaf")
 	reopened.collect_item(CollectionRewards.FOREST_ID, "forest-crystal", "crystal")
-	check(reopened.is_unlocked("golden_forest"), "colección completa desbloquea la variante dorada")
+	check(reopened.level_complete(CollectionRewards.FOREST_ID), "el registro de colección sigue disponible como dato opcional")
 	reopened.set_helper_enabled(false)
 	check(not CollectionProgress.new(storage).helper_enabled, "preferencia del ayudante guardada")
 	var file := FileAccess.open(storage, FileAccess.WRITE)
 	file.store_string("archivo incompleto")
 	file.close()
 	var recovered := CollectionProgress.new(storage)
-	check(recovered.count("leaf") == 101 and recovered.helper_unlocked(), "archivo dañado se recupera desde copia válida")
+	check(recovered.count("leaf") == 151 and recovered.helper_unlocked(), "archivo dañado se recupera desde copia válida")
 	file = FileAccess.open(storage, FileAccess.WRITE)
 	file.store_string('{"schema_version":1,"collected":{"bad":{"level":"test","kind":"invalid"}}}')
 	file.close()
 	var semantic_recovery := CollectionProgress.new(storage)
 	semantic_recovery.equip("original")
 	var backup := CollectionProgress.new(storage + ".bak")
-	check(backup.count("leaf") == 101, "un archivo inválido no sustituye la copia válida al volver a guardar")
+	check(backup.count("leaf") == 151, "un archivo inválido no sustituye la copia válida al volver a guardar")
+	var legacy_path: String = storage + "-legacy"
+	cleanup(legacy_path)
+	file = FileAccess.open(legacy_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify({"schema_version": 1, "collected": {}, "equipped": "golden_forest", "golden_forest": true}))
+	file.close()
+	var legacy := CollectionProgress.new(legacy_path)
+	check(legacy.equipped == "golden_forest" and legacy.is_unlocked("ladybug_legend"), "un guardado antiguo conserva los premios de colección completa")
+	cleanup(legacy_path)
 	var failing := CollectionProgress.new("user://directorio-inexistente-%d/save.json" % OS.get_process_id())
 	failing.register_level("test", {"leaf": "leaf"})
 	check(not failing.collect_item("test", "leaf", "leaf") and failing.count("leaf") == 0, "fallo de disco no concede progreso sin guardar")
@@ -101,7 +135,7 @@ func _run() -> void:
 	for item in stage.collectibles:
 		ids[item.persistent_id] = true
 	check(ids.size() == stage.collectibles.size(), "todas las hojas y cristales tienen IDs únicos")
-	check(stage.total_leaves > 100, "el nivel permite obtener las tres prendas")
+	check(stage.total_leaves > 300, "150 hojas permiten obtener todos los trajes dejando más de la mitad pendientes")
 	var leaf: ForestCollectible = stage.collectibles[0]
 	hero.respawn(leaf.position + Vector2(0, 45))
 	await step(6)

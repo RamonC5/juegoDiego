@@ -109,7 +109,10 @@ func helper_unlocked() -> bool:
 func is_unlocked(id: String) -> bool:
 	for entry in CollectionRewards.OUTFITS:
 		if entry.id == id:
-			return _golden if id == "golden_forest" else count("leaf") >= int(entry.leaves)
+			# Conservar los premios obtenidos con la regla antigua de colección completa.
+			if _golden and id in ["golden_forest", "ladybug_legend"]:
+				return true
+			return count("leaf") >= int(entry.leaves)
 	return false
 
 
@@ -147,7 +150,7 @@ func set_helper_enabled(value: bool) -> bool:
 
 func next_reward() -> Dictionary:
 	for entry in CollectionRewards.OUTFITS:
-		if int(entry.leaves) > count("leaf"):
+		if not is_unlocked(entry.id):
 			return entry
 	return CollectionRewards.OUTFITS[-1]
 

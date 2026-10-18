@@ -28,6 +28,22 @@ void fragment() {
 	if (outfit >= 3) {
 		rgb = mix(rgb, pants_color.rgb * (0.38 + light * 0.72), shorts * 0.97);
 	}
+	// Estampado de lunares en las prendas existentes, sin dibujar sobre piel o gafas.
+	// Coordenadas de textura en píxeles: el patrón mantiene escala entre poses.
+	if (outfit >= 5) {
+		vec2 texel = UV / TEXTURE_PIXEL_SIZE;
+		vec2 tile = fract((texel + vec2(8.0, 6.0)) / 31.0);
+		float radius = length(tile - vec2(0.5));
+		float spots = 1.0 - smoothstep(0.255, 0.315, radius);
+		float fabric = clamp(max(scarf, max(vest, shorts)), 0.0, 1.0);
+		if (outfit == 6) {
+			float embroidery = (1.0 - smoothstep(0.31, 0.385, radius)) - spots;
+			rgb = mix(rgb, vec3(0.98, 0.69, 0.32) * (0.45 + light * 0.7),
+				clamp(embroidery, 0.0, 1.0) * fabric * 0.85);
+		}
+		rgb = mix(rgb, vec3(0.045, 0.047, 0.10) * (0.5 + light * 0.52),
+			spots * fabric * 0.97);
+	}
 	COLOR = vec4(rgb, smoothstep(0.13, 0.40, c.a));
 }
 

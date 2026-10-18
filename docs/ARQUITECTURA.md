@@ -10,7 +10,7 @@ Se conserva la elección artística «opción A» del plan previo, sin redefinir
 
 ## Colección permanente · 0.8.0
 
-`CollectionProgress` (0.8.0) añade colección permanente por ID, vestuario y ayudante. Es un servicio `RefCounted` separado de `LevelProgress`, del intento y de las opciones. `boot/main.gd` lo compone e inyecta en `ForestStage`, `CollectionMenu` y `ForestFirefly`. `CollectionRewards`, bajo `core/contracts`, define hitos de 12, 45 y 100 hojas, tres fragmentos y los IDs de vestuario; no se añade autoload.
+`CollectionProgress` (0.8.0) añade colección permanente por ID, vestuario y ayudante. Es un servicio `RefCounted` separado de `LevelProgress`, del intento y de las opciones. `boot/main.gd` lo compone e inyecta en `ForestStage`, `CollectionMenu` y `ForestFirefly`. `CollectionRewards`, bajo `core/contracts`, define hitos de 12, 45, 60, 80, 100 y 150 hojas, tres fragmentos y los IDs de vestuario; no se añade autoload.
 
 Las recogidas validan ID y tipo contra el manifiesto antes de ocultar el objeto. `collection.json`, esquema 1, persiste cada operación con temporal y renombrado, copia de seguridad y reversión ante error. Morir, cerrar o rejugar conserva colección y equipo; llaves y mecanismos mantienen las reglas del intento. Los resultados anteriores permanecen en `progress.json` y no se convierten en monedas sin IDs.
 
@@ -23,6 +23,12 @@ Las recogidas validan ID y tipo contra el manifiesto antes de ocultar el objeto.
 El catálogo añade paletas y tratamiento visual explícitos por ID. `PlayerWardrobe` aplica esos datos a cada material del jugador, miniaturas y vista previa; el shader cubre también sombra y tonos medios, sin cambiar animaciones ni colisiones. La trama es procedural y ya no necesita muestrear el tejido raster auxiliar.
 
 `CollectionMenu` separa cabecera fija, cuerpo con catálogo desplazable y estado inferior. Un `Panel` sin mínimo de contenido evita el desbordamiento que ocultaba Volver. La cabecera ofrece volver a pausa o seguir jugando; Android Atrás usa el mismo flujo de pausa que Escape/Start. Los gestos se limpian al continuar y no se reanuda un nivel completado. El HUD muestra equipaciones obtenidas. La regresión de presentación usa clics/toques reales y tamaños compactos; el guardado sigue en esquema 1.
+
+## Rareza en vestuario · 0.11.1
+
+Dos recompensas especiales amplían el catálogo sin migrar `collection.json`: `ladybug_hero` (100 hojas) y `ladybug_legend` (150 hojas). Las equipaciones se desbloquean únicamente por hojas acumuladas: 12, 45, 60 (Explorador), 80 (Guardián dorado), 100 y 150. Ningún traje exige fragmentos, cristales o colección completa. `CollectionProgress.is_unlocked()` conserva `_golden` solo como compatibilidad con premios anteriores; el esquema y los IDs permanecen estables. El vestuario presenta el progreso de hojas y celebra todos los trajes desbloqueados aunque la colección del bosque siga incompleta.
+
+Los estilos 5 y 6 del shader `wardrobe.gdshader` superponen lunares oscuros y un bordado opcional sobre las máscaras de tela de los atlas actuales. No cambian silueta, identidad, animaciones, física, colisiones ni progreso por partida. Se conservan los IDs, guardados y sistemas anteriores. `test_collection_rewards.gd`, `test_reward_presentation.gd` y `capture_collection.gd` cubren nuevos desbloqueos y apariencias; la revisión de capturas y las pruebas en dispositivos físicos permanecen pendientes.
 
 ## Decisión técnica
 
@@ -353,5 +359,3 @@ Volver al mapa desde pausa libera entradas, audio y escena del intento; la colec
 `AdventureIntro.sample_action()` encadena los SpriteFrames existentes con un reloj local por acción: carrera, salto, caída, apoyo, lanzamiento y celebración. El actor avanza continuamente, funde fotogramas y oculta su recolocación en los límites de las viñetas. El fondo se disuelve entre mundos; la vasija continúa desde la mano con una trayectoria independiente. `intro_actor.gdshader` conserva la opacidad sin modificar el material del jugador físico.
 
 `SuperheroTitle` mantiene el título accesible con letras vectoriales inclinadas, relieve coral, contorno azul y dorado, usando la fuente integrada. Entrada, repetición y movimiento reducido coordinan sus relojes. El mapa conserva un título de texto sencillo. [Contrato visual, tiempos y validación](pruebas/entrada-0.9.1.md).
-
-
