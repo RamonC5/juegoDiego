@@ -24,6 +24,8 @@ def mundo_ejemplo():
         nivel = leer("ejemplo-nivel-bosque.json")
         nivel.update(id=f"world_01_level_{orden:02d}", orden=orden)
         nivel["desbloqueo_requiere"] = [] if orden == 1 else [f"world_01_level_{orden-1:02d}"]
+        nivel["coleccionables"][0]["id"] = f"objeto_nivel_{orden}"
+        nivel["coleccionables"][0]["dificultad"] = ("inicial", "intermedia", "maxima")[orden - 1]
         niveles.append(nivel)
     jefe = copy.deepcopy(niveles[0])
     jefe.update(id="world_01_boss", categoria="jefe", orden=4, nombre="Encuentro propuesto de ejemplo")
@@ -33,6 +35,8 @@ def mundo_ejemplo():
                           "minutos_estimados": [6, 8], "dinamicas": ["jefe_lanzamientos"],
                           "proposito": "Esquivar ataques anunciados y lanzar durante la vulnerabilidad."}]
     jefe["llaves"] = []
+    jefe["zonas_secretas"] = []
+    jefe["coleccionables"] = []
     jefe["salida"]["condicion"] = "jefe_derrotado"
     jefe["salida"]["descripcion"] = "Completar al derrotar al jefe mediante objetos lanzados."
     jefe["puntos_control"] = []
@@ -122,7 +126,79 @@ class ReglasDeDiseno(unittest.TestCase):
         doc["estado"] = "implementada"
         self.assert_error(doc, "evidencia real")
         doc["validacion"]["evidencias"] = ["Referencia de ensayo para comprobar la regla del script."]
+        doc["dependencias"][1]["estado"] = "propuesta"
         self.assert_error(doc, "trabajo pendiente")
+
+    def test_cada_aventura_actual_necesita_secreto_y_coleccion(self):
+        for campo in ("zonas_secretas", "coleccionables"):
+            for valor in (None, []):
+                doc = leer("ejemplo-nivel-bosque.json")
+                doc[campo] = valor
+                with self.subTest(campo=campo, valor=valor):
+                    self.assert_error(doc, campo)
+
+    def test_secreto_con_totem_y_ruta_opcional(self):
+        for cambio, error in (({"totem": None}, ".totem"), ({"opcional": False}, "opcional"),
+                               ({"segmento_id": "entrada_segura"}, "segmento opcional"),
+                               ({"salida": ""}, ".salida")):
+            doc = leer("ejemplo-nivel-bosque.json")
+            doc["zonas_secretas"][0].update(cambio)
+            with self.subTest(cambio=cambio):
+                self.assert_error(doc, error)
+
+    def test_secreto_pendiente_es_propuesta_y_no_implementacion(self):
+        doc = leer("ejemplo-nivel-bosque.json")
+        self.assertEqual(comprobador.validar(doc)[0], [])
+        doc["estado"] = "implementada"
+        doc["validacion"]["evidencias"] = ["Ensayo sintético del comprobador, no evidencia del juego."]
+        self.assert_error(doc, "antes de implementar")
+        zona = doc["zonas_secretas"][0]
+        zona["validacion_usuario"] = dict(estado="validada", fecha="2026-10-18",
+            decision="Respuesta sintética exclusivamente para esta prueba.",
+            ubicacion_validada=zona["ubicacion"], actividad_validada=zona["actividad"])
+        self.assertEqual(comprobador.validar(doc)[0], [])
+        zona["actividad"] = "Otra actividad todavía sin consultar."
+        self.assert_error(doc, "consultar de nuevo")
+
+    def test_validacion_no_se_inventa_con_estado_solo(self):
+        doc = leer("ejemplo-nivel-bosque.json")
+        doc["zonas_secretas"][0]["validacion_usuario"] = {"estado": "validada"}
+        self.assert_error(doc, "fecha")
+        self.assert_error(doc, "decision")
+        self.assert_error(doc, "ubicacion_validada")
+
+    def test_distribucion_intermedia_y_maxima_por_nivel(self):
+        mundo = mundo_ejemplo()
+        for orden, dificultad in ((1, "intermedia"), (1, "maxima"), (2, "maxima"), (3, "intermedia")):
+            doc = copy.deepcopy(mundo[orden - 1])
+            doc["coleccionables"][0]["dificultad"] = dificultad
+            with self.subTest(orden=orden, dificultad=dificultad):
+                self.assert_error(doc, "reservar para aventura")
+        jefe = mundo[-1]
+        item = copy.deepcopy(mundo[2]["coleccionables"][0])
+        item["segmento_id"] = "combate"
+        jefe["coleccionables"] = [item]
+        self.assert_error(jefe, "antes del jefe")
+
+    def test_mundo_sin_escalon_o_con_duplicados_es_incompleto(self):
+        mundo = mundo_ejemplo()
+        mundo[1]["coleccionables"][0]["id"] = mundo[0]["coleccionables"][0]["id"]
+        self.assertTrue(any("duplicar IDs" in e for e in comprobador.validar_mundo(mundo)))
+        mundo = mundo_ejemplo()
+        mundo[2]["coleccionables"][0]["dificultad"] = "inicial"
+        self.assertTrue(any("escalón" in e for e in comprobador.validar_mundo(mundo)))
+
+    def test_version_1_se_conserva_pero_actual_la_rechaza(self):
+        doc = leer("ejemplo-nivel-bosque.json")
+        doc.update(schema_version=1)
+        del doc["zonas_secretas"], doc["coleccionables"]
+        self.assertEqual(comprobador.validar(doc)[0], [])
+        with tempfile.TemporaryDirectory() as temporal:
+            path = Path(temporal) / "legado.json"
+            path.write_text(json.dumps(doc), encoding="utf-8")
+            with redirect_stdout(io.StringIO()):
+                self.assertEqual(comprobador.main([str(path)]), 0)
+                self.assertEqual(comprobador.main(["--actual", str(path)]), 1)
 
     def test_numeros_y_tipos_invalidos_producen_diagnostico(self):
         for valor in (True, "18", float("nan"), float("inf"), -(10**6), 10**400):

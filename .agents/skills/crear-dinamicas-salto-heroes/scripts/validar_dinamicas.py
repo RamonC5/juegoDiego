@@ -5,6 +5,7 @@ import argparse
 import json
 import math
 import re
+from datetime import date
 from pathlib import Path
 
 
@@ -75,8 +76,8 @@ class Revision:
 
 
 def comunes(doc, r):
-    r.exigir(type(doc.get("schema_version")) is int and doc["schema_version"] == 1,
-             "schema_version", "usar la versión entera 1")
+    r.exigir(type(doc.get("schema_version")) is int and doc["schema_version"] in (1, 2),
+             "schema_version", "usar la versión entera 1 (legado) o 2 (actual)")
     r.identificador(doc.get("id"), "id")
     r.texto(doc.get("nombre"), "nombre")
     r.exigir(doc.get("estado") in ESTADOS if isinstance(doc.get("estado"), str) else False,
@@ -94,7 +95,65 @@ def comunes(doc, r):
         r.exigir(bool(pruebas), "validacion.evidencias", "una implementación necesita evidencia real")
 
 
+def secreto(valor, r, ruta, estado, segmentos=None):
+    zona = r.objeto(valor, ruta)
+    identificador = r.identificador(zona.get("id"), ruta + ".id")
+    for campo in ("ubicacion", "entrada", "actividad", "recompensa", "salida"):
+        r.texto(zona.get(campo), ruta + "." + campo)
+    r.exigir(zona.get("opcional") is True, ruta + ".opcional", "el secreto debe ser opcional")
+    if segmentos is not None:
+        segmento = r.identificador(zona.get("segmento_id"), ruta + ".segmento_id")
+        r.exigir(segmentos.get(segmento) is False, ruta, "situar el secreto en un segmento opcional existente")
+    r.campos_texto(zona.get("totem"), ruta + ".totem", ("ubicacion", "aspecto", "pista"))
+    aprobacion = r.objeto(zona.get("validacion_usuario"), ruta + ".validacion_usuario")
+    validada = aprobacion.get("estado") == "validada"
+    r.exigir(aprobacion.get("estado") in ("pendiente", "validada"), ruta, "validación del usuario: pendiente o validada")
+    if estado == "implementada":
+        r.exigir(validada, ruta, "validar ubicación y actividad con el usuario antes de implementar")
+    if validada:
+        try:
+            fecha = aprobacion.get("fecha", "")
+            r.exigir(date.fromisoformat(fecha).isoformat() == fecha, ruta,
+                     "la validación necesita fecha YYYY-MM-DD")
+        except (ValueError, TypeError):
+            r.exigir(False, ruta, "la validación necesita fecha YYYY-MM-DD")
+        r.texto(aprobacion.get("decision"), ruta + ".validacion_usuario.decision")
+        for campo in ("ubicacion", "actividad"):
+            copia = r.texto(aprobacion.get(campo + "_validada"), ruta + ".validacion_usuario." + campo + "_validada")
+            r.exigir(copia == zona.get(campo), ruta, "consultar de nuevo si cambia " + campo)
+    return identificador
+
+
+def secretos_y_coleccion(doc, r, segmentos):
+    actual = doc.get("schema_version") == 2 and doc.get("categoria") == "aventura"
+    if actual or "zonas_secretas" in doc:
+        ids = [secreto(z, r, f"zonas_secretas[{i}]", doc.get("estado"), segmentos)
+               for i, z in enumerate(r.lista(doc.get("zonas_secretas"), "zonas_secretas",
+                                             permitir_vacia=not actual))]
+        r.exigir(len(ids) == len(set(ids)), "zonas_secretas", "no repetir secretos")
+    if actual or "coleccionables" in doc:
+        ids = []
+        for i, valor in enumerate(r.lista(doc.get("coleccionables"), "coleccionables", permitir_vacia=not actual)):
+            ruta = f"coleccionables[{i}]"
+            item = r.objeto(valor, ruta)
+            ids.append(r.identificador(item.get("id"), ruta + ".id"))
+            dificultad = item.get("dificultad")
+            r.exigir(isinstance(dificultad, str) and dificultad in ("comun", "inicial", "intermedia", "maxima"),
+                     ruta + ".dificultad", "usar comun, inicial, intermedia o maxima")
+            if dificultad in ("intermedia", "maxima"):
+                esperado = 2 if dificultad == "intermedia" else 3
+                r.exigir(doc.get("categoria") == "aventura" and doc.get("orden") == esperado,
+                         ruta, f"dificultad {dificultad}: reservar para aventura {esperado}, antes del jefe")
+            segmento = r.identificador(item.get("segmento_id"), ruta + ".segmento_id")
+            r.exigir(segmento in segmentos, ruta, "el coleccionable necesita un segmento existente")
+            r.campos_texto(item, ruta, ("obtencion", "recompensa", "persistencia"))
+            r.exigir(item.get("opcional") is True, ruta, "la colección no bloquea la salida")
+        r.exigir(len(ids) == len(set(ids)), "coleccionables", "no repetir objetos")
+
+
 def dinamica(doc, r):
+    if "zona_secreta" in doc:
+        secreto(doc["zona_secreta"], r, "zona_secreta", doc.get("estado"))
     for campo in ("objetivo", "recompensa", "dificultad"):
         r.texto(doc.get(campo), campo)
     r.campos_texto(doc.get("controles"), "controles", ("tactil", "teclado", "mando"))
@@ -155,6 +214,7 @@ def nivel(doc, r):
             conocidas.update(acciones)
     r.exigir(bool(principales), "segmentos", "falta recorrido principal")
     r.exigir(set(nuevas).issubset(conocidas), "dinamicas_nuevas_obligatorias", "deben aparecer en la ruta principal")
+    secretos_y_coleccion(doc, r, segmentos)
 
     llaves = r.lista(doc.get("llaves"), "llaves", permitir_vacia=not aventura)
     r.exigir(len(llaves) == (3 if aventura else 0), "llaves", "usar tres en aventura y ninguna en jefe")
@@ -260,6 +320,21 @@ def validar_mundo(documentos):
     pares = [(d.get("categoria"), d.get("orden")) for d in niveles]
     esperados = [("aventura", 1), ("aventura", 2), ("aventura", 3), ("jefe", 4)]
     r.exigir(all(pares.count(p) == 1 for p in esperados), "mundo", "necesita aventuras 1, 2 y 3 y jefe 4")
+    if any(d.get("schema_version") == 2 for d in niveles):
+        r.exigir(all(d.get("schema_version") == 2 for d in niveles), "mundo", "usar versión 2 en todo el diseño actual")
+        objetos, dificultades = [], set()
+        for doc in niveles:
+            valores = doc.get("coleccionables", [])
+            for item in valores if isinstance(valores, list) else []:
+                if not isinstance(item, dict):
+                    continue
+                if isinstance(item.get("id"), str):
+                    objetos.append(item["id"])
+                if isinstance(item.get("dificultad"), str):
+                    dificultades.add(item["dificultad"])
+        r.exigir(len(objetos) == len(set(objetos)), "mundo.coleccionables", "no duplicar IDs entre aventuras")
+        r.exigir({"intermedia", "maxima"}.issubset(dificultades), "mundo.coleccionables",
+                 "planificar el escalón intermedio en aventura 2 y el máximo en aventura 3")
     por_id = {d["id"]: d for d in niveles if isinstance(d.get("id"), str)}
     visitados, activos = set(), set()
 
@@ -304,6 +379,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archivos", nargs="+", type=Path, help="Fichas JSON completadas")
     parser.add_argument("--mundo", action="store_true", help="Revisar juntas las tres aventuras y su jefe")
+    parser.add_argument("--actual", action="store_true", help="Exigir versión 2 para diseños nuevos")
     args = parser.parse_args(argv)
     documentos, ids, errores = [], set(), 0
     for archivo in args.archivos:
@@ -315,6 +391,8 @@ def main(argv=None):
             errores += 1
             continue
         fallos, resumen = validar(doc)
+        if args.actual and (not isinstance(doc, dict) or doc.get("schema_version") != 2):
+            fallos.append("schema_version: --actual exige versión 2 con secretos y colección")
         identificador = doc.get("id") if isinstance(doc, dict) else None
         if isinstance(identificador, str):
             if identificador in ids:
@@ -327,6 +405,8 @@ def main(argv=None):
                 print(f"ERROR {archivo}: {fallo}")
         else:
             print(f"CORRECTO {archivo}: {resumen}")
+            if doc.get("schema_version") == 1:
+                print("LEGADO: versión 1; no acredita los requisitos nuevos ausentes. Usar --actual para diseños nuevos.")
     if args.mundo:
         for fallo in validar_mundo(documentos):
             print(f"ERROR {fallo}")

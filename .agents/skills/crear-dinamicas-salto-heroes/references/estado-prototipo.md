@@ -1,27 +1,27 @@
-# Inventario del prototipo
+# Inventario contrastado de Super Diego
 
-Instantánea revisada el 16 de octubre de 2026 en `RamonC5/juegoDiego`, rama `main`, commit `bf72da5541bb77bfee9b4b76d0384ab30973ba32`. Contrastar con el commit actual en cada encargo. Las rutas son relativas a la raíz del juego; esta referencia no certifica futuras versiones.
+Instantánea documental del 18-10-2026 en `RamonC5/juegoDiego`, rama `main`, commit `f8a716da1e27fc24a7aca83685be1fb6033b8eed` (0.11.1). Se han leído arquitectura, controles, recompensas, fichas, `forest_stage.gd`, catálogo/servicio de colección y generador del bosque. No se ha ejecutado el juego en esta actualización del skill. Contrastar código y pruebas al integrar; esta referencia no certifica versiones futuras.
 
-| Mecánica | Evidencia en el proyecto | Alcance comprobado al leer el código |
+| Capacidad | Fuentes relativas al proyecto | Estado y regla actual |
 | --- | --- | --- |
-| Caminar, correr, saltar y pisar enemigos | `game/features/player/diego.gd`, `docs/PROTAGONISTA.md` | Movimiento y rebote existentes. Salto con tolerancia al borde y anticipación. |
-| Agacharse | `diego.gd`: `_update_crouch`, `can_stand`, `_physics_process` | Reduce la cápsula de 98 a 58 px, conserva los pies y comprueba techo al levantarse. Frena hasta detenerse. No permite avanzar agachado ni recoger/lanzar mientras se mantiene la postura. |
-| Gestos | `docs/CONTROLES_TACTILES.md`, `game/ui/touch_controls/touch_controls.gd` | Arrastre horizontal, arriba para salto, abajo mantenido para agacharse, toque corto para coger/lanzar, multitoque y lados intercambiables. |
-| Arrojadizos | `docs/OBJETOS_ARROJADIZOS.md`, `game/features/objects/throwable_catalog.gd`, `game/data/worlds/world_01/level_01.tres` | Seis tipos integrados en entrenamiento. Los datos del bosque usan los índices 0, 1 y 3: barril, canto y vasija. La documentación del bosque y sus pistas mencionan piña, pero el índice 2 de piña no figura en esos puestos; tratarlo como discrepancia pendiente, sin cambiar el juego durante una tarea de skill. |
-| Terrón y Moflete | `game/features/enemies/forest_enemy.gd` | Patrulla, daño lateral, pisotón y recepción de impactos lanzados. Animación por transformación del sprite. |
-| Nóctilo y otros enemigos | `docs/PERSONAJES.md`, `art/characters/` | Nóctilo, Goterón, Vainete, Plumín y Remiendo son conceptos; no atribuirles comportamientos ya integrados. |
-| Tres llaves | `game/features/levels/keys/level_key.gd`, `forest_stage.gd` | Tres ranuras distintas, recogida automática sin ocupar manos, una vez por llave y por intento. |
-| Puerta | `game/features/levels/keys/key_exit_door.gd`, `forest_stage.gd` | Barrera física; abre con tres ranuras válidas y el nivel valida también las tres antes de finalizar una vez. |
-| Identidad de llaves | `docs/LLAVES_Y_PUERTAS.md` | Ramas en bosque. Hay siete familias gráficas adicionales como propuestas, sin asignación definitiva a otros mundos. |
-| Farol | `forest_stage.gd`: `_on_checkpoint`, `respawn_player` | Un punto de control en el bosque. Llaves, hojas y cristales se conservan durante el intento, incluidos los recogidos después del farol. Reiniciar repone las llaves. |
-| Progreso entre sesiones | `game/core/services/level_progress.gd` | Guarda resultados de niveles completados, mejores marcas y finalizaciones; no serializa un intento a mitad de nivel. |
-| Bosque 1-1 | `game/data/worlds/world_01/level_01.tres`, `level_definition.gd` | 8.200 px de ancho, cuatro huecos, once plataformas elevadas, siete patrullas, tres cristales, cinco puestos de objetos y un farol. |
-| Selección de otros niveles y jefe | `docs/ARQUITECTURA.md`, `game/features/world_map/`, `game/features/bosses/` | El mapa de mundos, otros niveles y jefes siguen pendientes. |
+| Movimiento y doble salto | `docs/CONTROLES_TACTILES.md`, `game/features/player/diego.gd` | Una pulsación izquierda salta; otra aérea da un segundo impulso. Derecha mueve/agacha/coge/lanza; mitades intercambiables y teclado/mando equivalentes. No restaurar salto por deslizamiento. |
+| Pasos bajos | `docs/ARQUITECTURA.md`, `docs/pruebas/recuperacion-0.7.5.md` | Permite avanzar y retroceder agachado. Conserva pies al cambiar postura, se levanta bajo repisas atravesables y sale agachado de techos sólidos. No confundir estas dos colisiones. |
+| Lianas oscilantes | `docs/dinamicas/lianas_dianas_barranco.json`, `docs/CONTROLES_TACTILES.md` | Cinco cuerdas con fases distintas; saltar para agarrar, balancearse y saltar a otra, con impulso tangencial. El agarre renueva reserva aérea y manos siguen el nudo. La trepa automática es histórica. |
+| Arrojadizos y dianas | `forest_stage.gd`, `tools/authoring/build_forest_level.py`, `docs/ARQUITECTURA.md` | Puzzles de piñas/dianas conectados a puentes y portones, con reposición. Rotura actual en fragmentos irregulares de cristal; no la marca estática ni sectores iguales de versiones antiguas. |
+| Plataformas móviles | `docs/dinamicas/troncos_viajeros.json`, `docs/ARQUITECTURA.md` | Viaje horizontal y ascensores integrados; transporte físico y ciclos recuperables. No declararlos sistema pendiente. |
+| Terrón y Moflete | `docs/BOSQUE_ESMERALDA.md`, `docs/ARQUITECTURA.md` | Pisotón, aviso, persecución y retorno; pueden bajar de estructuras durante persecución. Animación de miembros mediante malla raster, con pisada mejorada. La restricción antigua de guardianes de plataforma está sustituida. |
+| Otros enemigos | `docs/ARQUITECTURA.md`, `art/characters/` | Nóctilo y otros cuatro tienen arte/animación en visor; no atribuirles IA o combate jugable por esa evidencia. |
+| Tres llaves y puerta | `forest_stage.gd`, `docs/LLAVES_Y_PUERTAS.md` | Tres ranuras distintas, recogida automática y manos libres. Solo esas llaves abren salida; ramas en bosque. Otras familias visuales no fijan nuevos mundos. |
+| Recuperación espacial por farol | `forest_stage.gd`, `docs/pruebas/recuperacion-0.7.5.md` | Conserva y reconstruye lo anterior al punto de reaparición; rearma lo posterior, incluidos mecanismos y sus dianas/piñas, enemigos y ciclos. El mecanismo determina el lado de sus dianas; evitar bloqueo al volver atrás. No reiniciar globalmente los puentes. |
+| Gruta, tótem y vida | `forest_stage.gd`, `docs/dinamicas/gruta_hojas_vida.json` | Entrada alrededor de x=11610 junto al tótem; agacharse, pasear bajo el bosque hacia hojas/vida y volver por ascensor en x=10340. Recogida de vida una vez por intento, conservada al reaparecer. Tótem raster coherente, sin bloqueo físico. Nueva ubicación/actividad requiere validación previa del usuario. |
+| Colección permanente | `game/core/services/collection_progress.gd`, `docs/RECOMPENSAS.md` | Hojas, cristales y tres fragmentos por ID/manifiesto; escritura inmediata segura con copia y reversión de error, sin duplicados. Conserva colección y equipo al morir, reiniciar y cerrar. No guarda posición ni intento a mitad de nivel. |
+| Vestuario y Luci | `game/core/contracts/collection_rewards.gd`, `docs/RECOMPENSAS.md` | Ropa por 12/45/60/80/100/150 hojas; Ladybug y estelar son las dos últimas. No exige recogerlo todo. Luci usa tres fragmentos opcionales. Apariencia en partida y miniaturas; Volver/Seguir jugando fijos. |
+| Bosque 1-1 compacto | `tools/authoring/build_forest_level.py`, `docs/niveles/world_01_level_01.json` | Prólogo y nueve tramos, 45 enemigos y tres llaves. 9,2–10,94 minutos estimados por excepción del 17-10-2026. No restaurar el nivel largo de 19 tramos/81 enemigos ni afirmar tiempo medido. |
+| Presentación y audio | `docs/ARQUITECTURA.md`, `docs/CONTROLES_TACTILES.md` | Escenario sin letras/iconos flotantes; HUD con iconos y cantidades, instrucciones en pausa. Cámara acompaña caída. Música moderna Esmeralda en marcha, con pausa, silencio y volumen; elegir música propia por mundo. |
+| Entrada y mapa | `docs/ARQUITECTURA.md`, `docs/ENTRADA_Y_MUNDOS.md` | Entrada animada de aventuras y mapa con ocho mundos; solo Bosque Esmeralda está abierto. Otros niveles y jefes no están integrados. Mantener el flujo de selección al añadir contenido autorizado. |
 
-## Precauciones de interpretación
+## Límites
 
-- Tratar las pruebas automatizadas existentes como evidencia de sus casos específicos. No hay una medición registrada de 15 minutos con un niño de 10 años ni validación del tacto en sus dispositivos.
-- Una diana de entrenamiento que recibe impactos no implementa un interruptor conectado a un puente. Añadir esa relación y su persistencia como trabajo nuevo.
-- Varias plataformas estáticas no prueban transporte sobre una plataforma móvil; una postura agachada no prueba desplazamiento por un túnel.
-- Algunas referencias antiguas describen al protagonista o sistemas como pendientes. Comparar esas afirmaciones con código y catálogos actuales, sin borrar las decisiones confirmadas del usuario.
-- El plan aceptado de tres aventuras y jefe por mundo, recorridos de al menos 15 minutos y nuevas dinámicas describe desarrollo futuro. Esta entrega de skill no modifica el nivel experimental.
+Mantener setas de rebote, placas de peso, otros niveles/jefes y guardado del intento como pendientes. La nueva distribución de objetos intermedios en aventura 2 y máximos en aventura 3 es una regla de autoría del 18-10-2026; actualizar el skill no los implementa ni recoloca premios existentes.
+
+Usar los informes de pruebas como evidencia histórica de sus casos. No hay duración observada del público objetivo ni pruebas físicas nuevas de Android/Windows por esta edición. Los ejemplos del skill son propuestas ilustrativas; su presupuesto general de 18–22 minutos no reemplaza la excepción del primer bosque.

@@ -2,9 +2,17 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Autoría de niveles: decisiones del 18-10-2026
+
+Aplicar el skill actualizado al diseñar niveles nuevos: incluir al menos una zona secreta opcional por aventura y, **antes de implementarla**, proponer y validar con el usuario su ubicación y lo que Diego hace dentro. Registrar la respuesta real; si cambia la ubicación o actividad, volver a consultar. Señalar siempre la entrada con un tótem del estilo del mundo, sin letras ni iconos flotantes; ofrecer entrada, premio y retorno físicos sin impedir las tres llaves.
+
+Repartir los objetos especiales de colección por dificultad: iniciales y accesibles desde la aventura 1; intermedios (el escalón inmediatamente anterior al máximo) en la aventura 2; máximos en la aventura 3, última antes del jefe. Mantener hojas comunes en todas y retos alcanzables para 10 años. Esta regla de diseño no recoloca objetos existentes ni cambia automáticamente los trajes por hojas. No exigir todas las hojas ni colección completa para avanzar o desbloquear ropa.
+
+Usar fichas versión 2 y el comprobador con `--actual`; con `--mundo`, adjuntar las tres aventuras y su jefe. Conservar fichas históricas en versión 1 sin inventar aprobaciones. Ver [decisiones del skill](../.agents/skills/crear-dinamicas-salto-heroes/references/secretos-y-coleccion.md).
+
 ## Colección y recompensas · 0.8.0
 
-Las hojas desbloquean pañuelo (12), chaleco de hojas (45) y traje de explorador (100), sin gastarse. Todas las hojas, cristales y fragmentos del bosque desbloquean Guardián dorado. Tres fragmentos opcionales, en el claro inicial, la gruta y las lianas, despiertan al acompañante Luci. La ropa es cosmética y estas recompensas no condicionan las tres llaves ni la salida.
+Regla vigente 0.11.1: las hojas acumuladas desbloquean pañuelo (12), chaleco (45), explorador (60), guardián (80), Ladybug (100) y Ladybug estelar (150), sin gastarse. Ningún traje exige colección completa, secretos, cristales ni fragmentos; sustituye los requisitos históricos de 0.8.0. Tres fragmentos opcionales, en el claro inicial, la gruta y las lianas, despiertan al acompañante Luci. La ropa es cosmética y estas recompensas no condicionan las tres llaves ni la salida.
 
 El guardado inmediato conserva colección y equipo al morir, cerrar y rejugar, evitando duplicados por ID. Es independiente del reinicio espacial de los mecanismos y de los resultados. El vestuario pausa el juego; Luci se puede desactivar y no añade gestos. La duración principal mantiene la excepción anterior y no se atribuye tiempo medido a los coleccionables.
 
@@ -34,7 +42,7 @@ El tótem y las lianas tienen acabado raster coherente con el escenario. Las lia
 
 El bosque histórico 0.5.0 contenía 19 tramos, 81 enemigos con persecución (38 guardianes de plataforma), tres llaves repartidas en tres rutas, 19 pasos de dos marcas, ocho puentes, ocho troncos y 21 faroles. El guardado conserva resultados completados; cerrar reinicia el intento. La ampliación está integrada y la duración de 18–22 minutos sigue siendo estimada, sin medición del público objetivo.
 
-[Recorrido actual](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json) · [Contenido y evidencia](BOSQUE_ESMERALDA.md). Las fichas antiguas del puente y los troncos conservan su contexto de integración inicial. Los otros niveles y jefes siguen pendientes. El inventario del skill es una instantánea anterior; contrastarlo con el código actual.
+[Recorrido actual](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json) · [Contenido y evidencia](BOSQUE_ESMERALDA.md). Las fichas antiguas del puente y los troncos conservan su contexto de integración inicial. Los otros niveles y jefes siguen pendientes. El inventario del skill está contrastado documentalmente hasta 0.11.1; revisarlo contra el código al integrar.
 
 ## Duración y recuperación
 
@@ -50,9 +58,9 @@ Los nombres y la distribución nueva son propuestas de diseño, no niveles ya im
 
 | Etapa | Dinámicas nuevas previstas | Progresión |
 | --- | --- | --- |
-| 1-1 · El despertar del bosque ampliado | Puente de diana y troncos viajeros | Integrado: prólogo y tres rutas de seis retos con llaves separadas, dos marcas y persecución. Duración pendiente de medir. |
-| 1-2 · Las copas inquietas | Setas de rebote; combinar con plataformas móviles ya conocidas | Explorar alturas. Introducir Nóctilo cuando tenga comportamiento jugable, primero de forma opcional si añade una tercera dinámica nueva. |
-| 1-3 · El corazón de las raíces | Avanzar agachado y placas de peso | Resolver pasos estrechos y mecanismos; practicar lanzamientos antes del jefe. |
+| 1-1 · El despertar del bosque ampliado | Puente de diana y troncos viajeros | Integrado: prólogo y nueve tramos, lianas, gruta con tótem y tres llaves. 9,2–10,94 minutos estimados, pendientes de medir. |
+| 1-2 · Las copas inquietas | Setas de rebote propuestas; combinar plataformas móviles y objetos intermedios | Explorar alturas. Introducir Nóctilo cuando tenga comportamiento jugable, primero de forma opcional si añade una tercera dinámica nueva. |
+| 1-3 · El corazón de las raíces | Placas de peso propuestas; combinar avance agachado conocido y objetos máximos | Resolver pasos estrechos y mecanismos; practicar lanzamientos antes del jefe. |
 | Jefe del bosque | Patrones y vulnerabilidad a objetos lanzados | Desbloquear tras completar las tres aventuras; ofrecer objetos de reposición y repetición del combate. |
 
 No fijar los nombres ni las temáticas de los otros siete mundos a partir del catálogo de llaves. El mínimo de 15 minutos se refiere a las aventuras; el encuentro separado con el jefe tendrá un ritmo propio.
@@ -129,4 +137,3 @@ Se sustituye la liana fija que hacía ascender automáticamente y los cinco disc
 ## Controles y reserva aérea · 0.7.3
 
 Una pulsación en la mitad izquierda inicia un salto completo y otra en el aire añade un único segundo impulso. El arrastre pasa a la derecha junto con agacharse y recoger/lanzar; las mitades siguen siendo intercambiables. Al soltarse de una liana queda un salto aéreo, y el siguiente agarre renueva la reserva. La pose de manos elevadas gira alrededor del contacto con la cuerda; las colisiones y las reglas de recuperación se conservan. [Controles y pruebas](CONTROLES_TACTILES.md).
-

@@ -1,4 +1,4 @@
-# Contrato de fichas JSON, versión 1
+# Contrato de fichas JSON, versión 2 (compatible con legado 1)
 
 Usar JSON UTF-8 sin comentarios ni claves repetidas. Las plantillas contienen campos vacíos intencionados y deben completarse antes de validar. Mantener identificadores `snake_case`, textos en español y un estado honesto.
 
@@ -6,7 +6,7 @@ Usar JSON UTF-8 sin comentarios ni claves repetidas. Las plantillas contienen ca
 
 | Campo | Regla |
 | --- | --- |
-| `schema_version` | Entero `1`. |
+| `schema_version` | Entero `2` en fichas nuevas; aceptar `1` solo para conservar legado. Usar `--actual` para exigir `2`. |
 | `tipo` | `dinamica` o `nivel`. |
 | `id`, `nombre` | Identificador estable y nombre descriptivo no vacío. |
 | `estado` | `propuesta`, `ampliacion` o `implementada`. |
@@ -54,13 +54,37 @@ En `duracion`, incluir:
 
 La suma de mínimos y máximos de segmentos principales debe caber en el objetivo y su mínimo debe alcanzar el exigido. Los segmentos opcionales no contribuyen. `medida` requiere muestras; si alguna queda por debajo del mínimo, la ficha necesita revisión. Una muestra no demuestra por sí sola la edad, metodología ni tiempo de todos los jugadores.
 
+## Secretos y colección en versión 2
+
+Exigir en cada aventura nueva `zonas_secretas` y `coleccionables`, ambas listas no vacías. Mantener las fichas históricas en versión 1; no fingir que fueron aprobadas ni migrarlas automáticamente. El modo normal conserva su comprobación antigua y avisa del legado. `--actual` rechaza versión 1 y debe usarse para diseños nuevos.
+
+Completar cada zona secreta con:
+
+- `id`, `segmento_id` (segmento opcional existente), `opcional`: `true`.
+- Textos `ubicacion`, `entrada`, `actividad`, `recompensa` y `salida`; detallar el acceso y retorno físicos.
+- `totem`: objeto con textos `ubicacion`, `aspecto` y `pista`; mantener coherencia con el mundo y evitar letras o iconos flotantes.
+- `validacion_usuario`: objeto con `estado`: `pendiente` o `validada`. En pendiente, dejar `fecha`, `decision`, `ubicacion_validada` y `actividad_validada` vacíos; no inventar respuestas. Para validada, completar fecha ISO y respuesta real; copiar la ubicación y actividad que el usuario aprobó. Si cambian, invalidar y consultar de nuevo. Una ficha `implementada` no puede contener un secreto pendiente.
+
+Incluir el mismo objeto como `zona_secreta` en toda ficha nueva de dinámica dedicada al secreto (sin `segmento_id` obligatorio). Validar igualmente tótem, opcionalidad y consulta previa. La aprobación de documentación no autoriza una ubicación o actividad futura.
+
+Completar cada coleccionable con `id` estable, `segmento_id` existente, `opcional`: `true` y textos `obtencion`, `recompensa` y `persistencia`. Indicar si alimenta un premio o solo la colección. Usar `dificultad`:
+
+| Valor | Ubicación permitida |
+| --- | --- |
+| `comun` | Hojas u objetos comunes en las tres aventuras. |
+| `inicial` | Objetos accesibles, desde la primera aventura y también en posteriores. |
+| `intermedia` | Solo la segunda aventura del mundo; escalón inmediatamente anterior al máximo. |
+| `maxima` | Solo la tercera y última aventura, antes del jefe. |
+
+Al comprobar un mundo versión 2, exigir sus cuatro fichas en versión 2, IDs de colección sin duplicados y presencia de los escalones intermedio y máximo. El jefe no hereda un secreto obligatorio ni puede alojar objetos intermedios o máximos reservados a aventuras. Poder dejar sus listas vacías. No utilizar estos campos para bloquear los trajes actuales por nivel, por secretos ni por colección completa.
+
 ## Uso y límites del comprobador
 
 ```sh
 python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py ruta/dinamica.json ruta/nivel.json
-python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py --mundo ruta/level_01.json ruta/level_02.json ruta/level_03.json ruta/boss.json
+python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py --actual --mundo ruta/level_01.json ruta/level_02.json ruta/level_03.json ruta/boss.json
 ```
 
 Usar `--mundo` con las cuatro fichas de nivel de un solo mundo. El comprobador revisa cantidad, órdenes, desbloqueos y ciclos; también admite fichas de dinámicas en la misma llamada. Sin esa opción, se puede comprobar una ficha aislada aunque sus niveles previos no se hayan adjuntado.
 
-El proceso devuelve 0 cuando la estructura es coherente, 1 ante errores de fichas y 2 ante uso incorrecto de la línea de órdenes. No modifica archivos, no ejecuta el juego y no certifica diversión, física, rendimiento, accesibilidad total ni duración real. Mantener esas revisiones en `validacion.jugando` y registrar evidencia real después.
+El proceso devuelve 0 cuando la estructura es coherente, 1 ante errores de fichas y 2 ante uso incorrecto de la línea de órdenes. Verifica los datos declarados; no autentica una respuesta del usuario ni demuestra ubicación física, tótem visible, persistencia real o dificultad adecuada. Revisar las fuentes reales de aprobación y jugar el recorrido. No modifica archivos, no ejecuta el juego y no certifica diversión, física, rendimiento, accesibilidad total ni duración real. Mantener esas revisiones en `validacion.jugando` y registrar evidencia real después.

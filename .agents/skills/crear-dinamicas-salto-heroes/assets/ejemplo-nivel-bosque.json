@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "tipo": "nivel",
   "id": "world_01_level_01",
-  "nombre": "El despertar del bosque · ampliación propuesta",
+  "nombre": "Ejemplo genérico de aventura del bosque; no sustituye Bosque 1-1 compacto",
   "estado": "propuesta",
   "fuentes": [
     {
@@ -14,6 +14,11 @@
       "ruta": "encargo:Juego Diego / plan de dinámicas",
       "revision": "2026-10-16",
       "observacion": "Diseñar tres aventuras antes del jefe y al menos 15 minutos por aventura para un niño de 10 años."
+    },
+    {
+      "ruta": "encargo:actualizar skill de niveles",
+      "revision": "2026-10-18",
+      "observacion": "Ejemplo de ficha v2 con secreto pendiente y colección inicial; no es un nuevo nivel integrado ni una ubicación aprobada."
     }
   ],
   "mundo_id": "world_01",
@@ -194,9 +199,9 @@
         6
       ],
       "dinamicas": [
-        "ruta_secretos"
+        "gruta_hojas_vida"
       ],
-      "proposito": "Buscar cristales y hojas en desvíos con retorno; no condicionan llaves ni salida."
+      "proposito": "Propuesta de zona secreta opcional con tótem y retorno; pendiente de validar ubicación y actividad."
     }
   ],
   "llaves": [
@@ -254,9 +259,9 @@
     "muestras": []
   },
   "persistencia": {
-    "al_morir": "Conservar las llaves y mecanismos resueltos del intento y reaparecer en el último farol; el puente nuevo requiere su propio estado.",
-    "al_cerrar": "Proponer guardado del intento y restauración segura; el código actual solo guarda resultados al completar, así que esta capacidad está pendiente.",
-    "al_rejugar": "Reponer las tres llaves, puente y objetos del intento; conservar mejores marcas y niveles ya desbloqueados."
+    "al_morir": "Conservar llaves, colección y vida secreta concedida; restaurar mecanismos anteriores al farol y rearmar posteriores con sus dianas, herramientas y enemigos.",
+    "al_cerrar": "Conservar colección y equipo permanentes; reiniciar posición, llaves y mecanismos del intento. No existe guardado de posición.",
+    "al_rejugar": "Reponer llaves y mecanismos; conservar colección, equipo y resultados sin duplicar objetos."
   },
   "accesibilidad": {
     "senales_no_solo_color": "Numerar las tres llaves y combinar material, brotes, marcas y estado de cerrojos.",
@@ -276,5 +281,40 @@
       "Ajustar contenido si una muestra de ruta principal termina antes de 15 minutos; no imponer un reloj de espera."
     ],
     "evidencias": []
-  }
+  },
+  "zonas_secretas": [
+    {
+      "id": "secreto_1",
+      "segmento_id": "cristales_opcionales",
+      "opcional": true,
+      "ubicacion": "Desvío junto al claro inicial, antes del primer reto principal; propuesta ilustrativa por validar.",
+      "entrada": "Agacharse junto a una trampilla señalada por el tótem.",
+      "actividad": "Recorrer una galería corta siguiendo hojas y alcanzar una repisa de colección inicial.",
+      "recompensa": "Objeto inicial opcional de ejemplo; no condiciona llaves ni ropa.",
+      "salida": "Volver a la ruta por un ascensor con suelo de recuperación y regreso disponible.",
+      "totem": {
+        "ubicacion": "Visible desde el claro, junto a la entrada de la trampilla.",
+        "aspecto": "Madera, raíces y musgo con el acabado raster del bosque.",
+        "pista": "Silueta tallada y hojas con oscilación suave, sin letras ni iconos flotantes."
+      },
+      "validacion_usuario": {
+        "estado": "pendiente",
+        "fecha": "",
+        "decision": "",
+        "ubicacion_validada": "",
+        "actividad_validada": ""
+      }
+    }
+  ],
+  "coleccionables": [
+    {
+      "id": "objeto_inicial_01",
+      "dificultad": "inicial",
+      "segmento_id": "cristales_opcionales",
+      "opcional": true,
+      "obtencion": "Llegar a la repisa de la galería después de practicar saltos sencillos.",
+      "recompensa": "Completar una pieza inicial de colección; no cambia los hitos de ropa por hojas.",
+      "persistencia": "Permanente por ID; conservar al morir, reiniciar y cerrar, sin duplicados."
+    }
+  ]
 }

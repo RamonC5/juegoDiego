@@ -1,30 +1,81 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "tipo": "dinamica",
   "id": "puente_diana",
   "nombre": "Abrir un puente de raíces con una piña",
   "estado": "propuesta",
   "fuentes": [
-    {"ruta": "docs/OBJETOS_ARROJADIZOS.md", "revision": "bf72da5541bb77bfee9b4b76d0384ab30973ba32", "observacion": "Recoger y lanzar piñas existe; conectar un impacto con un puente es nuevo."},
-    {"ruta": "docs/LLAVES_Y_PUERTAS.md", "revision": "bf72da5541bb77bfee9b4b76d0384ab30973ba32", "observacion": "La llave se recoge al tocarla y no ocupa las manos."}
+    {
+      "ruta": "docs/OBJETOS_ARROJADIZOS.md",
+      "revision": "f8a716da1e27fc24a7aca83685be1fb6033b8eed",
+      "observacion": "La conexión diana-puente y la piña ya existen; este ejemplo propone otra disposición del reto."
+    },
+    {
+      "ruta": "docs/LLAVES_Y_PUERTAS.md",
+      "revision": "bf72da5541bb77bfee9b4b76d0384ab30973ba32",
+      "observacion": "La llave se recoge al tocarla y no ocupa las manos."
+    }
   ],
   "objetivo": "Observar una diana, lanzar una piña desde una zona segura y cruzar el puente para alcanzar una llave de ramas.",
   "dependencias": [
-    {"id": "lanzamiento_objetos", "estado": "implementada", "detalle": "Aprovechar la piña, el gesto actual y el contrato receive_thrown_hit."},
-    {"id": "conexion_diana_puente", "estado": "propuesta", "detalle": "Crear receptor, señal de activación y puente con colisión que permanece abierto en el intento."}
+    {
+      "id": "lanzamiento_objetos",
+      "estado": "implementada",
+      "detalle": "Aprovechar la piña, el gesto actual y el contrato receive_thrown_hit."
+    },
+    {
+      "id": "conexion_diana_puente",
+      "estado": "implementada",
+      "detalle": "Reutilizar receptor, señal, puente y recuperación espacial por farol existentes; la disposición nueva sigue como propuesta."
+    }
   ],
-  "controles": {"tactil": "Arrastrar para situarse y toque corto para coger o lanzar; no añadir botones.", "teclado": "Moverse con acciones reasignables y usar grab_throw para coger o lanzar.", "mando": "Moverse con eje o cruceta y usar la acción existente de coger/lanzar."},
-  "aprendizaje": {"presentacion": "Mostrar diana y puente simultáneamente desde un suelo sin peligros.", "practica": "Ofrecer un primer lanzamiento cercano y otro desde una altura ligeramente distinta.", "combinacion": "Cruzar el puente, superar una patrulla pisable y recoger la segunda llave."},
-  "reglas": {"activacion": "Solo aceptar un impacto lanzado válido; un objeto sostenido no activa la diana.", "exito": "Abrir el puente una sola vez y mantener su colisión de paso segura.", "fallo": "Una piña que no golpea la diana no consume el acceso ni quita una llave.", "recuperacion": "Configurar reposición de la piña y límites de recuperación; permitir volver al puesto desde ambos extremos del puente."},
-  "feedback": ["La diana se comprime al acertar y muestra una marca visible.", "El puente se despliega con movimiento suave y aparece un texto breve de paso abierto."],
+  "controles": {
+    "tactil": "Arrastrar para situarse y toque corto para coger o lanzar; no añadir botones.",
+    "teclado": "Moverse con acciones reasignables y usar grab_throw para coger o lanzar.",
+    "mando": "Moverse con eje o cruceta y usar la acción existente de coger/lanzar."
+  },
+  "aprendizaje": {
+    "presentacion": "Mostrar diana y puente simultáneamente desde un suelo sin peligros.",
+    "practica": "Ofrecer un primer lanzamiento cercano y otro desde una altura ligeramente distinta.",
+    "combinacion": "Cruzar el puente, superar una patrulla pisable y recoger la segunda llave."
+  },
+  "reglas": {
+    "activacion": "Solo aceptar un impacto lanzado válido; un objeto sostenido no activa la diana.",
+    "exito": "Abrir el puente una sola vez y mantener su colisión de paso segura.",
+    "fallo": "Una piña que no golpea la diana no consume el acceso ni quita una llave.",
+    "recuperacion": "Configurar reposición de la piña y límites de recuperación; permitir volver al puesto desde ambos extremos del puente."
+  },
+  "feedback": [
+    "La diana se rompe en fragmentos irregulares como cristal al acertar.",
+    "El puente se despliega y su colisión permite pasar, sin letras ni iconos flotantes."
+  ],
   "recompensa": "Acceso a una llave de ramas numerada, recogida automáticamente.",
-  "minutos_estimados": [4, 5],
+  "minutos_estimados": [
+    4,
+    5
+  ],
   "dificultad": "Comenzar con diana amplia y visible; añadir distancia gradualmente después de practicar.",
-  "persistencia": {"al_morir": "Diseñar el puente abierto y la llave ya recogida como hechos conservados durante el intento; implementar este estado nuevo.", "al_cerrar": "Pendiente de implementar guardado del intento; el sistema actual solo conserva resultados de niveles completados.", "al_rejugar": "Cerrar el puente y reponer piñas y llaves, conservando mejores marcas y desbloqueos."},
-  "accesibilidad": {"senales_no_solo_color": "Combinar diana con silueta propia, movimiento y marca de acierto.", "equivalencia_visual_sonora": "Mostrar la apertura y el texto aunque el sonido esté silenciado; audio todavía pendiente.", "legibilidad_movil": "Comprobar que diana y destino se reconocen a tamaño móvil y que la mano no oculta la información esencial.", "ajustes_control": "Respetar lados intercambiables, sensibilidad y equivalencias de teclado y mando."},
+  "persistencia": {
+    "al_morir": "Conservar la llave y lo resuelto antes del farol; rearmar puente, diana y piña si su mecanismo queda después. Garantizar el regreso.",
+    "al_cerrar": "Conservar colección/equipo y resultados; reiniciar el intento, sus llaves y mecanismos. No hay guardado de posición.",
+    "al_rejugar": "Cerrar el puente y reponer piñas y llaves, conservando mejores marcas y desbloqueos."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Combinar silueta propia, rotura visible y apertura física; instrucciones accesibles en pausa.",
+    "equivalencia_visual_sonora": "Reconocer rotura y apertura aun con sonido silenciado; respetar música, volumen y pausa existentes.",
+    "legibilidad_movil": "Comprobar que diana y destino se reconocen a tamaño móvil y que la mano no oculta la información esencial.",
+    "ajustes_control": "Respetar lados intercambiables, sensibilidad y equivalencias de teclado y mando."
+  },
   "validacion": {
-    "funcional": ["Aceptar un único impacto válido y rechazar sostenidos o impactos duplicados.", "Perder la piña, caer antes y después de abrir y volver al farol deja una solución disponible.", "Pausar no avanza movimiento del puente ni temporizadores de reposición."],
-    "jugando": ["Comprobar que el niño identifica relación entre diana y puente sin una explicación larga.", "Verificar lanzamiento y retorno con Android y Windows táctiles; medir el tiempo exclusivo de esta situación."],
+    "funcional": [
+      "Aceptar un único impacto válido y rechazar sostenidos o impactos duplicados.",
+      "Perder la piña, caer antes y después de abrir y volver al farol deja una solución disponible.",
+      "Pausar no avanza movimiento del puente ni temporizadores de reposición."
+    ],
+    "jugando": [
+      "Comprobar que el niño identifica relación entre diana y puente sin una explicación larga.",
+      "Verificar lanzamiento y retorno con Android y Windows táctiles; medir el tiempo exclusivo de esta situación."
+    ],
     "evidencias": []
   }
 }

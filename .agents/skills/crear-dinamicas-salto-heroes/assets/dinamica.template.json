@@ -1,25 +1,67 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "tipo": "dinamica",
   "id": "",
   "nombre": "",
   "estado": "propuesta",
-  "fuentes": [{"ruta": "", "revision": "", "observacion": ""}],
+  "fuentes": [
+    {
+      "ruta": "",
+      "revision": "",
+      "observacion": ""
+    }
+  ],
   "objetivo": "",
-  "dependencias": [{"id": "", "estado": "propuesta", "detalle": ""}],
-  "controles": {"tactil": "", "teclado": "", "mando": ""},
-  "aprendizaje": {"presentacion": "", "practica": "", "combinacion": ""},
-  "reglas": {"activacion": "", "exito": "", "fallo": "", "recuperacion": ""},
-  "feedback": [""],
+  "dependencias": [
+    {
+      "id": "",
+      "estado": "propuesta",
+      "detalle": ""
+    }
+  ],
+  "controles": {
+    "tactil": "",
+    "teclado": "",
+    "mando": ""
+  },
+  "aprendizaje": {
+    "presentacion": "",
+    "practica": "",
+    "combinacion": ""
+  },
+  "reglas": {
+    "activacion": "",
+    "exito": "",
+    "fallo": "",
+    "recuperacion": ""
+  },
+  "feedback": [
+    ""
+  ],
   "recompensa": "",
-  "minutos_estimados": [1, 2],
+  "minutos_estimados": [
+    1,
+    2
+  ],
   "dificultad": "",
-  "persistencia": {"al_morir": "", "al_cerrar": "", "al_rejugar": ""},
+  "persistencia": {
+    "al_morir": "",
+    "al_cerrar": "",
+    "al_rejugar": ""
+  },
   "accesibilidad": {
     "senales_no_solo_color": "",
     "equivalencia_visual_sonora": "",
     "legibilidad_movil": "",
     "ajustes_control": ""
   },
-  "validacion": {"funcional": [""], "jugando": [""], "evidencias": []}
+  "validacion": {
+    "funcional": [
+      ""
+    ],
+    "jugando": [
+      ""
+    ],
+    "evidencias": []
+  }
 }

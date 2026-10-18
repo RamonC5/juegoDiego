@@ -1,4 +1,4 @@
 interface:
-  display_name: "Dinámicas de Salto Heroes"
-  short_description: "Diseñar dinámicas y niveles accesibles para Salto Heroes"
-  default_prompt: "Usa $crear-dinamicas-salto-heroes para diseñar un nivel de Salto Heroes con tres llaves, dinámicas variadas para un niño de 10 años y al menos 15 minutos de recorrido principal."
+  display_name: "Niveles y dinámicas de Super Diego"
+  short_description: "Niveles con secretos, tótems y colección por dificultad"
+  default_prompt: "Usa $crear-dinamicas-salto-heroes para diseñar un nivel de Super Diego, validar conmigo dónde irá la zona secreta y qué se hará, señalarla con un tótem y repartir la colección por dificultad entre las tres aventuras."
