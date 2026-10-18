@@ -2,6 +2,10 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Corrección sobre plataformas reales · 0.7.5
+
+Soltar abajo o deslizar arriba permite ponerse de pie debajo de las plataformas que se atraviesan al saltar. Solo un techo sólido mantiene la cápsula baja; sigue siendo posible salir avanzando o retrocediendo. El farol guarda las aperturas anteriores y restaura expresamente sus dianas, portones y colisiones, mientras rearma los puzzles posteriores. [Pruebas de retorno](pruebas/recuperacion-0.7.5.md).
+
 ## Recuperación y pasos bajos · 0.7.4
 
 Diego puede avanzar y retroceder agachado bajo un bloque, con el mismo dedo que desliza abajo o con un contacto adicional. Si suelta abajo sin espacio para levantarse, otro arrastre le permite salir y recupera la postura al quedar libre.

@@ -53,6 +53,14 @@ La versión del motor se fija en `.godot-version`. Editor, plantillas de exporta
 5. Las señales notifican hechos, como `level_completed`, y las llamadas explícitas solicitan acciones. Evitar un bus global para todos los eventos.
 6. No añadir autoloads hasta que un servicio necesite persistir entre escenas. No hay autoloads registrados en esta base.
 
+## Plataformas atravesables y restauración consolidada · 0.7.5
+
+La consulta de postura inspecciona cada forma encontrada y respeta su colisión unilateral. Una repisa atravesable desde abajo no bloquea ponerse en pie; un techo sólido sigue exigiendo salir agachado. El cambio conserva la altura de los pies y el salto para aterrizar encima. Deslizar arriba después de agacharse libera la postura con el mismo contacto, sin convertirlo en salto ni lanzamiento.
+
+El farol consolida las activaciones anteriores en una copia independiente. Al reaparecer se reconstruyen explícitamente el suelo de los puentes, las marcas y colisiones de los portones y el estado de sus dianas; omitir el reinicio de un nodo ya no se considera suficiente. Las aperturas posteriores se rearman completas. Resolver algo al volver atrás actualiza la copia anterior. Un nuevo farol consolida únicamente los puzzles que quedan antes de su punto de reaparición.
+
+`test_real_recovery.gd` comprueba la primera plataforma real y los nueve portones con farol posterior, avanzando, muriendo, reanudando desde el menú y retrocediendo físicamente. Incluye una inyección explícita de pérdida de estado transitorio para verificar que la copia del farol restaura el paso. El APK Android comprueba con gestos reales que se agacha y vuelve a estar de pie bajo esa plataforma, con los pies a la misma altura y sin teletransporte. [Evidencia y límites](pruebas/recuperacion-0.7.5.md).
+
 ## Recuperación por farol y salida agachado · 0.7.4
 
 `DiegoPlayer` conserva la cápsula baja cuando no cabe de pie, pero permite moverse a 90 px/s en ambas direcciones. `HeroTouchControls` deja deslizar abajo y arrastrar con el mismo dedo; solo reclama el eje al empezar el desplazamiento horizontal, para conservar también el uso de dos dedos. Salir del techo permite levantarse al soltar abajo. Se reutiliza la animación baja existente y se mantienen el descarte de saltos pendientes, el daño y la limpieza de entradas en pausa y reaparición.

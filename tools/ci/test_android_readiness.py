@@ -3,10 +3,24 @@
 import unittest
 
 from test_android_apk import (EXPECTED_ENEMIES, FOREST_LEVEL,
-                              enemy_count_from_level, forest_art_ready)
+                              enemy_count_from_level, forest_art_ready, platform_stand_ready)
 
 
 class ForestReadinessTests(unittest.TestCase):
+    def test_stand_under_platform_requires_same_position_on_floor(self):
+        self.assertTrue(platform_stand_ready(
+            "SALTO_POSTURE state=crouch x=740.00 y=600.00\n"
+            "SALTO_POSTURE state=stand x=740.00 y=600.00"))
+        for record in (
+            "SALTO_POSTURE state=crouch x=740.00 y=600.00",
+            "SALTO_POSTURE state=stand x=740.00 y=600.00",
+            "SALTO_POSTURE state=crouch x=180.00 y=600.00\nSALTO_POSTURE state=stand x=180.00 y=600.00",
+            "SALTO_POSTURE state=crouch x=740.00 y=600.00\nSALTO_POSTURE state=stand x=910.00 y=600.00",
+            "SALTO_POSTURE state=crouch x=740.00 y=515.00\nSALTO_POSTURE state=stand x=740.00 y=515.00",
+        ):
+            with self.subTest(record=record):
+                self.assertFalse(platform_stand_ready(record))
+
     def test_recorded_android_startup_matches_current_level(self):
         # Registro real de Actions 141: la aplicación y sus texturas sí arrancaron.
         record = ("10-17 20:02:18.321 2914 3153 I godot : "

@@ -64,3 +64,17 @@ func reset_closed() -> void:
 	_roots.scale = Vector2.ONE
 	_roots.modulate = Color.WHITE
 	queue_redraw()
+
+
+func restore_state(stations: Array[StringName]) -> void:
+	# Restaurar dibujo, marcas y bloqueo físico juntos, sin animación ni señales nuevas.
+	reset_closed()
+	for station in definition.stations:
+		if stations.has(station.mechanism_id):
+			activated.append(station.mechanism_id)
+	is_open = activated.size() == definition.stations.size()
+	_shape.set_deferred("disabled", is_open)
+	if is_open:
+		_roots.scale.x = 0.12
+		_roots.modulate.a = 0.0
+	queue_redraw()

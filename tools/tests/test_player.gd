@@ -398,7 +398,7 @@ func _test_interface() -> void:
 	_check(not main.player.controls.held(&"crouch"), "cancelar el último gesto libera agacharse")
 	_touch(6, right, true)
 	_drag(6, right+Vector2(0, 65))
-	_drag(6, left)
+	_drag(6, Vector2(left.x, right.y + 65))
 	_check(main.player.controls.held(&"crouch") and not main.player.controls.held(&"jump"), "cruzar la pantalla conserva la función de agacharse")
 	_touch(6, Vector2(-10, -10), false)
 	_check(not main.player.controls.held(&"crouch") and not main.player.controls.consume(&"grab_throw"), "soltar el gesto abajo fuera de pantalla libera sin actuar")

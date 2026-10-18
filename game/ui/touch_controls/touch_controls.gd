@@ -169,6 +169,7 @@ func _move_pointer(index: int, point: Vector2) -> void:
 		if offset.y >= _jump_threshold and offset.y > absf(offset.x) * 0.65:
 			pointer.mode = &"crouch"
 			pointer.origin.x = point.x
+			pointer.crouch_y = point.y
 		elif absf(offset.x) > _dead_zone and absf(offset.x) >= absf(offset.y):
 			if _movement_pointer == NO_POINTER:
 				_movement_pointer = index
@@ -177,6 +178,18 @@ func _move_pointer(index: int, point: Vector2) -> void:
 				pointer.mode = &"ignored"
 		elif -offset.y >= _jump_threshold:
 			pointer.mode = &"ignored"
+	if pointer.mode == &"move":
+		var offset: Vector2 = point - pointer.origin
+		if offset.y >= _jump_threshold and offset.y > absf(offset.x) * 0.65:
+			pointer.mode = &"crouch"
+			pointer.crouch_y = point.y
+	if pointer.mode == &"crouch" and point.y < float(pointer.crouch_y) - _jump_threshold:
+		# Deslizar arriba libera la postura con el mismo contacto, sin pedir un salto.
+		pointer.mode = &"move" if _movement_pointer in [NO_POINTER, index] else &"ignored"
+		if _movement_pointer == NO_POINTER:
+			_movement_pointer = index
+			pointer.origin.x = point.x
+		pointer.origin.y = point.y
 	# Agacharse no ocupa el eje hasta arrastrar horizontalmente: permite uno o dos dedos.
 	if pointer.mode == &"crouch" and _movement_pointer == NO_POINTER \
 			and absf(point.x - pointer.origin.x) > _dead_zone:

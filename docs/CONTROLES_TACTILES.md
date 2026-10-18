@@ -21,7 +21,7 @@ Esta distribución es una adaptación para las acciones existentes de Diego, no 
 | Mitad izquierda mientras está colgado | Pulsar | Soltarse con el impulso de la liana; queda un salto aéreo disponible. |
 | Cualquier punto libre de la mitad derecha | Arrastrar ← / → | Movimiento analógico: poco recorrido camina; mucho recorrido corre. |
 | Mitad derecha | Soltar el arrastre | Frenar. |
-| Mitad derecha | Deslizar ↓ y mantener; después arrastrar ← / → | Agacharse y avanzar despacio con el mismo dedo. Soltar permite levantarse al salir del techo; un nuevo arrastre permite salir si todavía no cabe de pie. |
+| Mitad derecha | Deslizar ↓ y mantener; después arrastrar ← / → | Agacharse y avanzar despacio con el mismo dedo. Soltar o deslizar arriba permite ponerse de pie, también debajo de una plataforma atravesable. Si el techo es sólido, un arrastre permite salir agachado. |
 | Mitad derecha | Toque corto | Coger o lanzar, una vez al soltar. |
 | Botón Pausa | Pulsar | Abrir ajustes y liberar contactos. |
 

@@ -30,6 +30,8 @@ var throw_targets: Array[ForestThrowTarget] = []
 var pine_stations: Array[ThrowableObject] = []
 var object_stations: Array[ThrowableObject] = []
 var activated_mechanisms: Array[StringName] = []
+## Copia consolidada del tramo anterior: no depende de que el collider siga abierto.
+var _checkpoint_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
 var vine_crossings: Array[ForestVineCrossing] = []
@@ -243,6 +245,7 @@ func _on_mechanism_activated(mechanism_id: StringName) -> void:
 		if bridge.definition.mechanism_id == mechanism_id:
 			activated_mechanisms.append(mechanism_id)
 			bridge.activate()
+			_remember_checkpoint_activation(mechanism_id, bridge.definition.bridge_rect.end.x)
 			_throw_hint_target = null
 			_throw_hint_seconds = 0.0
 			hint_requested.emit("¡Diana activada! Las raíces están abriendo el paso.")
@@ -253,6 +256,7 @@ func _on_mechanism_activated(mechanism_id: StringName) -> void:
 			if station.mechanism_id == mechanism_id:
 				activated_mechanisms.append(mechanism_id)
 				gate.activate_station(mechanism_id)
+				_remember_checkpoint_activation(mechanism_id, gate.definition.position.x + 38.0)
 				_throw_hint_target = null
 				_throw_hint_seconds = 0.0
 				hint_requested.emit("¡Paso abierto! Puedes cruzar y volver cuando quieras." if gate.is_open else "¡Primera diana activada! Busca la otra marca de este tramo.")
@@ -456,6 +460,7 @@ func _on_checkpoint(body: Node2D, index: int = 0) -> void:
 	checkpoint_active = true
 	active_checkpoint_index = index
 	respawn_position = checkpoint_positions()[index] + Vector2(55, 0)
+	_capture_checkpoint_mechanisms()
 	# Consolidar solo el terreno que queda atrás, incluso si se atacó desde lejos.
 	var pending: Array[int] = []
 	for spawn_index in _defeated_since_checkpoint:
@@ -488,25 +493,47 @@ func _is_before_respawn(end_x: float) -> bool:
 	return checkpoint_active and end_x < respawn_position.x
 
 
+func _remember_checkpoint_activation(mechanism_id: StringName, end_x: float) -> void:
+	if _is_before_respawn(end_x) and not _checkpoint_mechanisms.has(mechanism_id):
+		_checkpoint_mechanisms.append(mechanism_id)
+
+
+func _capture_checkpoint_mechanisms() -> void:
+	_checkpoint_mechanisms.clear()
+	for bridge in bridges:
+		if activated_mechanisms.has(bridge.definition.mechanism_id):
+			_remember_checkpoint_activation(bridge.definition.mechanism_id, bridge.definition.bridge_rect.end.x)
+	for gate in root_gates:
+		for station in gate.definition.stations:
+			if activated_mechanisms.has(station.mechanism_id):
+				_remember_checkpoint_activation(station.mechanism_id, gate.definition.position.x + 38.0)
+
+
 func respawn_player() -> void:
-	# Conservar el tramo anterior al farol. Cada puzzle se reinicia como una unidad:
-	# una diana puede estar antes del farol y accionar una barrera que todavía queda después.
+	# Reaplicar el estado consolidado, incluido el collider: omitir un reset no restaura
+	# un portón que se haya quedado bloqueado con las dianas resueltas al otro lado.
 	var reset_mechanisms: Array[StringName] = []
 	for bridge in bridges:
-		if not _is_before_respawn(bridge.definition.bridge_rect.end.x):
+		if _checkpoint_mechanisms.has(bridge.definition.mechanism_id):
+			bridge.restore_open()
+		else:
 			bridge.reset_closed()
 			reset_mechanisms.append(bridge.definition.mechanism_id)
 	for gate in root_gates:
-		if not _is_before_respawn(gate.definition.position.x + 38.0):
+		if _is_before_respawn(gate.definition.position.x + 38.0):
+			gate.restore_state(_checkpoint_mechanisms)
+		else:
 			gate.reset_closed()
-			for station in gate.definition.stations:
+		for station in gate.definition.stations:
+			if not _checkpoint_mechanisms.has(station.mechanism_id):
 				reset_mechanisms.append(station.mechanism_id)
-	for mechanism_id in reset_mechanisms:
-		activated_mechanisms.erase(mechanism_id)
+	activated_mechanisms.assign(_checkpoint_mechanisms)
 	_throw_hint_target = null
 	_throw_hint_seconds = 0.0
 	for index in throw_targets.size():
-		if reset_mechanisms.has(throw_targets[index].definition.mechanism_id):
+		if _checkpoint_mechanisms.has(throw_targets[index].definition.mechanism_id):
+			throw_targets[index].restore_activated()
+		else:
 			throw_targets[index].reset_to_intact()
 	player.release_vine_on_failure()
 	for crossing in vine_crossings:

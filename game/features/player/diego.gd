@@ -346,7 +346,17 @@ func can_stand() -> bool:
 	query.transform = global_transform * Transform2D(0.0, _standing_body_position - Vector2(0.0, safe_margin + 0.1))
 	query.collision_mask = collision_mask
 	query.exclude = [get_rid()]
-	return get_world_2d().direct_space_state.intersect_shape(query, 1).is_empty()
+	# intersect_shape no aplica la dirección de las superficies unilaterales.
+	# Una repisa atravesable desde abajo no puede impedir recuperar la postura.
+	var contacts: Array[Dictionary] = get_world_2d().direct_space_state.intersect_shape(query, 64)
+	for contact in contacts:
+		var collider := contact["collider"] as CollisionObject2D
+		if collider == null:
+			return false
+		var owner_id: int = collider.shape_find_owner(int(contact["shape"]))
+		if not collider.is_shape_owner_one_way_collision_enabled(owner_id):
+			return false
+	return contacts.size() < 64
 
 
 func _set_crouching(value: bool) -> void:
@@ -359,6 +369,8 @@ func _set_crouching(value: bool) -> void:
 	var hand_drop: float = (_standing_shape.height - _crouching_shape.height) * 0.7 if value else 0.0
 	hand.position = _standing_hand_position + Vector2(0.0, hand_drop)
 	pickup_sensor.position = _standing_pickup_position + Vector2(0.0, hand_drop)
+	if OS.has_feature("android") and OS.is_debug_build():
+		print("SALTO_POSTURE state=%s x=%.2f y=%.2f" % ["crouch" if value else "stand", global_position.x, global_position.y])
 
 
 func _interact() -> void:

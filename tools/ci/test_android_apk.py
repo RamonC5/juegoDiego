@@ -21,6 +21,48 @@ FOREST_LEVEL = Path(__file__).resolve().parents[2] / "game/data/worlds/world_01/
 READY_PATTERN = re.compile(
     r"SALTO_FOREST_READY level=world_01_level_01 enemies=(\d+) art=(\d+)(?=\s|$)"
 )
+POSTURE_PATTERN = re.compile(r"SALTO_POSTURE state=(crouch|stand) x=(-?\d+\.\d+) y=(-?\d+\.\d+)")
+
+
+def platform_stand_ready(log: str) -> bool:
+    """La postura debe recuperarse dentro de la primera repisa, con los pies en el suelo."""
+    crouched = None
+    for state, x, y in POSTURE_PATTERN.findall(log):
+        x, y = float(x), float(y)
+        if state == "crouch":
+            crouched = (x, y) if 670 <= x <= 876 and abs(y - 600) < 2 else None
+        elif crouched and abs(x - crouched[0]) < 3 and abs(y - crouched[1]) < 2:
+            return True
+    return False
+
+
+def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
+    # Llegar andando: saltar antes podría dejar al jugador encima de la repisa.
+    adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .72)),
+        str(int(width * .80)), str(int(height * .72)), "2100")
+    time.sleep(.4)
+    for attempt in range(4):
+        adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .50)),
+            str(int(width * .65)), str(int(height * .70)), "350")
+        time.sleep(.4)
+        record = logs()
+        if platform_stand_ready(record):
+            screenshot(f"{prefix}_de_pie_bajo_plataforma.png")
+            return {"stood_under_platform": True, "teleported": False}
+        poses = POSTURE_PATTERN.findall(record)
+        crouches = [pose for pose in poses if pose[0] == "crouch"]
+        if not crouches:
+            raise RuntimeError("El APK no registró el gesto táctil de agacharse.")
+        x = float(crouches[-1][1])
+        if 670 <= x <= 876:
+            raise RuntimeError("El protagonista se quedó agachado bajo la plataforma real.")
+        direction = 1 if x < 740 else -1
+        start, end = (.65, .85) if direction > 0 else (.85, .65)
+        duration = min(2200, max(450, int(abs(740 - x) / 330 * 1000) + 450))
+        adb("shell", "input", "swipe", str(int(width * start)), str(int(height * .72)),
+            str(int(width * end)), str(int(height * .72)), str(duration))
+        time.sleep(.3)
+    raise RuntimeError("El recorrido táctil no alcanzó el interior de la primera plataforma.")
 
 
 def enemy_count_from_level(source: str) -> int:
@@ -184,6 +226,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
         width, height = screenshot(f"{prefix}_inicio.png")
         if width <= height:
             raise RuntimeError("El juego no está en orientación horizontal.")
+        posture = exercise_platform_posture(width, height, prefix) if require_marker else None
         # Movimiento táctil real, sin teletransporte ni escena alternativa de pruebas.
         adb("shell", "input", "tap", str(int(width * .20)), str(int(height * .50)))
         time.sleep(.15)
@@ -205,6 +248,7 @@ def exercise(apk: Path, prefix: str, require_marker: bool) -> dict:
             "identity_screenshot": f"{prefix}_identidad.png" if require_marker else None,
             "screen": [width, height],
             "enemy_art_marker": forest_art_ready(collected, EXPECTED_ENEMIES),
+            "platform_posture": posture,
             "screenshots": [f"{prefix}_{suffix}.png" for suffix in ("inicio", "enemigo", "pausa")],
         }
     finally:

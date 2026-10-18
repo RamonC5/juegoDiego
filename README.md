@@ -125,3 +125,7 @@ Pulsa en la mitad izquierda para saltar y otra vez durante el vuelo para hacer u
 ### Correcciones de recuperación · 0.7.4
 
 Diego puede salir de un techo avanzando o retrocediendo agachado, también con un único arrastre táctil. La reaparición conserva lo resuelto antes del farol y reconstruye solo lo posterior, agrupando cada diana con su puente o portón. Incluye regresiones físicas y de reinicio espacial en CI. [Reglas y validación](docs/pruebas/recuperacion-0.7.4.md).
+
+### Plataformas y regreso por los portones · 0.7.5
+
+Ponerse de pie respeta las plataformas atravesables y admite deslizar arriba con el mismo dedo. El farol consolida las aperturas anteriores y restaura sus colisiones, dianas y marcas al reaparecer; los puzzles posteriores vuelven a estar pendientes. La regresión recorre físicamente los nueve portones con farol posterior. [Validación y límites](docs/pruebas/recuperacion-0.7.5.md).

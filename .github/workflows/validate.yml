@@ -179,7 +179,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for suite in test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route; do
+          for suite in test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route; do
             "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
