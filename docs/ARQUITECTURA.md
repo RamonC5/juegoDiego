@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 12565)
-Total output lines: 358
-
 # Arquitectura de Super Diego
 
 ## Alcance y estado
@@ -172,7 +169,26 @@ El ensayo horizontal y el ascensor de la llave son dos usos de una misma dinámi
 
 ## Skill de creación de personajes
 
-Utilizar el skill del repositorio [`generar-personajes-salto-heroes`](../.agents/skills/generar-personajes-salto-heroes/SKILL.md) para los fu…565 tokens truncated…eFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable y desde 0.5.3 animan miembros mediante `EnemyVisual` y malla raster 2D; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo tiene aleteo visual armónico en el visor desde 0.5.3; su IA y combate de vuelo siguen pendientes. El entrenamiento no asigna contenido a los ocho mundos.
+Utilizar el skill del repositorio [`generar-personajes-salto-heroes`](../.agents/skills/generar-personajes-salto-heroes/SKILL.md) para los futuros protagonistas, enemigos y jefes. Invocarlo como `$generar-personajes-salto-heroes`; `AGENTS.md` también dirige las tareas de personajes a este flujo.
+
+| Elemento | Configuración |
+| --- | --- |
+| Ubicación | `.agents/skills/generar-personajes-salto-heroes/` |
+| Base | Flujo `imagegen` de OpenAI; procedencia y referencia de versión en `references/fuentes.md` |
+| Requisitos | Matriz de requisitos confirmados, criterios derivados y decisiones pendientes en `references/requisitos.md` |
+| Generación | Herramienta integrada `image_gen`, referencias visuales coherentes y transparencia real para sprites |
+| Entrega | PNG RGBA, acciones por rol, ficha de identidad, prompts y metadatos; contrato en `references/produccion-godot.md` |
+| Verificación | Comprobador de PNG de solo lectura y revisión visual de continuidad, raíz y legibilidad |
+| Dependencias de autoría | Herramienta de imágenes disponible; Python y Pillow para el comprobador local |
+| Dependencias del juego | Ninguna añadida por el skill |
+
+El skill conserva los requisitos de escenas 2D, acabado pulido sin apariencia de dibujo plano, Android y Windows, ocho mundos y niveles rejugables. Incluye poses para el pisotón de enemigos y para recoger/lanzar objetos contra jefes. La descripción exacta de la «opción A» sigue pendiente de incorporar; las decisiones nuevas se registrarán como propuestas.
+
+Separar el material de autoría futuro bajo `art/characters/`, con `art/.gdignore`, de los PNG finales bajo `game/assets/textures/characters/`. Los perfiles de exportación excluyen `art/`, `.agents/` y `AGENTS.md`. El skill es una herramienta de producción fuera de la ejecución del juego; no genera personajes en tiempo de juego.
+
+El [catálogo de personajes](PERSONAJES.md) registra siete enemigos normales: **Terrón, Moflete, Goterón, Vainete, Plumín, Remiendo y Nóctilo**. Cada uno tiene ficha, concepto raster 2D propuesto, PNG transparente con revisión registrada, encargo, prompts, metadatos y revisión en `art/characters/<character_id>/`. El skill exige mantener este registro y comprobar la subida a Git cuando se solicite.
+
+El protagonista [Diego](../art/characters/diego/ficha.md) añade once hojas PNG de ejecución, 48 poses y 14 estados de `SpriteFrames`, con regiones explícitas y pivote de apoyo. Referencia, prompts, metadatos y revisión están bajo `art/characters/diego/`. Terrón y Moflete tienen integración jugable y desde 0.5.3 animan miembros mediante `EnemyVisual` y malla raster 2D; las hojas de fotogramas de enemigos siguen pendientes y los otros cinco conservan su estado de concepto. Nóctilo tiene aleteo visual armónico en el visor desde 0.5.3; su IA y combate de vuelo siguen pendientes. El entrenamiento no asigna contenido a los ocho mundos.
 
 ## Capas de colisión reservadas
 
@@ -337,6 +353,5 @@ Volver al mapa desde pausa libera entradas, audio y escena del intento; la colec
 `AdventureIntro.sample_action()` encadena los SpriteFrames existentes con un reloj local por acción: carrera, salto, caída, apoyo, lanzamiento y celebración. El actor avanza continuamente, funde fotogramas y oculta su recolocación en los límites de las viñetas. El fondo se disuelve entre mundos; la vasija continúa desde la mano con una trayectoria independiente. `intro_actor.gdshader` conserva la opacidad sin modificar el material del jugador físico.
 
 `SuperheroTitle` mantiene el título accesible con letras vectoriales inclinadas, relieve coral, contorno azul y dorado, usando la fuente integrada. Entrada, repetición y movimiento reducido coordinan sus relojes. El mapa conserva un título de texto sencillo. [Contrato visual, tiempos y validación](pruebas/entrada-0.9.1.md).
-
 
 
