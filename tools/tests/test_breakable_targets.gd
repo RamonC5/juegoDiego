@@ -80,7 +80,12 @@ func run() -> void:
 	check(stage.bridges[0].state == RootBridge.State.OPEN, "la rotura abre el puente")
 	# Conservar la diana del puente anterior y reparar solo el tramo posterior.
 	stage._on_checkpoint(hero, 1)
-	var future: ForestThrowTarget = stage.throw_targets[1]
+	# El segundo punto real queda en x=24390: los puentes del prólogo ya están
+	# detrás. Probar el último puente, que sí pertenece al tramo posterior.
+	var future_index: int = stage.bridges.size() - 1
+	var future: ForestThrowTarget = stage.throw_targets[future_index]
+	check(stage.bridges[future_index].definition.bridge_rect.end.x > stage.respawn_position.x,
+		"el caso de prueba usa un puente posterior al punto real")
 	future.break_apart()
 	stage._on_mechanism_activated(future.definition.mechanism_id)
 	var gate_target: ForestThrowTarget = stage.throw_targets[stage.bridges.size()]
@@ -92,7 +97,7 @@ func run() -> void:
 	check(not target.active and not target._sprite.visible and target.collision_layer == 0, "la diana anterior al farol conserva su estado resuelto")
 	check(gate_target.active and gate_target._sprite.visible and gate_target._fragments == null, "el reintento repara también una diana de raíces con rotura pendiente")
 	check(stage.bridges[0].state == RootBridge.State.OPEN and not stage.bridges[0]._shape.disabled and stage.collected_keys.has(0), "se conserva el puente anterior junto a la llave")
-	check(stage.bridges[1].state == RootBridge.State.CLOSED and future.active and future._sprite.visible, "se repliega y rearma el puente posterior al farol")
+	check(stage.bridges[future_index].state == RootBridge.State.CLOSED and future.active and future._sprite.visible, "se repliega y rearma el puente posterior al farol")
 	check(stage.activated_mechanisms == [target.definition.mechanism_id], "solo queda registrada la activación del tramo anterior")
 	check(stage.root_gates.all(func(g: ForestRootGate): return not g.is_open and g.activated.is_empty()), "las barreras de dos marcas también se rearman")
 	object.reset_to_spawn()
@@ -100,7 +105,7 @@ func run() -> void:
 	object.release(1, Vector2.ZERO)
 	future.receive_thrown_hit(object)
 	check(not future.active and activations[0] == 1, "la diana posterior reparada vuelve a funcionar sin repetir la anterior")
-	check(stage.activated_mechanisms.count(future.definition.mechanism_id) == 1 and stage.bridges[1].state == RootBridge.State.OPENING, "la diana posterior vuelve a desplegar su puente una sola vez")
+	check(stage.activated_mechanisms.count(future.definition.mechanism_id) == 1 and stage.bridges[future_index].state == RootBridge.State.OPENING, "la diana posterior vuelve a desplegar su puente una sola vez")
 	stage.respawn_player()
 	stage.respawn_player()
 	await step(3)
@@ -129,4 +134,3 @@ func _has_no_badges(node: Node) -> bool:
 		if not _has_no_badges(child):
 			return false
 	return true
-
