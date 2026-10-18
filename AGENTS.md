@@ -21,4 +21,8 @@ Mantener los requisitos confirmados de 2D, Android y Windows, ocho mundos, nivel
 
 Una petición de mantener skills, documentación o arquitectura no pide generar arte ni añadir contenido jugable. La escena vacía solo se ampliará cuando el usuario pida desarrollar o integrar contenido.
 
+Para diseñar o integrar recompensas, ropa, accesorios y su presentación, utilizar:
 
+- Nombre: `crear-recompensas-super-diego`.
+- Entrada: `.agents/skills/crear-recompensas-super-diego/SKILL.md`.
+- Conservar IDs y guardados, verificar apariencia en el jugador real y mantener salida fija del vestuario.

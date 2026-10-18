@@ -55,6 +55,10 @@ func _capture() -> void:
 	main._collection_menu._select("fern_vest")
 	await frames()
 	save("preview_wardrobe_mobile")
+	root.size = Vector2i(960, 540)
+	root.content_scale_size = Vector2i.ZERO
+	await frames(8)
+	save("preview_wardrobe_compact")
 	root.size = Vector2i(1024, 768)
 	root.content_scale_size = Vector2i(1280, 960)
 	await frames(8)
@@ -66,3 +70,4 @@ func _capture() -> void:
 		DirAccess.remove_absolute(storage + suffix)
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit()
+

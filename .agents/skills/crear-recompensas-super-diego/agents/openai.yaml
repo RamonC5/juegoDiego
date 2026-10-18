@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recompensas de Super Diego"
+  short_description: "Diseñar recompensas modernas, visibles y equipables"
+  default_prompt: "Usa $crear-recompensas-super-diego para crear e integrar una nueva recompensa de Super Diego."

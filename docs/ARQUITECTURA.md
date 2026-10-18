@@ -18,6 +18,12 @@ Las recogidas validan ID y tipo contra el manifiesto antes de ocultar el objeto.
 
 [Reglas de recompensas](RECOMPENSAS.md) · [Ficha](dinamicas/coleccion_bosque.json) · [Pruebas y límites](pruebas/coleccion-0.8.0.md). La posición del intento sigue sin guardarse. Android y Windows físicos pendientes.
 
+## Presentación de recompensas · 0.10.0
+
+El catálogo añade paletas y tratamiento visual explícitos por ID. `PlayerWardrobe` aplica esos datos a cada material del jugador, miniaturas y vista previa; el shader cubre también sombra y tonos medios, sin cambiar animaciones ni colisiones. La trama es procedural y ya no necesita muestrear el tejido raster auxiliar.
+
+`CollectionMenu` separa cabecera fija, cuerpo con catálogo desplazable y estado inferior. Un `Panel` sin mínimo de contenido evita el desbordamiento que ocultaba Volver. La cabecera ofrece volver a pausa o seguir jugando; Android Atrás usa el mismo flujo de pausa que Escape/Start. Los gestos se limpian al continuar y no se reanuda un nivel completado. El HUD muestra equipaciones obtenidas. La regresión de presentación usa clics/toques reales y tamaños compactos; el guardado sigue en esquema 1.
+
 ## Decisión técnica
 
 | Área | Decisión | Motivo |
@@ -345,4 +351,5 @@ Volver al mapa desde pausa libera entradas, audio y escena del intento; la colec
 `AdventureIntro.sample_action()` encadena los SpriteFrames existentes con un reloj local por acción: carrera, salto, caída, apoyo, lanzamiento y celebración. El actor avanza continuamente, funde fotogramas y oculta su recolocación en los límites de las viñetas. El fondo se disuelve entre mundos; la vasija continúa desde la mano con una trayectoria independiente. `intro_actor.gdshader` conserva la opacidad sin modificar el material del jugador físico.
 
 `SuperheroTitle` mantiene el título accesible con letras vectoriales inclinadas, relieve coral, contorno azul y dorado, usando la fuente integrada. Entrada, repetición y movimiento reducido coordinan sus relojes. El mapa conserva un título de texto sencillo. [Contrato visual, tiempos y validación](pruebas/entrada-0.9.1.md).
+
 

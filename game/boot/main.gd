@@ -264,6 +264,7 @@ func _build_ui() -> void:
 	_collection_menu.total_crystals = stage.DEFINITION.crystal_positions.size()
 	_ui.add_child(_collection_menu)
 	_collection_menu.closed.connect(_close_wardrobe)
+	_collection_menu.play_requested.connect(_resume)
 	_reward_toast = _button("", _open_wardrobe)
 	_reward_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_reward_toast.custom_minimum_size = Vector2(0, 58)
@@ -373,10 +374,11 @@ func _apply_collection() -> void:
 		_applied_outfit = collection_progress.equipped
 		player.sprite.material = PlayerWardrobe.material_for(_applied_outfit)
 	var next: Dictionary = collection_progress.next_reward()
-	_wardrobe_button.text = "%d/%d" % [collection_progress.count("leaf"), int(next.leaves)] if int(next.leaves) > 0 else (
-		"✓" if collection_progress.is_unlocked("golden_forest") else "%d/%d" % [collection_progress.count("leaf", stage.DEFINITION.level_id), stage.total_leaves])
-	_wardrobe_button.tooltip_text = "Colección · " + next.name
-	_wardrobe_button.accessibility_description = "%d hojas permanentes. Próxima recompensa: %s" % [collection_progress.count("leaf"), next.name]
+	_wardrobe_button.text = "%d/%d" % [collection_progress.unlocked_outfits().size(), CollectionRewards.OUTFITS.size()]
+	var equipped: Dictionary = CollectionRewards.outfit(collection_progress.equipped)
+	_wardrobe_button.add_theme_color_override("icon_normal_color", Color(equipped.accent))
+	_wardrobe_button.tooltip_text = "Equipado: %s · Próximo: %s" % [equipped.name, next.name]
+	_wardrobe_button.accessibility_description = "%d equipaciones desbloqueadas de %d. Equipado: %s. %d hojas permanentes. Próxima recompensa: %s" % [collection_progress.unlocked_outfits().size(), CollectionRewards.OUTFITS.size(), equipped.name, collection_progress.count("leaf"), next.name]
 
 
 func _on_reward_unlocked(id: String) -> void:
@@ -399,12 +401,21 @@ func _open_wardrobe() -> void:
 	_open_menu("Pausa y colección", not stage.completed)
 	_menu.hide()
 	_reward_toast.hide()
+	_collection_menu._play_button.disabled = stage.completed
+	_collection_menu._play_button.text = "Volver al farol" if player.dead else "Seguir jugando"
 	_collection_menu.open()
 
 
 func _close_wardrobe() -> void:
 	_collection_menu.hide()
 	_open_menu("Pausa y controles", not stage.completed)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(_collection_menu):
+		_toggle_pause()
+	else:
+		super._notification(what)
 
 
 func _on_level_completed(level_id: String, result: Dictionary) -> void:
@@ -423,6 +434,7 @@ func _completion_text() -> String:
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",
 	]
+
 
 
 

@@ -1,5 +1,7 @@
 # Super Diego · Juego Diego
 
+Versión **0.10.0**: recompensas con tarjetas y miniaturas reales, ropa más visible, contador de equipaciones obtenidas y salida fija del vestuario. **Volver**, **Seguir jugando** y **Atrás de Android** permiten salir sin cerrar el juego. Conserva las recompensas y guardados anteriores. [Reglas y diseño](docs/RECOMPENSAS.md) · [Skill de recompensas](.agents/skills/crear-recompensas-super-diego/SKILL.md).
+
 Versión **0.8.0**: colección permanente de hojas y cristales, vestuario desbloqueable y Luci, un ayudante que despierta reuniendo tres fragmentos. Abre el icono de camiseta o **Pausa → Colección** para probar y equipar prendas. [Reglas y recompensas](docs/RECOMPENSAS.md).
 
 Juego de plataformas **2D HD** para **Android y Windows**, con ocho mundos previstos y niveles rejugables.
@@ -131,4 +133,3 @@ Diego puede salir de un techo avanzando o retrocediendo agachado, también con u
 ### Plataformas y regreso por los portones · 0.7.5
 
 Ponerse de pie respeta las plataformas atravesables y admite deslizar arriba con el mismo dedo. El farol consolida las aperturas anteriores y restaura sus colisiones, dianas y marcas al reaparecer; los puzzles posteriores vuelven a estar pendientes. La regresión recorre físicamente los nueve portones con farol posterior. [Validación y límites](docs/pruebas/recuperacion-0.7.5.md).
-
