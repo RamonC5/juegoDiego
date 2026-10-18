@@ -11,6 +11,49 @@ from test_android_apk import verify_installed_identity
 
 
 class ForestReadinessTests(unittest.TestCase):
+    def test_identity_recovers_observed_google_setup_startup_anr(self):
+        dialog = ET.fromstring('<hierarchy><node package="android" text="com.google.android.googlesdksetup isn&apos;t responding" /><node text="Close app" /></hierarchy>')
+        details = ET.fromstring('<hierarchy><node package="com.android.settings" text="Super Diego" /></hierarchy>')
+        with patch('test_android_apk.adb') as adb_mock, \
+                patch('test_android_apk.time.sleep'), \
+                patch('test_android_apk.window_xml', side_effect=[dialog, details]), \
+                patch('test_android_apk.tap_node', return_value=True) as tap, \
+                patch('test_android_apk.screenshot'), \
+                patch('test_android_apk.Path.write_bytes'):
+            verify_installed_identity('test')
+        tap.assert_called_once()
+        self.assertEqual(adb_mock.call_count, 2)
+
+    def test_identity_never_closes_a_game_or_unknown_app_anr(self):
+        for name in ['Super Diego', 'Settings', 'Other app']:
+            dialog = ET.fromstring(f'<hierarchy><node package="android" text="{name} isn&apos;t responding" /><node text="Close app" /></hierarchy>')
+            with self.subTest(name=name), \
+                    patch('test_android_apk.adb'), \
+                    patch('test_android_apk.time.sleep'), \
+                    patch('test_android_apk.time.monotonic', side_effect=[0, 0, 1, 91]), \
+                    patch('test_android_apk.window_xml', return_value=dialog), \
+                    patch('test_android_apk.tap_node') as tap, \
+                    patch('test_android_apk.screenshot'), \
+                    patch('test_android_apk.Path.write_bytes'):
+                with self.assertRaisesRegex(RuntimeError, 'no mostró la ficha'):
+                    verify_installed_identity('test')
+                tap.assert_not_called()
+
+    def test_posture_repeats_at_rest_after_observed_braking_drift(self):
+        records = [
+            'SALTO_POSTURE state=crouch x=703.24 y=599.93\nSALTO_POSTURE state=stand x=717.58 y=599.93',
+            'SALTO_POSTURE state=crouch x=717.58 y=599.93\nSALTO_POSTURE state=stand x=717.58 y=599.93',
+        ]
+        self.assertFalse(platform_stand_ready(records[0]))
+        with patch('test_android_apk.adb') as adb_mock, \
+                patch('test_android_apk.time.sleep'), \
+                patch('test_android_apk.logs', side_effect=records), \
+                patch('test_android_apk.screenshot'):
+            result = exercise_platform_posture(1280, 720, 'test')
+        self.assertTrue(result['stood_under_platform'])
+        self.assertFalse(result['teleported'])
+        self.assertEqual(adb_mock.call_count, 3)
+
     def test_identity_reopens_settings_after_observed_return_to_launcher(self):
         home = ET.fromstring('<hierarchy><node package="com.google.android.apps.nexuslauncher" text="" /></hierarchy>')
         details = ET.fromstring('<hierarchy><node package="com.android.settings" text="Super Diego" /></hierarchy>')
@@ -102,5 +145,3 @@ class ForestReadinessTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
