@@ -7,6 +7,11 @@ extends Resource
 @export var display_name: String = "Bosque Esmeralda"
 @export var music_stream: AudioStream
 @export var subtitle: String = "El despertar del bosque"
+@export var level_number: int = 1
+## Pistas propias del recorrido, consultables en pausa.
+@export var route_hints: Dictionary = {}
+## Superficie de apoyo de las setas elásticas; no altera la física del nivel 1.
+@export var spring_positions: Array[Vector2] = []
 @export var width: float = 8200.0
 @export var spawn: Vector2 = Vector2(180, 600)
 @export var checkpoint: Vector2 = Vector2(4160, 600)

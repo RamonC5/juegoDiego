@@ -38,6 +38,7 @@ var _checkpoint_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
 var vine_crossings: Array[ForestVineCrossing] = []
+var spring_pads: Array[ForestSpringPad] = []
 var secret_grove: ForestSecretGrove
 var secret_totem: ForestSecretTotem
 var _activity_seconds: float = 0.0
@@ -70,6 +71,11 @@ func _ready() -> void:
 	_build_root_gates()
 	_build_moving_platforms()
 	_build_vine_crossings()
+	for at in DEFINITION.spring_positions:
+		var spring := ForestSpringPad.new()
+		spring.position = at
+		add_child(spring)
+		spring_pads.append(spring)
 	_build_secret()
 	_build_collection_rewards()
 	for spec in DEFINITION.object_spawns:
@@ -108,7 +114,7 @@ func start(hero: DiegoPlayer) -> void:
 		for enemy in enemies:
 			if enemy.has_visible_art():
 				visible_art += 1
-		print("SALTO_FOREST_READY level=world_01_level_01 enemies=%d art=%d" % [enemies.size(), visible_art])
+		print("SALTO_FOREST_READY level=%s enemies=%d art=%d" % [DEFINITION.level_id, enemies.size(), visible_art])
 
 
 func _spawn_enemy(index: int) -> ForestEnemy:
@@ -601,6 +607,9 @@ func respawn_player() -> void:
 	for crossing in vine_crossings:
 		if not _is_before_respawn(crossing.position.x + ForestVineCrossing.RAVINE_RIGHT):
 			crossing.reset_vines()
+	for spring in spring_pads:
+		if not _is_before_respawn(spring.position.x):
+			spring.reset_target()
 	player.respawn(respawn_position)
 	if is_instance_valid(firefly) and firefly.awake:
 		firefly.position = player.position + Vector2(-75, -135)
@@ -668,6 +677,8 @@ func _physics_process(delta: float) -> void:
 		25000: "LIANAS: salta para agarrarte a un nudo móvil. Balancea con el arrastre y vuelve a saltar hacia la siguiente.",
 		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa alta. Más adelante combinarás este viaje con dianas.",
 	}
+	if not DEFINITION.route_hints.is_empty():
+		hints = DEFINITION.route_hints
 	for x in hints:
 		if player.position.x >= float(x) and not _hints_passed.has(x):
 			_hints_passed[x] = true

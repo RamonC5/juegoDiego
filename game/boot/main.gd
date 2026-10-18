@@ -1,5 +1,5 @@
 extends "res://game/boot/practice.gd"
-## Entrada del primer nivel. Reutiliza pausa, opciones y controles del entrenamiento.
+## Composición de aventuras del bosque; cada escena inyecta su recurso de nivel.
 
 @export var level_definition: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_01.tres")
 
@@ -24,6 +24,7 @@ var _result: Dictionary = {}
 var _top_panel: PanelContainer
 var _key_counter: Label
 var _look_ahead: float = 125.0
+var _next_level_button: Button
 
 
 func _ready() -> void:
@@ -80,7 +81,7 @@ func _ready() -> void:
 	_layout_hud()
 	_update_counts(stage.leaves, stage.crystals)
 	_update_keys(0, KeyExitDoor.REQUIRED_KEYS)
-	_show_hint("BOSQUE ESMERALDA · Reúne tres llaves de ramas para abrir la salida. Pulsa a la izquierda para saltar y otra vez en el aire para el doble salto. Arrastra a la derecha para moverte. Puedes intercambiar los lados en pausa.")
+	_show_hint("BOSQUE %d · %s. Reúne tres llaves de ramas para abrir la salida. Pulsa a la izquierda para saltar y otra vez en el aire para el doble salto. Arrastra a la derecha para moverte. Puedes intercambiar los lados en pausa." % [level_definition.level_number, level_definition.subtitle])
 
 
 func _process(delta: float) -> void:
@@ -180,8 +181,8 @@ func _build_ui() -> void:
 	row.add_theme_constant_override("separation", 10)
 	column.add_child(row)
 	_hud_title = Label.new()
-	_hud_title.text = "1–1"
-	_hud_title.accessibility_name = "Bosque Esmeralda, nivel uno"
+	_hud_title.text = "1–%d" % level_definition.level_number
+	_hud_title.accessibility_name = "Bosque Esmeralda, nivel %d: %s" % [level_definition.level_number, level_definition.subtitle]
 	_hud_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_hud_title.add_theme_font_size_override("font_size", 23)
 	_hud_title.add_theme_color_override("font_color", Color("fff2c9"))
@@ -281,6 +282,9 @@ func _build_ui() -> void:
 	map_button.accessibility_description = "Salir del intento y volver al mapa. La colección y los mejores resultados se conservan; el recorrido comienza de nuevo al entrar."
 	map_button.tooltip_text = map_button.accessibility_description
 	buttons.add_child(map_button)
+	_next_level_button = _button("Jugar Bosque 1–2", _play_next_level)
+	_next_level_button.hide()
+	buttons.add_child(_next_level_button)
 	var actions := GridContainer.new()
 	actions.columns = 2
 	actions.add_theme_constant_override("h_separation", 12)
@@ -305,6 +309,18 @@ func _return_to_map() -> void:
 	get_tree().root.add_child(entrance)
 	get_tree().current_scene = entrance
 	queue_free()
+
+
+func _play_next_level() -> void:
+	var target: String = ForestAdventureCatalog.next_after(level_definition.level_id, progress)
+	if target.is_empty() or not stage.completed:
+		return
+	touch.release_all()
+	player.controls.block_current_physical()
+	get_tree().paused = false
+	var error: Error = get_tree().change_scene_to_file(target)
+	if error != OK:
+		_open_menu("No se pudo abrir la siguiente aventura. Vuelve a intentarlo.", false)
 
 
 func _build_version() -> String:
@@ -422,7 +438,8 @@ func _notification(what: int) -> void:
 func _on_level_completed(level_id: String, result: Dictionary) -> void:
 	_result = result
 	_result["saved"] = progress.record_completion(level_id, result) == OK
-	_show_hint("¡Bosque Esmeralda completado! Puedes volver a jugar para encontrar los tres cristales.")
+	_next_level_button.visible = not ForestAdventureCatalog.next_after(level_id, progress).is_empty()
+	_show_hint("¡Aventura completada! Puedes volver a jugar para encontrar los tres cristales.")
 	get_tree().create_timer(1.6, false).timeout.connect(func():
 		_open_menu(_completion_text(), false)
 	)
@@ -430,7 +447,8 @@ func _on_level_completed(level_id: String, result: Dictionary) -> void:
 
 func _completion_text() -> String:
 	var elapsed: int = int(_result.get("seconds", 0.0))
-	return "¡Bosque Esmeralda completado!\nLlaves %d / 3 · Hojas %d / %d · Cristales %d / 3\nTiempo %d:%02d · %s" % [
+	return "¡Bosque 1–%d completado!\nLlaves %d / 3 · Hojas %d / %d · Cristales %d / 3\nTiempo %d:%02d · %s" % [
+		level_definition.level_number,
 		int(_result.get("keys", 0)), int(_result.get("leaves", 0)), stage.total_leaves, int(_result.get("crystals", 0)),
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",

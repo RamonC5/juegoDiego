@@ -250,6 +250,18 @@ def enter_forest_from_map(prefix: str) -> str:
         raise RuntimeError("Un mundo bloqueado abrió el bosque.")
     screenshot(f"{prefix}_mundo_bloqueado.png")
     adb("shell", "input", "tap", str(int(width * float(match[1]))), str(int(height * float(match[2]))))
+    deadline = time.monotonic() + 30
+    match = None
+    while time.monotonic() < deadline:
+        collected += logs()
+        match = re.search(r"SUPER_DIEGO_LEVELS_READY first=([0-9.]+),([0-9.]+)", collected)
+        if match:
+            break
+        time.sleep(1)
+    if not match:
+        raise RuntimeError("El bosque no abrió la selección de aventuras.")
+    screenshot(f"{prefix}_aventuras.png")
+    adb("shell", "input", "tap", str(int(width * float(match[1]))), str(int(height * float(match[2]))))
     return collected
 
 

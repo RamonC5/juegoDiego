@@ -10,7 +10,7 @@ Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo co
 
 | ID | Nombre del avance visual | Acceso |
 | --- | --- | --- |
-| world_01 | Bosque Esmeralda | Disponible: nivel 1-1 existente |
+| world_01 | Bosque Esmeralda | Selector: 1-1 disponible; completarlo abre el recorrido principal de 1-2, cuyo secreto está pendiente |
 | world_02 | Costa de Coral | Bloqueado |
 | world_03 | Ruinas del Sol | Bloqueado |
 | world_04 | Cumbres de Hielo | Bloqueado |
@@ -19,7 +19,7 @@ Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo co
 | world_07 | Islas del Cielo | Bloqueado |
 | world_08 | Volcán de Obsidiana | Bloqueado |
 
-Los siete nombres y ambientes pendientes son propuestas visuales editables basadas en el catálogo de llaves; no equivalen a niveles desarrollados ni fijan su futuro diseño. El bosque abre directamente al tocarlo. Los demás muestran candado y texto BLOQUEADO; tocarlos conserva el mapa y comunica su estado. WorldCatalog valida también las rutas y rechaza IDs desconocidos. Completar el bosque no desbloquea los otros mundos todavía.
+Los siete nombres y ambientes pendientes son propuestas visuales editables basadas en el catálogo de llaves; no equivalen a niveles desarrollados ni fijan su futuro diseño. El bosque abre su selector de aventuras al tocarlo. `ForestAdventureCatalog` comprueba el resultado guardado de 1-1 antes de ofrecer 1-2. Los demás mundos muestran candado y texto BLOQUEADO; tocarlos conserva el mapa y comunica su estado. WorldCatalog valida también las rutas y rechaza IDs desconocidos. Completar el bosque no desbloquea los otros mundos todavía.
 
 El menú de pausa del bosque incorpora «Mapa de mundos» y distribuye sus acciones en dos columnas. Salir termina el intento: volver al bosque inicia otro recorrido. La colección, ropa y mejores resultados mantienen los guardados anteriores. El entrenamiento conserva su acceso.
 

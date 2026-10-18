@@ -268,7 +268,7 @@ func refresh() -> void:
 	_summary.text = "%d / %d equipaciones · %d / %d hojas · %d / %d cristales · %d / 3 fragmentos\n%s" % [
 		progress.unlocked_outfits().size(), CollectionRewards.OUTFITS.size(),
 		progress.count("leaf", level_id), total_leaves, progress.count("crystal", level_id),
-		total_crystals, progress.count("fragment", level_id), next_text]
+		total_crystals, progress.count("fragment", CollectionRewards.FOREST_ID), next_text]
 	for outfit in CollectionRewards.OUTFITS:
 		var action: Button = _actions[outfit.id]
 		var unlocked: bool = progress.is_unlocked(outfit.id)
@@ -285,7 +285,7 @@ func refresh() -> void:
 		bar.max_value = maxi(1, int(outfit.leaves))
 		bar.value = bar.max_value if unlocked else mini(progress.count("leaf"), int(outfit.leaves))
 	_helper_label.text = "Desbloqueada · Señala secretos y acerca hojas próximas." if progress.helper_unlocked() else (
-		"Fragmentos: %d / 3 · Busca en las primeras repisas, la gruta y las lianas." % progress.count("fragment", level_id))
+		"Fragmentos: %d / 3 · Busca en Bosque 1–1: primeras repisas, gruta y lianas." % progress.count("fragment", CollectionRewards.FOREST_ID))
 	_helper_button.disabled = not progress.helper_unlocked()
 	_helper_button.text = ("Dejar descansar a Luci" if progress.helper_enabled else "Activar a Luci") if progress.helper_unlocked() else "Luci está bloqueada · Reúne tres fragmentos"
 	_select(_selected)

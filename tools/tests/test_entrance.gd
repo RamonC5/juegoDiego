@@ -142,6 +142,10 @@ func _run() -> void:
 	Input.action_press(&"jump")
 	await tap(entrance.world_map.world_buttons[0])
 	await frames(12)
+	var adventures: ForestAdventureMenu = current_scene
+	check(adventures is ForestAdventureMenu, "El bosque abre la selección de aventuras")
+	await tap(adventures.level_buttons[0])
+	await frames(12)
 	var forest: Node2D = current_scene
 	check(forest != entrance and is_instance_valid(forest.get("stage")), "Tocar el bosque abre su nivel real")
 	check(forest.player.jumps_used == 0, "El toque de selección no se convierte en salto")

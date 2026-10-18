@@ -1,5 +1,7 @@
 # Super Diego · Juego Diego
 
+Preparación de **0.13.0 · Bosque 1-2: Las copas del bosque**: recorrido principal con setas elásticas, 16 tramos, tres llaves, tres cristales opcionales y exactamente tres faroles sin curación. El mapa permite elegir aventura; superar 1-1 desbloquea 1-2. La zona secreta nueva está pendiente de validar ubicación y actividad antes de construirla. [Recorrido, estado y pruebas](docs/BOSQUE_1_2.md).
+
 Versión **0.10.0**: recompensas con tarjetas y miniaturas reales, ropa más visible, contador de equipaciones obtenidas y salida fija del vestuario. **Volver**, **Seguir jugando** y **Atrás de Android** permiten salir sin cerrar el juego. Conserva las recompensas y guardados anteriores. [Reglas y diseño](docs/RECOMPENSAS.md) · [Skill de recompensas](.agents/skills/crear-recompensas-super-diego/SKILL.md).
 
 Versión **0.8.0**: colección permanente de hojas y cristales, vestuario desbloqueable y Luci, un ayudante que despierta reuniendo tres fragmentos. Abre el icono de camiseta o **Pausa → Colección** para probar y equipar prendas. [Reglas y recompensas](docs/RECOMPENSAS.md).

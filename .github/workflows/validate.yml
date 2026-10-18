@@ -179,7 +179,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for suite in test_collection_rewards test_reward_presentation test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route; do
+          for suite in test_collection_rewards test_reward_presentation test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_secret_grove test_forest_route test_forest_level_02; do
             timeout 180s "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
@@ -190,6 +190,8 @@ jobs:
             docs/dinamicas/raices_dobles.json docs/dinamicas/persecucion_bosque.json \
             docs/dinamicas/lianas_dianas_barranco.json docs/dinamicas/gruta_hojas_vida.json \
             docs/niveles/world_01_level_01.json docs/dinamicas/coleccion_bosque.json
+          python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py --actual \
+            docs/niveles/world_01_level_02.json docs/dinamicas/setas_elasticas.json
 
       - name: Comprobar dianas y puentes de raíces
         shell: bash
@@ -225,6 +227,12 @@ jobs:
             --rendering-method gl_compatibility --audio-driver Dummy --path . \
             --script tools/tests/capture_forest.gd 2>&1 | tee .godot-logs/forest-render.log
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-render.log; then
+            exit 1
+          fi
+          LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
+            --script tools/tests/capture_forest_level_02.gd 2>&1 | tee .godot-logs/forest-level02-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-level02-render.log; then
             exit 1
           fi
 
@@ -342,9 +350,10 @@ jobs:
           from pathlib import Path
           import zipfile
           with zipfile.ZipFile('builds/android/super-diego.apk') as apk:
-              names = [name for name in apk.namelist() if name.endswith('-level_01.res')]
-              assert len(names) == 1, names
-              Path('.godot-logs/apk-level_01.res').write_bytes(apk.read(names[0]))
+              for level in ('01', '02'):
+                  names = [name for name in apk.namelist() if name.endswith(f'-level_{level}.res')]
+                  assert len(names) == 1, names
+                  Path(f'.godot-logs/apk-level_{level}.res').write_bytes(apk.read(names[0]))
           PY
           "$GODOT_BIN" --headless --path . --script tools/tests/test_exported_level.gd \
             2>&1 | tee .godot-logs/exported-level-tests.log

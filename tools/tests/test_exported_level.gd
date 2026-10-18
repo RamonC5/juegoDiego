@@ -29,5 +29,14 @@ func _initialize() -> void:
 		_check(exported.fragment_ids == ["clear", "grove", "vines"] and exported.fragment_positions.size() == 3,
 			"los tres fragmentos y sus IDs sobreviven al recurso del APK")
 		_check(exported.firefly_nest == Vector2(480, 565), "el nido del ayudante sobrevive a la exportación binaria")
+	var second := ResourceLoader.load("res://.godot-logs/apk-level_02.res", "", ResourceLoader.CACHE_MODE_IGNORE) as ForestLevelDefinition
+	_check(second != null, "Bosque 1-2 está presente en el APK")
+	if second != null:
+		var source: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_02.tres")
+		_check(second.level_id == source.level_id and second.level_number == 2, "Identidad de la segunda aventura exportada")
+		_check(second.spring_positions == source.spring_positions and second.spring_positions.size() == 4, "Cuatro setas elásticas exportadas")
+		_check(second.checkpoints == source.checkpoints and second.checkpoints.size() == 3, "Tres faroles del segundo nivel exportados")
+		_check(second.key_positions == source.key_positions and second.crystal_positions == source.crystal_positions, "Llaves y cristales intermedios exportados")
+		_check(second.enemy_kinds.size() == 58 and second.enemy_kinds == source.enemy_kinds, "Enemigos del segundo nivel exportados")
 	print("RESULTADO DATOS APK: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)

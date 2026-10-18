@@ -60,6 +60,8 @@ Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar platafo
 
 ## Progresión propuesta del primer mundo
 
+Bosque 1-2 tiene ahora su [recorrido principal integrado](BOSQUE_1_2.md), con [ficha versión 2](niveles/world_01_level_02.json) y [setas elásticas](dinamicas/setas_elasticas.json). El secreto está propuesto y desactivado hasta validar su ubicación y actividad; la aventura completa conserva estado de ampliación. El nivel 3 y el jefe continúan como propuestas.
+
 Los nombres y la distribución nueva son propuestas de diseño, no niveles ya implementados.
 
 | Etapa | Dinámicas nuevas previstas | Progresión |
