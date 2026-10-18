@@ -350,8 +350,8 @@ stations = Array[ExtResource("3_bridge")]([SubResource("Ruta08Diana1"), SubResou
 [resource]
 script = ExtResource("1")
 key_definition = ExtResource("2_keys")
-checkpoint = Vector2(3390, 600)
-checkpoints = Array[Vector2]([Vector2(2470, 600), Vector2(3390, 600), Vector2(4820, 600), Vector2(8390, 600), Vector2(12390, 600), Vector2(16390, 600), Vector2(20390, 600), Vector2(24390, 600), Vector2(28390, 600), Vector2(32390, 600), Vector2(36390, 600), Vector2(40390, 600)])
+checkpoint = Vector2(12390, 600)
+checkpoints = Array[Vector2]([Vector2(12390, 600), Vector2(24390, 600), Vector2(36390, 600)])
 bridges = Array[ExtResource("3_bridge")]([SubResource("BridgePractice"), SubResource("BridgeMain"), SubResource("BridgeRoute01"), SubResource("BridgeRoute08")])
 moving_platforms = Array[ExtResource("4_moving")]([SubResource("MovingPractice"), SubResource("MovingLift"), SubResource("MovingRoute02"), SubResource("MovingRoute05"), SubResource("MovingRoute07")])
 key_positions = Array[Vector2]([Vector2(20185, 550), Vector2(32185, 550), Vector2(44185, 550)])

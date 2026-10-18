@@ -8,6 +8,14 @@ Esta base configura un juego de plataformas lateral 2D para Android y Windows. M
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
+## Tres puntos de guardado sin curación · 0.11.2
+
+Cada nivel dispone de exactamente tres puntos. El bosque define posiciones (12390, 600), (24390, 600) y (36390, 600) en `level_01.tres` y en su generador, formando cuatro tramos sobre suelo seguro. Se retiran los otros nueve faroles del recurso y de su composición visual e interactiva. El campo singular de compatibilidad `checkpoint` apunta al primero.
+
+`ForestStage._on_checkpoint()` actualiza reaparición y consolidación espacial, sin llamar a `recover_energy()` ni modificar salud o máximo; revisitar un punto anterior o el actual tampoco cura. Rechaza índices fuera de la lista. La reaparición tras morir sigue usando `DiegoPlayer.respawn()`; el brote secreto conserva su función propia. No se añade guardado del intento entre sesiones.
+
+Las suites de ampliación y recuperación real comprueban contacto físico sin curación, salud parcial con tres y cuatro corazones, tres posiciones reales y restauración de portones a ambos lados de cada punto. El chequeo del recurso binario exige las tres posiciones en el APK. El skill y su comprobador exigen tres entradas con `restaura_vidas: false` y ajustan intervalos sin añadir faroles.
+
 ## Colección permanente · 0.8.0
 
 `CollectionProgress` (0.8.0) añade colección permanente por ID, vestuario y ayudante. Es un servicio `RefCounted` separado de `LevelProgress`, del intento y de las opciones. `boot/main.gd` lo compone e inyecta en `ForestStage`, `CollectionMenu` y `ForestFirefly`. `CollectionRewards`, bajo `core/contracts`, define hitos de 12, 45, 60, 80, 100 y 150 hojas, tres fragmentos y los IDs de vestuario; no se añade autoload.
@@ -268,7 +276,7 @@ Los datos incluyen dos estaciones, recuperación inferior, posición nueva de la
 
 `ForestLevelDefinition` añade pasos `ForestRootGateDefinition` y nombres/inicios de tramo. `ForestRootGate` mantiene internamente sus dos activaciones y retira la colisión del paso al completarlas; desde 0.6.1 no muestra marcas ni iconos. Reutiliza `RootBridgeDefinition` para los puestos y `ForestThrowTarget` para impactos, sin crear una segunda forma de recoger o lanzar. Los pasos nunca se vuelven a cerrar durante el intento.
 
-`ForestEnemy` distingue patrulla, aviso, persecución y retorno. La visión consulta la capa de entorno; el nivel deduce los límites de suelo o plataforma de los rectángulos de datos. Un sondeo adelantado y límites de cuerpo impiden abandonar bordes. La simulación de enemigos lejanos se omite y solo se animan/detectan coleccionables cercanos. `DiegoPlayer.recover_energy` cura un farol nuevo sin alterar posición, controles ni objeto sostenido. La cámara sigue alturas sin coordenadas exclusivas del antiguo ascensor.
+`ForestEnemy` distingue patrulla, aviso, persecución y retorno. La visión consulta la capa de entorno; el nivel deduce los límites de suelo o plataforma de los rectángulos de datos. Un sondeo adelantado y límites de cuerpo impiden abandonar bordes. La simulación de enemigos lejanos se omite y solo se animan/detectan coleccionables cercanos. Desde 0.11.2 activar un farol conserva la salud actual sin llamar a `DiegoPlayer.recover_energy`. La cámara sigue alturas sin coordenadas exclusivas del antiguo ascensor.
 
 `boot/main.gd` acepta un recurso de nivel configurable antes de entrar en el árbol. El juego usa el bosque completo; las suites antiguas de mecanismos inyectan un fixture estable para mantener sus pruebas físicas. Las suites nuevas prueban el recurso completo, IA y ruta geométrica continua. `tools/authoring/build_forest_level.py` recompone el `.tres` de autoría; no se ejecuta ni se exporta dentro del juego. Los JSON de diseño permanecen separados.
 

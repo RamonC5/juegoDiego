@@ -31,6 +31,7 @@ func _run() -> void:
 	var stage: ForestStage = main.stage
 	var hero: DiegoPlayer = main.player
 	check(stage.DEFINITION.width == 44600.0 and stage.DEFINITION.region_names.size() == 10, "10 tramos en el bosque condensado")
+	check(stage.checkpoint_positions() == [Vector2(12390, 600), Vector2(24390, 600), Vector2(36390, 600)], "exactamente tres puntos de guardado sobre suelo firme")
 	check(stage.enemies.size() == 45 and stage.DEFINITION.enemy_kinds.size() == 45 and stage.DEFINITION.enemy_kinds.has("terron") and stage.DEFINITION.enemy_kinds.has("moflete"), "45 enemigos de los dos tipos")
 	check(stage.root_gates.size() == 10 and stage.bridges.size() == 4 and stage.moving_platforms.size() == 5 and stage.vine_crossings.size() == 1, "retos combinados de marcas, puentes y troncos")
 	check(stage.level_keys.size() == 3 and stage.level_keys[0].position.x > 19800 and stage.level_keys[1].position.x > 31800 and stage.level_keys[2].position.x > 43800, "tres llaves repartidas por las tres rutas")
@@ -131,19 +132,21 @@ func _run() -> void:
 		stage._on_mechanism_activated(stations[1].mechanism_id)
 		await step(1)
 		check(gate.is_open and gate._shape.disabled, "paso %d permite cruzar y regresar tras ambas marcas" % index)
-	# Se conserva progreso en el intento; el farol cura una vez al activarse.
+	# Activar el farol conserva progreso y salud; no es una fuente de curación.
 	hero.set_physics_process(true)
-	hero.respawn(stage.checkpoint_positions()[5])
+	hero.respawn(stage.checkpoint_positions()[0])
 	hero.health = 1
-	stage._on_checkpoint(hero, 5)
-	check(hero.health == 3, "un farol nuevo recupera la energía sin desplazar ni soltar objetos")
+	stage._on_checkpoint(hero, 0)
+	check(hero.health == 1 and hero.maximum_health == 3, "un punto nuevo conserva las vidas actuales y su máximo")
+	stage._on_checkpoint(hero, 0)
+	check(hero.health == 1, "repetir el mismo punto tampoco cura")
 	stage.level_keys[0]._on_body_entered(hero)
 	stage.respawn_player()
 	await step(4)
 	await step(3)
-	check(stage.collected_keys == [0] and stage.root_gates.slice(0, 3).all(func(g: ForestRootGate): return g.is_open and g._shape.disabled), "el reintento conserva la llave y los tres portones anteriores al farol")
-	check(stage.root_gates.slice(3).all(func(g: ForestRootGate): return not g.is_open and g.activated.is_empty() and not g._shape.disabled), "los siete portones posteriores vuelven a exigir sus dos marcas")
-	check(stage.activated_mechanisms.size() == 6 and stage.bridges[0].state == RootBridge.State.CLOSED, "las marcas anteriores se conservan sin abrir puentes que no se resolvieron")
+	check(stage.collected_keys == [0] and stage.root_gates.slice(0, 2).all(func(g: ForestRootGate): return g.is_open and g._shape.disabled), "el reintento conserva la llave y los dos portones anteriores al primer punto")
+	check(stage.root_gates.slice(2).all(func(g: ForestRootGate): return not g.is_open and g.activated.is_empty() and not g._shape.disabled), "los ocho portones posteriores vuelven a exigir sus dos marcas")
+	check(stage.activated_mechanisms.size() == 4 and stage.bridges[0].state == RootBridge.State.CLOSED, "las marcas anteriores se conservan sin abrir puentes que no se resolvieron")
 	check(stage.enemies.filter(func(e: ForestEnemy): return is_instance_valid(e) and e.active and e.spawn_index >= 17).all(func(e: ForestEnemy): return e.behaviour == ForestEnemy.Behaviour.PATROL), "reaparecer borra el estado de alerta de las patrullas posteriores")
 	stage._on_goal(hero)
 	check(not stage.completed, "una llave mantiene bloqueada la salida ampliada")
@@ -157,11 +160,19 @@ func _run() -> void:
 			leaf._on_body_entered(hero)
 			check(leaf.taken and not leaf.is_processing(), "una hoja recogida deja de consumir animación")
 			break
+	hero.set_physics_process(false)
+	hero.gain_bonus_heart()
+	for checkpoint in [1, 2]:
+		hero.health = 2
+		stage._on_checkpoint(hero, checkpoint)
+		check(hero.health == 2 and hero.maximum_health == 4, "el punto %d tampoco cura con el corazón secreto desbloqueado" % checkpoint)
+	hero.health = 1
+	stage._on_checkpoint(hero, 0)
+	stage._on_checkpoint(hero, 3)
+	check(hero.health == 1 and stage.active_checkpoint_index == 2, "volver atrás o pasar un índice inexistente conserva vidas y el último punto")
 	main.queue_free()
 	paused = false
 	await step(3)
 	print("RESULTADO AMPLIACIÓN: %d comprobaciones, %d fallos" % [checks, failures])
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0 if failures == 0 else 1)
-
-

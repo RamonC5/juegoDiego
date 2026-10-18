@@ -49,7 +49,7 @@ func _run() -> void:
 	stage = ForestStage.new()
 	stage.DEFINITION = stage.DEFINITION.duplicate()
 	# Faroles de prueba sobre el bosque real; uno queda entre diana y barrera.
-	stage.DEFINITION.checkpoints = [Vector2(3390, 600), Vector2(11000, 600), Vector2(17000, 600), Vector2(33000, 600)]
+	stage.DEFINITION.checkpoints = [Vector2(3390, 600), Vector2(11000, 600), Vector2(17000, 600)]
 	world.add_child(stage)
 	hero = preload("res://game/features/player/diego.tscn").instantiate()
 	world.add_child(hero)
@@ -154,7 +154,10 @@ func _run() -> void:
 	vine.grip_velocity = Vector2(120, 30)
 	stage.respawn_player()
 	check(vine.grip_velocity == Vector2.ZERO, "un barranco posterior reinicia sus lianas")
-	stage._on_checkpoint(hero, 3)
+	# Nueva partida del caso de prueba: el tercer punto queda tras el barranco.
+	stage.DEFINITION.checkpoints[2] = Vector2(33000, 600)
+	stage.active_checkpoint_index = 1
+	stage._on_checkpoint(hero, 2)
 	vine.grip_velocity = Vector2(120, 30)
 	stage.respawn_player()
 	check(vine.grip_velocity == Vector2(120, 30), "un barranco superado mantiene su ciclo al morir más adelante")

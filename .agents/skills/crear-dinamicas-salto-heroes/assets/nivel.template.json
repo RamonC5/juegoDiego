@@ -89,7 +89,18 @@
   "puntos_control": [
     {
       "id": "farol_1",
-      "despues_de_segmento_id": "reto_1"
+      "despues_de_segmento_id": "reto_1",
+      "restaura_vidas": false
+    },
+    {
+      "id": "farol_2",
+      "despues_de_segmento_id": "reto_2",
+      "restaura_vidas": false
+    },
+    {
+      "id": "farol_3",
+      "despues_de_segmento_id": "reto_3",
+      "restaura_vidas": false
     }
   ],
   "intervalo_maximo_faroles_minutos": 4,
@@ -105,7 +116,8 @@
   "persistencia": {
     "al_morir": "",
     "al_cerrar": "",
-    "al_rejugar": ""
+    "al_rejugar": "",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
   },
   "accesibilidad": {
     "senales_no_solo_color": "",

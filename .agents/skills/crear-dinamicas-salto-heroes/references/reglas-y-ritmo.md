@@ -26,7 +26,7 @@ Tomar estos valores como decisiones de diseño iniciales ajustables, no como con
 
 - Introducir una o dos dinámicas obligatorias nuevas por nivel. Empezar con explicación visual y práctica segura, añadir variaciones y combinar después.
 - Alternar exploración, saltos, combate y pequeños rompecabezas. Incorporar espacios de descanso, anticipación visible y rutas de recuperación.
-- Situar faroles aproximadamente cada 3–4 minutos y antes de desafíos importantes. Usar un límite estimado inicial de cuatro minutos entre puntos seguros y documentar cualquier cambio de criterio.
+- Situar exactamente tres puntos de guardado por nivel, sin contar el inicio como un cuarto. Repartirlos sobre suelo seguro para formar cuatro tramos equilibrados. Al pasar, conservar vidas actuales y máximo: no curar. Esta decisión del 18-10-2026 sustituye la pauta de añadir faroles cada 3–4 minutos; ajustar intervalos y recuperación usando solo los tres puntos.
 - Evitar cadenas obligatorias de muchos saltos precisos, saltos ciegos y peligros que dependen de reaccionar a algo fuera de pantalla. Reservar maestría y atajos para objetivos opcionales.
 - Reutilizar pulsación izquierda para salto y segunda pulsación aérea para doble salto; derecha para arrastre, agacharse y toque corto de coger/lanzar, con mitades intercambiables. Mantener avance agachado, salida bajo techo sólido y ponerse de pie bajo plataformas atravesables. Identificar un contexto inequívoco si una interacción comparte gesto con recoger o lanzar. Mantener teclado y mando equivalentes.
 - Diseñar pistas progresivas: señalar el elemento, demostrar su relación y orientar al objetivo. Proponer su activación y temporización como sistema nuevo donde todavía no exista.

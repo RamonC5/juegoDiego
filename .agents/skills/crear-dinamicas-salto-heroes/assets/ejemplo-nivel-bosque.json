@@ -229,26 +229,21 @@
   "puntos_control": [
     {
       "id": "farol_1",
-      "despues_de_segmento_id": "saltos_raices"
+      "despues_de_segmento_id": "patrulla_claro",
+      "restaura_vidas": false
     },
     {
       "id": "farol_2",
-      "despues_de_segmento_id": "primera_llave"
+      "despues_de_segmento_id": "practicar_lanzamiento",
+      "restaura_vidas": false
     },
     {
       "id": "farol_3",
-      "despues_de_segmento_id": "practicar_lanzamiento"
-    },
-    {
-      "id": "farol_4",
-      "despues_de_segmento_id": "segunda_llave"
-    },
-    {
-      "id": "farol_5",
-      "despues_de_segmento_id": "encuentro_combinado"
+      "despues_de_segmento_id": "sendero_alturas",
+      "restaura_vidas": false
     }
   ],
-  "intervalo_maximo_faroles_minutos": 4,
+  "intervalo_maximo_faroles_minutos": 6,
   "duracion": {
     "minimo_primera_partida_minutos": 15,
     "objetivo_minutos": [
@@ -261,7 +256,8 @@
   "persistencia": {
     "al_morir": "Conservar llaves, colección y vida secreta concedida; restaurar mecanismos anteriores al farol y rearmar posteriores con sus dianas, herramientas y enemigos.",
     "al_cerrar": "Conservar colección y equipo permanentes; reiniciar posición, llaves y mecanismos del intento. No existe guardado de posición.",
-    "al_rejugar": "Reponer llaves y mecanismos; conservar colección, equipo y resultados sin duplicar objetos."
+    "al_rejugar": "Reponer llaves y mecanismos; conservar colección, equipo y resultados sin duplicar objetos.",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
   },
   "accesibilidad": {
     "senales_no_solo_color": "Numerar las tres llaves y combinar material, brotes, marcas y estado de cerrojos.",

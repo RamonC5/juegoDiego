@@ -2,6 +2,12 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Tres puntos de guardado sin curación · 18-10-2026
+
+Cada nivel tiene exactamente tres puntos de guardado; activarlos conserva las vidas actuales y su máximo. En Bosque 1-1 están en x=12390, 24390 y 36390, a altura 600, sobre suelo firme. Sustituye la distribución anterior de 12 faroles y su recarga de energía. No añadir puntos por aplicar la pauta histórica de intervalos; repartir los tres para formar cuatro tramos razonables.
+
+La reaparición tras morir mantiene su comportamiento propio. Continúan la consolidación espacial del progreso anterior, el reinicio de lo posterior y la persistencia de colección, equipo y corazón secreto del intento. Los puntos no guardan una posición entre cierres de la aplicación.
+
 ## Autoría de niveles: decisiones del 18-10-2026
 
 Aplicar el skill actualizado al diseñar niveles nuevos: incluir al menos una zona secreta opcional por aventura y, **antes de implementarla**, proponer y validar con el usuario su ubicación y lo que Diego hace dentro. Registrar la respuesta real; si cambia la ubicación o actividad, volver a consultar. Señalar siempre la entrada con un tótem del estilo del mundo, sin letras ni iconos flotantes; ofrecer entrada, premio y retorno físicos sin impedir las tres llaves.
@@ -50,7 +56,7 @@ Para el **primer bosque** prevalece la reducción específica autorizada a unos 
 
 Dimensionar cada aventura para al menos 15 minutos de ruta principal en primera partida normal. Usar inicialmente un presupuesto de 18–22 minutos y comprobarlo jugando; descontar pausas, cargas, cinemáticas, secretos y repeticiones por derrota. Las rejugadas expertas pueden ser más cortas. No imponer un tiempo de espera para abrir la puerta.
 
-Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar plataformas, exploración, combate y pequeños rompecabezas. Enseñar primero en un lugar seguro, practicar y combinar después. Situar faroles aproximadamente cada 3–4 minutos. Al reaparecer conservar el tramo anterior al farol y repetir el posterior; una diana pertenece al puente o portón que acciona aunque esté situada antes. Reponer herramientas imprescindibles y permitir regresar a una llave pendiente. Proponer guardado del intento como sistema nuevo para poder continuar otro día.
+Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar plataformas, exploración, combate y pequeños rompecabezas. Enseñar primero en un lugar seguro, practicar y combinar después. Repartir exactamente tres puntos por nivel; activarlos no cura. Calcular el intervalo de sus cuatro tramos sin añadir faroles. Al reaparecer conservar el tramo anterior al farol y repetir el posterior; una diana pertenece al puente o portón que acciona aunque esté situada antes. Reponer herramientas imprescindibles y permitir regresar a una llave pendiente. Proponer guardado del intento como sistema nuevo para poder continuar otro día.
 
 ## Progresión propuesta del primer mundo
 

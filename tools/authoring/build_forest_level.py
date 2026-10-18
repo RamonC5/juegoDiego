@@ -35,6 +35,10 @@ def build():
                       ('recovery_platforms', 'Rect2'), ('enemy_spawns', 'Vector4'),
                       ('object_spawns', 'Vector3'), ('checkpoints', 'Vector2')]:
         values[key] = [tuple(map(float, m.split(','))) for m in re.findall(rf'{kind}\(([^)]*)\)', fields[key])]
+    # Tres puntos sobre suelo firme, repartidos por el recorrido real del bosque.
+    # No heredar los tres faroles del prólogo ni añadir uno por cada tramo.
+    values['checkpoints'] = [(12390, 600), (24390, 600), (36390, 600)]
+    fields['checkpoint'] = vec('Vector2', values['checkpoints'][0])
     kinds = ['terron', 'moflete', 'terron', 'terron', 'moflete', 'terron', 'moflete', 'terron', 'moflete']
     subs = []
     gates = []
@@ -80,7 +84,6 @@ def build():
         gate_x = x + 3890
         starts.append((x, 600))
         names.append(name)
-        values['checkpoints'].append((x + 190, 600))
         chapter = i // 6
         # Reordenar y variar las composiciones: las rutas posteriores no repiten la anterior.
         shape = ((0, 1, 2, 3, 4, 5), (3, 2, 4, 0, 1, 5), (2, 4, 3, 1, 0, 5))[chapter][i % 6]
@@ -202,5 +205,3 @@ def build():
 
 if __name__ == '__main__':
     build()
-
-

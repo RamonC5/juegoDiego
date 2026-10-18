@@ -29,6 +29,11 @@
       "ruta": "encargo:reemplazar trepa automática por lianas oscilantes",
       "revision": "2026-10-17",
       "observacion": "El jugador salta, se cuelga de las lianas oscilantes y cambia de una a otra mediante nuevos saltos."
+    },
+    {
+      "ruta": "encargo:tres puntos sin curación",
+      "revision": "2026-10-18",
+      "observacion": "Exactamente tres puntos por nivel; conservar las vidas al pasar, sin recargarlas."
     }
   ],
   "mundo_id": "world_01",
@@ -228,40 +233,19 @@
   },
   "puntos_control": [
     {
-      "id": "farol_prologo",
-      "despues_de_segmento_id": "prologo"
+      "id": "farol_1",
+      "despues_de_segmento_id": "tramo_01",
+      "restaura_vidas": false
     },
     {
-      "id": "farol_01",
-      "despues_de_segmento_id": "tramo_01"
+      "id": "farol_2",
+      "despues_de_segmento_id": "tramo_04",
+      "restaura_vidas": false
     },
     {
-      "id": "farol_02",
-      "despues_de_segmento_id": "tramo_02"
-    },
-    {
-      "id": "farol_03",
-      "despues_de_segmento_id": "tramo_03"
-    },
-    {
-      "id": "farol_04",
-      "despues_de_segmento_id": "tramo_04"
-    },
-    {
-      "id": "farol_05",
-      "despues_de_segmento_id": "tramo_05"
-    },
-    {
-      "id": "farol_06",
-      "despues_de_segmento_id": "tramo_06"
-    },
-    {
-      "id": "farol_07",
-      "despues_de_segmento_id": "tramo_07"
-    },
-    {
-      "id": "farol_08",
-      "despues_de_segmento_id": "tramo_08"
+      "id": "farol_3",
+      "despues_de_segmento_id": "tramo_07",
+      "restaura_vidas": false
     }
   ],
   "intervalo_maximo_faroles_minutos": 4,
@@ -282,7 +266,8 @@
     "secreto_opcional": "El brote suma un corazón hasta cuatro por partida; recogida única, no se pierde al reaparecer. El ascensor solo reinicia si la gruta queda después del farol; las hojas quedan recogidas.",
     "al_morir": "Conservar llaves, hojas y cristales. Mantener puentes, portones, dianas, derrotas y ciclos del tramo anterior al punto de reaparición; rearmar solo lo posterior. Cada diana y su piña se reinician junto con el puente o portón que accionan, aunque la estación esté antes del farol. Reponer enemigos posteriores por su posición de origen, sin duplicar instancias ni derrotas.",
     "al_cerrar": "El intento se reinicia. Se conservan los resultados completados y ajustes; no existe guardado intermedio.",
-    "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes."
+    "al_rejugar": "Reponer llaves, pasos, piñas y enemigos; mantener los mejores resultados y ajustes.",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
   },
   "accesibilidad": {
     "senales_no_solo_color": "Cinco lianas naturales con nudos visibles, oscilaciones desfasadas y seguimiento del protagonista al colgarse, sin texto ni iconos en el escenario.",

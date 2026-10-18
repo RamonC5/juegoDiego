@@ -38,8 +38,8 @@ Los tiempos de la dinámica ayudan a diseñar situaciones. No volver a sumarlos 
 | `segmentos` | Lista ordenada, sin identificadores repetidos. Cada entrada tiene `id`, `nombre`, `principal` booleano, `minutos_estimados`, `dinamicas` (lista no vacía) y `proposito`. |
 | `llaves` | Tres objetos `{ranura, segmento_id, obtencion}` con ranuras enteras 1, 2 y 3 y tres segmentos principales diferentes. Vacía para un jefe. |
 | `salida` | `condicion`: `tres_llaves` en aventura o `jefe_derrotado` en jefe. Añadir `descripcion` y `retorno_objetivos_pendientes`: `true`. |
-| `puntos_control` | Lista de objetos con `id` y `despues_de_segmento_id`, siempre referidos a segmentos principales. Para aventuras, al menos uno. |
-| `intervalo_maximo_faroles_minutos` | Número positivo; presupuesto máximo entre inicio, faroles y final, usando los máximos de cada segmento principal. Inicialmente cuatro. |
+| `puntos_control` | Exactamente tres objetos por nivel, con `id`, `despues_de_segmento_id` y `restaura_vidas`: `false`, siempre referidos a segmentos principales. Mantener vidas y máximo al activarlos. |
+| `intervalo_maximo_faroles_minutos` | Número positivo; presupuesto máximo entre inicio, faroles y final, usando los máximos de cada segmento principal. Calcularlo para los cuatro tramos delimitados por los tres puntos; no añadir puntos para reducirlo. |
 | `duracion` | Objeto descrito abajo. |
 
 La lista de segmentos expresa el recorrido en orden. Para alternativas, registrar como principal el presupuesto del recorrido válido más corto; dejar los otros recorridos como opcionales y describir la elección. La ficha no sustituye un grafo de navegación ni demuestra alcanzabilidad física.

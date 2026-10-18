@@ -10,6 +10,7 @@ extends Resource
 @export var width: float = 8200.0
 @export var spawn: Vector2 = Vector2(180, 600)
 @export var checkpoint: Vector2 = Vector2(4160, 600)
+## Exactamente tres puntos por nivel; activarlos conserva las vidas actuales.
 ## Orden de avance: volver a un farol anterior no hace retroceder la reaparición.
 @export var checkpoints: Array[Vector2] = []
 @export var goal: Vector2 = Vector2(7900, 600)
@@ -40,7 +41,3 @@ extends Resource
 ## Exactamente tres llaves por intento. El arte se elige por entorno, no por color.
 @export var key_definition: LevelKeyDefinition
 @export var key_positions: Array[Vector2] = []
-
-
-
-

@@ -32,6 +32,10 @@ func freeze_enemies(stage: ForestStage) -> void:
 func _run() -> void:
 	main = load("res://game/boot/main.tscn").instantiate()
 	main.collection_progress = CollectionProgress.new("user://collection-test_audio_respawn-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()])
+	# Distribución aislada para probar enemigos a ambos lados; el bosque exportado
+	# y sus tres posiciones reales se verifican en las suites de nivel y APK.
+	main.level_definition = preload("res://game/data/worlds/world_01/level_01.tres").duplicate()
+	main.level_definition.checkpoints = [Vector2(2470, 600), Vector2(3390, 600), Vector2(4820, 600)]
 	root.add_child(main)
 	await step(3)
 	var stage: ForestStage = main.stage
@@ -139,4 +143,3 @@ func _has_letters(node: Node) -> bool:
 		if _has_letters(child):
 			return true
 	return false
-

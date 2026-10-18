@@ -1,5 +1,10 @@
 # Bosque Esmeralda · 1-1 · 0.5.0
 
+## Regla vigente · 0.11.2
+
+El bosque tiene tres puntos de guardado: (12390, 600), (24390, 600) y (36390, 600). Activarlos guarda reaparición y progreso anterior sin recargar vidas ni modificar su máximo. Mantiene la recuperación espacial por farol y la reaparición tras morir. Esta decisión sustituye las cantidades y curación indicadas en las versiones históricas siguientes.
+
+
 El bosque se amplía a tres rutas de llaves, tras un prólogo que enseña salto, lanzamiento, puentes y troncos viajeros. Sigue siendo el primer nivel de Super Diego y se abre al iniciar; Entrenamiento permanece en Pausa.
 
 ## Contenido actual

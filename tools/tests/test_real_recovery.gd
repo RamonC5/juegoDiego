@@ -1,5 +1,5 @@
 extends SceneTree
-## Plataformas del bosque y muerte/retorno físico por los nueve portones anteriores a faroles.
+## Plataformas reales y muerte/retorno físico con los tres puntos de guardado del bosque.
 var main: Node2D
 var checks: int = 0
 var failures: int = 0
@@ -111,12 +111,17 @@ func run() -> void:
 		await step()
 		high = minf(high, hero.position.y)
 	check(high < 515 and hero.is_on_floor() and absf(hero.position.y - 515) < 0.2, "poder levantarse por debajo conserva el salto y el aterrizaje encima de la misma plataforma")
-	# Recorrido hacia delante hasta cada farol; muerte real, menú y retorno por el portón.
-	for index in stage.root_gates.size() - 1:
-		var gate: ForestRootGate = stage.root_gates[index]
-		var checkpoint: int = index + 3
-		activate(gate)
+	# Cruzar físicamente cada uno de los tres puntos; conservar todos sus portones anteriores.
+	check(stage.checkpoint_positions().size() == 3, "el bosque real tiene solo tres puntos de guardado")
+	for checkpoint in stage.checkpoint_positions().size():
+		var last_gate: int = -1
+		for index in stage.root_gates.size():
+			if stage.root_gates[index].position.x < stage.checkpoint_positions()[checkpoint].x:
+				activate(stage.root_gates[index])
+				last_gate = index
+		var gate: ForestRootGate = stage.root_gates[last_gate]
 		hero.respawn(gate.position - Vector2(130, 0))
+		hero.health = 1
 		hero.invulnerability = 1000
 		await step(4)
 		hero.controls.automatic_run = true
@@ -126,19 +131,24 @@ func run() -> void:
 			if stage.active_checkpoint_index >= checkpoint and hero.position.x > stage.checkpoint_positions()[checkpoint].x + 50:
 				break
 		hero.controls.clear_virtual()
-		check(stage.active_checkpoint_index == checkpoint, "portón %d: caminar activa el farol posterior real" % index)
-		activate(stage.root_gates[index + 1])
-		if index == 0:
-			# Inyección de desincronización: la copia consolidada debe reconstruirla.
+		check(stage.active_checkpoint_index == checkpoint, "punto %d: caminar activa el guardado real" % checkpoint)
+		check(hero.health == 1, "punto %d: el contacto físico no recarga vidas" % checkpoint)
+		activate(stage.root_gates[last_gate + 1])
+		if checkpoint == 0:
+			# Inyectar desincronización: restaurar también el estado físico consolidado.
 			gate.reset_closed()
 			stage.activated_mechanisms.clear()
 		hero._die()
 		await step(62)
-		check(paused and hero.dead, "portón %d: la derrota abre el menú habitual" % index)
+		check(paused and hero.dead, "punto %d: la derrota abre el menú habitual" % checkpoint)
 		main._resume()
 		await step(4)
-		check(gate.is_open and gate._shape.disabled and gate.activated.size() == 2, "portón %d: el farol restaura marcas, dibujo y colisión abiertos" % index)
-		check(not stage.root_gates[index + 1].is_open and stage.root_gates[index + 1].activated.is_empty(), "portón %d: lo posterior al farol vuelve a cero" % index)
+		for index in stage.root_gates.size():
+			var candidate: ForestRootGate = stage.root_gates[index]
+			if index <= last_gate:
+				check(candidate.is_open and candidate._shape.disabled and candidate.activated.size() == 2, "punto %d: portón anterior %d restaurado" % [checkpoint, index])
+			else:
+				check(not candidate.is_open and candidate.activated.is_empty(), "punto %d: portón posterior %d vuelve a cero" % [checkpoint, index])
 		hero.invulnerability = 1000
 		hero.controls.automatic_run = true
 		hero.controls.set_virtual_axis(-1)
@@ -146,7 +156,7 @@ func run() -> void:
 			await step()
 			if hero.position.x < gate.position.x - 90:
 				break
-		check(hero.position.x < gate.position.x - 90 and not hero.dead, "portón %d: puede volver físicamente a las dianas de la otra orilla" % index)
+		check(hero.position.x < gate.position.x - 90 and not hero.dead, "punto %d: retorno físico por el portón y sus dianas" % checkpoint)
 		hero.controls.clear_virtual()
 	# Un farol avanzado debe restaurar también una apertura mucho más antigua.
 	stage.root_gates[0].reset_closed()
@@ -160,4 +170,3 @@ func run() -> void:
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	print("RECUPERACIÓN REAL: %d comprobaciones, %d fallos" % [checks, failures])
 	quit(1 if failures else 0)
-

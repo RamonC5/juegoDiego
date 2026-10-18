@@ -31,15 +31,17 @@ def mundo_ejemplo():
     jefe.update(id="world_01_boss", categoria="jefe", orden=4, nombre="Encuentro propuesto de ejemplo")
     jefe["desbloqueo_requiere"] = [nivel["id"] for nivel in niveles]
     jefe["dinamicas_nuevas_obligatorias"] = ["jefe_lanzamientos"]
-    jefe["segmentos"] = [{"id": "combate", "nombre": "Aprender el patrón", "principal": True,
-                          "minutos_estimados": [6, 8], "dinamicas": ["jefe_lanzamientos"],
-                          "proposito": "Esquivar ataques anunciados y lanzar durante la vulnerabilidad."}]
+    jefe["segmentos"] = [{"id": nombre, "nombre": "Aprender y combinar el patrón", "principal": True,
+                          "minutos_estimados": tiempo, "dinamicas": ["jefe_lanzamientos"],
+                          "proposito": "Esquivar ataques anunciados y lanzar durante la vulnerabilidad."}
+                         for nombre, tiempo in (("ensayo", [2, 2]), ("patron", [2, 2]), ("combate", [2, 4]))]
     jefe["llaves"] = []
     jefe["zonas_secretas"] = []
     jefe["coleccionables"] = []
     jefe["salida"]["condicion"] = "jefe_derrotado"
     jefe["salida"]["descripcion"] = "Completar al derrotar al jefe mediante objetos lanzados."
-    jefe["puntos_control"] = []
+    jefe["puntos_control"] = [{"id": f"farol_{i}", "despues_de_segmento_id": seg["id"],
+                               "restaura_vidas": False} for i, seg in enumerate(jefe["segmentos"], 1)]
     jefe["intervalo_maximo_faroles_minutos"] = 8
     jefe["duracion"].update(minimo_primera_partida_minutos=6, objetivo_minutos=[6, 8])
     return niveles + [jefe]
@@ -102,6 +104,19 @@ class ReglasDeDiseno(unittest.TestCase):
         doc = leer("ejemplo-nivel-bosque.json")
         doc["puntos_control"] = doc["puntos_control"][:1]
         self.assert_error(doc, "sin farol")
+
+    def test_exactamente_tres_puntos_sin_curacion(self):
+        for cantidad in (0, 1, 2, 4):
+            doc = leer("ejemplo-nivel-bosque.json")
+            base = doc["puntos_control"]
+            doc["puntos_control"] = (base + [copy.deepcopy(base[0])])[:cantidad]
+            with self.subTest(cantidad=cantidad):
+                self.assert_error(doc, "exactamente tres")
+        for valor in (None, True, 0, "false"):
+            doc = leer("ejemplo-nivel-bosque.json")
+            doc["puntos_control"][0]["restaura_vidas"] = valor
+            with self.subTest(valor=valor):
+                self.assert_error(doc, "no recarga vidas")
 
     def test_duracion_medida_exige_muestras(self):
         doc = leer("ejemplo-nivel-bosque.json")

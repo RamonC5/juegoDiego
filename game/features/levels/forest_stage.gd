@@ -518,7 +518,7 @@ func checkpoint_positions() -> Array[Vector2]:
 
 
 func _on_checkpoint(body: Node2D, index: int = 0) -> void:
-	if body != player or player.dead or index <= active_checkpoint_index:
+	if body != player or player.dead or index < 0 or index >= checkpoint_positions().size() or index <= active_checkpoint_index:
 		return
 	checkpoint_active = true
 	active_checkpoint_index = index
@@ -530,9 +530,8 @@ func _on_checkpoint(body: Node2D, index: int = 0) -> void:
 		if not _is_before_respawn(DEFINITION.enemy_spawns[spawn_index].x):
 			pending.append(spawn_index)
 	_defeated_since_checkpoint = pending
-	player.recover_energy()
 	checkpoint_reached.emit()
-	hint_requested.emit("Farol activado · Energía recuperada. Si caes, volverás aquí.")
+	hint_requested.emit("Punto de guardado activado. Si caes, volverás aquí con el progreso anterior. Tus vidas no se recargan al pasar.")
 
 
 func _on_goal(body: Node2D) -> void:
@@ -661,7 +660,7 @@ func _physics_process(delta: float) -> void:
 		1490: "Las hojas dibujan el salto sobre el hueco. Puedes caminar o correr.",
 		2240: "Las tres llaves están repartidas por las tres rutas del bosque. Los cristales son opcionales. Más adelante practicarás con una piña.",
 		2460: "EL PUENTE DE RAÍCES · Toca para coger la piña. Mira a la diana y toca otra vez para lanzar.",
-		3330: "Activa el farol. Repite el lanzamiento a la segunda diana para abrir el puente hacia las rutas del bosque.",
+		3330: "Repite el lanzamiento a la segunda diana para abrir el puente hacia las rutas del bosque.",
 		4380: "Combina saltos y pisotones. Los enemigos te perseguirán al verte, también desde las plataformas.",
 		5350: "La vasija del bosque se puede recoger y lanzar. Se rompe al impactar y vuelve a su puesto.",
 		5450: "TRONCOS VIAJEROS · Salta sobre el tronco y suelta el arrastre: te llevará. Si caes, vuelve a probar desde el suelo.",
@@ -690,5 +689,3 @@ func _update_activity() -> void:
 			collectible.visible = nearby
 			collectible.set_process(nearby)
 			collectible.set_deferred("monitoring", nearby)
-
-

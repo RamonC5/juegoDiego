@@ -238,11 +238,14 @@ def nivel(doc, r):
     r.texto(salida.get("descripcion"), "salida.descripcion")
     r.exigir(salida.get("retorno_objetivos_pendientes") is True, "salida", "mantener retorno a objetivos pendientes")
 
-    puntos = r.lista(doc.get("puntos_control"), "puntos_control", permitir_vacia=not aventura)
+    puntos = r.lista(doc.get("puntos_control"), "puntos_control")
+    r.exigir(len(puntos) == 3, "puntos_control", "usar exactamente tres puntos de guardado por nivel")
     nombres_puntos, cortes = [], []
     for i, valor in enumerate(puntos):
         ruta = f"puntos_control[{i}]"
         punto = r.objeto(valor, ruta)
+        r.exigir(punto.get("restaura_vidas") is False, ruta + ".restaura_vidas",
+                 "usar false: activar el punto no recarga vidas")
         nombres_puntos.append(r.identificador(punto.get("id"), ruta + ".id"))
         destino = r.identificador(punto.get("despues_de_segmento_id"), ruta + ".despues_de_segmento_id")
         cortes.append(destino)
