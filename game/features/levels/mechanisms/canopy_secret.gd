@@ -35,6 +35,19 @@ func _ready() -> void:
 	vine.length = 800.0
 	vine.swing_amplitude = 0.04
 	add_child(vine)
+	# Una rama del primer árbol sostiene el anclaje; es arte sin colisión.
+	var anchor := Sprite2D.new()
+	var atlas := AtlasTexture.new()
+	atlas.atlas = RootBridge.TEXTURE
+	atlas.region = Rect2(RootBridge.TEXTURE.get_size() * Vector2(0.007, 0.26), RootBridge.TEXTURE.get_size() * Vector2(0.987, 0.52))
+	anchor.texture = atlas
+	var branch_end: Vector2 = CROWNS[0].get_center()
+	var branch_delta: Vector2 = branch_end - vine.position
+	anchor.position = vine.position.lerp(branch_end, 0.5)
+	anchor.rotation = branch_delta.angle()
+	anchor.scale = Vector2(branch_delta.length() / atlas.region.size.x, 48.0 / atlas.region.size.y)
+	anchor.z_index = -4
+	add_child(anchor)
 	totem = ForestSecretTotem.new()
 	totem.position = Vector2(-150, 0)
 	add_child(totem)

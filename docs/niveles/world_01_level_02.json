@@ -3,7 +3,7 @@
   "tipo": "nivel",
   "id": "world_01_level_02",
   "nombre": "Bosque 1-2 · Las copas del bosque",
-  "estado": "ampliacion",
+  "estado": "implementada",
   "fuentes": [
     {
       "ruta": "AGENTS.md",
@@ -13,7 +13,7 @@
     {
       "ruta": "game/data/worlds/world_01/level_02.tres",
       "revision": "rama feat/forest-level-2",
-      "observacion": "Recorrido principal y secreto de las copas integrados; comprobación física en CI pendiente."
+      "observacion": "Ruta principal y secreto de las copas integrados. Geometría base verificada en CI 192; versión final del secreto: 29 comprobaciones locales y capturas Compatibility reales."
     },
     {
       "ruta": "Instrucción del usuario en esta conversación",
@@ -353,11 +353,14 @@
     "jugando": [
       "Medir primeras partidas con el público objetivo, sin pausas, secretos ni repeticiones por derrota.",
       "Comprobar tacto, cámara y rendimiento en Android y Windows físicos.",
-      "Probar entrada por liana, trepa manual, pausa, cinco copas, vida única, descenso, muerte y persistencia con test_canopy_secret.gd; revisión de CI y dispositivo físico pendientes."
+      "29 comprobaciones locales de test_canopy_secret.gd correctas, incluida entrada con enemigos activos sin invulnerabilidad, trepa, pausa, cinco copas, vida única, descenso y persistencia. Capturas Compatibility revisadas. Pendiente: dispositivo físico."
     ],
     "evidencias": [
       "tools/tests/test_forest_level_02.gd",
-      "docs/pruebas/bosque-1-2.md"
+      "docs/pruebas/bosque-1-2.md",
+      "2026-10-19: test_canopy_secret.gd, 29 comprobaciones locales, 0 fallos; Godot 4.7.2 oficial.",
+      "2026-10-19: capturas Compatibility de entrada, trepa, copas, brote y descenso revisadas.",
+      "CI 192: https://github.com/RamonC5/juegoDiego/actions/runs/39202228898 — ruta principal 79/79, secreto previo al acabado 28/28, datos APK 17/17 e instalación/gestos Android correctos."
     ]
   },
   "zonas_secretas": [
