@@ -9,6 +9,7 @@ var progress: CollectionProgress
 var collectibles: Array[ForestCollectible] = []
 var secret_position: Vector2 = Vector2(-1, -1)
 var secret_found: bool = false
+var secret_above: bool = false
 var awake: bool = false
 var hinting: bool = false
 var _phase: float = 0.0
@@ -74,7 +75,7 @@ func _process(delta: float) -> void:
 		return
 	if not visible:
 		return
-	if secret_position.x >= 0.0 and hero.position.y > secret_position.y + 130.0:
+	if secret_position.x >= 0.0 and ((secret_above and absf(hero.position.x - secret_position.x) < 400.0 and hero.position.y < secret_position.y - 300.0) or (not secret_above and hero.position.y > secret_position.y + 130.0)):
 		secret_found = true
 	_sprite.modulate = Color.WHITE
 	if hero.dead:
@@ -116,3 +117,4 @@ func _draw() -> void:
 	if awake and hinting:
 		var strength: float = 0.07 + (sin(_phase * 2.0) + 1.0) * 0.025
 		draw_circle(Vector2(-20 * hero.facing, 3), 34, Color(1.0, 0.85, 0.40, strength))
+

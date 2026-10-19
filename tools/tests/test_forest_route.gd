@@ -23,7 +23,7 @@ func check(ok: bool, message: String) -> bool:
 	checks += 1
 	if not ok:
 		failures += 1
-	print("%s %s · posición %s" % ["OK" if ok else "FALLO", message, hero.position])
+	print("%s %s · posición %s" % ["OK" if ok else "FALLO", message, hero.position if is_instance_valid(hero) else Vector2.ZERO])
 	return ok
 
 
@@ -167,24 +167,38 @@ func throw_station(station: RootBridgeDefinition) -> bool:
 	return stage.activated_mechanisms.has(station.mechanism_id)
 
 
-func cross_vine_ravine() -> bool:
+func cross_vine_ravine(crossing_index: int = 0, reposition: bool = true) -> bool:
 	# Recorrido sin teletransporte: cada salto suelta una cuerda y engancha otra.
-	var crossing: ForestVineCrossing = stage.vine_crossings[0]
+	var crossing: ForestVineCrossing = stage.vine_crossings[crossing_index]
 	var first: ForestSwingingVine = crossing.vines[0]
-	hero.respawn(crossing.global_position + Vector2(ForestVineCrossing.FIRST_VINE_X - 85.0, 600))
+	var approach: Vector2 = crossing.global_position + Vector2(ForestVineCrossing.FIRST_VINE_X - 85.0, 600)
+	if reposition:
+		hero.respawn(approach)
+	elif not await ground_to(approach.x):
+		return false
 	hero.invulnerability = 100000.0
 	hero.controls.set_virtual_axis(1.0)
-	hero.controls.set_virtual_action(&"jump", true)
+	if reposition:
+		hero.controls.set_virtual_action(&"jump", true)
 	var grabbed: bool = false
-	for frame in 125:
+	for frame in (125 if reposition else 360):
+		if not reposition:
+			# Aproximación física al nudo móvil, sin fijar artificialmente su fase.
+			var target_x: float = minf(first.grip_global_position().x, crossing.position.x + 1800)
+			var distance: float = target_x - hero.position.x
+			hero.controls.set_virtual_axis(signf(distance) if absf(distance) > 10 else 0.0)
+			if hero.is_on_floor() and frame % 15 == 0:
+				hero.controls.request_tap_jump()
 		await step(1)
 		if hero.attached_vine == first:
 			grabbed = true
 			break
 	hero.controls.set_virtual_action(&"jump", false)
 	if not grabbed:
+		print("LIANAS: no se alcanzó el primer agarre; nudo=", first.grip_global_position(), " héroe=", hero.position)
 		hero.controls.clear_virtual()
 		return false
+	hero.controls.set_virtual_axis(1.0)
 
 	for index in range(1, crossing.vines.size()):
 		var current: ForestSwingingVine = crossing.vines[index - 1]
@@ -203,6 +217,7 @@ func cross_vine_ravine() -> bool:
 				break
 			await step(1)
 		if not launched:
+			print("LIANAS: no se lanzó desde la cuerda ", index - 1)
 			hero.controls.clear_virtual()
 			return false
 		var caught: bool = false
@@ -214,6 +229,7 @@ func cross_vine_ravine() -> bool:
 			if hero.dead:
 				break
 		if not caught:
+			print("LIANAS: no se alcanzó la cuerda ", index, " héroe=", hero.position, " nudo=", following.grip_global_position())
 			hero.controls.clear_virtual()
 			return false
 		await step(14)

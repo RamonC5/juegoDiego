@@ -7,6 +7,11 @@ extends Resource
 @export var display_name: String = "Bosque Esmeralda"
 @export var music_stream: AudioStream
 @export var subtitle: String = "El despertar del bosque"
+@export var level_number: int = 1
+## Pistas propias del recorrido, consultables en pausa.
+@export var route_hints: Dictionary = {}
+## Superficie de apoyo de las setas elásticas; no altera la física del nivel 1.
+@export var spring_positions: Array[Vector2] = []
 @export var width: float = 8200.0
 @export var spawn: Vector2 = Vector2(180, 600)
 @export var checkpoint: Vector2 = Vector2(4160, 600)
@@ -24,6 +29,7 @@ extends Resource
 @export var vine_crossings: Array[Vector2] = []
 ## Centro de la trampilla opcional (x, altura de la superficie); x < 0 la desactiva.
 @export var secret_grove: Vector2 = Vector2(-1, -1)
+@export var canopy_secret: Vector2 = Vector2(-1, -1)
 ## Fragmentos opcionales con IDs estables; no ocupan las manos ni abren la salida.
 @export var fragment_ids: Array[String] = []
 @export var fragment_positions: Array[Vector2] = []
@@ -41,3 +47,4 @@ extends Resource
 ## Exactamente tres llaves por intento. El arte se elige por entorno, no por color.
 @export var key_definition: LevelKeyDefinition
 @export var key_positions: Array[Vector2] = []
+

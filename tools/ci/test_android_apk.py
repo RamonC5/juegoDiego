@@ -48,7 +48,7 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
     retried_at_rest = False
     for attempt in range(10):
         adb("shell", "input", "swipe", str(int(width * .65)), str(int(height * .50)),
-            str(int(width * .65)), str(int(height * .70)), "350")
+            str(int(width * .65)), str(int(height * .70)), "1200")
         time.sleep(.7)
         record = logs()
         if platform_stand_ready(record):
@@ -57,6 +57,12 @@ def exercise_platform_posture(width: int, height: int, prefix: str) -> dict:
         poses = POSTURE_PATTERN.findall(record)
         crouches = [pose for pose in poses if pose[0] == "crouch"]
         if not crouches:
+            # Bajo carga, QEMU puede entregar toda una pulsación corta entre dos
+            # pasos físicos. Reintentar el gesto real, sin aceptar ausencia de
+            # marcador ni relajar la posición exigida bajo la plataforma.
+            if attempt < 2:
+                continue
+            screenshot(f"{prefix}_gesto_agacharse_no_recibido.png")
             raise RuntimeError("El APK no registró el gesto táctil de agacharse.")
         x = float(crouches[-1][1])
         positions.append(x)
@@ -249,6 +255,18 @@ def enter_forest_from_map(prefix: str) -> str:
     if forest_art_ready(collected, EXPECTED_ENEMIES):
         raise RuntimeError("Un mundo bloqueado abrió el bosque.")
     screenshot(f"{prefix}_mundo_bloqueado.png")
+    adb("shell", "input", "tap", str(int(width * float(match[1]))), str(int(height * float(match[2]))))
+    deadline = time.monotonic() + 30
+    match = None
+    while time.monotonic() < deadline:
+        collected += logs()
+        match = re.search(r"SUPER_DIEGO_LEVELS_READY first=([0-9.]+),([0-9.]+)", collected)
+        if match:
+            break
+        time.sleep(1)
+    if not match:
+        raise RuntimeError("El bosque no abrió la selección de aventuras.")
+    screenshot(f"{prefix}_aventuras.png")
     adb("shell", "input", "tap", str(int(width * float(match[1]))), str(int(height * float(match[2]))))
     return collected
 

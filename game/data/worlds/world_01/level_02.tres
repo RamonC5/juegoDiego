@@ -1,0 +1,527 @@
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=64 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1"]
+[ext_resource type="Resource" path="res://game/features/levels/keys/definitions/ramas.tres" id="2_keys"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/root_bridge_definition.gd" id="3_bridge"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/moving_platform_definition.gd" id="4_moving"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/root_gate_definition.gd" id="5_gate"]
+[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="6_music"]
+
+[sub_resource type="Resource" id="Copas00A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas00a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(4590, 550, 55, 55)
+pine_position = Vector2(1305, 234)
+target_position = Vector2(1545, 190)
+recovery_bounds = Rect2(1065, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas00B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas00b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(4590, 550, 55, 55)
+pine_position = Vector2(3405, 319)
+target_position = Vector2(3645, 275)
+recovery_bounds = Rect2(3165, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate00"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_00"
+display_name = "Las setas despiertan"
+position = Vector2(4590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas00A"), SubResource("Copas00B")])
+
+[sub_resource type="Resource" id="CanopyBridge01"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas_puente_01"
+display_name = "Pasarelas de helechos"
+bridge_rect = Rect2(6600, 600, 450, 78)
+target_position = Vector2(6530, 530)
+pine_position = Vector2(6290, 574)
+recovery_bounds = Rect2(6050, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Copas01A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas01a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(9390, 550, 55, 55)
+pine_position = Vector2(5925, 319)
+target_position = Vector2(6165, 275)
+recovery_bounds = Rect2(5685, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas01B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas01b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(9390, 550, 55, 55)
+pine_position = Vector2(8265, 319)
+target_position = Vector2(8505, 275)
+recovery_bounds = Rect2(8025, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate01"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_01"
+display_name = "Pasarelas de helechos"
+position = Vector2(9390, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas01A"), SubResource("Copas01B")])
+
+[sub_resource type="Resource" id="Copas02A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas02a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(14190, 550, 55, 55)
+pine_position = Vector2(10920, 574)
+target_position = Vector2(11160, 530)
+recovery_bounds = Rect2(10680, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas02B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas02b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(14190, 550, 55, 55)
+pine_position = Vector2(13120, 574)
+target_position = Vector2(13360, 530)
+recovery_bounds = Rect2(12880, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate02"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_02"
+display_name = "Balanceo entre ramas"
+position = Vector2(14190, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas02A"), SubResource("Copas02B")])
+
+[sub_resource type="Resource" id="CanopyLift03"]
+script = ExtResource("4_moving")
+platform_id = &"copas_tronco_03"
+display_name = "La primera copa"
+start_position = Vector2(15550, 545)
+end_position = Vector2(15750, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Copas03A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas03a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(18990, 550, 55, 55)
+pine_position = Vector2(16025, 164)
+target_position = Vector2(16265, 120)
+recovery_bounds = Rect2(15785, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas03B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas03b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(18990, 550, 55, 55)
+pine_position = Vector2(17865, 319)
+target_position = Vector2(18105, 275)
+recovery_bounds = Rect2(17625, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate03"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_03"
+display_name = "La primera copa"
+position = Vector2(18990, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas03A"), SubResource("Copas03B")])
+
+[sub_resource type="Resource" id="Copas04A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas04a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(23790, 550, 55, 55)
+pine_position = Vector2(20505, 234)
+target_position = Vector2(20745, 190)
+recovery_bounds = Rect2(20265, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas04B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas04b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(23790, 550, 55, 55)
+pine_position = Vector2(22605, 319)
+target_position = Vector2(22845, 275)
+recovery_bounds = Rect2(22365, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate04"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_04"
+display_name = "Brotes del amanecer"
+position = Vector2(23790, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas04A"), SubResource("Copas04B")])
+
+[sub_resource type="Resource" id="CanopyBridge05"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas_puente_05"
+display_name = "Puente del arroyo"
+bridge_rect = Rect2(25800, 600, 450, 78)
+target_position = Vector2(25730, 530)
+pine_position = Vector2(25490, 574)
+recovery_bounds = Rect2(25250, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Copas05A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas05a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(28590, 550, 55, 55)
+pine_position = Vector2(25125, 319)
+target_position = Vector2(25365, 275)
+recovery_bounds = Rect2(24885, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas05B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas05b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(28590, 550, 55, 55)
+pine_position = Vector2(27465, 319)
+target_position = Vector2(27705, 275)
+recovery_bounds = Rect2(27225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate05"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_05"
+display_name = "Puente del arroyo"
+position = Vector2(28590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas05A"), SubResource("Copas05B")])
+
+[sub_resource type="Resource" id="CanopyLift06"]
+script = ExtResource("4_moving")
+platform_id = &"copas_tronco_06"
+display_name = "Troncos del dosel"
+start_position = Vector2(29950, 545)
+end_position = Vector2(30150, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Copas06A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas06a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(33390, 550, 55, 55)
+pine_position = Vector2(30425, 164)
+target_position = Vector2(30665, 120)
+recovery_bounds = Rect2(30185, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas06B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas06b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(33390, 550, 55, 55)
+pine_position = Vector2(32265, 319)
+target_position = Vector2(32505, 275)
+recovery_bounds = Rect2(32025, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate06"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_06"
+display_name = "Troncos del dosel"
+position = Vector2(33390, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas06A"), SubResource("Copas06B")])
+
+[sub_resource type="Resource" id="CanopyBridge07"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas_puente_07"
+display_name = "Claros de descanso"
+bridge_rect = Rect2(35400, 600, 450, 78)
+target_position = Vector2(35330, 530)
+pine_position = Vector2(35090, 574)
+recovery_bounds = Rect2(34850, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Copas07A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas07a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(38190, 550, 55, 55)
+pine_position = Vector2(34725, 319)
+target_position = Vector2(34965, 275)
+recovery_bounds = Rect2(34485, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas07B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas07b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(38190, 550, 55, 55)
+pine_position = Vector2(37065, 319)
+target_position = Vector2(37305, 275)
+recovery_bounds = Rect2(36825, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate07"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_07"
+display_name = "Claros de descanso"
+position = Vector2(38190, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas07A"), SubResource("Copas07B")])
+
+[sub_resource type="Resource" id="Copas08A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas08a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(42990, 550, 55, 55)
+pine_position = Vector2(39705, 234)
+target_position = Vector2(39945, 190)
+recovery_bounds = Rect2(39465, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas08B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas08b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(42990, 550, 55, 55)
+pine_position = Vector2(41805, 319)
+target_position = Vector2(42045, 275)
+recovery_bounds = Rect2(41565, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate08"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_08"
+display_name = "La segunda copa"
+position = Vector2(42990, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas08A"), SubResource("Copas08B")])
+
+[sub_resource type="Resource" id="Copas09A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas09a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(47790, 550, 55, 55)
+pine_position = Vector2(44520, 574)
+target_position = Vector2(44760, 530)
+recovery_bounds = Rect2(44280, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas09B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas09b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(47790, 550, 55, 55)
+pine_position = Vector2(46720, 574)
+target_position = Vector2(46960, 530)
+recovery_bounds = Rect2(46480, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate09"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_09"
+display_name = "Ramas sobre el vacío"
+position = Vector2(47790, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas09A"), SubResource("Copas09B")])
+
+[sub_resource type="Resource" id="CanopyBridge10"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas_puente_10"
+display_name = "Escaleras del musgo"
+bridge_rect = Rect2(49800, 600, 450, 78)
+target_position = Vector2(49730, 530)
+pine_position = Vector2(49490, 574)
+recovery_bounds = Rect2(49250, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Copas10A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas10a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(52590, 550, 55, 55)
+pine_position = Vector2(49125, 319)
+target_position = Vector2(49365, 275)
+recovery_bounds = Rect2(48885, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas10B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas10b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(52590, 550, 55, 55)
+pine_position = Vector2(51465, 319)
+target_position = Vector2(51705, 275)
+recovery_bounds = Rect2(51225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate10"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_10"
+display_name = "Escaleras del musgo"
+position = Vector2(52590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas10A"), SubResource("Copas10B")])
+
+[sub_resource type="Resource" id="CanopyLift11"]
+script = ExtResource("4_moving")
+platform_id = &"copas_tronco_11"
+display_name = "El vuelo del tronco"
+start_position = Vector2(53950, 545)
+end_position = Vector2(54150, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Copas11A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas11a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(57390, 550, 55, 55)
+pine_position = Vector2(54425, 164)
+target_position = Vector2(54665, 120)
+recovery_bounds = Rect2(54185, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas11B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas11b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(57390, 550, 55, 55)
+pine_position = Vector2(56265, 319)
+target_position = Vector2(56505, 275)
+recovery_bounds = Rect2(56025, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate11"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_11"
+display_name = "El vuelo del tronco"
+position = Vector2(57390, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas11A"), SubResource("Copas11B")])
+
+[sub_resource type="Resource" id="Copas12A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas12a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(62190, 550, 55, 55)
+pine_position = Vector2(58905, 234)
+target_position = Vector2(59145, 190)
+recovery_bounds = Rect2(58665, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas12B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas12b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(62190, 550, 55, 55)
+pine_position = Vector2(61005, 319)
+target_position = Vector2(61245, 275)
+recovery_bounds = Rect2(60765, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate12"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_12"
+display_name = "Setas del gran roble"
+position = Vector2(62190, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas12A"), SubResource("Copas12B")])
+
+[sub_resource type="Resource" id="Copas13A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas13a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(66990, 550, 55, 55)
+pine_position = Vector2(63720, 574)
+target_position = Vector2(63960, 530)
+recovery_bounds = Rect2(63480, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas13B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas13b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(66990, 550, 55, 55)
+pine_position = Vector2(65920, 574)
+target_position = Vector2(66160, 530)
+recovery_bounds = Rect2(65680, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate13"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_13"
+display_name = "El último barranco"
+position = Vector2(66990, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas13A"), SubResource("Copas13B")])
+
+[sub_resource type="Resource" id="CanopyLift14"]
+script = ExtResource("4_moving")
+platform_id = &"copas_tronco_14"
+display_name = "La tercera copa"
+start_position = Vector2(68350, 545)
+end_position = Vector2(68550, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Copas14A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas14a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(71790, 550, 55, 55)
+pine_position = Vector2(68825, 164)
+target_position = Vector2(69065, 120)
+recovery_bounds = Rect2(68585, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas14B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas14b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(71790, 550, 55, 55)
+pine_position = Vector2(70665, 319)
+target_position = Vector2(70905, 275)
+recovery_bounds = Rect2(70425, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate14"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_14"
+display_name = "La tercera copa"
+position = Vector2(71790, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas14A"), SubResource("Copas14B")])
+
+[sub_resource type="Resource" id="CanopyBridge15"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas_puente_15"
+display_name = "Regreso entre las hojas"
+bridge_rect = Rect2(73800, 600, 450, 78)
+target_position = Vector2(73730, 530)
+pine_position = Vector2(73490, 574)
+recovery_bounds = Rect2(73250, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Copas15A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas15a"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(76590, 550, 55, 55)
+pine_position = Vector2(73125, 319)
+target_position = Vector2(73365, 275)
+recovery_bounds = Rect2(72885, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Copas15B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"copas15b"
+display_name = "Diana de las copas"
+bridge_rect = Rect2(76590, 550, 55, 55)
+pine_position = Vector2(75465, 319)
+target_position = Vector2(75705, 275)
+recovery_bounds = Rect2(75225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="CanopyGate15"]
+script = ExtResource("5_gate")
+gate_id = &"copas_porton_15"
+display_name = "Regreso entre las hojas"
+position = Vector2(76590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Copas15A"), SubResource("Copas15B")])
+
+[resource]
+script = ExtResource("1")
+level_id = "world_01_level_02"
+world_id = "world_01"
+level_number = 2
+display_name = "Bosque Esmeralda"
+subtitle = "Las copas del bosque"
+music_stream = ExtResource("6_music")
+width = 76800.0
+spawn = Vector2(180, 600)
+goal = Vector2(76620, 600)
+checkpoint = Vector2(19320, 600)
+checkpoints = Array[Vector2]([Vector2(19320, 600), Vector2(38520, 600), Vector2(57720, 600)])
+key_definition = ExtResource("2_keys")
+key_positions = Array[Vector2]([Vector2(19100, 550), Vector2(43100, 550), Vector2(71900, 550)])
+ground_sections = Array[Rect2]([Rect2(0, 600, 4800, 520), Rect2(4800, 600, 1800, 520), Rect2(7050, 600, 2550, 520), Rect2(9600, 600, 1900, 520), Rect2(12860, 600, 1540, 520), Rect2(14400, 600, 4800, 520), Rect2(19200, 600, 4800, 520), Rect2(24000, 600, 1800, 520), Rect2(26250, 600, 2550, 520), Rect2(28800, 600, 4800, 520), Rect2(33600, 600, 1800, 520), Rect2(35850, 600, 2550, 520), Rect2(38400, 600, 4800, 520), Rect2(43200, 600, 1900, 520), Rect2(46460, 600, 1540, 520), Rect2(48000, 600, 1800, 520), Rect2(50250, 600, 2550, 520), Rect2(52800, 600, 4800, 520), Rect2(57600, 600, 4800, 520), Rect2(62400, 600, 1900, 520), Rect2(65660, 600, 1540, 520), Rect2(67200, 600, 4800, 520), Rect2(72000, 600, 1800, 520), Rect2(74250, 600, 2550, 520)])
+raised_platforms = Array[Rect2]([Rect2(1200, 260, 620, 64), Rect2(2800, 515, 240, 64), Rect2(3060, 430, 240, 64), Rect2(3320, 345, 600, 64), Rect2(5320, 515, 240, 64), Rect2(5580, 430, 240, 64), Rect2(5840, 345, 600, 64), Rect2(7660, 515, 240, 64), Rect2(7920, 430, 240, 64), Rect2(8180, 345, 600, 64), Rect2(15920, 190, 620, 64), Rect2(17260, 515, 240, 64), Rect2(17520, 430, 240, 64), Rect2(17780, 345, 600, 64), Rect2(18100, 290, 240, 64), Rect2(18320, 190, 360, 64), Rect2(20400, 260, 620, 64), Rect2(22000, 515, 240, 64), Rect2(22260, 430, 240, 64), Rect2(22520, 345, 600, 64), Rect2(24520, 515, 240, 64), Rect2(24780, 430, 240, 64), Rect2(25040, 345, 600, 64), Rect2(26860, 515, 240, 64), Rect2(27120, 430, 240, 64), Rect2(27380, 345, 600, 64), Rect2(30320, 190, 620, 64), Rect2(31660, 515, 240, 64), Rect2(31920, 430, 240, 64), Rect2(32180, 345, 600, 64), Rect2(34120, 515, 240, 64), Rect2(34380, 430, 240, 64), Rect2(34640, 345, 600, 64), Rect2(36460, 515, 240, 64), Rect2(36720, 430, 240, 64), Rect2(36980, 345, 600, 64), Rect2(39600, 260, 620, 64), Rect2(41200, 515, 240, 64), Rect2(41460, 430, 240, 64), Rect2(41720, 345, 600, 64), Rect2(42100, 290, 240, 64), Rect2(42320, 190, 360, 64), Rect2(48520, 515, 240, 64), Rect2(48780, 430, 240, 64), Rect2(49040, 345, 600, 64), Rect2(50860, 515, 240, 64), Rect2(51120, 430, 240, 64), Rect2(51380, 345, 600, 64), Rect2(54320, 190, 620, 64), Rect2(55660, 515, 240, 64), Rect2(55920, 430, 240, 64), Rect2(56180, 345, 600, 64), Rect2(58800, 260, 620, 64), Rect2(60400, 515, 240, 64), Rect2(60660, 430, 240, 64), Rect2(60920, 345, 600, 64), Rect2(68720, 190, 620, 64), Rect2(70060, 515, 240, 64), Rect2(70320, 430, 240, 64), Rect2(70580, 345, 600, 64), Rect2(70900, 290, 240, 64), Rect2(71120, 190, 360, 64), Rect2(72520, 515, 240, 64), Rect2(72780, 430, 240, 64), Rect2(73040, 345, 600, 64), Rect2(74860, 515, 240, 64), Rect2(75120, 430, 240, 64), Rect2(75380, 345, 600, 64)])
+recovery_platforms = Array[Rect2]([Rect2(6600, 820, 450, 300), Rect2(6600, 740, 160, 40), Rect2(6600, 660, 75, 40), Rect2(25800, 820, 450, 300), Rect2(25800, 740, 160, 40), Rect2(25800, 660, 75, 40), Rect2(35400, 820, 450, 300), Rect2(35400, 740, 160, 40), Rect2(35400, 660, 75, 40), Rect2(49800, 820, 450, 300), Rect2(49800, 740, 160, 40), Rect2(49800, 660, 75, 40), Rect2(73800, 820, 450, 300), Rect2(73800, 740, 160, 40), Rect2(73800, 660, 75, 40)])
+enemy_spawns = Array[Vector4]([Vector4(470, 600, 350, 610), Vector4(4000, 600, 3850, 4130), Vector4(1665, 260, 1615, 1715), Vector4(3745, 345, 3695, 3805), Vector4(5270, 600, 5150, 5410), Vector4(8800, 600, 8650, 8930), Vector4(6285, 345, 6235, 6335), Vector4(8605, 345, 8555, 8665), Vector4(10070, 600, 9950, 10210), Vector4(13600, 600, 13450, 13730), Vector4(14870, 600, 14750, 15010), Vector4(18400, 600, 18250, 18530), Vector4(16385, 190, 16335, 16435), Vector4(18205, 345, 18155, 18265), Vector4(21100, 600, 20980, 21240), Vector4(23200, 600, 23050, 23330), Vector4(20865, 260, 20815, 20915), Vector4(22945, 345, 22895, 23005), Vector4(24470, 600, 24350, 24610), Vector4(28000, 600, 27850, 28130), Vector4(25485, 345, 25435, 25535), Vector4(27805, 345, 27755, 27865), Vector4(29270, 600, 29150, 29410), Vector4(32800, 600, 32650, 32930), Vector4(30785, 190, 30735, 30835), Vector4(32605, 345, 32555, 32665), Vector4(34070, 600, 33950, 34210), Vector4(37600, 600, 37450, 37730), Vector4(35085, 345, 35035, 35135), Vector4(37405, 345, 37355, 37465), Vector4(38870, 600, 38750, 39010), Vector4(42400, 600, 42250, 42530), Vector4(40065, 260, 40015, 40115), Vector4(42145, 345, 42095, 42205), Vector4(43670, 600, 43550, 43810), Vector4(47200, 600, 47050, 47330), Vector4(48470, 600, 48350, 48610), Vector4(52000, 600, 51850, 52130), Vector4(49485, 345, 49435, 49535), Vector4(51805, 345, 51755, 51865), Vector4(53270, 600, 53150, 53410), Vector4(56800, 600, 56650, 56930), Vector4(54785, 190, 54735, 54835), Vector4(56605, 345, 56555, 56665), Vector4(58070, 600, 57950, 58210), Vector4(61600, 600, 61450, 61730), Vector4(59265, 260, 59215, 59315), Vector4(61345, 345, 61295, 61405), Vector4(62870, 600, 62750, 63010), Vector4(66400, 600, 66250, 66530), Vector4(67670, 600, 67550, 67810), Vector4(71200, 600, 71050, 71330), Vector4(69185, 190, 69135, 69235), Vector4(71005, 345, 70955, 71065), Vector4(72470, 600, 72350, 72610), Vector4(76000, 600, 75850, 76130), Vector4(73485, 345, 73435, 73535), Vector4(75805, 345, 75755, 75865)])
+enemy_kinds = Array[String](["terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron"])
+object_spawns = Array[Vector3]([Vector3(700, 574, 0), Vector3(5500, 574, 1), Vector3(10300, 574, 2), Vector3(15100, 574, 3), Vector3(19900, 574, 4), Vector3(24700, 574, 5), Vector3(29500, 574, 0), Vector3(34300, 574, 1), Vector3(39100, 574, 2), Vector3(43900, 574, 3), Vector3(48700, 574, 4), Vector3(53500, 574, 5), Vector3(58300, 574, 0), Vector3(63100, 574, 1), Vector3(67900, 574, 2), Vector3(72700, 574, 3)])
+crystal_positions = Array[Vector2]([Vector2(18490, 145), Vector2(42490, 145), Vector2(71290, 145)])
+spring_positions = Array[Vector2]([Vector2(1050, 545), Vector2(20250, 545), Vector2(39450, 545), Vector2(58650, 545)])
+vine_crossings = Array[Vector2]([Vector2(9600, 0), Vector2(43200, 0), Vector2(62400, 0)])
+region_starts = Array[Vector2]([Vector2(0, 600), Vector2(4800, 600), Vector2(9600, 600), Vector2(14400, 600), Vector2(19200, 600), Vector2(24000, 600), Vector2(28800, 600), Vector2(33600, 600), Vector2(38400, 600), Vector2(43200, 600), Vector2(48000, 600), Vector2(52800, 600), Vector2(57600, 600), Vector2(62400, 600), Vector2(67200, 600), Vector2(72000, 600)])
+region_names = Array[String](["Las setas despiertan", "Pasarelas de helechos", "Balanceo entre ramas", "La primera copa", "Brotes del amanecer", "Puente del arroyo", "Troncos del dosel", "Claros de descanso", "La segunda copa", "Ramas sobre el vacío", "Escaleras del musgo", "El vuelo del tronco", "Setas del gran roble", "El último barranco", "La tercera copa", "Regreso entre las hojas"])
+bridges = Array[ExtResource("3_bridge")]([SubResource("CanopyBridge01"), SubResource("CanopyBridge05"), SubResource("CanopyBridge07"), SubResource("CanopyBridge10"), SubResource("CanopyBridge15")])
+root_gates = Array[ExtResource("5_gate")]([SubResource("CanopyGate00"), SubResource("CanopyGate01"), SubResource("CanopyGate02"), SubResource("CanopyGate03"), SubResource("CanopyGate04"), SubResource("CanopyGate05"), SubResource("CanopyGate06"), SubResource("CanopyGate07"), SubResource("CanopyGate08"), SubResource("CanopyGate09"), SubResource("CanopyGate10"), SubResource("CanopyGate11"), SubResource("CanopyGate12"), SubResource("CanopyGate13"), SubResource("CanopyGate14"), SubResource("CanopyGate15")])
+moving_platforms = Array[ExtResource("4_moving")]([SubResource("CanopyLift03"), SubResource("CanopyLift06"), SubResource("CanopyLift11"), SubResource("CanopyLift14")])
+secret_grove = Vector2(-1, -1)
+canopy_secret = Vector2(19660, 600)
+firefly_nest = Vector2(480, 565)
+route_hints = {350: "COPAS DEL BOSQUE · Salta sobre las setas grandes para rebotar hasta la copa. Conservas un segundo salto para corregir. Hay suelo para reintentar.", 1300: "Activa la diana de la copa y busca la segunda marca. Cada puesto tiene una piña que regresa si la pierdes.", 5700: "Abre el puente con su diana. Puedes volver a buscar una llave pendiente sin que el paso se cierre.", 10500: "Salta para agarrarte a las lianas. Arrastra arriba para trepar, orienta el balanceo y salta hacia la siguiente.", 15600: "El tronco asciende hasta la copa. Salta hacia la repisa al llegar arriba; el suelo permite volver a probar.", 19000: "Los tres faroles guardan el tramo anterior sin rellenar corazones. Las llaves y la colección se conservan al morir.", 19400: "El tótem señala un secreto: salta hacia la liana y arrastra ARRIBA para trepar a las copas. Es opcional; las llaves están en el camino principal.", 40000: "Los cristales de las copas son opcionales: combina dos saltos desde la terraza. Ningún cristal es necesario para salir o conseguir ropa."}

@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "tipo": "dinamica",
+  "id": "setas_elasticas",
+  "nombre": "Setas elásticas de las copas",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "AGENTS.md",
+      "revision": "02b7e656b7de0c443804a5fe6744d4fd56cf6cf6",
+      "observacion": "Tres faroles sin curación, tres llaves, consulta previa de secreto y colección intermedia."
+    },
+    {
+      "ruta": "game/data/worlds/world_01/level_02.tres",
+      "revision": "rama feat/forest-level-2",
+      "observacion": "Recorrido principal integrado; secreto desactivado a falta de respuesta del usuario."
+    }
+  ],
+  "objetivo": "Aterrizar sobre una seta para ascender a una copa inalcanzable con el doble salto desde el suelo.",
+  "dependencias": [
+    {
+      "id": "doble_salto",
+      "estado": "implementada",
+      "detalle": "Conserva una corrección aérea tras el rebote."
+    },
+    {
+      "id": "colision_unilateral",
+      "estado": "implementada",
+      "detalle": "Usa el contacto físico de las dianas elásticas existentes."
+    }
+  ],
+  "controles": {
+    "tactil": "Pulsación izquierda para saltar sobre la seta; arrastre derecho para orientar. Otro toque permite corregir en el aire.",
+    "teclado": "Movimiento y salto configurados; no se añade tecla.",
+    "mando": "Eje y botón de salto actuales."
+  },
+  "aprendizaje": {
+    "presentacion": "Primera seta con destino visible y suelo continuo debajo.",
+    "practica": "Rebotar a la copa y lanzar a la primera diana.",
+    "combinacion": "Alternar setas, escaleras, guardianes y dianas en cuatro regiones del nivel."
+  },
+  "reglas": {
+    "activacion": "Contacto de aterrizaje desde arriba, velocidad descendente superior a 100 px/s. No se activa al tocar de lado o ascender.",
+    "exito": "Impulso de 1040 px/s, conserva dirección y una corrección aérea; aterriza en la copa.",
+    "fallo": "La seta se recupera a los 0,45 s y el suelo permite repetir sin perder un objeto único.",
+    "recuperacion": "Pausa congela el ciclo. Reaparición rearma las setas posteriores al farol."
+  },
+  "feedback": [
+    "Compresión y recuperación del raster existente de seta.",
+    "Destino y apoyo legibles sin letras ni iconos flotantes.",
+    "Ayuda en pausa para rebote y segundo salto."
+  ],
+  "recompensa": "Acceso a la diana y progreso hacia las tres llaves; cristales y hojas opcionales.",
+  "minutos_estimados": [
+    4.5,
+    5.5
+  ],
+  "dificultad": "Introducción segura y cuatro variaciones, sin cadenas largas de precisión.",
+  "persistencia": {
+    "al_morir": "Mantener llaves y colección; reconstruir mecanismos resueltos anteriores al farol y rearmar los posteriores, sus herramientas y enemigos.",
+    "al_cerrar": "Conservar colección, equipo y resultados. Reiniciar posición, llaves y mecanismos; no guarda el intento.",
+    "al_rejugar": "Nuevo intento con las tres llaves y mecanismos. Mantener colección por ID sin duplicados y la ropa obtenida.",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Setas de silueta ancha que se comprimen al aterrizar; destinos visibles y suelo de recuperación. Tótem previsto con madera y musgo.",
+    "equivalencia_visual_sonora": "Objetivos y ayudas no dependen del audio; instrucciones en pausa, HUD con nombres accesibles e iconos con cantidades.",
+    "legibilidad_movil": "Selector adaptable al área segura, foco visible y botones mayores de 48 px. Sin nuevos rótulos flotantes en el escenario.",
+    "ajustes_control": "Mismos toques, doble salto, trepa manual, lanzamiento aéreo, teclado y mando. Movimiento reducido y volumen conservados."
+  },
+  "validacion": {
+    "funcional": [
+      "Contacto real impulsa a la copa y permite activar la diana; pausa y reinicio posterior al farol."
+    ],
+    "jugando": [
+      "Comprobar claridad de la seta, tacto y rebote en dispositivos físicos con el perfil objetivo."
+    ],
+    "evidencias": [
+      "tools/tests/test_forest_level_02.gd"
+    ]
+  }
+}

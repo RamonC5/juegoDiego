@@ -21,6 +21,7 @@ var _axis: float = 0.0
 var _guide_time: float = GUIDE_SECONDS
 var _move_hint: Label
 var _action_hint: Label
+var _debug_contacts: int = 0
 
 
 func _ready() -> void:
@@ -111,6 +112,11 @@ func _can_read() -> bool:
 
 func _input(event: InputEvent) -> void:
 	# Un contacto ya capturado se libera incluso sobre el HUD o fuera de su zona.
+	if event is InputEventScreenTouch and event.pressed and _debug_contacts < 6 \
+		and OS.has_feature("android") and OS.is_debug_build():
+		_debug_contacts += 1
+		print("SALTO_TOUCH_DOWN point=%s area=%s visible=%s enabled=%s paused=%s" % [
+			event.position, _play_area, visible, is_instance_valid(input_source) and input_source.enabled, get_tree().paused])
 	if not _can_read():
 		return
 	var index: int = NO_POINTER

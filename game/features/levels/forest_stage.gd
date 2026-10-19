@@ -38,8 +38,10 @@ var _checkpoint_mechanisms: Array[StringName] = []
 var moving_platforms: Array[ForestMovingPlatform] = []
 var root_gates: Array[ForestRootGate] = []
 var vine_crossings: Array[ForestVineCrossing] = []
+var spring_pads: Array[ForestSpringPad] = []
 var secret_grove: ForestSecretGrove
 var secret_totem: ForestSecretTotem
+var canopy_secret: ForestCanopySecret
 var _activity_seconds: float = 0.0
 var _platform_hints_shown: Array[StringName] = []
 var respawn_position: Vector2 = DEFINITION.spawn
@@ -70,6 +72,11 @@ func _ready() -> void:
 	_build_root_gates()
 	_build_moving_platforms()
 	_build_vine_crossings()
+	for at in DEFINITION.spring_positions:
+		var spring := ForestSpringPad.new()
+		spring.position = at
+		add_child(spring)
+		spring_pads.append(spring)
 	_build_secret()
 	_build_collection_rewards()
 	for spec in DEFINITION.object_spawns:
@@ -97,6 +104,8 @@ func start(hero: DiegoPlayer) -> void:
 		secret_grove.hero = hero
 	if is_instance_valid(secret_totem):
 		secret_totem.hero = hero
+	if is_instance_valid(canopy_secret):
+		canopy_secret.attach_player(hero)
 	player.object_released.connect(_on_object_released)
 	for crossing in vine_crossings:
 		crossing.attach_player(hero)
@@ -108,7 +117,7 @@ func start(hero: DiegoPlayer) -> void:
 		for enemy in enemies:
 			if enemy.has_visible_art():
 				visible_art += 1
-		print("SALTO_FOREST_READY level=world_01_level_01 enemies=%d art=%d" % [enemies.size(), visible_art])
+		print("SALTO_FOREST_READY level=%s enemies=%d art=%d" % [DEFINITION.level_id, enemies.size(), visible_art])
 
 
 func _spawn_enemy(index: int) -> ForestEnemy:
@@ -208,6 +217,14 @@ func _build_vine_crossings() -> void:
 
 
 func _build_secret() -> void:
+	if DEFINITION.canopy_secret.x >= 0.0:
+		canopy_secret = ForestCanopySecret.new()
+		canopy_secret.position = DEFINITION.canopy_secret
+		canopy_secret.bonus_collected.connect(_on_secret_life_collected)
+		canopy_secret.hint_requested.connect(func(text: String): hint_requested.emit(text))
+		add_child(canopy_secret)
+		for at in ForestCanopySecret.leaf_positions():
+			_add_collectible(DEFINITION.canopy_secret + at)
 	if DEFINITION.secret_grove.x < 0.0:
 		return
 	secret_grove = ForestSecretGrove.new()
@@ -400,6 +417,9 @@ func _build_collection_rewards() -> void:
 		firefly.progress = collection_progress
 		firefly.collectibles = collectibles
 		firefly.secret_position = DEFINITION.secret_grove
+		if is_instance_valid(canopy_secret):
+			firefly.secret_position = DEFINITION.canopy_secret
+			firefly.secret_above = true
 		add_child(firefly)
 
 
@@ -546,7 +566,7 @@ func _on_goal(body: Node2D) -> void:
 		"leaves": leaves, "crystals": crystals, "seconds": seconds,
 		"enemies": defeated_enemies, "total_leaves": total_leaves,
 		"keys": collected_keys.size(),
-		"secret_life": is_instance_valid(secret_grove) and secret_grove.reward_taken,
+		"secret_life": (is_instance_valid(secret_grove) and secret_grove.reward_taken) or (is_instance_valid(canopy_secret) and canopy_secret.reward_taken),
 	})
 
 
@@ -598,9 +618,14 @@ func respawn_player() -> void:
 		else:
 			throw_targets[index].reset_to_intact()
 	player.release_vine_on_failure()
+	if is_instance_valid(canopy_secret) and not _is_before_respawn(canopy_secret.position.x + ForestCanopySecret.ROUTE_END):
+		canopy_secret.vine.reset_cycle()
 	for crossing in vine_crossings:
 		if not _is_before_respawn(crossing.position.x + ForestVineCrossing.RAVINE_RIGHT):
 			crossing.reset_vines()
+	for spring in spring_pads:
+		if not _is_before_respawn(spring.position.x):
+			spring.reset_target()
 	player.respawn(respawn_position)
 	if is_instance_valid(firefly) and firefly.awake:
 		firefly.position = player.position + Vector2(-75, -135)
@@ -668,6 +693,8 @@ func _physics_process(delta: float) -> void:
 		25000: "LIANAS: salta para agarrarte a un nudo móvil. Balancea con el arrastre y vuelve a saltar hacia la siguiente.",
 		6250: "El segundo tronco sube y baja. Espera abajo, sube y salta a la repisa alta. Más adelante combinarás este viaje con dianas.",
 	}
+	if not DEFINITION.route_hints.is_empty():
+		hints = DEFINITION.route_hints
 	for x in hints:
 		if player.position.x >= float(x) and not _hints_passed.has(x):
 			_hints_passed[x] = true
@@ -689,3 +716,4 @@ func _update_activity() -> void:
 			collectible.visible = nearby
 			collectible.set_process(nearby)
 			collectible.set_deferred("monitoring", nearby)
+

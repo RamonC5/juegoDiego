@@ -1,0 +1,443 @@
+{
+  "schema_version": 2,
+  "tipo": "nivel",
+  "id": "world_01_level_02",
+  "nombre": "Bosque 1-2 · Las copas del bosque",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "AGENTS.md",
+      "revision": "02b7e656b7de0c443804a5fe6744d4fd56cf6cf6",
+      "observacion": "Tres faroles sin curación, tres llaves, consulta previa de secreto y colección intermedia."
+    },
+    {
+      "ruta": "game/data/worlds/world_01/level_02.tres",
+      "revision": "rama feat/forest-level-2",
+      "observacion": "Ruta principal y secreto de las copas integrados. Geometría base verificada en CI 192; versión final del secreto: 29 comprobaciones locales y capturas Compatibility reales."
+    },
+    {
+      "ruta": "Instrucción del usuario en esta conversación",
+      "revision": "2026-10-19",
+      "observacion": "Quiero que suba por una liana y vaya por encima de los arboles como recorrido secreto"
+    }
+  ],
+  "mundo_id": "world_01",
+  "categoria": "aventura",
+  "orden": 2,
+  "desbloqueo_requiere": [
+    "world_01_level_01"
+  ],
+  "dinamicas_nuevas_obligatorias": [
+    "setas_elasticas"
+  ],
+  "segmentos": [
+    {
+      "id": "copas_00",
+      "nombre": "Las setas despiertan",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_01",
+      "nombre": "Pasarelas de helechos",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "saltos_plataformas"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_02",
+      "nombre": "Balanceo entre ramas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "lianas_dianas_barranco",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_03",
+      "nombre": "La primera copa",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_04",
+      "nombre": "Brotes del amanecer",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "sendero_copas",
+      "nombre": "El sendero secreto de las copas",
+      "principal": false,
+      "minutos_estimados": [
+        1,
+        2
+      ],
+      "dinamicas": [
+        "trepa_liana",
+        "saltos_plataformas"
+      ],
+      "proposito": "Trepar manualmente por una liana, atravesar cinco copas, recoger hojas y vida extra y bajar por ramas al sendero. No contribuye al tiempo principal."
+    },
+    {
+      "id": "copas_05",
+      "nombre": "Puente del arroyo",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "saltos_plataformas"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_06",
+      "nombre": "Troncos del dosel",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_07",
+      "nombre": "Claros de descanso",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "saltos_plataformas"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_08",
+      "nombre": "La segunda copa",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_09",
+      "nombre": "Ramas sobre el vacío",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "lianas_dianas_barranco",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_10",
+      "nombre": "Escaleras del musgo",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "saltos_plataformas"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_11",
+      "nombre": "El vuelo del tronco",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_12",
+      "nombre": "Setas del gran roble",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_13",
+      "nombre": "El último barranco",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "lianas_dianas_barranco",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_14",
+      "nombre": "La tercera copa",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    },
+    {
+      "id": "copas_15",
+      "nombre": "Regreso entre las hojas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "saltos_plataformas"
+      ],
+      "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
+    }
+  ],
+  "llaves": [
+    {
+      "ranura": 1,
+      "segmento_id": "copas_03",
+      "obtencion": "Activa ambas dianas del tramo y cruza el portón; llave en (19100, 550), automática y manos libres."
+    },
+    {
+      "ranura": 2,
+      "segmento_id": "copas_08",
+      "obtencion": "Activa ambas dianas del tramo y cruza el portón; llave en (43100, 550), automática y manos libres."
+    },
+    {
+      "ranura": 3,
+      "segmento_id": "copas_14",
+      "obtencion": "Activa ambas dianas del tramo y cruza el portón; llave en (71900, 550), automática y manos libres."
+    }
+  ],
+  "salida": {
+    "condicion": "tres_llaves",
+    "descripcion": "Puerta en (76620,600), solo exige las tres llaves del intento. Portones resueltos permanecen abiertos para volver.",
+    "retorno_objetivos_pendientes": true
+  },
+  "puntos_control": [
+    {
+      "id": "farol_1",
+      "despues_de_segmento_id": "copas_03",
+      "restaura_vidas": false,
+      "posicion": [
+        19320,
+        600
+      ]
+    },
+    {
+      "id": "farol_2",
+      "despues_de_segmento_id": "copas_07",
+      "restaura_vidas": false,
+      "posicion": [
+        38520,
+        600
+      ]
+    },
+    {
+      "id": "farol_3",
+      "despues_de_segmento_id": "copas_11",
+      "restaura_vidas": false,
+      "posicion": [
+        57720,
+        600
+      ]
+    }
+  ],
+  "intervalo_maximo_faroles_minutos": 5.5,
+  "duracion": {
+    "minimo_primera_partida_minutos": 15,
+    "objetivo_minutos": [
+      18,
+      22
+    ],
+    "estado": "estimada",
+    "muestras": []
+  },
+  "persistencia": {
+    "al_morir": "Mantener llaves y colección; reconstruir mecanismos resueltos anteriores al farol y rearmar los posteriores, sus herramientas y enemigos.",
+    "al_cerrar": "Conservar colección, equipo y resultados. Reiniciar posición, llaves y mecanismos; no guarda el intento.",
+    "al_rejugar": "Nuevo intento con las tres llaves y mecanismos. Mantener colección por ID sin duplicados y la ropa obtenida.",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Setas de silueta ancha que se comprimen al aterrizar; destinos visibles y suelo de recuperación. Tótem previsto con madera y musgo.",
+    "equivalencia_visual_sonora": "Objetivos y ayudas no dependen del audio; instrucciones en pausa, HUD con nombres accesibles e iconos con cantidades.",
+    "legibilidad_movil": "Selector adaptable al área segura, foco visible y botones mayores de 48 px. Sin nuevos rótulos flotantes en el escenario.",
+    "ajustes_control": "Mismos toques, doble salto, trepa manual, lanzamiento aéreo, teclado y mando. Movimiento reducido y volumen conservados."
+  },
+  "validacion": {
+    "funcional": [
+      "Recorrido completo con entradas reales y combate aislado: setas, troncos, puentes, lianas, tres llaves y cristales.",
+      "Exactamente tres faroles; contacto conserva salud parcial. Desbloqueo y guardado v1 entre niveles.",
+      "Secreto elegido por el usuario el 19-10-2026: liana, sendero sobre los árboles, tótem, premio y retorno físicos.",
+      "Conservar IDs previos y añadir 21 hojas del dosel al manifiesto; no mover llaves, cristales ni faroles."
+    ],
+    "jugando": [
+      "Medir primeras partidas con el público objetivo, sin pausas, secretos ni repeticiones por derrota.",
+      "Comprobar tacto, cámara y rendimiento en Android y Windows físicos.",
+      "29 comprobaciones locales de test_canopy_secret.gd correctas, incluida entrada con enemigos activos sin invulnerabilidad, trepa, pausa, cinco copas, vida única, descenso y persistencia. Capturas Compatibility revisadas. Pendiente: dispositivo físico."
+    ],
+    "evidencias": [
+      "tools/tests/test_forest_level_02.gd",
+      "docs/pruebas/bosque-1-2.md",
+      "2026-10-19: test_canopy_secret.gd, 29 comprobaciones locales, 0 fallos; Godot 4.7.2 oficial.",
+      "2026-10-19: capturas Compatibility de entrada, trepa, copas, brote y descenso revisadas.",
+      "CI 192: https://github.com/RamonC5/juegoDiego/actions/runs/39202228898 — ruta principal 79/79, secreto previo al acabado 28/28, datos APK 17/17 e instalación/gestos Android correctos."
+    ]
+  },
+  "zonas_secretas": [
+    {
+      "id": "sendero_copas",
+      "segmento_id": "sendero_copas",
+      "opcional": true,
+      "ubicacion": "Por encima de los árboles de Bosque 1-2.",
+      "entrada": "Tras el primer farol y antes de la segunda llave, tótem en (19510,600) y liana en x=19660: saltar para agarrarse y mantener ARRIBA para trepar.",
+      "actividad": "Subir por una liana y recorrer un sendero secreto por encima de los árboles.",
+      "recompensa": "Hojas permanentes y una vida adicional por intento, sin llave obligatoria ni requisito de ropa.",
+      "salida": "Tres ramas descendentes devuelven físicamente al suelo firme en x=23430, antes del portón; caer desde las copas también devuelve al sendero sin teletransporte.",
+      "totem": {
+        "ubicacion": "En (19510,600), junto a la base de la liana sobre suelo firme tras el primer farol.",
+        "aspecto": "Madera, raíces, musgo y hojas del bosque, a escala del escenario raster.",
+        "pista": "Silueta reconocible y movimiento suave al aproximarse; ayuda en pausa, sin depender del sonido ni de Luci."
+      },
+      "validacion_usuario": {
+        "estado": "validada",
+        "fecha": "2026-10-19",
+        "decision": "Quiero que suba por una liana y vaya por encima de los arboles como recorrido secreto",
+        "ubicacion_validada": "Por encima de los árboles de Bosque 1-2.",
+        "actividad_validada": "Subir por una liana y recorrer un sendero secreto por encima de los árboles."
+      },
+      "detalle_autoria": "El usuario elige la ubicación sobre los árboles y la actividad. Las coordenadas, las cinco copas y la bajada escalonada son decisiones técnicas de implementación dentro de esa elección."
+    }
+  ],
+  "coleccionables": [
+    {
+      "id": "world_01_level_02_leaf_310_551",
+      "dificultad": "comun",
+      "segmento_id": "copas_00",
+      "opcional": true,
+      "obtencion": "Primera hoja del sendero; las demás hojas usan el manifiesto del recurso y su ID único por coordenadas.",
+      "recompensa": "Hojas acumuladas para los hitos de ropa 12,45,60,80,100,150; no se gastan.",
+      "persistencia": "collection.json esquema 1; no duplicar al morir, reiniciar o cerrar.",
+      "id_persistente": "world_01_level_02/leaf/310/551"
+    },
+    {
+      "id": "world_01_level_02_crystal_18490_145",
+      "dificultad": "intermedia",
+      "segmento_id": "copas_03",
+      "opcional": true,
+      "obtencion": "Dos saltos desde la terraza a una rama lateral de dos alturas, con suelo de recuperación y retorno por la misma ruta.",
+      "recompensa": "Completa la colección de cristales de este nivel; no abre la salida ni bloquea ropa.",
+      "persistencia": "ID permanente del manifiesto de Bosque 1-2, independiente del nivel 1, guardado seguro sin duplicados.",
+      "id_persistente": "world_01_level_02/crystal/18490/145"
+    },
+    {
+      "id": "world_01_level_02_crystal_42490_145",
+      "dificultad": "intermedia",
+      "segmento_id": "copas_08",
+      "opcional": true,
+      "obtencion": "Dos saltos desde la terraza a una rama lateral de dos alturas, con suelo de recuperación y retorno por la misma ruta.",
+      "recompensa": "Completa la colección de cristales de este nivel; no abre la salida ni bloquea ropa.",
+      "persistencia": "ID permanente del manifiesto de Bosque 1-2, independiente del nivel 1, guardado seguro sin duplicados.",
+      "id_persistente": "world_01_level_02/crystal/42490/145"
+    },
+    {
+      "id": "world_01_level_02_crystal_71290_145",
+      "dificultad": "intermedia",
+      "segmento_id": "copas_14",
+      "opcional": true,
+      "obtencion": "Dos saltos desde la terraza a una rama lateral de dos alturas, con suelo de recuperación y retorno por la misma ruta.",
+      "recompensa": "Completa la colección de cristales de este nivel; no abre la salida ni bloquea ropa.",
+      "persistencia": "ID permanente del manifiesto de Bosque 1-2, independiente del nivel 1, guardado seguro sin duplicados.",
+      "id_persistente": "world_01_level_02/crystal/71290/145"
+    },
+    {
+      "id": "world_01_level_02_leaf_19660_380",
+      "dificultad": "comun",
+      "segmento_id": "sendero_copas",
+      "opcional": true,
+      "obtencion": "21 hojas nuevas: tres junto a la liana, tres en cada una de las cinco copas y una en cada rama de descenso.",
+      "recompensa": "Hojas acumuladas para ropa, con los umbrales existentes y sin gasto.",
+      "persistencia": "IDs nuevos por coordenadas en collection.json; los IDs anteriores permanecen intactos.",
+      "id_persistente": "world_01_level_02/leaf/19660/380"
+    }
+  ]
+}

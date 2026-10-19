@@ -15,6 +15,11 @@ func _init(storage_path: String = "user://progress.json") -> void:
 		levels = parsed["levels"]
 
 
+func is_completed(level_id: String) -> bool:
+	var record: Variant = levels.get(level_id, {})
+	return record is Dictionary and record.get("completed", false) == true
+
+
 func record_completion(level_id: String, result: Dictionary) -> Error:
 	var previous: Dictionary = levels.get(level_id, {})
 	var record: Dictionary = {

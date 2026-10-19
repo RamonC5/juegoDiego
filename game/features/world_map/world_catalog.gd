@@ -2,7 +2,7 @@ class_name WorldCatalog
 extends RefCounted
 ## Avance visual de ocho mundos. Solo se publican rutas que existen y son jugables.
 
-const FOREST_SCENE := "res://game/boot/main.tscn"
+const FOREST_SCENE := "res://game/boot/forest_adventures.tscn"
 const WORLDS: Array[Dictionary] = [
 	{"id": "world_01", "name": "Bosque Esmeralda", "cell": Vector2i(0, 0), "scene": FOREST_SCENE, "detail": "Árboles, puentes y lianas", "beat": "¡De rama en rama!", "pose": &"run"},
 	{"id": "world_02", "name": "Costa de Coral", "cell": Vector2i(1, 0), "scene": "", "detail": "Playas y arrecifes", "beat": "¡Un salto sobre las olas!", "pose": &"jump_up"},

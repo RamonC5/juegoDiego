@@ -2,6 +2,10 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Secreto de Bosque 1-2 · 19-10-2026
+
+El usuario elige subir por una liana y recorrer las copas como secreto. Tras el primer farol, un tótem señala el agarre aéreo; ARRIBA trepa manualmente la liana larga. Cinco copas con hojas llevan a una vida adicional por intento y tres ramas permiten bajar al camino. El acceso permanece, el premio no se repite al reentrar y las tres llaves siguen en la ruta principal. La elección real y sus límites figuran en [Bosque 1-2](BOSQUE_1_2.md).
+
 ## Tres puntos de guardado sin curación · 18-10-2026
 
 Cada nivel tiene exactamente tres puntos de guardado; activarlos conserva las vidas actuales y su máximo. En Bosque 1-1 están en x=12390, 24390 y 36390, a altura 600, sobre suelo firme. Sustituye la distribución anterior de 12 faroles y su recarga de energía. No añadir puntos por aplicar la pauta histórica de intervalos; repartir los tres para formar cuatro tramos razonables.
@@ -59,6 +63,8 @@ Dimensionar cada aventura para al menos 15 minutos de ruta principal en primera 
 Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar plataformas, exploración, combate y pequeños rompecabezas. Enseñar primero en un lugar seguro, practicar y combinar después. Repartir exactamente tres puntos por nivel; activarlos no cura. Calcular el intervalo de sus cuatro tramos sin añadir faroles. Al reaparecer conservar el tramo anterior al farol y repetir el posterior; una diana pertenece al puente o portón que acciona aunque esté situada antes. Reponer herramientas imprescindibles y permitir regresar a una llave pendiente. Proponer guardado del intento como sistema nuevo para poder continuar otro día.
 
 ## Progresión propuesta del primer mundo
+
+Bosque 1-2 tiene ahora su [recorrido principal integrado](BOSQUE_1_2.md), con [ficha versión 2](niveles/world_01_level_02.json) y [setas elásticas](dinamicas/setas_elasticas.json). El secreto está propuesto y desactivado hasta validar su ubicación y actividad; la aventura completa conserva estado de ampliación. El nivel 3 y el jefe continúan como propuestas.
 
 Los nombres y la distribución nueva son propuestas de diseño, no niveles ya implementados.
 
@@ -149,3 +155,4 @@ Una pulsación en la mitad izquierda inicia un salto completo y otra en el aire 
 ## Lanzar saltando y trepar manualmente · 0.12.0
 
 Por petición del 18-10-2026, Diego puede lanzar durante el salto conservando dirección, avance y segundo impulso. Mientras está agarrado a una liana, mantener arriba en la zona de movimiento permite subir; al soltar conserva altura y balanceo. Arrastrar diagonalmente combina trepa y balanceo. W / ↑ y arriba de mando ofrecen la misma acción; salto sigue soltando con impulso. La nueva trepa es manual y sustituye la ausencia de ascenso de 0.7.2, sin recuperar la subida automática histórica. No añade niveles ni cambia el recorrido, las llaves, la zona secreta o los puntos de guardado.
+
