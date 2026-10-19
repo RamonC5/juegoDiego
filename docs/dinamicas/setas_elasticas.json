@@ -13,7 +13,7 @@
     {
       "ruta": "game/data/worlds/world_01/level_02.tres",
       "revision": "rama feat/forest-level-2",
-      "observacion": "Recorrido principal integrado; secreto desactivado a falta de respuesta del usuario."
+      "observacion": "Ruta principal y secreto de las copas integrados; nueva dinámica aérea añadida en 0.14.0."
     }
   ],
   "objetivo": "Aterrizar sobre una seta para ascender a una copa inalcanzable con el doble salto desde el suelo.",

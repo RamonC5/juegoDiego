@@ -7,6 +7,7 @@ signal defeated(enemy: ForestEnemy, by_throw: bool)
 const SPRITES: Dictionary = {
 	"terron": preload("res://game/assets/textures/characters/terron/idle_v001.png"),
 	"moflete": preload("res://game/assets/textures/characters/moflete/idle_v001.png"),
+	"noctilo": preload("res://game/assets/textures/characters/noctilo/idle_v001.png"),
 }
 
 var spawn_index: int = -1
@@ -39,6 +40,9 @@ var _last_seen_y: float = 0.0
 var _drop_direction: float = 0.0
 var _support_span: Vector2
 var _support_rid: RID
+## Vuelo periódico independiente del jugador; no comparte la IA de persecución.
+var flight_seconds: float = 0.0
+const FLIGHT_BOB: float = 12.0
 
 
 func _ready() -> void:
@@ -50,11 +54,18 @@ func _ready() -> void:
 	collision_layer = 4
 	collision_mask = 1
 	_height = 76.0 if kind == "moflete" else 52.0
+	if kind == "noctilo":
+		_height = 74.0
+		_half_width = 27.0
 	var body := CollisionShape2D.new()
 	var rectangle := RectangleShape2D.new()
 	rectangle.size = Vector2(48 if kind == "moflete" else 104, _height)
 	body.shape = rectangle
 	body.position.y = -_height / 2.0
+	if kind == "noctilo":
+		# Las membranas no son una pared: solo el cuerpo causa contacto.
+		rectangle.size = Vector2(54, 40)
+		body.position.y = -24.0
 	add_child(body)
 	_visual = EnemyVisual.new()
 	_visual.configure(kind, SPRITES[kind])
@@ -69,9 +80,14 @@ func _ready() -> void:
 	_stomp.collision_mask = 0
 	_stomp.half_width = 30.0 if kind == "moflete" else 54.0
 	_stomp.top_tolerance = 16.0
+	if kind == "noctilo":
+		_stomp.position.y = -52.0
+		_stomp.half_width = 34.0
 	var sensor_shape := CollisionShape2D.new()
 	var top := RectangleShape2D.new()
 	top.size = Vector2(58 if kind == "moflete" else 110, 18)
+	if kind == "noctilo":
+		top.size = Vector2(68, 18)
 	sensor_shape.shape = top
 	_stomp.add_child(sensor_shape)
 	add_child(_stomp)
@@ -84,6 +100,10 @@ func _ready() -> void:
 	contact_shape.position = body.position
 	_contact.add_child(contact_shape)
 	add_child(_contact)
+	if kind == "noctilo":
+		position = flight_position(0.0)
+
+
 func has_visible_art() -> bool:
 	if not is_instance_valid(_visual) or not _visual.is_visible_in_tree():
 		return false
@@ -98,6 +118,9 @@ func _physics_process(delta: float) -> void:
 	if is_instance_valid(player) and absf(player.position.x - position.x) > 2200.0:
 		if behaviour != Behaviour.PATROL:
 			reset_awareness()
+		return
+	if kind == "noctilo":
+		_advance_flight(delta)
 		return
 	var sees_player: bool = can_see_player()
 	if not is_instance_valid(player) or player.dead or player.celebrating:
@@ -169,6 +192,8 @@ func _physics_process(delta: float) -> void:
 
 
 func can_see_player() -> bool:
+	if kind == "noctilo":
+		return false
 	if not is_instance_valid(player) or player.dead or player.celebrating:
 		return false
 	var difference: Vector2 = player.global_position - global_position
@@ -268,6 +293,35 @@ func reset_awareness() -> void:
 	_drop_direction = 0.0
 	_notice_seconds = 0.0
 	_lost_seconds = 0.0
+	if kind == "noctilo":
+		flight_seconds = 0.0
+		position = flight_position(0.0)
+		reset_physics_interpolation()
+
+
+func flight_position(seconds: float) -> Vector2:
+	var phase: float = float(maxi(spawn_index, 0)) * 1.41
+	var period: float = 12.0 + float(maxi(spawn_index, 0) % 3)
+	var cycle: float = seconds * TAU / period + phase
+	var center: float = (patrol.x + patrol.y) * 0.5
+	var radius: float = (patrol.y - patrol.x) * 0.5
+	return Vector2(center + sin(cycle) * radius, _home.y + sin(cycle * 2.0 + phase) * FLIGHT_BOB)
+
+
+func _advance_flight(delta: float) -> void:
+	var previous: Vector2 = position
+	flight_seconds += delta
+	position = flight_position(flight_seconds)
+	velocity = (position - previous) / delta if delta > 0.0 else Vector2.ZERO
+	if absf(velocity.x) > 2.0:
+		_direction = signf(velocity.x)
+	_visual.face_left(_direction < 0.0)
+	_visual.advance(delta, velocity.x, false)
+	if not is_instance_valid(player) or player.dead or player.celebrating or not _contact.overlaps_body(player):
+		return
+	# Dejar resolver el pisotón al sensor de pies antes del daño lateral.
+	if player.global_position.y > global_position.y - 52.0 + _stomp.top_tolerance:
+		player.take_damage(global_position)
 
 
 func receive_thrown_hit(object: ThrowableObject) -> void:

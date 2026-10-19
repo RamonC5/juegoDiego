@@ -2,6 +2,10 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Vuelos entre lianas de Bosque 1-2 · 0.14.0
+
+Ocho murciélagos Nóctilo siguen rutas fijas, sin persecución, en grupos de 2, 3 y 3. El primer vuelo se observa sobre suelo firme; después se combinan alturas con trepa y saltos. Se conserva la recuperación por barranco y farol. Es la segunda dinámica nueva junto a las setas; no exige derrotas ni cambia el secreto. [Ficha](dinamicas/vuelos_entre_lianas.json) · [Pruebas](pruebas/vuelos-0.14.0.md).
+
 ## Secreto de Bosque 1-2 · 19-10-2026
 
 El usuario elige subir por una liana y recorrer las copas como secreto. Tras el primer farol, un tótem señala el agarre aéreo; ARRIBA trepa manualmente la liana larga. Cinco copas con hojas llevan a una vida adicional por intento y tres ramas permiten bajar al camino. El acceso permanece, el premio no se repite al reentrar y las tres llaves siguen en la ruta principal. La elección real y sus límites figuran en [Bosque 1-2](BOSQUE_1_2.md).
@@ -52,7 +56,7 @@ El tótem y las lianas tienen acabado raster coherente con el escenario. Las lia
 
 El bosque histórico 0.5.0 contenía 19 tramos, 81 enemigos con persecución (38 guardianes de plataforma), tres llaves repartidas en tres rutas, 19 pasos de dos marcas, ocho puentes, ocho troncos y 21 faroles. El guardado conserva resultados completados; cerrar reinicia el intento. La ampliación está integrada y la duración de 18–22 minutos sigue siendo estimada, sin medición del público objetivo.
 
-[Recorrido actual](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json) · [Contenido y evidencia](BOSQUE_ESMERALDA.md). Las fichas antiguas del puente y los troncos conservan su contexto de integración inicial. Los otros niveles y jefes siguen pendientes. El inventario del skill está contrastado documentalmente hasta 0.11.1; revisarlo contra el código al integrar.
+[Recorrido actual](niveles/world_01_level_01.json) · [Raíces dobles](dinamicas/raices_dobles.json) · [Persecución](dinamicas/persecucion_bosque.json) · [Contenido y evidencia](BOSQUE_ESMERALDA.md). Las fichas antiguas del puente y los troncos conservan su contexto de integración inicial. La segunda aventura está integrada; la tercera y los jefes siguen pendientes. El inventario del skill está contrastado documentalmente hasta 0.11.1; revisarlo contra el código al integrar.
 
 ## Duración y recuperación
 
@@ -64,14 +68,14 @@ Introducir una o dos dinámicas obligatorias nuevas por nivel y alternar platafo
 
 ## Progresión propuesta del primer mundo
 
-Bosque 1-2 tiene ahora su [recorrido principal integrado](BOSQUE_1_2.md), con [ficha versión 2](niveles/world_01_level_02.json) y [setas elásticas](dinamicas/setas_elasticas.json). El secreto está propuesto y desactivado hasta validar su ubicación y actividad; la aventura completa conserva estado de ampliación. El nivel 3 y el jefe continúan como propuestas.
+Bosque 1-2 tiene ahora su [recorrido principal integrado](BOSQUE_1_2.md), con [ficha versión 2](niveles/world_01_level_02.json) y [setas elásticas](dinamicas/setas_elasticas.json). El secreto sobre las copas elegido por el usuario está integrado. El nivel 3 y el jefe continúan como propuestas.
 
 Los nombres y la distribución nueva son propuestas de diseño, no niveles ya implementados.
 
 | Etapa | Dinámicas nuevas previstas | Progresión |
 | --- | --- | --- |
 | 1-1 · El despertar del bosque ampliado | Puente de diana y troncos viajeros | Integrado: prólogo y nueve tramos, lianas, gruta con tótem y tres llaves. 9,2–10,94 minutos estimados, pendientes de medir. |
-| 1-2 · Las copas inquietas | Setas de rebote propuestas; combinar plataformas móviles y objetos intermedios | Explorar alturas. Introducir Nóctilo cuando tenga comportamiento jugable, primero de forma opcional si añade una tercera dinámica nueva. |
+| 1-2 · Las copas inquietas | Setas de rebote propuestas; combinar plataformas móviles y objetos intermedios | Explorar alturas. Vuelos entre lianas de Nóctilo integrados en 0.14.0 como segunda dinámica nueva. |
 | 1-3 · El corazón de las raíces | Placas de peso propuestas; combinar avance agachado conocido y objetos máximos | Resolver pasos estrechos y mecanismos; practicar lanzamientos antes del jefe. |
 | Jefe del bosque | Patrones y vulnerabilidad a objetos lanzados | Desbloquear tras completar las tres aventuras; ofrecer objetos de reposición y repetición del combate. |
 

@@ -58,7 +58,7 @@ func _run() -> void:
 	check(stage.DEFINITION.level_id == "world_01_level_02" and main._hud_title.text == "1–2", "Escena e interfaz del segundo nivel")
 	check(stage.checkpoint_positions().size() == 3 and stage.level_keys.size() == 3, "Tres llaves y exactamente tres faroles")
 	check(not is_instance_valid(stage.secret_grove) and is_instance_valid(stage.canopy_secret), "Secreto en las copas, sin gruta subterránea")
-	check(stage.spring_pads.size() == 4 and stage.enemies.size() == 58, "Contenido nuevo compuesto en el nivel real")
+	check(stage.spring_pads.size() == 4 and stage.enemies.size() == 66, "Contenido nuevo compuesto en el nivel real")
 	check(stage.firefly != null, "El ayudante puede acompañar en la nueva aventura")
 	hero.invulnerability = 100000.0
 	hero.health = 2

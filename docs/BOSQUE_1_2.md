@@ -2,7 +2,7 @@
 
 El recorrido principal amplía Bosque Esmeralda con setas elásticas, ascensos a las copas, troncos viajeros, puentes y tres barrancos de lianas. Se conserva el nivel 1 y su colección. El secreto elegido por el usuario sube a las copas por una liana y vuelve al camino por ramas.
 
-Hay 16 tramos, 58 patrullas de Terrón/Moflete, cuatro setas, cuatro troncos, cinco puentes, tres cruces de cinco lianas y 16 portones de dos dianas. Las piñas se reponen. Las escaleras, el suelo de recuperación y los portones abiertos permiten volver a buscar objetivos pendientes. Se mantienen doble salto, lanzamiento aéreo y trepa manual.
+Hay 16 tramos, 58 patrullas de Terrón/Moflete y ocho murciélagos Nóctilo, cuatro setas, cuatro troncos, cinco puentes, tres cruces de cinco lianas y 16 portones de dos dianas. Las piñas se reponen. Las escaleras, el suelo de recuperación y los portones abiertos permiten volver a buscar objetivos pendientes. Se mantienen doble salto, lanzamiento aéreo y trepa manual.
 
 Las setas reutilizan un recorte del atlas raster del bosque. Aterrizar desde arriba impulsa a 1040 px/s; su compresión dura 0,45 segundos y permite un salto aéreo de corrección. La primera se enseña sobre suelo continuo. No cambian las capacidades de Diego ni el recurso del primer nivel.
 
@@ -32,3 +32,9 @@ Hay 21 hojas nuevas con IDs independientes y un brote al final, que amplía la e
 El recurso conserva `secret_grove = Vector2(-1,-1)` y activa `canopy_secret = Vector2(19660,600)`. No se mueven coleccionables previos ni cambian sus IDs. El guardia que patrullaba junto a la entrada espera ahora en x=21100, después de la seta; se mantienen 58 enemigos. Una rama decorativa del primer árbol sostiene el anclaje de la liana. Luci puede orientar hacia el acceso, pero el tótem y la pista accesible funcionan sin tener el ayudante.
 
 [Ficha verificable del nivel](niveles/world_01_level_02.json) · [Setas elásticas](dinamicas/setas_elasticas.json) · [Pruebas y límites](pruebas/bosque-1-2.md).
+
+## Vuelos entre lianas · 0.14.0
+
+Nueva dinámica autorizada el 19-10-2026: los murciélagos siguen rutas fijas y nunca persiguen. Hay dos en Balanceo entre ramas, tres en Ramas sobre el vacío y tres en El último barranco. El primer vuelo se observa sobre suelo seguro; los siguientes alternan alturas para combinar espera, trepa y saltos. No aparecen en el secreto de las copas.
+
+Nóctilo usa su raster existente y aleteo articulado. El contacto afecta al cuerpo, no a toda la membrana. Se puede esquivar, pisar desde arriba o alcanzar con un objeto lanzado; derrotarlo no es requisito para avanzar. Se conservan los tres faroles sin curación y el reinicio espacial. [Ficha](dinamicas/vuelos_entre_lianas.json) · [Evidencia y límites](pruebas/vuelos-0.14.0.md).

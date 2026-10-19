@@ -128,7 +128,8 @@ func _spawn_enemy(index: int) -> ForestEnemy:
 	enemy.patrol = Vector2(spec.z, spec.w)
 	enemy.kind = DEFINITION.enemy_kinds[index]
 	enemy.player = player
-	_set_enemy_support(enemy, spec)
+	if enemy.kind != "noctilo":
+		_set_enemy_support(enemy, spec)
 	enemy.defeated.connect(_on_enemy_defeated)
 	add_child(enemy)
 	return enemy

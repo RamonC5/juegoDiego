@@ -1,5 +1,7 @@
 # Super Diego · Juego Diego
 
+**0.14.0 · Vuelos entre lianas**: ocho murciélagos Nóctilo repiten rutas fijas en los tres barrancos del nivel 2; Diego observa, trepa y salta para esquivarlos. No persiguen y no es obligatorio derrotarlos. [Dinámica y pruebas](docs/pruebas/vuelos-0.14.0.md).
+
 **0.13.1 · Bosque 1-2: Las copas del bosque**: recorrido principal con setas elásticas, 16 tramos, tres llaves, tres cristales opcionales y exactamente tres faroles sin curación. El mapa permite elegir aventura; superar 1-1 desbloquea 1-2. Un tótem tras el primer farol señala una liana larga: trepar manualmente permite recorrer cinco copas, recoger hojas y una vida extra por intento y bajar al camino por ramas. [Recorrido, estado y pruebas](docs/BOSQUE_1_2.md).
 
 Versión **0.10.0**: recompensas con tarjetas y miniaturas reales, ropa más visible, contador de equipaciones obtenidas y salida fija del vestuario. **Volver**, **Seguir jugando** y **Atrás de Android** permiten salir sin cerrar el juego. Conserva las recompensas y guardados anteriores. [Reglas y diseño](docs/RECOMPENSAS.md) · [Skill de recompensas](.agents/skills/crear-recompensas-super-diego/SKILL.md).

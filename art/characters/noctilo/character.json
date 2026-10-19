@@ -3,7 +3,9 @@
   "character_id": "noctilo",
   "display_name": "Nóctilo",
   "role": "enemy",
-  "world_ids": [],
+  "world_ids": [
+    "world_01"
+  ],
   "design_status": "proposed",
   "design_version": 2,
   "visual_reference": {
@@ -23,8 +25,11 @@
     1254,
     1254
   ],
-  "pivot_px": null,
-  "display_scale": null,
+  "pivot_px": [
+    627,
+    1254
+  ],
+  "display_scale": 0.06539074960127592,
   "animations": [],
   "personality": {
     "traits": [
@@ -75,7 +80,7 @@
         "intent": "Caída breve y pose final legible, sin destellos."
       }
     ],
-    "note": "Descripciones propuestas; no hay hojas de animación ni comportamiento ejecutable. Tiempos, trayectorias, colisiones y ancla se decidirán durante la integración."
+    "note": "Propuestas históricas de hojas de poses. La integración 0.14.0 usa raster articulado y vuelo fijo; escucha y picado no se implementan."
   },
   "generation": {
     "tool": "image_gen",
@@ -105,19 +110,18 @@
       "terron",
       "remiendo"
     ],
-    "production_ready": false,
+    "production_ready": true,
     "visual_review": "art/characters/noctilo/qa.md",
     "source_bytes": 1334119,
     "sha256": "475a76a979e2feccbac0afebb0c324a3ea527b0c84d0b27ac84ef2264aca7f54",
     "pending": [
-      "Valoración visual del nuevo diseño por el usuario.",
-      "Especificación completa de opción A.",
-      "Celdas de animación, pivote y secuencias.",
-      "Importación e integración Godot.",
-      "Pruebas Android y Windows."
-    ]
+      "Valoración del diseño por el usuario.",
+      "Pruebas de dificultad con el perfil de 10 años.",
+      "Android y Windows físicos."
+    ],
+    "production_scope": "Raster único articulado con vuelo fijo y combate compartido; no secuencias nuevas ni picado."
   },
-  "integration_status": "concept_only",
+  "integration_status": "godot_checked",
   "visual_history": [
     {
       "version": 1,
@@ -133,24 +137,31 @@
     "profile": "game/features/enemies/enemy_motion_profiles.gd",
     "controller": "game/features/enemies/enemy_visual.gd",
     "actions": [
-      "idle",
-      "locomotion",
-      "secondary_limbs"
+      "flight_patrol",
+      "harmonic_wings",
+      "stomped",
+      "defeated"
     ],
-    "level_integration": false,
+    "level_integration": true,
     "preview_scene": "game/features/enemies/enemy_gallery.tscn",
     "validation": {
       "automated_suite": "tools/tests/test_enemy_motion.gd",
       "physical_android_windows": "pending",
-      "automated_result": "198 comprobaciones correctas en test_enemy_motion.gd; combate y persecución sin fallos."
+      "automated_result": "198 comprobaciones correctas en test_enemy_motion.gd; combate y persecución sin fallos.",
+      "gameplay_suite": "tools/tests/test_bat_flights.gd",
+      "evidence": "docs/pruebas/vuelos-0.14.0.md"
     },
-    "revision": "0.7.2 · 2026-10-17",
+    "revision": "0.14.0 · 2026-10-19",
     "gait": {
       "clock": "harmonic_flight",
       "frequency_hz": 2.2,
       "wing_tip_lag_radians": 0.45,
       "rotation_space": "texture_pixels"
-    }
+    },
+    "level_ids": [
+      "world_01_level_02"
+    ],
+    "gameplay": "Rutas periódicas fijas; sin visión, persecución ni picado. Colisión corporal separada de las membranas."
   },
   "intro_0_11_0": {
     "integration": "decorative EnemyVisual actor in AdventureIntro",

@@ -62,3 +62,9 @@ La animación se revisa en `enemy_gallery.tscn`; su IA, combate y colocación en
 ### Revisión del movimiento · 0.7.2
 
 El rig conserva el PNG y la anatomía. La marcha sigue la distancia real, los apoyos alternan suelo y arco, las muñecas acompañan al brazo con desplazamientos menores y las rotaciones respetan la proporción del recorte en píxeles. Reposo, frenado, persecución y caída se mezclan sin reiniciar el ciclo; el aleteo conserva su frecuencia común. La suite `test_enemy_motion.gd` supera 198 comprobaciones. Integración jugable solo para Terrón y Moflete; los otros cinco mantienen su alcance de visor. Pruebas físicas Android/Windows pendientes.
+
+## Integración jugable · 0.14.0
+
+Ocho Nóctilos vuelan en los tres barrancos de lianas de Bosque 1-2, con rutas fijas y alturas alternas. La orden del 19-10-2026 sustituye la propuesta de escucha/picado por vuelo sin persecución. No cambia el diseño visual ni lo registra como aprobado por el usuario.
+
+Se reutilizan `idle_v001.png`, `EnemyVisual` y el perfil armónico de 2,2 Hz con puntas desfasadas. Cuerpo de contacto de 54 × 40 px, sensor de pisotón independiente y derrota compartida con los enemigos terrestres. El rig se detiene al pausar o derrotarlo. Estado de integración: `godot_checked`; no hay hojas nuevas. [Comprobaciones y pendientes](../../../docs/pruebas/vuelos-0.14.0.md).

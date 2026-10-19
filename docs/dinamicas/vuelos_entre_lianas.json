@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "tipo": "dinamica",
+  "id": "vuelos_entre_lianas",
+  "nombre": "Vuelos entre lianas",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "game/data/worlds/world_01/level_02.tres",
+      "revision": "base main 34b8014; versión 0.14.0",
+      "observacion": "Ocho Nóctilos añadidos al final del reparto, sin cambiar los 58 índices existentes."
+    },
+    {
+      "ruta": "Instrucción del usuario en esta conversación",
+      "revision": "2026-10-19",
+      "observacion": "Añadir algo de complejidad y varios murciélagos volando entre lianas, sin perseguir a Diego."
+    }
+  ],
+  "objetivo": "Observar vuelos periódicos, esperar un hueco y combinar trepa, balanceo y salto para evitar el contacto.",
+  "dependencias": [
+    {
+      "id": "lianas_dianas_barranco",
+      "estado": "implementada",
+      "detalle": "Cinco lianas oscilantes por barranco, sin modificar agarre ni doble salto."
+    },
+    {
+      "id": "trepa_manual",
+      "estado": "implementada",
+      "detalle": "Mantener arriba cambia la altura; soltar conserva el agarre."
+    }
+  ],
+  "controles": {
+    "tactil": "Salto en la mitad izquierda; arrastre horizontal y arriba en la mitad derecha. Sin nuevos gestos.",
+    "teclado": "Movimiento y salto configurados; no se añade tecla.",
+    "mando": "Eje y botón de salto actuales."
+  },
+  "aprendizaje": {
+    "presentacion": "Primer vuelo sobre orilla firme, antes del barranco; permite observar sin saltar.",
+    "practica": "Dos murciélagos en el primer cruce, con una sola ruta en el vacío.",
+    "combinacion": "Tres vuelos en cada uno de los dos cruces posteriores, separados horizontalmente y con alturas alternas."
+  },
+  "reglas": {
+    "activacion": "Rutas horizontales periódicas con giros suaves, oscilación vertical de 12 px y periodos de 12–14 s. No tienen detección ni persecución.",
+    "exito": "Cruzar sin tocar los cuerpos; no es obligatorio derrotarlos. Siguen siendo pisables y reciben objetos lanzados.",
+    "fallo": "El contacto lateral quita un corazón, aplica invulnerabilidad y suelta la liana; la caída usa la recuperación del barranco existente.",
+    "recuperacion": "Pausa congela vuelo y alas. El farol conserva derrotas anteriores y repone enemigos/ciclos posteriores sin duplicados."
+  },
+  "feedback": [
+    "Aleteo armónico de ambas alas y flexión desfasada de puntas sobre el raster existente de Nóctilo.",
+    "Cuerpos con colisión menor que las membranas; las alas decorativas no bloquean el paso.",
+    "Rutas observables y ayuda accesible en pausa, sin depender del sonido ni solo del color."
+  ],
+  "recompensa": "Avanzar por la ruta de las tres llaves; no añade una condición de combate ni cambia colección o vestuario.",
+  "minutos_estimados": [
+    1.5,
+    2.0
+  ],
+  "dificultad": "Un ensayo y dos combinaciones para 10 años; las estimaciones se incluyen en los tramos existentes, no alargan el nivel con esperas obligatorias.",
+  "persistencia": {
+    "al_morir": "Mantener llaves y colección; reconstruir mecanismos resueltos anteriores al farol y rearmar los posteriores, sus herramientas y enemigos.",
+    "al_cerrar": "Conservar colección, equipo y resultados. Reiniciar posición, llaves y mecanismos; no guarda el intento.",
+    "al_rejugar": "Nuevo intento con las tres llaves y mecanismos. Mantener colección por ID sin duplicados y la ropa obtenida.",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Silueta de murciélago, aleteo visible y rutas repetidas. Primera observación sobre suelo firme. Ayuda en pausa.",
+    "equivalencia_visual_sonora": "Objetivos y ayudas no dependen del audio; instrucciones en pausa, HUD con nombres accesibles e iconos con cantidades.",
+    "legibilidad_movil": "Selector adaptable al área segura, foco visible y botones mayores de 48 px. Sin nuevos rótulos flotantes en el escenario.",
+    "ajustes_control": "Mismos toques, doble salto, trepa manual, lanzamiento aéreo, teclado y mando. Movimiento reducido y volumen conservados."
+  },
+  "validacion": {
+    "funcional": [
+      "Independencia de la posición de Diego, límites de las ocho rutas, velocidad, pausa y alas.",
+      "Primer barranco con vuelos activos y entradas reales, sin invulnerabilidad ni daño.",
+      "Contacto lateral, liberación del agarre, pisotón y rebote, derrotas a ambos lados del farol."
+    ],
+    "jugando": [
+      "Pendiente: ajustar las ventanas de los cruces segundo y tercero con el perfil de 10 años y en Android/Windows físicos."
+    ],
+    "evidencias": [
+      "tools/tests/test_bat_flights.gd",
+      "tools/tests/test_forest_level_02.gd",
+      "tools/tests/test_enemy_motion.gd",
+      "docs/pruebas/vuelos-0.14.0.md"
+    ]
+  }
+}

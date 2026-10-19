@@ -2,11 +2,11 @@
 
 Catálogo del **protagonista Diego y los siete enemigos normales** de Juego Diego. Fecha de actualización: **17 de octubre de 2026**.
 
-El usuario valoró los seis conceptos anteriores y pidió diferenciar sus personalidades. Terrón y Moflete ya tienen integración jugable; los otros cuatro conservan su estado de concepto. Se añade **Nóctilo**, un enemigo volador tipo murciélago, con diseño propuesto. Diego se ha creado a partir de la fotografía del usuario y tiene una primera integración jugable con animaciones y controles.
+El usuario valoró los seis conceptos anteriores y pidió diferenciar sus personalidades. Terrón, Moflete y Nóctilo tienen integración jugable; los otros cuatro conservan su estado de concepto. Se añade **Nóctilo**, un enemigo volador tipo murciélago, con diseño propuesto. Diego se ha creado a partir de la fotografía del usuario y tiene una primera integración jugable con animaciones y controles.
 
 ## Animación del reparto · 0.5.3
 
-Los siete diseños tienen movimiento local del raster por malla 2D: brazos y manos donde existen, raíces y gel según su anatomía, ala plegada de Plumín y aleteo armónico de Nóctilo con flexión desfasada de las puntas. Terrón y Moflete lo reproducen en el bosque. Los otros cinco tienen integración visual en el visor; su IA y combate de nivel siguen pendientes. No se han creado hojas nuevas. [Técnica, visor y pruebas](ANIMACION_ENEMIGOS.md).
+Los siete diseños tienen movimiento local del raster por malla 2D: brazos y manos donde existen, raíces y gel según su anatomía, ala plegada de Plumín y aleteo armónico de Nóctilo con flexión desfasada de las puntas. Terrón y Moflete lo reproducen en el bosque. Nóctilo vuela con rutas fijas en Bosque 1-2 desde 0.14.0; los otros cuatro tienen integración visual en el visor. No se han creado hojas nuevas. [Técnica, visor y pruebas](ANIMACION_ENEMIGOS.md).
 
 ## Ayudante del bosque · Luci (0.8.0)
 
@@ -112,7 +112,7 @@ Intenta ocupar poco espacio, pero siempre deja un pie por medio. Muñeco de tela
 
 | Personaje | ID | Rol y mundos | Estado |
 | --- | --- | --- | --- |
-| [Nóctilo](../art/characters/noctilo/ficha.md) | `noctilo` | Enemigo normal volador; sin mundo exclusivo | Concepto 2D propuesto, PNG RGBA verificado; animaciones e integración pendientes |
+| [Nóctilo](../art/characters/noctilo/ficha.md) | `noctilo` | Enemigo normal volador; sin mundo exclusivo | Diseño propuesto, raster articulado y vuelo jugable sin persecución en Bosque 1-2 · 0.14.0 |
 
 Vigila todos los ruidos, incluido su propio eco. El cuerpo suspendido, las alas angulosas con membrana cobriza y las orejas largas lo distinguen del ave terrestre Plumín y del resto del reparto.
 
@@ -132,7 +132,7 @@ Guardar únicamente los recursos de juego preparados en `game/assets/textures/ch
 
 ## Integración del primer nivel · 0.2.0
 
-**Terrón y Moflete** ya aparecen como enemigos jugables de Bosque Esmeralda 1-1: siete patrullas entre ambos. Se reutilizan los conceptos raster existentes, con animación por transformación de patrulla y aplastamiento. Se eliminan por pisotón y admiten el contrato de objetos lanzados. Las hojas de fotogramas propias de estos enemigos siguen pendientes; los otros cinco enemigos continúan como conceptos, incluido Nóctilo. Los metadatos y fichas de Terrón y Moflete registran esta integración.
+**Terrón y Moflete** ya aparecen como enemigos jugables de Bosque Esmeralda 1-1: siete patrullas entre ambos. Se reutilizan los conceptos raster existentes, con animación por transformación de patrulla y aplastamiento. Se eliminan por pisotón y admiten el contrato de objetos lanzados. Las hojas de fotogramas propias de estos enemigos siguen pendientes; Nóctilo se integra en Bosque 1-2 desde 0.14.0; los otros cuatro enemigos continúan como conceptos. Los metadatos y fichas de Terrón y Moflete registran esta integración.
 
 ## Movimiento revisado · 0.7.2
 
