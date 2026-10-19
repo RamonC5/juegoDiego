@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
 		return
 	if not visible:
 		return
-	if secret_position.x >= 0.0 and absf(hero.position.x - secret_position.x) < 400.0 and ((secret_above and hero.position.y < secret_position.y - 300.0) or (not secret_above and hero.position.y > secret_position.y + 130.0)):
+	if secret_position.x >= 0.0 and ((secret_above and absf(hero.position.x - secret_position.x) < 400.0 and hero.position.y < secret_position.y - 300.0) or (not secret_above and hero.position.y > secret_position.y + 130.0)):
 		secret_found = true
 	_sprite.modulate = Color.WHITE
 	if hero.dead:

@@ -11,7 +11,7 @@ const CROWNS: Array[Rect2] = [
 	Rect2(2310, -630, 440, 55),
 ]
 const DESCENT: Array[Rect2] = [
-	Rect2(2850, -440, 220, 45), Rect2(3150, -250, 220, 45),
+	Rect2(2850, -440, 220, 45), Rect2(3150, -255, 220, 45),
 	Rect2(3450, -80, 220, 45),
 ]
 const REWARD_POSITION := Vector2(2530, -690)
@@ -43,6 +43,10 @@ func _ready() -> void:
 		tree.z_index = -3
 		_add_branch(rect)
 	for rect in DESCENT:
+		# El peldaño intermedio coincide con la terraza existente de y=345.
+		# Se reutiliza ese apoyo, sin duplicar dibujo ni colisión sobre él.
+		if rect == DESCENT[1]:
+			continue
 		_add_branch(rect)
 	reward_zone = Area2D.new()
 	reward_zone.position = REWARD_POSITION
