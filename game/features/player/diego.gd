@@ -278,7 +278,7 @@ func _swing_on_vine(delta: float) -> void:
 	var last_position: Vector2 = global_position
 	if controls.held(&"climb_up"):
 		var next_distance: float = minf(vine_climb_distance + tuning.vine_climb_speed * delta,
-			ForestSwingingVine.LENGTH - VINE_TOP_MARGIN)
+			vine.length - VINE_TOP_MARGIN)
 		var climb_step: Vector2 = vine.grip_global_position(next_distance) - vine.grip_global_position(vine_climb_distance)
 		# Un techo sólido detiene la trepa; una plataforma unilateral deja pasar.
 		if not test_move(global_transform, climb_step):
@@ -579,6 +579,7 @@ func _draw() -> void:
 	# Protección continua y visible: sin parpadeos ni destellos.
 	if invulnerability > 0.0:
 		draw_arc(Vector2(0, -52), 62.0, 0.0, TAU, 48, Color("ffe4a8"), 3.0, true)
+
 
 
 

@@ -13,7 +13,12 @@
     {
       "ruta": "game/data/worlds/world_01/level_02.tres",
       "revision": "rama feat/forest-level-2",
-      "observacion": "Recorrido principal integrado; secreto desactivado a falta de respuesta del usuario."
+      "observacion": "Recorrido principal y secreto de las copas integrados; comprobación física en CI pendiente."
+    },
+    {
+      "ruta": "Instrucción del usuario en esta conversación",
+      "revision": "2026-10-19",
+      "observacion": "Quiero que suba por una liana y vaya por encima de los arboles como recorrido secreto"
     }
   ],
   "mundo_id": "world_01",
@@ -97,17 +102,18 @@
       "proposito": "Explorar una primera altura, activar dos marcas, resolver el cruce y avanzar con recuperación segura. Terrón y Moflete alternan patrullas."
     },
     {
-      "id": "gruta_raices",
-      "nombre": "Gruta de raíces propuesta",
+      "id": "sendero_copas",
+      "nombre": "El sendero secreto de las copas",
       "principal": false,
       "minutos_estimados": [
         1,
         2
       ],
       "dinamicas": [
-        "gruta_hojas_vida"
+        "trepa_liana",
+        "saltos_plataformas"
       ],
-      "proposito": "Secreto sin construir hasta validar ubicación y actividad; no contribuye al tiempo principal."
+      "proposito": "Trepar manualmente por una liana, atravesar cinco copas, recoger hojas y vida extra y bajar por ramas al sendero. No contribuye al tiempo principal."
     },
     {
       "id": "copas_05",
@@ -341,12 +347,13 @@
     "funcional": [
       "Recorrido completo con entradas reales y combate aislado: setas, troncos, puentes, lianas, tres llaves y cristales.",
       "Exactamente tres faroles; contacto conserva salud parcial. Desbloqueo y guardado v1 entre niveles.",
-      "Secreto pendiente: no crear geometría ni tótem antes de la validación real."
+      "Secreto pendiente: no crear geometría ni tótem antes de la validación real.",
+      "Conservar IDs previos y añadir 21 hojas del dosel al manifiesto; no mover llaves, cristales ni faroles."
     ],
     "jugando": [
       "Medir primeras partidas con el público objetivo, sin pausas, secretos ni repeticiones por derrota.",
       "Comprobar tacto, cámara y rendimiento en Android y Windows físicos.",
-      "Validar ubicación y actividad de la gruta; probar entrada, retorno y vida única después de integrarla."
+      "Probar entrada por liana, trepa manual, pausa, cinco copas, vida única, descenso, muerte y persistencia con test_canopy_secret.gd; revisión de CI y dispositivo físico pendientes."
     ],
     "evidencias": [
       "tools/tests/test_forest_level_02.gd",
@@ -355,26 +362,27 @@
   },
   "zonas_secretas": [
     {
-      "id": "gruta_raices",
-      "segmento_id": "gruta_raices",
+      "id": "sendero_copas",
+      "segmento_id": "sendero_copas",
       "opcional": true,
-      "ubicacion": "Después del primer farol, en Brotes del amanecer, bajo las raíces de la superficie alrededor de x=21700.",
-      "entrada": "Entrada física bajo la hojarasca, junto al tótem; Diego se agacha para bajar al subsuelo.",
-      "actividad": "Caminar bajo las raíces siguiendo hojas hasta un brote de vida y alcanzar el tronco ascensor de retorno.",
+      "ubicacion": "Por encima de los árboles de Bosque 1-2.",
+      "entrada": "Tras el primer farol y antes de la segunda llave, tótem en (19510,600) y liana en x=19660: saltar para agarrarse y mantener ARRIBA para trepar.",
+      "actividad": "Subir por una liana y recorrer un sendero secreto por encima de los árboles.",
       "recompensa": "Hojas permanentes y una vida adicional por intento, sin llave obligatoria ni requisito de ropa.",
-      "salida": "Tronco ascensor separado que devuelve físicamente a la superficie segura, con acceso que permanece abierto.",
+      "salida": "Tres ramas descendentes devuelven físicamente al suelo firme en x=23430, antes del portón; caer desde las copas también devuelve al sendero sin teletransporte.",
       "totem": {
-        "ubicacion": "A la izquierda de la entrada, sobre suelo firme tras el primer farol.",
+        "ubicacion": "En (19510,600), junto a la base de la liana sobre suelo firme tras el primer farol.",
         "aspecto": "Madera, raíces, musgo y hojas del bosque, a escala del escenario raster.",
         "pista": "Silueta reconocible y movimiento suave al aproximarse; ayuda en pausa, sin depender del sonido ni de Luci."
       },
       "validacion_usuario": {
-        "estado": "pendiente",
-        "fecha": "",
-        "decision": "",
-        "ubicacion_validada": "",
-        "actividad_validada": ""
-      }
+        "estado": "validada",
+        "fecha": "2026-10-19",
+        "decision": "Quiero que suba por una liana y vaya por encima de los arboles como recorrido secreto",
+        "ubicacion_validada": "Por encima de los árboles de Bosque 1-2.",
+        "actividad_validada": "Subir por una liana y recorrer un sendero secreto por encima de los árboles."
+      },
+      "detalle_autoria": "El usuario elige la ubicación sobre los árboles y la actividad. Las coordenadas, las cinco copas y la bajada escalonada son decisiones técnicas de implementación dentro de esa elección."
     }
   ],
   "coleccionables": [
@@ -417,6 +425,16 @@
       "recompensa": "Completa la colección de cristales de este nivel; no abre la salida ni bloquea ropa.",
       "persistencia": "ID permanente del manifiesto de Bosque 1-2, independiente del nivel 1, guardado seguro sin duplicados.",
       "id_persistente": "world_01_level_02/crystal/71290/145"
+    },
+    {
+      "id": "world_01_level_02_leaf_19660_380",
+      "dificultad": "comun",
+      "segmento_id": "sendero_copas",
+      "opcional": true,
+      "obtencion": "21 hojas nuevas: tres junto a la liana, tres en cada una de las cinco copas y una en cada rama de descenso.",
+      "recompensa": "Hojas acumuladas para ropa, con los umbrales existentes y sin gasto.",
+      "persistencia": "IDs nuevos por coordenadas en collection.json; los IDs anteriores permanecen intactos.",
+      "id_persistente": "world_01_level_02/leaf/19660/380"
     }
   ]
 }

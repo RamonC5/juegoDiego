@@ -32,7 +32,11 @@ func _capture() -> void:
 	main.player.invulnerability = 10000
 	for frame in [{"position": Vector2(900, 600), "name": "spring"},
 		{"position": Vector2(1350, 260), "name": "canopy"},
-		{"position": Vector2(11080, 600), "name": "vines"}]:
+		{"position": Vector2(11080, 600), "name": "vines"},
+		{"position": Vector2(19560, 600), "name": "secret_entry"},
+		{"position": Vector2(20030, -60), "name": "secret_crowns"},
+		{"position": Vector2(22190, -30), "name": "secret_life"},
+		{"position": Vector2(22840, 350), "name": "secret_descent"}]:
 		main.player.respawn(frame.position)
 		await _frames(10)
 		_save("preview_level02_" + frame.name)
@@ -40,3 +44,4 @@ func _capture() -> void:
 	await process_frame
 	await preload("res://tools/tests/audio_cleanup.gd").flush(self)
 	quit(0)
+

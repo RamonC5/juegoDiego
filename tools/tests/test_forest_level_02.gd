@@ -57,7 +57,7 @@ func _run() -> void:
 	await step(8)
 	check(stage.DEFINITION.level_id == "world_01_level_02" and main._hud_title.text == "1–2", "Escena e interfaz del segundo nivel")
 	check(stage.checkpoint_positions().size() == 3 and stage.level_keys.size() == 3, "Tres llaves y exactamente tres faroles")
-	check(stage.DEFINITION.secret_grove.x < 0 and not is_instance_valid(stage.secret_grove), "Secreto sin validar no construido")
+	check(not is_instance_valid(stage.secret_grove) and is_instance_valid(stage.canopy_secret), "Secreto en las copas, sin gruta subterránea")
 	check(stage.spring_pads.size() == 4 and stage.enemies.size() == 58, "Contenido nuevo compuesto en el nivel real")
 	check(stage.firefly != null, "El ayudante puede acompañar en la nueva aventura")
 	hero.invulnerability = 100000.0
@@ -108,3 +108,4 @@ func _run() -> void:
 	check(reopened.count("crystal", "world_01_level_02") == 3, "Colección conservada al reabrir")
 	print("BOSQUE 1-2: %.1f segundos de ruta automática protegida; duración humana pendiente." % stage.seconds)
 	_finish()
+

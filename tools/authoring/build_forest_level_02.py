@@ -1,6 +1,6 @@
 """Compone Bosque 1-2, sin modificar recursos ni IDs de Bosque 1-1.
 
-El secreto queda desactivado hasta validar ubicación y actividad con el usuario.
+Secreto de las copas elegido por el usuario el 19-10-2026.
 """
 import json
 from pathlib import Path
@@ -106,6 +106,7 @@ def build():
         10500: 'Salta para agarrarte a las lianas. Arrastra arriba para trepar, orienta el balanceo y salta hacia la siguiente.',
         15600: 'El tronco asciende hasta la copa. Salta hacia la repisa al llegar arriba; el suelo permite volver a probar.',
         19000: 'Los tres faroles guardan el tramo anterior sin rellenar corazones. Las llaves y la colección se conservan al morir.',
+        19400: 'El tótem señala un secreto: salta hacia la liana y arrastra ARRIBA para trepar a las copas. Es opcional; las llaves están en el camino principal.',
         40000: 'Los cristales de las copas son opcionales: combina dos saltos desde la terraza. Ningún cristal es necesario para salir o conseguir ropa.',
     }
     fields = {
@@ -123,7 +124,7 @@ def build():
         'region_starts': array('Vector2', [(i * STEP, 600) for i in range(16)]),
         'region_names': 'Array[String](' + json.dumps(NAMES, ensure_ascii=False) + ')',
         'bridges': refs('3_bridge', bridges), 'root_gates': refs('5_gate', gates), 'moving_platforms': refs('4_moving', moving),
-        'secret_grove': 'Vector2(-1, -1)', 'firefly_nest': 'Vector2(480, 565)',
+        'secret_grove': 'Vector2(-1, -1)', 'canopy_secret': 'Vector2(19660, 600)', 'firefly_nest': 'Vector2(480, 565)',
         'route_hints': '{' + ', '.join(f'{x}: {json.dumps(text, ensure_ascii=False)}' for x, text in hints.items()) + '}',
     }
     header = f'[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps={7 + len(subs)} format=3]\n\n'
@@ -137,8 +138,9 @@ def build():
     ]:
         header += f'[ext_resource type="{type}" path="res://{path}" id="{id}"]\n'
     DEST.write_text(header + '\n' + ''.join(subs) + '[resource]\n' + ''.join(f'{key} = {value}\n' for key, value in fields.items()))
-    print(f'Bosque 1-2: {len(NAMES)} tramos, {len(enemies)} enemigos, {len(springs)} setas, {len(keys)} llaves y 3 faroles. Secreto pendiente.')
+    print(f'Bosque 1-2: {len(NAMES)} tramos, {len(enemies)} enemigos, {len(springs)} setas, {len(keys)} llaves y 3 faroles. Secreto sobre las copas.')
 
 
 if __name__ == '__main__':
     build()
+

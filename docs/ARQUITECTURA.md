@@ -8,13 +8,13 @@ Esta base configura un juego de plataformas lateral 2D para Android y Windows. M
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
-## Segunda aventura del bosque · 0.13.0 en preparación
+## Segunda aventura del bosque · 0.13.1
 
 `WorldCatalog` dirige el bosque a `forest_adventures.tscn`. `ForestAdventureMenu` usa `ForestAdventureCatalog` y `LevelProgress.is_completed()` para ofrecer 1-1 y desbloquear 1-2 solo tras completar el primero, conservando el esquema 1. `forest_level_02.tscn` inyecta `level_02.tres` en la misma composición `main.gd`, sin autoload. El HUD y el resultado toman el número real de nivel; al terminar 1-1 se ofrece continuar.
 
 `ForestLevelDefinition` añade número, pistas del recorrido y posiciones de setas. `ForestSpringPad` reutiliza el contacto unilateral de `ForestVineTarget` y un recorte del atlas existente; su impulso y compresión no alteran el movimiento de 1-1. Los reinicios posteriores al farol incluyen las setas. Se conservan los servicios de colección, equipo y música. El vestuario consulta los fragmentos de Luci en 1-1 incluso al jugar 1-2.
 
-El recurso nuevo define 16 tramos, 58 enemigos, cuatro setas y tres llaves/cristales/faroles. El generador independiente es `tools/authoring/build_forest_level_02.py`. El secreto sigue desactivado hasta la validación real del usuario; véanse [diseño y estado](BOSQUE_1_2.md) y [pruebas](pruebas/bosque-1-2.md). No se ha modificado el recurso anterior ni sus IDs.
+El recurso nuevo define 16 tramos, 58 enemigos, cuatro setas y tres llaves/cristales/faroles. El generador independiente es `tools/authoring/build_forest_level_02.py`. La elección del usuario del 19-10-2026 añade `canopy_secret` y `ForestCanopySecret`: liana de 800 px con balanceo suave, cinco copas anchas, 21 hojas, brote de vida único y tres ramas de bajada. La longitud de cada liana gobierna el límite de trepa, agarre, velocidad y dibujo; las de barranco conservan 335 px. Reaparición suelta y reinicia el ciclo posterior al farol, conservando el premio del intento. Luci distingue secretos superiores y subterráneos; véanse [diseño y estado](BOSQUE_1_2.md) y [pruebas](pruebas/bosque-1-2.md). No se ha modificado el recurso anterior ni sus IDs.
 
 ## Tres puntos de guardado sin curación · 0.11.2
 
@@ -387,3 +387,4 @@ La acción independiente `climb_up` enlaza el arrastre ascendente de la zona de 
 El jugador conserva una distancia de trepa desde el nudo inferior. `ForestSwingingVine.grip_global_position(distance)` y `velocity_at(distance)` calculan agarre y velocidad tangencial a esa altura; las llamadas sin distancia conservan el contrato anterior. Un margen superior de 48 px y `test_move` impiden ascender a través de techos sólidos, respetando superficies unilaterales. Soltar arriba conserva altura y balanceo; saltar, daño y reaparición limpian el estado correspondiente. El recurso del nivel, sus tres puntos y los IDs de colección se conservan.
 
 Las regresiones se integran en `test_player.gd` y `test_player_movement.gd`, ya ejecutadas por CI. Cubren tacto, cancelación, lados, pausa, lanzamiento en ascenso/descenso, doble salto, manos, altura máxima y techos. Las capturas Compatibility amplían `capture_player_movement.gd` con trepa y lanzamiento aéreo.
+
