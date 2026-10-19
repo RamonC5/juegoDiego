@@ -1,0 +1,8 @@
+# Árbol de las copas secretas
+
+Asset: `game/assets/textures/environments/bosque_esmeralda/canopy_tree_v001.png`.
+Generado el 19-10-2026 con la herramienta integrada ImageGen, fondo transparente RGBA, 1254 × 1254. Se conserva el PNG original. `AtlasTexture` selecciona la región (25,127,1210,1009), descartando solo margen transparente y píxeles de alfa residual. El árbol completo sostiene ramas con colisión independiente; el arte no cambia física.
+
+Prompt final:
+
+> Use case: stylized-concept. Asset type: one transparent 2D side-view game sprite for Super Diego, a lush emerald forest platform game with detailed painterly raster art, softly realistic materials and golden forest lighting. Create a single COMPLETE broad old oak tree, root base through entire leafy crown all visible and fully contained inside a square canvas. The wide low rounded canopy has dense layered emerald, moss green and sunlit yellow-green oak leaves, a broad nearly level upper silhouette across its central 65% suitable for a walkable treetop platform. Narrow richly textured brown trunk below, forked branches supporting the canopy, small roots at base. Crown occupies upper 40% of sprite; trunk and roots lower 60%. Side-on orthographic view, no perspective ground plane. Soft light from upper left; dimensional painted bark and foliage matching a polished HD platformer, no outlines, no flat vector treatment, no pixel art. Keep about 4% transparent padding around the complete tree, do not crop any leaf or root. Exactly one tree, no scenery behind or in front, no sky, no grass ground slab, no soil platform, no characters, no text, no icons, no watermark. Genuinely transparent background preserving soft leaf alpha edges.

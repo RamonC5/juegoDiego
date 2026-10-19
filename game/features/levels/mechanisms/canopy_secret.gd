@@ -17,6 +17,7 @@ const DESCENT: Array[Rect2] = [
 const REWARD_POSITION := Vector2(2530, -690)
 const ROUTE_END: float = 3670.0
 const PROPS: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_props_v001.png")
+const CROWN_TREE: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/canopy_tree_v001.png")
 
 var hero: DiegoPlayer
 var vine: ForestSwingingVine
@@ -39,7 +40,7 @@ func _ready() -> void:
 	add_child(totem)
 	for rect in CROWNS:
 		# Árbol completo: la copa soporta el paso y el tronco llega al suelo.
-		var tree := _prop(Vector2(rect.get_center().x, 0), -rect.position.y, false)
+		var tree := _prop(Vector2(rect.get_center().x, 0), -rect.position.y + 60, false)
 		tree.z_index = -3
 		_add_branch(rect)
 	for rect in DESCENT:
@@ -67,21 +68,21 @@ func _ready() -> void:
 func _prop(at: Vector2, height: float, plant: bool) -> Sprite2D:
 	var sprite := Sprite2D.new()
 	var atlas := AtlasTexture.new()
-	atlas.atlas = PROPS
-	atlas.region = Rect2(PROPS.get_size() * Vector2(0.55 if plant else 0.0, 0),
-		PROPS.get_size() * Vector2(0.45 if plant else 0.55, 0.515))
+	atlas.atlas = PROPS if plant else CROWN_TREE
+	atlas.region = Rect2(PROPS.get_size() * Vector2(0.55, 0), PROPS.get_size() * Vector2(0.45, 0.515)) if plant else Rect2(25, 127, 1210, 1009)
 	sprite.texture = atlas
 	sprite.scale = Vector2.ONE * height / atlas.region.size.y
 	sprite.position = at + Vector2(0, -height / 2.0)
-	var alpha := ShaderMaterial.new()
-	alpha.shader = preload("res://game/features/levels/mechanisms/forest_asset_alpha.gdshader")
-	sprite.material = alpha
+	if plant:
+		var alpha := ShaderMaterial.new()
+		alpha.shader = preload("res://game/features/levels/mechanisms/forest_asset_alpha.gdshader")
+		sprite.material = alpha
 	add_child(sprite)
 	return sprite
 
 
 func _add_branch(rect: Rect2) -> void:
-	var branch := ForestPlatform.new()
+	var branch := ForestCanopyBranch.new()
 	branch.position = rect.position
 	branch.dimensions = rect.size
 	branch.z_index = -2

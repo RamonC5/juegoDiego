@@ -46,6 +46,10 @@ func _capture() -> void:
 	for tick in 12:
 		await physics_frame
 		await process_frame
+	if main.player.attached_vine != main.stage.canopy_secret.vine:
+		push_error("La captura de trepa exige un agarre físico real a la liana de entrada")
+		quit(1)
+		return
 	main.player.controls.clear_virtual()
 	main.player.controls.set_virtual_action(&"climb_up", true)
 	for tick in 260:

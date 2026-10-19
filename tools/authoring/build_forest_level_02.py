@@ -84,7 +84,11 @@ def build():
         block(id, '5_gate', gate_id=f'&"copas_porton_{i:02}"', display_name=json.dumps(name, ensure_ascii=False),
               position=vec('Vector2', (end, 600)), stations=refs('3_bridge', stations))
         gates.append(id)
-        enemy(x + 470, 600, x + 350, x + 610, 'terron' if i % 2 == 0 else 'moflete')
+        # Despejar el tótem y la liana: este guardia espera después de la seta.
+        if i == 4:
+            enemy(x + 1900, 600, x + 1780, x + 2040, 'terron')
+        else:
+            enemy(x + 470, 600, x + 350, x + 610, 'terron' if i % 2 == 0 else 'moflete')
         enemy(x + 4000, 600, x + 3850, x + 4130, 'moflete' if i % 2 == 0 else 'terron')
         # Guardianes separados del lugar de llegada y del puesto de lanzamiento.
         if shape != 2:

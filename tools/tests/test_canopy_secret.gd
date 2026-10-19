@@ -14,18 +14,11 @@ func _run() -> void:
 	if not check(is_instance_valid(secret), "Ruta secreta construida desde el recurso"):
 		_finish()
 		return
-	for enemy in stage.enemies:
-		enemy.set_physics_process(false)
-		enemy.collision_layer = 0
-		enemy._stomp.collision_layer = 0
-		enemy._contact.monitoring = false
-	hero.invulnerability = 100000
-	hero.collision_mask = 1
-	hero.foot_sensor.collision_mask = 0
 	hero.health = 2
 	# Solo se coloca el inicio de la prueba; entrada, trepa y ruta son físicos.
 	hero.respawn(Vector2(19300, 600))
 	hero.health = 2
+	hero.invulnerability = 0
 	check(await walk_to(secret.position.x), "Llegar a la liana pasando por el primer farol")
 	check(stage.active_checkpoint_index == 0 and hero.health == 2, "Farol mantiene salud parcial")
 	check(secret.totem._nearby and secret.totem.get_child_count() == 0, "Tótem accesible sin barreras ni controles nuevos")
@@ -53,6 +46,16 @@ func _run() -> void:
 	hero.controls.clear_virtual()
 	check(hero.vine_climb_distance > 700 and hero.position.y < -120, "ARRIBA permite subir por encima de los árboles")
 	check(hero.vine_climb_distance <= secret.vine.length - DiegoPlayer.VINE_TOP_MARGIN, "Trepa respeta el anclaje superior de la liana larga")
+	check(hero.health == 2, "Acceso y trepa sin daño con enemigos activos y sin invulnerabilidad")
+	# El resto del recorrido aísla geometría, como la suite de la ruta principal.
+	for enemy in stage.enemies:
+		enemy.set_physics_process(false)
+		enemy.collision_layer = 0
+		enemy._stomp.collision_layer = 0
+		enemy._contact.monitoring = false
+	hero.invulnerability = 100000
+	hero.collision_mask = 1
+	hero.foot_sensor.collision_mask = 0
 	var first: Rect2 = ForestCanopySecret.CROWNS[0]
 	if not check(await jump_to(secret.position.x + first.position.x + 100, secret.position.y + first.position.y), "Soltar con salto permite aterrizar sobre la primera copa"):
 		_finish()
