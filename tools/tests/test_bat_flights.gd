@@ -1,22 +1,15 @@
 extends "res://tools/tests/test_forest_route.gd"
 ## Vuelo independiente, contacto/pisotón reales y recuperación espacial del nivel 2.
 
-var _live_flights: bool = false
-
-
-func step(frames: int) -> void:
-	for frame in frames:
-		if _live_flights:
-			hero.invulnerability = 0.0
-		await super.step(1)
-
-
 func _run() -> void:
 	main = load("res://game/boot/forest_level_02.tscn").instantiate()
 	main.collection_progress = CollectionProgress.new("user://bat-test-%d.json" % Time.get_ticks_usec())
 	root.add_child(main)
 	stage = main.stage
 	hero = main.player
+	# No heredar opciones guardadas por otras suites o por el perfil local.
+	hero.controls.automatic_run = false
+	hero.controls.full_jump = true
 	await step(5)
 	var bats: Array[ForestEnemy] = []
 	for enemy in stage.enemies:
@@ -62,10 +55,26 @@ func _run() -> void:
 		flyer.reset_awareness()
 		flyer.set_physics_process(true)
 	stage.vine_crossings[0].reset_vines()
-	_live_flights = true
-	var crossed: bool = await cross_vine_ravine()
-	_live_flights = false
-	check(crossed and hero.health == 3, "Ensayo: cinco lianas con vuelos activos, entradas reales y sin protección ni daño")
+	# Ensayar la decisión nueva: agarrarse físicamente, subir antes del vuelo
+	# y dejar pasar el cuerpo por debajo, sin proteger al jugador.
+	var waiting_vine: ForestSwingingVine = stage.vine_crossings[0].vines[2]
+	var low_flight: ForestEnemy = bats[1]
+	var phase: float = float(low_flight.spawn_index) * 1.41
+	var period: float = 12.0 + float(low_flight.spawn_index % 3)
+	low_flight.flight_seconds = fposmod(PI / 2.0 - phase, TAU) * period / TAU
+	low_flight.position = low_flight.flight_position(low_flight.flight_seconds)
+	hero.respawn(waiting_vine.grip_global_position() - DiegoPlayer.VINE_HAND_OFFSET - Vector2(0, 12))
+	hero.velocity.y = 40.0
+	await step(3)
+	hero.controls.set_virtual_action(&"climb_up", true)
+	await step(90)
+	hero.controls.clear_virtual()
+	var passed_below: bool = false
+	for tick in 840:
+		await step(1)
+		if absf(low_flight.position.x - hero.position.x) < 65 and low_flight.position.y > hero.position.y + 55:
+			passed_below = true
+	check(passed_below and hero.attached_vine == waiting_vine and hero.health == 3, "Trepar con entradas reales deja pasar el vuelo por debajo sin protección ni daño")
 	for flyer in bats:
 		flyer.set_physics_process(false)
 	# Daño físico lateral, incluyendo soltar una liana real.

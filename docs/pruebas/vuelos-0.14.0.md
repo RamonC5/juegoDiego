@@ -17,7 +17,7 @@ Cada origen de tramo suma `índice × 4800` a X. La colisión corporal mide 54 �
 ## Comprobación local observada
 
 - Importación y análisis de scripts con Godot fijado: correctos.
-- `test_bat_flights.gd`: 33 comprobaciones, cero fallos. Ruta independiente de Diego durante 900 pasos, límites de los ocho vuelos durante dos ciclos, pausa, recorrido físico de las cinco lianas del ensayo con los dos vuelos activos y sin invulnerabilidad ni daño, contacto lateral, salida del agarre, pisotón, rebote y recuperación a ambos lados del farol.
+- `test_bat_flights.gd`: 33 comprobaciones, cero fallos. Ruta independiente de Diego durante 900 pasos, límites de los ocho vuelos durante dos ciclos, pausa, agarre físico y trepa mediante entradas reales para dejar pasar un vuelo por debajo durante un ciclo completo sin invulnerabilidad ni daño, contacto lateral, salida del agarre, pisotón, rebote y recuperación a ambos lados del farol.
 - `test_forest_level_02.gd`: 79 comprobaciones, cero fallos. Ruta completa, tres llaves, faroles sin curación, cristales y guardado. Aísla enemigos para verificar geometría; no acredita dificultad de los vuelos.
 - `test_enemy_motion.gd`: 198 comprobaciones, cero fallos.
 - `test_checkpoint_recovery.gd`: 26 comprobaciones, cero fallos.
@@ -28,4 +28,8 @@ La CI incluye la suite nueva, capturas de los tres cruces en Compatibility y com
 
 ## Límites
 
-La prueba con daño real cubre el ensayo; los otros dos cruces requieren observar ventanas y ajustar altura. Su dificultad con un niño de 10 años y las pruebas en Android/Windows físicos siguen pendientes. La ruta automática protegida mantiene 500,6 s simulados: no mide duración humana. No se ha generado arte nuevo ni añadido otro secreto.
+La prueba de esquiva cubre agarre, trepa y un ciclo real de vuelo; las cadenas completas con vuelos requieren observar ventanas y ajustar altura. Su dificultad con un niño de 10 años y las pruebas en Android/Windows físicos siguen pendientes. La ruta automática protegida mantiene 500,6 s simulados: no mide duración humana. No se ha generado arte nuevo ni añadido otro secreto.
+
+## Corrección de la prueba de esquiva
+
+La primera CI detectó que el recorrido automático de geometría saltaba sin observar los vuelos. La prueba se sustituye por la acción nueva que debe aprenderse: agarrarse físicamente a una liana, mantener ARRIBA y dejar pasar el murciélago por debajo durante un ciclo completo. Las opciones de control se fijan explícitamente y se usa un perfil local limpio, sin heredar ajustes de otras suites. No se retira la prueba geométrica completa ni la comprobación de daño real.

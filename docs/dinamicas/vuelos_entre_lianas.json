@@ -71,7 +71,7 @@
   "validacion": {
     "funcional": [
       "Independencia de la posición de Diego, límites de las ocho rutas, velocidad, pausa y alas.",
-      "Primer barranco con vuelos activos y entradas reales, sin invulnerabilidad ni daño.",
+      "Agarre físico y trepa con entradas reales para dejar pasar un vuelo por debajo durante un ciclo completo, sin invulnerabilidad ni daño.",
       "Contacto lateral, liberación del agarre, pisotón y rebote, derrotas a ambos lados del farol."
     ],
     "jugando": [
