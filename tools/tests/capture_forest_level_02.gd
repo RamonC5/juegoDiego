@@ -33,6 +33,8 @@ func _capture() -> void:
 	for frame in [{"position": Vector2(900, 600), "name": "spring"},
 		{"position": Vector2(1350, 260), "name": "canopy"},
 		{"position": Vector2(11080, 600), "name": "vines"},
+		{"position": Vector2(45120, 600), "name": "bat_flights_second"},
+		{"position": Vector2(64320, 600), "name": "bat_flights_final"},
 		{"position": Vector2(19560, 600), "name": "secret_entry"},
 		{"position": Vector2(20030, -60), "name": "secret_crowns"},
 		{"position": Vector2(22070, -30), "name": "secret_life"},

@@ -102,16 +102,31 @@ def build():
             raised.extend([(x + 3700, 290, 240, 64), (x + 3920, 190, 360, 64)])
             crystals.append((x + 4090, 145))
 
+    # Añadir al final: conservar los índices de origen de las 58 patrullas previas.
+    # Ensayo sobre orilla firme, después dos cruces escalonados a distintas alturas.
+    flight_lanes = {
+        2: [(1450, 1830, 365), (2200, 2650, 510)],
+        9: [(1960, 2320, 500), (2440, 2770, 355), (2820, 3150, 515)],
+        13: [(1910, 2240, 515), (2390, 2720, 360), (2820, 3150, 480)],
+    }
+    for region, lanes in flight_lanes.items():
+        for left, right, height in lanes:
+            enemy(region * STEP + (left + right) / 2, height,
+                  region * STEP + left, region * STEP + right, 'noctilo')
+
     checkpoints = [(4 * STEP + 120, 600), (8 * STEP + 120, 600), (12 * STEP + 120, 600)]
     hints = {
         350: 'COPAS DEL BOSQUE · Salta sobre las setas grandes para rebotar hasta la copa. Conservas un segundo salto para corregir. Hay suelo para reintentar.',
         1300: 'Activa la diana de la copa y busca la segunda marca. Cada puesto tiene una piña que regresa si la pierdes.',
         5700: 'Abre el puente con su diana. Puedes volver a buscar una llave pendiente sin que el paso se cierre.',
         10500: 'Salta para agarrarte a las lianas. Arrastra arriba para trepar, orienta el balanceo y salta hacia la siguiente.',
+        10900: 'VUELOS ENTRE LIANAS · Los murciélagos repiten su ruta y no te persiguen. Obsérvalos desde la orilla: trepa o espera el hueco antes de saltar. Puedes esquivarlos sin atacarlos.',
         15600: 'El tronco asciende hasta la copa. Salta hacia la repisa al llegar arriba; el suelo permite volver a probar.',
         19000: 'Los tres faroles guardan el tramo anterior sin rellenar corazones. Las llaves y la colección se conservan al morir.',
         19400: 'El tótem señala un secreto: salta hacia la liana y arrastra ARRIBA para trepar a las copas. Es opcional; las llaves están en el camino principal.',
         40000: 'Los cristales de las copas son opcionales: combina dos saltos desde la terraza. Ningún cristal es necesario para salir o conseguir ropa.',
+        44600: 'Los vuelos pasan a distintas alturas. Mira la ruta, cambia de altura con ARRIBA y salta cuando el paso esté libre. Un pisotón desde arriba también puede derrotarlos.',
+        63800: 'Último cruce: alterna trepa, balanceo y salto entre los vuelos. Las lianas te permiten observar antes de avanzar.',
     }
     fields = {
         'script': 'ExtResource("1")', 'level_id': '"world_01_level_02"', 'world_id': '"world_01"',
