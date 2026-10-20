@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "character_id": "nudor",
+  "display_name": "Nudor, el Roble Furioso",
+  "role": "boss",
+  "world_ids": [
+    "world_01"
+  ],
+  "design_status": "concept_generated",
+  "design_version": 1,
+  "visual_reference": {
+    "path": "art/characters/nudor/concept_v001.svg"
+  },
+  "image_size": [
+    1774,
+    887
+  ],
+  "animations": [],
+  "generation": {
+    "tool": "image_gen",
+    "mode": "built_in",
+    "generated_on": "2026-10-20",
+    "prompts_path": "art/characters/nudor/prompts.md",
+    "input_references": []
+  },
+  "validation": {
+    "technical_report": "art/characters/nudor/qa-technical.json",
+    "technical_passed": false,
+    "production_ready": false,
+    "sha256": "b71ba4aec77d684559a3b1912ea41c2534fbe58d6456881494313048180b1813",
+    "pending": [
+      "sprite padding",
+      "individual poses",
+      "animation",
+      "gameplay integration"
+    ]
+  },
+  "integration_status": "not_integrated"
+}
