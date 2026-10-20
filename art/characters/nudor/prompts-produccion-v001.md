@@ -1,0 +1,15 @@
+# Producción de Nudor · 20-10-2026
+
+Herramienta: image_gen integrada. Referencia: PNG original incrustado sin pérdida en concept_v001.svg. Resultado final: game/assets/textures/characters/nudor/poses_v001.png. Se conserva el concepto original; la primera variante de producción se descartó por margen insuficiente.
+
+## Primera edición
+
+Use case: identity-preserve. Asset type: transparent raster sprite atlas for Godot 2D platform game Super Diego. Edit target is Nudor, the furious oak forest boss in the reference. Preserve his distinctive bark face, green moss, leafy crown, huge wooden arms and hands, rooted feet, chest oak panels and golden acorn heart. Produce exactly TWO full body poses in two equal SQUARE cells side by side, a 2:1 horizontal atlas. Left cell: protected idle pose standing firmly with chest completely closed, arms lowered, hands unclenched. Right cell: vulnerable recovering pose with chest wood panels open exposing the golden acorn, knees bent slightly, arms lowered outward. Same character scale, same face, fixed front three-quarter view from reference, feet on same baseline, root centered at 50% of each cell width and 90% cell height. Keep EVERY extremity including crown, fingers, toes inside its own cell, generous 8% transparent margin ALL sides, absolutely no overlapping cells. Two arms two hands only each pose, readable shoulder elbow wrist. Polished HD 2D raster painted materials, soft shaded volume consistent with the original game. Transparent background, no floor, no cast shadow, no lettering, no borders, no labels, no effects, no watermark. This is a production atlas, preserve identity and enough empty margin for mesh animation.
+
+## Corrección de margen
+
+Precise production sprite correction. Keep this exact Nudor character and exactly these two poses. In each of the two equal square cells, SHRINK the entire character uniformly to 72% of current size, centered horizontally; align both feet on the same baseline at 84% of cell height. Leave LARGE PURELY EMPTY TRANSPARENT MARGINS, at least 12% of each square on left, right, top and bottom. Do not fill the frame. Absolutely no alpha flecks, tiny foliage specks or shadow at the borders or at the divider. Every visible and faint pixel belongs within the central 76% of its respective square cell. Two cells side by side in one 2:1 horizontal PNG RGBA atlas. Preserve identity, materials, colors, chest CLOSED in left cell and golden acorn exposed in right cell, two arms and two rooted legs. No background, floor, lines, text or effects. Do not change the pose besides uniformly reducing scale and aligning feet. This correction is specifically to make transparent padding safe for game animation.
+
+## Revisión
+
+La segunda edición mantiene pecho protegido/expuesto y margen visible amplio. Persisten píxeles de alfa muy tenue en el margen del PNG; validate_sprite.py no pasa su comprobación estricta. El shader compartido descarta esos valores. No se declara producción final verificada sin revisar el ciclo en Compatibility y dispositivos.

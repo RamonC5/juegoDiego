@@ -39,7 +39,7 @@ func _ready() -> void:
 	add_child(background_layer)
 	backdrop = ForestBackdrop.new()
 	background_layer.add_child(backdrop)
-	stage = ForestStage.new()
+	stage = _create_stage()
 	stage.DEFINITION = level_definition
 	stage.collection_progress = collection_progress
 	stage.name = "BosqueEsmeralda"
@@ -117,6 +117,10 @@ func _process(delta: float) -> void:
 		if is_instance_valid(_last_held_object):
 			_show_hint("%s en las manos · Toque corto o %s para lanzar." % [
 				_last_held_object.definition.display_name, settings.key_label(&"grab_throw")])
+
+
+func _create_stage() -> ForestStage:
+	return ForestStage.new()
 
 
 func _show_hint(text: String) -> void:
@@ -439,6 +443,7 @@ func _on_level_completed(level_id: String, result: Dictionary) -> void:
 	_result = result
 	_result["saved"] = progress.record_completion(level_id, result) == OK
 	_next_level_button.visible = not ForestAdventureCatalog.next_after(level_id, progress).is_empty()
+	_next_level_button.text = "Enfrentarse a Nudor" if level_definition.level_number == 3 else "Jugar Bosque 1–%d" % (level_definition.level_number + 1)
 	_show_hint("¡Aventura completada! Puedes volver a jugar para encontrar los tres cristales.")
 	get_tree().create_timer(1.6, false).timeout.connect(func():
 		_open_menu(_completion_text(), false)

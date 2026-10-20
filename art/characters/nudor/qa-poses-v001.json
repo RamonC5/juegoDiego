@@ -1,0 +1,72 @@
+{
+  "path": "game/assets/textures/characters/nudor/poses_v001.png",
+  "ok": false,
+  "errors": [
+    "El fotograma 0 tiene 0 píxeles de margen mínimo; requiere 4.",
+    "El fotograma 1 tiene 1 píxeles de margen mínimo; requiere 4."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "alpha_bounds": [
+        0,
+        19,
+        887,
+        869
+      ],
+      "minimum_padding": 0
+    },
+    {
+      "index": 1,
+      "alpha_bounds": [
+        1,
+        23,
+        867,
+        847
+      ],
+      "minimum_padding": 1
+    }
+  ],
+  "size": [
+    1774,
+    887
+  ],
+  "mode": "RGBA",
+  "grid": [
+    2,
+    1
+  ],
+  "frame_size": [
+    887,
+    887
+  ],
+  "active_frames": 2,
+  "rendered_alpha": {
+    "shader": "game/features/enemies/enemy_limb_motion.gdshader",
+    "threshold": 0.13,
+    "frames": [
+      {
+        "frame": 0,
+        "visible_bounds": [
+          152,
+          137,
+          770,
+          788
+        ],
+        "padding": 99
+      },
+      {
+        "frame": 1,
+        "visible_bounds": [
+          120,
+          154,
+          781,
+          788
+        ],
+        "padding": 99
+      }
+    ],
+    "passed": true,
+    "note": "El PNG original conserva píxeles de alfa muy bajo en el margen. El shader existente los descarta; el comprobador estricto del PNG no pasa. No se han editado los píxeles con herramientas auxiliares."
+  }
+}

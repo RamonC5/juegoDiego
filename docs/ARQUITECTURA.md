@@ -8,6 +8,14 @@ Esta base configura un juego de plataformas lateral 2D para Android y Windows. M
 
 Se conserva la elección artística «opción A» del plan previo, sin redefinirla en esta entrega. El proyecto usa escenas y recursos 2D; la especificación visual detallada y los recursos se incorporarán cuando se trabaje el arte.
 
+## Tercera aventura y Nudor · 0.15.0
+
+`forest_level_03.tscn` inyecta `level_03.tres`, compuesto por `build_forest_level_03.py`, en el mismo `main.gd`. Dieciséis tramos, 65 enemigos, tres llaves y tres faroles sin curación. La colección máxima opcional usa IDs independientes. Secreto propuesto junto al segundo farol pendiente de validación; ambos campos de secreto permanecen desactivados. [Recorrido](BOSQUE_1_3.md).
+
+`ForestAdventureCatalog` añade 1-3 tras 1-2 y el encuentro de Nudor tras las tres aventuras. El selector desplaza solo las aventuras y conserva Volver al mapa fijo; estados, foco y controles accesibles. `main.gd._create_stage()` permite que `forest_boss.gd` reutilice composición, controles, pausa, música y colección con `ForestBossStage`. El claro no añade un cuarto farol: reintenta desde su entrada, sin repetir aventuras completadas.
+
+`NudorBoss` tiene estados explícitos, avisos, dos ataques alternados y apertura de pecho. Solo acepta un arrojadizo válido por apertura y por número de lanzamiento. `ThrowableObject.launch_serial` distingue nuevos lanzamientos del mismo objeto sin cambiar el consumo físico del impacto. Dos piñas renovables evitan agotar munición. Victoria única con resultado `world_01_boss`, guardado v1 y sin abrir otros mundos. `NudorVisual` mantiene colisión independiente de malla/raster. [Contrato](jefes/nudor.md) · [Pruebas y límites](pruebas/bosque-1-3-nudor.md).
+
 ## Vuelos de Nóctilo · 0.14.0
 
 `ForestEnemy` conserva combate y recuperación compartidos y añade una rama aérea exclusiva de `noctilo`. Su ruta usa los límites de `enemy_spawns`, altura de origen y fase estable por índice; un reloj local calcula el movimiento periódico con giros suaves y oscilación vertical de 12 px. No consulta visión ni destino del jugador, no aplica gravedad ni soporte terrestre. La pausa y la suspensión lejana congelan el reloj y el rig. El cuerpo de contacto mide 54 × 40 px, bajo las membranas; el sensor superior conserva pisotón y el contrato de arrojadizos.
@@ -159,7 +167,7 @@ El protagonista implementa entrada y movimiento; `StompTarget` valida descenso d
 
 El [catálogo de objetos](OBJETOS_ARROJADIZOS.md) incorpora seis recursos `ThrowableDefinition` bajo `game/features/objects/definitions/`. `ThrowableCatalog` conserva su orden e identificadores. `ThrowableObject` combina esos datos con una textura raster, una colisión independiente y los estados libre, sostenido, lanzado y roto. La suelta sigue usando el marcador de la animación de Diego.
 
-Los barridos `move_and_collide` conservan el remanente de movimiento al rodar, deslizar o rebotar. `can_cause_thrown_damage()` exige lanzamiento activo, tiempo válido y velocidad suficiente; el receptor decide su vulnerabilidad mediante `receive_thrown_hit`. El primer receptor consume el lanzamiento. Las dianas prueban este contrato; todavía no hay jefes ni resistencias elementales.
+Los barridos `move_and_collide` conservan el remanente de movimiento al rodar, deslizar o rebotar. `can_cause_thrown_damage()` exige lanzamiento activo, tiempo válido y velocidad suficiente; el receptor decide su vulnerabilidad mediante `receive_thrown_hit`. El primer receptor consume el lanzamiento. Las dianas y Nudor usan este contrato; las resistencias elementales siguen pendientes.
 
 El entrenamiento ofrece los seis objetos en el primer tramo y activa una reposición a los tres segundos de agotarse o romperse; recogerlos cancela ese temporizador. Salir de su área los devuelve al puesto original. La reposición periódica y el área de recuperación están desactivadas por defecto en la escena reutilizable. El entrenamiento asigna su propio rectángulo; los niveles futuros definirán sus límites sin coordenadas fijas en la entidad.
 
@@ -175,7 +183,7 @@ Cada intento exige tres llaves diferentes. `LevelKeyDefinition`, bajo `game/feat
 
 Los identificadores de mundo serán `world_01` a `world_08`. Cada nivel recibirá un identificador único independiente del nombre visible y de su ruta de archivo.
 
-Las futuras definiciones de mundo enumerarán sus niveles, sus dependencias de desbloqueo y la referencia al jefe. El primer nivel es `world_01_level_01`, definido por `game/data/worlds/world_01/level_01.tres`; las restantes definiciones siguen pendientes.
+Las futuras definiciones de mundo enumerarán sus niveles, sus dependencias de desbloqueo y la referencia al jefe. El primer nivel es `world_01_level_01`, definido por `game/data/worlds/world_01/level_01.tres`; 1-2, 1-3 y el encuentro de Nudor se incorporan mediante recursos independientes; los demás mundos siguen pendientes.
 
 El guardado distinguirá `unlocked`, `completed` y los mejores resultados. Completar un nivel no lo bloqueará: el mapa permitirá volver a cualquier nivel desbloqueado. Rejugarlo conservará los desbloqueos y solo sustituirá un mejor resultado cuando corresponda.
 
@@ -401,4 +409,4 @@ Las regresiones se integran en `test_player.gd` y `test_player_movement.gd`, ya 
 - Arte, fichas, prompts y revisión: `art/characters/<boss_id>/`. Primer concepto: `art/characters/nudor/concept_v001.svg`, contenedor del PNG raster original incrustado sin redibujado. [Ficha de Nudor](../art/characters/nudor/ficha.md).
 - Código de combate: `game/features/bosses/`. Texturas finales futuras: `game/assets/textures/characters/<boss_id>/`. Mantener autoría fuera de las exportaciones mediante `art/.gdignore`.
 - Jefes dañados exclusivamente mediante objetos lanzados durante la vulnerabilidad; nunca por pisotón, contacto u objeto sostenido.
-- Nudor es un concepto visual de dos poses, sin animaciones ni combate integrados. Requiere preparar margen y poses individuales. Previsto tras las tres aventuras del bosque; esta entrega no habilita el acceso.
+- Desde 0.15.0, Nudor tiene combate integrado en `game/features/bosses/` y escena `game/boot/forest_boss.tscn`, accesible tras Bosque 1-1, 1-2 y 1-3. Dos poses raster finales en `game/assets/textures/characters/nudor/poses_v001.png`, con malla de brazos y manos, avisos, apertura y derrota. Véanse `docs/jefes/nudor.md` y `docs/pruebas/bosque-1-3-nudor.md` para pruebas y límites (revisión gráfica/dispositivos pendientes).

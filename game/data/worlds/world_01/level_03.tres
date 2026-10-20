@@ -1,0 +1,527 @@
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=64 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1"]
+[ext_resource type="Resource" path="res://game/features/levels/keys/definitions/ramas.tres" id="2_keys"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/root_bridge_definition.gd" id="3_bridge"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/moving_platform_definition.gd" id="4_moving"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/root_gate_definition.gd" id="5_gate"]
+[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="6_music"]
+
+[sub_resource type="Resource" id="AncientBridge00"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices_puente_00"
+display_name = "Las raíces antiguas"
+bridge_rect = Rect2(1800, 600, 450, 78)
+target_position = Vector2(1730, 530)
+pine_position = Vector2(1490, 574)
+recovery_bounds = Rect2(1250, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Raices00A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices00a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(4590, 550, 55, 55)
+pine_position = Vector2(1125, 319)
+target_position = Vector2(1365, 275)
+recovery_bounds = Rect2(885, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices00B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices00b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(4590, 550, 55, 55)
+pine_position = Vector2(3465, 319)
+target_position = Vector2(3705, 275)
+recovery_bounds = Rect2(3225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate00"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_00"
+display_name = "Las raíces antiguas"
+position = Vector2(4590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices00A"), SubResource("Raices00B")])
+
+[sub_resource type="Resource" id="AncientLift01"]
+script = ExtResource("4_moving")
+platform_id = &"raices_tronco_01"
+display_name = "Troncos entre helechos"
+start_position = Vector2(5950, 545)
+end_position = Vector2(6150, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Raices01A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices01a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(9390, 550, 55, 55)
+pine_position = Vector2(6425, 164)
+target_position = Vector2(6665, 120)
+recovery_bounds = Rect2(6185, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices01B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices01b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(9390, 550, 55, 55)
+pine_position = Vector2(8265, 319)
+target_position = Vector2(8505, 275)
+recovery_bounds = Rect2(8025, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate01"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_01"
+display_name = "Troncos entre helechos"
+position = Vector2(9390, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices01A"), SubResource("Raices01B")])
+
+[sub_resource type="Resource" id="Raices02A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices02a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(14190, 550, 55, 55)
+pine_position = Vector2(10905, 234)
+target_position = Vector2(11145, 190)
+recovery_bounds = Rect2(10665, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices02B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices02b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(14190, 550, 55, 55)
+pine_position = Vector2(13065, 319)
+target_position = Vector2(13305, 275)
+recovery_bounds = Rect2(12825, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate02"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_02"
+display_name = "Setas bajo el roble"
+position = Vector2(14190, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices02A"), SubResource("Raices02B")])
+
+[sub_resource type="Resource" id="Raices03A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices03a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(18990, 550, 55, 55)
+pine_position = Vector2(15720, 574)
+target_position = Vector2(15960, 530)
+recovery_bounds = Rect2(15480, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices03B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices03b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(18990, 550, 55, 55)
+pine_position = Vector2(17865, 319)
+target_position = Vector2(18105, 275)
+recovery_bounds = Rect2(17625, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate03"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_03"
+display_name = "La primera raíz"
+position = Vector2(18990, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices03A"), SubResource("Raices03B")])
+
+[sub_resource type="Resource" id="AncientBridge04"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices_puente_04"
+display_name = "Las dos orillas"
+bridge_rect = Rect2(21000, 600, 450, 78)
+target_position = Vector2(20930, 530)
+pine_position = Vector2(20690, 574)
+recovery_bounds = Rect2(20450, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Raices04A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices04a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(23790, 550, 55, 55)
+pine_position = Vector2(20325, 319)
+target_position = Vector2(20565, 275)
+recovery_bounds = Rect2(20085, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices04B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices04b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(23790, 550, 55, 55)
+pine_position = Vector2(22665, 319)
+target_position = Vector2(22905, 275)
+recovery_bounds = Rect2(22425, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate04"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_04"
+display_name = "Las dos orillas"
+position = Vector2(23790, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices04A"), SubResource("Raices04B")])
+
+[sub_resource type="Resource" id="Raices05A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices05a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(28590, 550, 55, 55)
+pine_position = Vector2(25305, 234)
+target_position = Vector2(25545, 190)
+recovery_bounds = Rect2(25065, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices05B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices05b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(28590, 550, 55, 55)
+pine_position = Vector2(27465, 319)
+target_position = Vector2(27705, 275)
+recovery_bounds = Rect2(27225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate05"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_05"
+display_name = "El claro de las piñas"
+position = Vector2(28590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices05A"), SubResource("Raices05B")])
+
+[sub_resource type="Resource" id="AncientLift06"]
+script = ExtResource("4_moving")
+platform_id = &"raices_tronco_06"
+display_name = "Ramas que despiertan"
+start_position = Vector2(29950, 545)
+end_position = Vector2(30150, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Raices06A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices06a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(33390, 550, 55, 55)
+pine_position = Vector2(30425, 164)
+target_position = Vector2(30665, 120)
+recovery_bounds = Rect2(30185, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices06B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices06b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(33390, 550, 55, 55)
+pine_position = Vector2(32265, 319)
+target_position = Vector2(32505, 275)
+recovery_bounds = Rect2(32025, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate06"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_06"
+display_name = "Ramas que despiertan"
+position = Vector2(33390, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices06A"), SubResource("Raices06B")])
+
+[sub_resource type="Resource" id="Raices07A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices07a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(38190, 550, 55, 55)
+pine_position = Vector2(34920, 574)
+target_position = Vector2(35160, 530)
+recovery_bounds = Rect2(34680, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices07B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices07b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(38190, 550, 55, 55)
+pine_position = Vector2(37065, 319)
+target_position = Vector2(37305, 275)
+recovery_bounds = Rect2(36825, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate07"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_07"
+display_name = "El vuelo del musgo"
+position = Vector2(38190, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices07A"), SubResource("Raices07B")])
+
+[sub_resource type="Resource" id="AncientBridge08"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices_puente_08"
+display_name = "La segunda raíz"
+bridge_rect = Rect2(40200, 600, 450, 78)
+target_position = Vector2(40130, 530)
+pine_position = Vector2(39890, 574)
+recovery_bounds = Rect2(39650, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Raices08A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices08a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(42990, 550, 55, 55)
+pine_position = Vector2(39525, 319)
+target_position = Vector2(39765, 275)
+recovery_bounds = Rect2(39285, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices08B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices08b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(42990, 550, 55, 55)
+pine_position = Vector2(41865, 319)
+target_position = Vector2(42105, 275)
+recovery_bounds = Rect2(41625, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate08"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_08"
+display_name = "La segunda raíz"
+position = Vector2(42990, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices08A"), SubResource("Raices08B")])
+
+[sub_resource type="Resource" id="AncientLift09"]
+script = ExtResource("4_moving")
+platform_id = &"raices_tronco_09"
+display_name = "Troncos del gran roble"
+start_position = Vector2(44350, 545)
+end_position = Vector2(44550, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Raices09A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices09a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(47790, 550, 55, 55)
+pine_position = Vector2(44825, 164)
+target_position = Vector2(45065, 120)
+recovery_bounds = Rect2(44585, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices09B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices09b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(47790, 550, 55, 55)
+pine_position = Vector2(46665, 319)
+target_position = Vector2(46905, 275)
+recovery_bounds = Rect2(46425, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate09"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_09"
+display_name = "Troncos del gran roble"
+position = Vector2(47790, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices09A"), SubResource("Raices09B")])
+
+[sub_resource type="Resource" id="Raices10A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices10a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(52590, 550, 55, 55)
+pine_position = Vector2(49320, 574)
+target_position = Vector2(49560, 530)
+recovery_bounds = Rect2(49080, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices10B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices10b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(52590, 550, 55, 55)
+pine_position = Vector2(51465, 319)
+target_position = Vector2(51705, 275)
+recovery_bounds = Rect2(51225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate10"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_10"
+display_name = "Lianas de la corteza"
+position = Vector2(52590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices10A"), SubResource("Raices10B")])
+
+[sub_resource type="Resource" id="Raices11A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices11a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(57390, 550, 55, 55)
+pine_position = Vector2(54105, 234)
+target_position = Vector2(54345, 190)
+recovery_bounds = Rect2(53865, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices11B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices11b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(57390, 550, 55, 55)
+pine_position = Vector2(56265, 319)
+target_position = Vector2(56505, 275)
+recovery_bounds = Rect2(56025, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate11"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_11"
+display_name = "El jardín de setas"
+position = Vector2(57390, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices11A"), SubResource("Raices11B")])
+
+[sub_resource type="Resource" id="AncientLift12"]
+script = ExtResource("4_moving")
+platform_id = &"raices_tronco_12"
+display_name = "El último ascenso"
+start_position = Vector2(58750, 545)
+end_position = Vector2(58950, 225)
+width = 280.0
+travel_seconds = 2.6
+stop_seconds = 1.5
+
+[sub_resource type="Resource" id="Raices12A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices12a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(62190, 550, 55, 55)
+pine_position = Vector2(59225, 164)
+target_position = Vector2(59465, 120)
+recovery_bounds = Rect2(58985, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices12B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices12b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(62190, 550, 55, 55)
+pine_position = Vector2(61065, 319)
+target_position = Vector2(61305, 275)
+recovery_bounds = Rect2(60825, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate12"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_12"
+display_name = "El último ascenso"
+position = Vector2(62190, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices12A"), SubResource("Raices12B")])
+
+[sub_resource type="Resource" id="AncientBridge13"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices_puente_13"
+display_name = "Las raíces del arroyo"
+bridge_rect = Rect2(64200, 600, 450, 78)
+target_position = Vector2(64130, 530)
+pine_position = Vector2(63890, 574)
+recovery_bounds = Rect2(63650, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Raices13A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices13a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(66990, 550, 55, 55)
+pine_position = Vector2(63525, 319)
+target_position = Vector2(63765, 275)
+recovery_bounds = Rect2(63285, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices13B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices13b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(66990, 550, 55, 55)
+pine_position = Vector2(65865, 319)
+target_position = Vector2(66105, 275)
+recovery_bounds = Rect2(65625, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate13"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_13"
+display_name = "Las raíces del arroyo"
+position = Vector2(66990, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices13A"), SubResource("Raices13B")])
+
+[sub_resource type="Resource" id="Raices14A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices14a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(71790, 550, 55, 55)
+pine_position = Vector2(68505, 234)
+target_position = Vector2(68745, 190)
+recovery_bounds = Rect2(68265, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices14B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices14b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(71790, 550, 55, 55)
+pine_position = Vector2(70665, 319)
+target_position = Vector2(70905, 275)
+recovery_bounds = Rect2(70425, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate14"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_14"
+display_name = "La tercera raíz"
+position = Vector2(71790, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices14A"), SubResource("Raices14B")])
+
+[sub_resource type="Resource" id="AncientBridge15"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices_puente_15"
+display_name = "El umbral de Nudor"
+bridge_rect = Rect2(73800, 600, 450, 78)
+target_position = Vector2(73730, 530)
+pine_position = Vector2(73490, 574)
+recovery_bounds = Rect2(73250, 100, 1000, 1000)
+
+[sub_resource type="Resource" id="Raices15A"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices15a"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(76590, 550, 55, 55)
+pine_position = Vector2(73125, 319)
+target_position = Vector2(73365, 275)
+recovery_bounds = Rect2(72885, -400, 850, 1450)
+
+[sub_resource type="Resource" id="Raices15B"]
+script = ExtResource("3_bridge")
+mechanism_id = &"raices15b"
+display_name = "Diana de las raíces"
+bridge_rect = Rect2(76590, 550, 55, 55)
+pine_position = Vector2(75465, 319)
+target_position = Vector2(75705, 275)
+recovery_bounds = Rect2(75225, -400, 850, 1450)
+
+[sub_resource type="Resource" id="AncientGate15"]
+script = ExtResource("5_gate")
+gate_id = &"raices_porton_15"
+display_name = "El umbral de Nudor"
+position = Vector2(76590, 600)
+stations = Array[ExtResource("3_bridge")]([SubResource("Raices15A"), SubResource("Raices15B")])
+
+[resource]
+script = ExtResource("1")
+level_id = "world_01_level_03"
+world_id = "world_01"
+level_number = 3
+display_name = "Bosque Esmeralda"
+subtitle = "Las raíces de Nudor"
+music_stream = ExtResource("6_music")
+width = 76800.0
+spawn = Vector2(180, 600)
+goal = Vector2(76620, 600)
+checkpoint = Vector2(19320, 600)
+checkpoints = Array[Vector2]([Vector2(19320, 600), Vector2(38520, 600), Vector2(57720, 600)])
+key_definition = ExtResource("2_keys")
+key_positions = Array[Vector2]([Vector2(19100, 550), Vector2(43100, 550), Vector2(71900, 550)])
+ground_sections = Array[Rect2]([Rect2(0, 600, 1800, 520), Rect2(2250, 600, 2550, 520), Rect2(4800, 600, 4800, 520), Rect2(9600, 600, 4800, 520), Rect2(14400, 600, 1900, 520), Rect2(17660, 600, 1540, 520), Rect2(19200, 600, 1800, 520), Rect2(21450, 600, 2550, 520), Rect2(24000, 600, 4800, 520), Rect2(28800, 600, 4800, 520), Rect2(33600, 600, 1900, 520), Rect2(36860, 600, 1540, 520), Rect2(38400, 600, 1800, 520), Rect2(40650, 600, 2550, 520), Rect2(43200, 600, 4800, 520), Rect2(48000, 600, 1900, 520), Rect2(51260, 600, 1540, 520), Rect2(52800, 600, 4800, 520), Rect2(57600, 600, 4800, 520), Rect2(62400, 600, 1800, 520), Rect2(64650, 600, 2550, 520), Rect2(67200, 600, 4800, 520), Rect2(72000, 600, 1800, 520), Rect2(74250, 600, 2550, 520)])
+raised_platforms = Array[Rect2]([Rect2(520, 515, 240, 64), Rect2(780, 430, 240, 64), Rect2(1040, 345, 600, 64), Rect2(2860, 515, 240, 64), Rect2(3120, 430, 240, 64), Rect2(3380, 345, 600, 64), Rect2(6320, 190, 620, 64), Rect2(7660, 515, 240, 64), Rect2(7920, 430, 240, 64), Rect2(8180, 345, 600, 64), Rect2(10800, 260, 620, 64), Rect2(12460, 515, 240, 64), Rect2(12720, 430, 240, 64), Rect2(12980, 345, 600, 64), Rect2(17260, 515, 240, 64), Rect2(17520, 430, 240, 64), Rect2(17780, 345, 600, 64), Rect2(18340, 215, 170, 64), Rect2(18550, 85, 170, 64), Rect2(18760, -45, 170, 64), Rect2(19720, 515, 240, 64), Rect2(19980, 430, 240, 64), Rect2(20240, 345, 600, 64), Rect2(22060, 515, 240, 64), Rect2(22320, 430, 240, 64), Rect2(22580, 345, 600, 64), Rect2(25200, 260, 620, 64), Rect2(26860, 515, 240, 64), Rect2(27120, 430, 240, 64), Rect2(27380, 345, 600, 64), Rect2(30320, 190, 620, 64), Rect2(31660, 515, 240, 64), Rect2(31920, 430, 240, 64), Rect2(32180, 345, 600, 64), Rect2(36460, 515, 240, 64), Rect2(36720, 430, 240, 64), Rect2(36980, 345, 600, 64), Rect2(38920, 515, 240, 64), Rect2(39180, 430, 240, 64), Rect2(39440, 345, 600, 64), Rect2(41260, 515, 240, 64), Rect2(41520, 430, 240, 64), Rect2(41780, 345, 600, 64), Rect2(42340, 215, 170, 64), Rect2(42550, 85, 170, 64), Rect2(42760, -45, 170, 64), Rect2(44720, 190, 620, 64), Rect2(46060, 515, 240, 64), Rect2(46320, 430, 240, 64), Rect2(46580, 345, 600, 64), Rect2(50860, 515, 240, 64), Rect2(51120, 430, 240, 64), Rect2(51380, 345, 600, 64), Rect2(54000, 260, 620, 64), Rect2(55660, 515, 240, 64), Rect2(55920, 430, 240, 64), Rect2(56180, 345, 600, 64), Rect2(59120, 190, 620, 64), Rect2(60460, 515, 240, 64), Rect2(60720, 430, 240, 64), Rect2(60980, 345, 600, 64), Rect2(62920, 515, 240, 64), Rect2(63180, 430, 240, 64), Rect2(63440, 345, 600, 64), Rect2(65260, 515, 240, 64), Rect2(65520, 430, 240, 64), Rect2(65780, 345, 600, 64), Rect2(68400, 260, 620, 64), Rect2(70060, 515, 240, 64), Rect2(70320, 430, 240, 64), Rect2(70580, 345, 600, 64), Rect2(71140, 215, 170, 64), Rect2(71350, 85, 170, 64), Rect2(71560, -45, 170, 64), Rect2(72520, 515, 240, 64), Rect2(72780, 430, 240, 64), Rect2(73040, 345, 600, 64), Rect2(74860, 515, 240, 64), Rect2(75120, 430, 240, 64), Rect2(75380, 345, 600, 64)])
+recovery_platforms = Array[Rect2]([Rect2(1800, 820, 450, 300), Rect2(1800, 740, 160, 40), Rect2(1800, 660, 75, 40), Rect2(21000, 820, 450, 300), Rect2(21000, 740, 160, 40), Rect2(21000, 660, 75, 40), Rect2(40200, 820, 450, 300), Rect2(40200, 740, 160, 40), Rect2(40200, 660, 75, 40), Rect2(64200, 820, 450, 300), Rect2(64200, 740, 160, 40), Rect2(64200, 660, 75, 40), Rect2(73800, 820, 450, 300), Rect2(73800, 740, 160, 40), Rect2(73800, 660, 75, 40)])
+enemy_spawns = Array[Vector4]([Vector4(470, 600, 350, 610), Vector4(4000, 600, 3850, 4130), Vector4(1485, 345, 1435, 1535), Vector4(3805, 345, 3755, 3865), Vector4(5270, 600, 5150, 5410), Vector4(8800, 600, 8650, 8930), Vector4(6785, 190, 6735, 6835), Vector4(8605, 345, 8555, 8665), Vector4(10070, 600, 9950, 10210), Vector4(13600, 600, 13450, 13730), Vector4(11265, 260, 11215, 11315), Vector4(13405, 345, 13355, 13465), Vector4(14870, 600, 14750, 15010), Vector4(18400, 600, 18250, 18530), Vector4(21100, 600, 20980, 21240), Vector4(23200, 600, 23050, 23330), Vector4(20685, 345, 20635, 20735), Vector4(23005, 345, 22955, 23065), Vector4(24470, 600, 24350, 24610), Vector4(28000, 600, 27850, 28130), Vector4(25665, 260, 25615, 25715), Vector4(27805, 345, 27755, 27865), Vector4(29270, 600, 29150, 29410), Vector4(32800, 600, 32650, 32930), Vector4(30785, 190, 30735, 30835), Vector4(32605, 345, 32555, 32665), Vector4(34070, 600, 33950, 34210), Vector4(37600, 600, 37450, 37730), Vector4(38870, 600, 38750, 39010), Vector4(42400, 600, 42250, 42530), Vector4(39885, 345, 39835, 39935), Vector4(42205, 345, 42155, 42265), Vector4(43670, 600, 43550, 43810), Vector4(47200, 600, 47050, 47330), Vector4(45185, 190, 45135, 45235), Vector4(47005, 345, 46955, 47065), Vector4(48470, 600, 48350, 48610), Vector4(52000, 600, 51850, 52130), Vector4(53270, 600, 53150, 53410), Vector4(56800, 600, 56650, 56930), Vector4(54465, 260, 54415, 54515), Vector4(56605, 345, 56555, 56665), Vector4(58070, 600, 57950, 58210), Vector4(61600, 600, 61450, 61730), Vector4(59585, 190, 59535, 59635), Vector4(61405, 345, 61355, 61465), Vector4(62870, 600, 62750, 63010), Vector4(66400, 600, 66250, 66530), Vector4(63885, 345, 63835, 63935), Vector4(66205, 345, 66155, 66265), Vector4(67670, 600, 67550, 67810), Vector4(71200, 600, 71050, 71330), Vector4(68865, 260, 68815, 68915), Vector4(71005, 345, 70955, 71065), Vector4(72470, 600, 72350, 72610), Vector4(76000, 600, 75850, 76130), Vector4(73485, 345, 73435, 73535), Vector4(75805, 345, 75755, 75865), Vector4(16025, 380, 15850, 16200), Vector4(16890, 480, 16700, 17080), Vector4(35710, 485, 35540, 35880), Vector4(36320, 360, 36120, 36520), Vector4(50140, 510, 49980, 50300), Vector4(50625, 355, 50460, 50790), Vector4(51015, 490, 50860, 51170)])
+enemy_kinds = Array[String](["terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "terron", "moflete", "moflete", "terron", "moflete", "terron", "moflete", "terron", "noctilo", "noctilo", "noctilo", "noctilo", "noctilo", "noctilo", "noctilo"])
+object_spawns = Array[Vector3]([Vector3(700, 574, 0), Vector3(5500, 574, 1), Vector3(10300, 574, 2), Vector3(15100, 574, 3), Vector3(19900, 574, 4), Vector3(24700, 574, 5), Vector3(29500, 574, 0), Vector3(34300, 574, 1), Vector3(39100, 574, 2), Vector3(43900, 574, 3), Vector3(48700, 574, 4), Vector3(53500, 574, 5), Vector3(58300, 574, 0), Vector3(63100, 574, 1), Vector3(67900, 574, 2), Vector3(72700, 574, 3)])
+crystal_positions = Array[Vector2]([Vector2(18845, -90), Vector2(42845, -90), Vector2(71645, -90)])
+spring_positions = Array[Vector2]([Vector2(10650, 545), Vector2(25050, 545), Vector2(53850, 545), Vector2(68250, 545)])
+vine_crossings = Array[Vector2]([Vector2(14400, 0), Vector2(33600, 0), Vector2(48000, 0)])
+region_starts = Array[Vector2]([Vector2(0, 600), Vector2(4800, 600), Vector2(9600, 600), Vector2(14400, 600), Vector2(19200, 600), Vector2(24000, 600), Vector2(28800, 600), Vector2(33600, 600), Vector2(38400, 600), Vector2(43200, 600), Vector2(48000, 600), Vector2(52800, 600), Vector2(57600, 600), Vector2(62400, 600), Vector2(67200, 600), Vector2(72000, 600)])
+region_names = Array[String](["Las raíces antiguas", "Troncos entre helechos", "Setas bajo el roble", "La primera raíz", "Las dos orillas", "El claro de las piñas", "Ramas que despiertan", "El vuelo del musgo", "La segunda raíz", "Troncos del gran roble", "Lianas de la corteza", "El jardín de setas", "El último ascenso", "Las raíces del arroyo", "La tercera raíz", "El umbral de Nudor"])
+bridges = Array[ExtResource("3_bridge")]([SubResource("AncientBridge00"), SubResource("AncientBridge04"), SubResource("AncientBridge08"), SubResource("AncientBridge13"), SubResource("AncientBridge15")])
+root_gates = Array[ExtResource("5_gate")]([SubResource("AncientGate00"), SubResource("AncientGate01"), SubResource("AncientGate02"), SubResource("AncientGate03"), SubResource("AncientGate04"), SubResource("AncientGate05"), SubResource("AncientGate06"), SubResource("AncientGate07"), SubResource("AncientGate08"), SubResource("AncientGate09"), SubResource("AncientGate10"), SubResource("AncientGate11"), SubResource("AncientGate12"), SubResource("AncientGate13"), SubResource("AncientGate14"), SubResource("AncientGate15")])
+moving_platforms = Array[ExtResource("4_moving")]([SubResource("AncientLift01"), SubResource("AncientLift06"), SubResource("AncientLift09"), SubResource("AncientLift12")])
+secret_grove = Vector2(-1, -1)
+canopy_secret = Vector2(-1, -1)
+firefly_nest = Vector2(480, 565)
+route_hints = {350: "LAS RAÍCES DE NUDOR · Tres llaves abren el claro. Combina las acciones aprendidas: lianas, setas, troncos y lanzamientos. Los cristales son opcionales.", 5200: "Espera a que el tronco llegue a la rama. Puedes recoger y lanzar en el aire sin perder el segundo salto.", 15000: "Observa el vuelo desde la orilla. Nóctilo repite su ruta: trepa o espera el hueco antes de saltar.", 19400: "Los faroles guardan lo resuelto antes de ellos. Pasar por uno no rellena corazones.", 38400: "Los cristales más altos están en tres desvíos opcionales. Escalona los saltos; el suelo permite reintentar sin bloquear las llaves.", 58500: "Último tramo: conserva espacio para saltar, recoger y lanzar. Las piñas vuelven a su puesto si fallas.", 74500: "Tras la tercera llave llegarás al claro de Nudor. Su corteza no se rompe saltándole encima: espera el pecho abierto y lanza una piña."}

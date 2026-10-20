@@ -16,6 +16,16 @@ static func get_profile(id: String) -> Dictionary:
 	var region := Rect2(0, 0, 1, 1)
 	var frequency: float = 1.5
 	match id:
+		"nudor_closed", "nudor_open":
+			region = Rect2(0.0 if id == "nudor_closed" else 0.5, 0, 0.5, 1)
+			joints = [
+				joint("hombro izquierdo", Vector2(0.33, 0.40), Vector4(0.27, 0.52, 0.15, 0.19), 0.10),
+				joint("muñeca izquierda", Vector2(0.27, 0.65), Vector4(0.27, 0.71, 0.12, 0.11), 0.14, 0.4, "hand"),
+				joint("hombro derecho", Vector2(0.70, 0.41), Vector4(0.77, 0.52, 0.15, 0.19), 0.10, PI),
+				joint("muñeca derecha", Vector2(0.80, 0.65), Vector4(0.80, 0.71, 0.12, 0.11), 0.14, PI + 0.4, "hand"),
+				joint("raíz izquierda", Vector2(0.40, 0.75), Vector4(0.35, 0.83, 0.18, 0.09), 0.05, 0, "root"),
+				joint("raíz derecha", Vector2(0.66, 0.75), Vector4(0.69, 0.83, 0.18, 0.09), 0.05, PI, "root"),
+			]
 		"terron":
 			region = Rect2(0.0215, 0.3198, 0.9665, 0.4482)
 			frequency = 1.1

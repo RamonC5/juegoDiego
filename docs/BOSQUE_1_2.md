@@ -17,7 +17,7 @@ Las setas reutilizan un recorte del atlas raster del bosque. Aterrizar desde arr
 | Cristales intermedios | (18490, 145), (42490, 145), (71290, 145) | Desvíos opcionales desde terrazas, con retorno |
 | Salida | (76620, 600) | Solo requiere las tres llaves |
 
-El mapa abre una selección de aventuras. Completar Bosque 1-1 desbloquea 1-2 usando el resultado existente en `progress.json`, esquema 1. La pantalla final del primero permite continuar directamente. La colección por nivel, las hojas acumuladas para ropa y el ayudante obtenido se conservan. Los tres fragmentos de Luci siguen estando en 1-1; no se duplican en la segunda aventura. El nivel 3 y el jefe siguen pendientes.
+El mapa abre una selección de aventuras. Completar Bosque 1-1 desbloquea 1-2 usando el resultado existente en `progress.json`, esquema 1. La pantalla final del primero permite continuar directamente. La colección por nivel, las hojas acumuladas para ropa y el ayudante obtenido se conservan. Los tres fragmentos de Luci siguen estando en 1-1; no se duplican en la segunda aventura. Bosque 1-3 y Nudor se incorporan en 0.15.0; véase [la tercera aventura](BOSQUE_1_3.md).
 
 El presupuesto es de **18–22 minutos estimados**, excluyendo secretos, pausas y repeticiones. La ruta automática protegida tarda 500,6 segundos simulados, con enemigos aislados: acredita geometría y acciones, no duración humana, dificultad infantil ni diversión. Faltan partidas de observación.
 
