@@ -1,5 +1,7 @@
 # Super Diego · Juego Diego
 
+**0.15.0 · Bosque 1-3 y Nudor**: tercera aventura con tres llaves, tres faroles sin curación y cristales máximos opcionales. Tras completarla, el claro de Nudor enseña manotazo y barrido; solo recibe daño de objetos lanzados al pecho abierto. Se puede repetir sin rehacer las aventuras. El secreto de 1-3 y la revisión gráfica/dispositivos siguen pendientes. [Recorrido](docs/BOSQUE_1_3.md) · [Combate](docs/jefes/nudor.md) · [Pruebas y límites](docs/pruebas/bosque-1-3-nudor.md).
+
 **0.14.0 · Vuelos entre lianas**: ocho murciélagos Nóctilo repiten rutas fijas en los tres barrancos del nivel 2; Diego observa, trepa y salta para esquivarlos. No persiguen y no es obligatorio derrotarlos. [Dinámica y pruebas](docs/pruebas/vuelos-0.14.0.md).
 
 **0.13.1 · Bosque 1-2: Las copas del bosque**: recorrido principal con setas elásticas, 16 tramos, tres llaves, tres cristales opcionales y exactamente tres faroles sin curación. El mapa permite elegir aventura; superar 1-1 desbloquea 1-2. Un tótem tras el primer farol señala una liana larga: trepar manualmente permite recorrer cinco copas, recoger hojas y una vida extra por intento y bajar al camino por ramas. [Recorrido, estado y pruebas](docs/BOSQUE_1_2.md).

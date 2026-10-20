@@ -160,3 +160,8 @@ Una pulsación en la mitad izquierda inicia un salto completo y otra en el aire 
 
 Por petición del 18-10-2026, Diego puede lanzar durante el salto conservando dirección, avance y segundo impulso. Mientras está agarrado a una liana, mantener arriba en la zona de movimiento permite subir; al soltar conserva altura y balanceo. Arrastrar diagonalmente combina trepa y balanceo. W / ↑ y arriba de mando ofrecen la misma acción; salto sigue soltando con impulso. La nueva trepa es manual y sustituye la ausencia de ascenso de 0.7.2, sin recuperar la subida automática histórica. No añade niveles ni cambia el recorrido, las llaves, la zona secreta o los puntos de guardado.
 
+
+
+## Bosque 1-3 y cierre con Nudor · 0.15.0
+
+[Recorrido y estado](BOSQUE_1_3.md) · [Ficha v2](niveles/world_01_level_03.json) · [Combate de Nudor](jefes/nudor.md) · [Pruebas](pruebas/bosque-1-3-nudor.md). El recorrido y el combate están integrados; el secreto no se construye hasta validar ubicación y actividad. La ficha permanece en ampliación.

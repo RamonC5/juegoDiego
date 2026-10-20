@@ -40,6 +40,18 @@ func _initialize() -> void:
 		_check(second.enemy_kinds.size() == 66 and second.enemy_kinds == source.enemy_kinds, "Enemigos del segundo nivel exportados")
 		_check(second.enemy_kinds.count("noctilo") == 8 and second.enemy_spawns == source.enemy_spawns, "Ocho vuelos de murciélago con rutas fijas sobreviven al APK")
 		_check(second.canopy_secret == Vector2(19660, 600), "Acceso del sendero secreto en las copas exportado")
+	var third := ResourceLoader.load("res://.godot-logs/apk-level_03.res", "", ResourceLoader.CACHE_MODE_IGNORE) as ForestLevelDefinition
+	_check(third != null, "Bosque 1-3 está presente en el APK")
+	if third != null:
+		var source: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_03.tres")
+		_check(third.level_id == source.level_id and third.level_number == 3, "Identidad de la tercera aventura exportada")
+		_check(third.checkpoints == source.checkpoints and third.checkpoints.size() == 3, "Tres faroles del tercer nivel exportados")
+		_check(third.key_positions == source.key_positions and third.crystal_positions == source.crystal_positions, "Llaves y cristales máximos exportados")
+		_check(third.enemy_kinds.size() == 65 and third.enemy_kinds == source.enemy_kinds and third.enemy_spawns == source.enemy_spawns, "Enemigos terrestres y vuelos del tercer nivel exportados")
+		_check(third.secret_grove.x < 0 and third.canopy_secret.x < 0, "Secreto pendiente permanece desactivado en la exportación")
+	var encounter := ResourceLoader.load("res://.godot-logs/apk-boss.res", "", ResourceLoader.CACHE_MODE_IGNORE) as ForestLevelDefinition
+	_check(encounter != null and encounter.level_id == "world_01_boss", "Encuentro de Nudor presente en el APK")
+	_check(ResourceLoader.exists("res://game/assets/textures/characters/nudor/poses_v001.png"), "Raster de Nudor referenciado por la composición")
 	print("RESULTADO DATOS APK: %d comprobaciones, %d fallos" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
 

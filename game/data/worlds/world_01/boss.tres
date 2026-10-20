@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1"]
+[ext_resource type="Resource" path="res://game/features/levels/keys/definitions/ramas.tres" id="2"]
+[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="3"]
+
+[resource]
+script = ExtResource("1")
+level_id = "world_01_boss"
+world_id = "world_01"
+display_name = "Bosque Esmeralda"
+subtitle = "Nudor, el Roble Furioso"
+level_number = 4
+music_stream = ExtResource("3")
+width = 1280.0
+spawn = Vector2(250, 600)
+goal = Vector2(1200, 600)
+ground_sections = Array[Rect2]([Rect2(0, 600, 1280, 520)])
+key_definition = ExtResource("2")
+firefly_nest = Vector2(160, 565)

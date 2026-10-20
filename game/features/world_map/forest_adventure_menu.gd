@@ -48,20 +48,30 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 32)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(title)
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	scroll.custom_minimum_size.y = 100
+	column.add_child(scroll)
+	var entries := VBoxContainer.new()
+	entries.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	entries.add_theme_constant_override("separation", 12)
+	scroll.add_child(entries)
 	for level in ForestAdventureCatalog.LEVELS:
 		var available: bool = not ForestAdventureCatalog.scene_for(level.id, progress).is_empty()
 		var state: String = "Completado · Rejugar" if progress.is_completed(level.id) else "Disponible"
 		if not available:
-			state = "Bloqueado · Completa Bosque 1–1"
+			state = "Bloqueado · Completa las tres aventuras" if level.id == "world_01_boss" else "Bloqueado · Completa Bosque 1–%s" % level.requires.right(1)
 		var button := Button.new()
 		button.text = "%s\n%s\n%s" % [level.name, level.detail, state]
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.custom_minimum_size = Vector2(0, 108)
+		button.custom_minimum_size = Vector2(0, 88)
 		button.disabled = not available
 		button.accessibility_name = "%s. %s" % [level.name, state]
 		button.accessibility_description = level.detail
 		button.pressed.connect(_request_level.bind(level.id))
-		column.add_child(button)
+		entries.add_child(button)
 		level_buttons.append(button)
 	status = Label.new()
 	status.text = "Tres llaves para salir · Cristales y hojas opcionales"
@@ -76,7 +86,11 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout)
 	_layout()
 	_layout.call_deferred()
-	level_buttons[1 if progress.is_completed("world_01_level_01") else 0].grab_focus()
+	var focus_index: int = 0
+	for index in level_buttons.size():
+		if not level_buttons[index].disabled:
+			focus_index = index
+	level_buttons[focus_index].grab_focus()
 	_log_ready.call_deferred()
 
 
@@ -86,7 +100,7 @@ func _layout() -> void:
 	if OS.has_feature("android") and physical.has_area():
 		safe = get_viewport().get_screen_transform().affine_inverse() * Rect2(physical)
 	var width: float = minf(760, safe.size.x - 40)
-	var height: float = minf(500, safe.size.y - 40)
+	var height: float = minf(650, safe.size.y - 40)
 	_panel.position = safe.position + Vector2((safe.size.x - width) / 2.0, (safe.size.y - height) / 2.0)
 	_panel.size = Vector2(width, height)
 
@@ -101,7 +115,7 @@ func _request_level(id: String) -> void:
 		return
 	var target: String = ForestAdventureCatalog.scene_for(id, progress)
 	if target.is_empty():
-		status.text = "Completa Bosque 1–1 para abrir la siguiente aventura."
+		status.text = "Completa la aventura anterior; Nudor requiere las tres aventuras del bosque."
 		return
 	_loading = true
 	status.text = "Preparando aventura…"

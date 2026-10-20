@@ -2,7 +2,7 @@
 
 Seis propuestas originales integradas en el entrenamiento de Diego. Se pueden recoger, transportar y lanzar con el toque corto de acción, con **E** o con **X** del mando. La suelta sigue sincronizada con su animación.
 
-Nombres, materiales y parámetros son propuestas de esta entrega. Los objetos son compartidos y no se han asignado a mundos. El combate con jefes y las debilidades elementales siguen pendientes.
+Nombres, materiales y parámetros son propuestas de esta entrega. Los objetos son compartidos y no se han asignado a mundos. Nudor integra el primer combate de jefe desde 0.15.0; las debilidades elementales siguen pendientes.
 
 | Objeto | Comportamiento | Ficha |
 | --- | --- | --- |
@@ -24,7 +24,7 @@ Nombres, materiales y parámetros son propuestas de esta entrega. Los objetos so
 - Entidad reutilizable: `game/features/objects/throwable_object.tscn`; asignar una definición antes de añadirla al árbol.
 - La reposición y `recovery_bounds` se configuran por nivel; ambos están desactivados por defecto en la escena reutilizable.
 - Estados: libre, sostenido, lanzado y roto. `can_cause_thrown_damage()` valida estado, tiempo y velocidad.
-- El receptor implementa `receive_thrown_hit(object)` y decide su vulnerabilidad. La diana prueba el contrato; no implementa todavía un jefe.
+- El receptor implementa `receive_thrown_hit(object)` y decide su vulnerabilidad. Dianas y Nudor implementan el contrato. `launch_serial` identifica cada nuevo lanzamiento del mismo objeto para impedir daños repetidos.
 - Rotación de vuelo, rodadura, deslizamiento y compresión al rebotar se animan en tiempo de juego a partir del PNG. La vasija se oculta al romperse, sin fragmentos animados.
 - En el entrenamiento, la reposición tarda tres segundos desde que se agota o rompe; recoger cancela la reposición. Salir del área devuelve el objeto a su propio puesto.
 - Textos de nombre y comportamiento se muestran al llevarlo, junto con las instrucciones del control. No hay botones nuevos de juego.

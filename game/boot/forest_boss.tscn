@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/boot/forest_boss.gd" id="1"]
+[ext_resource type="Resource" path="res://game/data/worlds/world_01/boss.tres" id="2"]
+
+[node name="NudorEncounter" type="Node2D"]
+script = ExtResource("1")
+level_definition = ExtResource("2")

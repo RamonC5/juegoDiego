@@ -15,13 +15,41 @@
     1774,
     887
   ],
-  "animations": [],
+  "animations": [
+    {
+      "technique": "two raster poses with localized mesh joints",
+      "path": "game/assets/textures/characters/nudor/poses_v001.png",
+      "grid": [
+        2,
+        1
+      ],
+      "actions": [
+        "idle",
+        "intro",
+        "slam_warning",
+        "slam",
+        "sweep_warning",
+        "sweep",
+        "open",
+        "hurt",
+        "defeated"
+      ],
+      "frames": [
+        0,
+        1
+      ],
+      "transition_seconds": 0.2
+    }
+  ],
   "generation": {
     "tool": "image_gen",
     "mode": "built_in",
     "generated_on": "2026-10-20",
     "prompts_path": "art/characters/nudor/prompts.md",
-    "input_references": []
+    "input_references": [
+      "art/characters/nudor/concept_v001.svg"
+    ],
+    "production_prompts_path": "art/characters/nudor/prompts-produccion-v001.md"
   },
   "validation": {
     "technical_report": "art/characters/nudor/qa-technical.json",
@@ -29,11 +57,46 @@
     "production_ready": false,
     "sha256": "b71ba4aec77d684559a3b1912ea41c2534fbe58d6456881494313048180b1813",
     "pending": [
-      "sprite padding",
-      "individual poses",
-      "animation",
-      "gameplay integration"
+      "Strict PNG padding fails because alpha 1-16 pixels remain outside the visible silhouette; the existing shader discards them.",
+      "Graphical Compatibility review and physical device validation remain pending."
+    ],
+    "production_report": "art/characters/nudor/qa-poses-v001.json",
+    "rendered_margin_checked": true,
+    "production_sha256": "77f85b7ba3d3878e4af01001ed07a51469ceae41e9d8607c36d3cd3da982d11e"
+  },
+  "integration_status": "godot_checked",
+  "frame_size": [
+    887,
+    887
+  ],
+  "pivot_px": [
+    443.5,
+    790
+  ],
+  "display_scale": 0.62,
+  "motion": {
+    "technique": "EnemyVisual mesh and enemy_limb_motion.gdshader; explicit attack pose controller",
+    "profile_ids": [
+      "nudor_closed",
+      "nudor_open"
+    ],
+    "joints": [
+      "left shoulder",
+      "left wrist",
+      "right shoulder",
+      "right wrist",
+      "left root",
+      "right root"
+    ],
+    "source_clock": "NudorBoss physics delta; pausable",
+    "integration": "game/boot/forest_boss.tscn",
+    "checks": [
+      "tools/tests/test_nudor.gd"
+    ],
+    "pending": [
+      "Compatibility rendering and cycle review",
+      "Android and Windows physical devices"
     ]
   },
-  "integration_status": "not_integrated"
+  "integration_validation_mode": "headless_only"
 }

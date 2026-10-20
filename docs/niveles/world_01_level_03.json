@@ -1,0 +1,426 @@
+{
+  "schema_version": 2,
+  "tipo": "nivel",
+  "id": "world_01_level_03",
+  "nombre": "Bosque 1-3 · Las raíces de Nudor",
+  "estado": "ampliacion",
+  "fuentes": [
+    {
+      "ruta": "AGENTS.md",
+      "revision": "1a409cf",
+      "observacion": "Tres aventuras antes de Nudor, tres llaves y tres faroles sin curación; consulta específica de secreto."
+    },
+    {
+      "ruta": "Instrucción del usuario en esta conversación",
+      "revision": "2026-10-20",
+      "observacion": "Genera un nivel 3 del mundo del bosque, donde diego se enfrentará al enemigo final de este nivel"
+    },
+    {
+      "ruta": "game/data/worlds/world_01/level_03.tres",
+      "revision": "feat/forest-level-3-nudor",
+      "observacion": "Recorrido integrado; secreto pendiente de validación y no construido. El jefe es el encuentro posterior de cierre."
+    }
+  ],
+  "mundo_id": "world_01",
+  "categoria": "aventura",
+  "orden": 3,
+  "desbloqueo_requiere": [
+    "world_01_level_02"
+  ],
+  "dinamicas_nuevas_obligatorias": [],
+  "segmentos": [
+    {
+      "id": "raices_00",
+      "nombre": "Las raíces antiguas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_01",
+      "nombre": "Troncos entre helechos",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_02",
+      "nombre": "Setas bajo el roble",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_03",
+      "nombre": "La primera raíz",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "lianas_dianas_barranco",
+        "lanzamiento_objetos",
+        "vuelos_entre_lianas"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_04",
+      "nombre": "Las dos orillas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_05",
+      "nombre": "El claro de las piñas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_06",
+      "nombre": "Ramas que despiertan",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_07",
+      "nombre": "El vuelo del musgo",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "lianas_dianas_barranco",
+        "lanzamiento_objetos",
+        "vuelos_entre_lianas"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_08",
+      "nombre": "La segunda raíz",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "gruta_raices",
+      "nombre": "Gruta bajo las raíces (propuesta pendiente)",
+      "principal": false,
+      "minutos_estimados": [
+        1,
+        2
+      ],
+      "dinamicas": [
+        "gruta_hojas_vida"
+      ],
+      "proposito": "Propuesta: entrada agachada, paseo de hojas, brote y ascensor. No integrada hasta validar la ubicación y actividad."
+    },
+    {
+      "id": "raices_09",
+      "nombre": "Troncos del gran roble",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_10",
+      "nombre": "Lianas de la corteza",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "lianas_dianas_barranco",
+        "lanzamiento_objetos",
+        "vuelos_entre_lianas"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_11",
+      "nombre": "El jardín de setas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_12",
+      "nombre": "El último ascenso",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "plataforma_movil",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_13",
+      "nombre": "Las raíces del arroyo",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_14",
+      "nombre": "La tercera raíz",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "setas_elasticas",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    },
+    {
+      "id": "raices_15",
+      "nombre": "El umbral de Nudor",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "puente_diana",
+        "lanzamiento_objetos"
+      ],
+      "proposito": "Combinar acciones aprendidas con dos dianas, ascensos y recuperación segura; alternar tramos terrestres, vuelos y copas. No se introduce una capacidad de control adicional."
+    }
+  ],
+  "llaves": [
+    {
+      "ranura": 1,
+      "segmento_id": "raices_03",
+      "obtencion": "Dos dianas y portón del tramo; recogida automática en (19100,550), manos libres."
+    },
+    {
+      "ranura": 2,
+      "segmento_id": "raices_08",
+      "obtencion": "Dos dianas y portón del tramo; recogida automática en (43100,550), manos libres."
+    },
+    {
+      "ranura": 3,
+      "segmento_id": "raices_14",
+      "obtencion": "Dos dianas y portón del tramo; recogida automática en (71900,550), manos libres."
+    }
+  ],
+  "salida": {
+    "condicion": "tres_llaves",
+    "descripcion": "Puerta en (76620,600), requiere solo tres llaves. Completar guarda 1-3 y ofrece entrar al claro de Nudor; no exige cristales, secreto ni eliminar patrullas.",
+    "retorno_objetivos_pendientes": true
+  },
+  "puntos_control": [
+    {
+      "id": "farol_1",
+      "despues_de_segmento_id": "raices_03",
+      "restaura_vidas": false,
+      "posicion": [
+        19320,
+        600
+      ]
+    },
+    {
+      "id": "farol_2",
+      "despues_de_segmento_id": "raices_07",
+      "restaura_vidas": false,
+      "posicion": [
+        38520,
+        600
+      ]
+    },
+    {
+      "id": "farol_3",
+      "despues_de_segmento_id": "raices_11",
+      "restaura_vidas": false,
+      "posicion": [
+        57720,
+        600
+      ]
+    }
+  ],
+  "intervalo_maximo_faroles_minutos": 5.5,
+  "duracion": {
+    "minimo_primera_partida_minutos": 15,
+    "objetivo_minutos": [
+      18,
+      22
+    ],
+    "estado": "estimada",
+    "muestras": []
+  },
+  "persistencia": {
+    "al_morir": "Mantener llaves y colección; reconstruir mecanismos resueltos anteriores al farol y rearmar los posteriores, sus herramientas y enemigos.",
+    "al_cerrar": "Conservar colección, equipo y resultados. Reiniciar posición, llaves y mecanismos; no guarda el intento.",
+    "al_rejugar": "Nuevo intento con las tres llaves y mecanismos. Mantener colección por ID sin duplicados y la ropa obtenida.",
+    "al_activar_punto_control": "Guardar reaparición y progreso anterior sin cambiar las vidas actuales ni su máximo; tres puntos por nivel."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Siluetas de lianas, setas y dianas; destinos visibles, suelo de recuperación y tres faroles reconocibles. El tótem del secreto sigue como propuesta.",
+    "equivalencia_visual_sonora": "Objetivos y ayudas no dependen del audio; instrucciones en pausa, HUD con nombres accesibles e iconos con cantidades.",
+    "legibilidad_movil": "Selector adaptable al área segura, foco visible y botones mayores de 48 px. Sin nuevos rótulos flotantes en el escenario.",
+    "ajustes_control": "Mismos toques, doble salto, trepa manual, lanzamiento aéreo, teclado y mando. Movimiento reducido y volumen conservados."
+  },
+  "validacion": {
+    "funcional": [
+      "Ruta física completa con controles y lanzamientos reales, tres llaves, cristales opcionales y tres faroles sin curación.",
+      "Desbloqueo desde 1-2 y continuidad hacia Nudor sin alterar guardados previos.",
+      "Secreto desactivado en el recurso: no atribuir una validación no recibida."
+    ],
+    "jugando": [
+      "Pendiente medir primera partida humana del público objetivo; 18–22 minutos es un presupuesto.",
+      "Pendientes dispositivos Android y Windows físicos y dificultad observada."
+    ],
+    "evidencias": [
+      "2026-10-20 · Godot 4.7.2 oficial: tools/tests/test_forest_level_03.gd, 80 comprobaciones sin fallos; 518,3 segundos de ruta automática protegida.",
+      "docs/pruebas/bosque-1-3-nudor.md"
+    ]
+  },
+  "zonas_secretas": [
+    {
+      "id": "gruta_raices",
+      "segmento_id": "gruta_raices",
+      "opcional": true,
+      "ubicacion": "Bajo las raíces junto al segundo farol de Bosque 1-3.",
+      "entrada": "Propuesta: tótem sobre suelo firme y trampilla a la que se accede agachándose.",
+      "actividad": "Seguir hojas por una gruta bajo las raíces y recoger un brote de vida.",
+      "recompensa": "Hojas permanentes y una vida por intento; ninguna llave.",
+      "salida": "Ascensor físico al camino principal, separado de la entrada.",
+      "totem": {
+        "ubicacion": "Propuesto junto a la trampilla, cerca del segundo farol.",
+        "aspecto": "Madera, musgo y raíces coherentes con el bosque.",
+        "pista": "Silueta y hojas de movimiento suave, con instrucciones accesibles en pausa."
+      },
+      "validacion_usuario": {
+        "estado": "pendiente",
+        "fecha": "",
+        "decision": "",
+        "ubicacion_validada": "",
+        "actividad_validada": ""
+      }
+    }
+  ],
+  "coleccionables": [
+    {
+      "id": "world_01_level_03_leaf_310_551",
+      "dificultad": "comun",
+      "segmento_id": "raices_00",
+      "opcional": true,
+      "obtencion": "Hojas del camino y plataformas, con manifiesto independiente por nivel.",
+      "recompensa": "Ropa con los umbrales vigentes, sin gasto.",
+      "persistencia": "collection.json esquema 1, sin duplicados."
+    },
+    {
+      "id": "world_01_level_03_crystal_18845_n90",
+      "dificultad": "maxima",
+      "segmento_id": "raices_03",
+      "opcional": true,
+      "obtencion": "Tres saltos escalonados desde la terraza a alturas 215,85,-45, hasta (18845,-90). Plataformas de 170 px y suelo de recuperación; no se exige derrotar un enemigo.",
+      "recompensa": "Colección de cristales del tercer nivel; no bloquea ropa ni el jefe.",
+      "persistencia": "ID independiente permanente con guardado seguro.",
+      "id_persistente": "world_01_level_03/crystal/18845/-90"
+    },
+    {
+      "id": "world_01_level_03_crystal_42845_n90",
+      "dificultad": "maxima",
+      "segmento_id": "raices_08",
+      "opcional": true,
+      "obtencion": "Tres saltos escalonados desde la terraza a alturas 215,85,-45, hasta (42845,-90). Plataformas de 170 px y suelo de recuperación; no se exige derrotar un enemigo.",
+      "recompensa": "Colección de cristales del tercer nivel; no bloquea ropa ni el jefe.",
+      "persistencia": "ID independiente permanente con guardado seguro.",
+      "id_persistente": "world_01_level_03/crystal/42845/-90"
+    },
+    {
+      "id": "world_01_level_03_crystal_71645_n90",
+      "dificultad": "maxima",
+      "segmento_id": "raices_14",
+      "opcional": true,
+      "obtencion": "Tres saltos escalonados desde la terraza a alturas 215,85,-45, hasta (71645,-90). Plataformas de 170 px y suelo de recuperación; no se exige derrotar un enemigo.",
+      "recompensa": "Colección de cristales del tercer nivel; no bloquea ropa ni el jefe.",
+      "persistencia": "ID independiente permanente con guardado seguro.",
+      "id_persistente": "world_01_level_03/crystal/71645/-90"
+    }
+  ]
+}

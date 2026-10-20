@@ -20,6 +20,8 @@ const ART_SHADER: Shader = preload("res://game/features/player/sprite_alpha.gdsh
 @export var recovery_bounds: Rect2 = Rect2()
 
 var state: State = State.FREE
+## Identidad de cada lanzamiento: un objeto reutilizado puede volver a causar daño.
+var launch_serial: int = 0
 var _world: Node
 var _spawn_position: Vector2
 var _flight_time: float = 0.0
@@ -101,6 +103,7 @@ func release(direction: float, inherited_velocity: Vector2, launch: bool = true)
 	# Una suelta por daño también debe recuperarse aunque quede apoyada dentro del área.
 	_return_time = respawn_delay if not launch and respawn_delay > 0.0 else -1.0
 	if launch:
+		launch_serial += 1
 		thrown.emit()
 
 
