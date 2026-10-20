@@ -1,0 +1,10 @@
+character_id: nudor
+display_name: Nudor, el Roble Furioso
+role: boss
+world: Bosque Esmeralda
+scope: concept_only
+medium: HD raster 2D
+poses: [armored, exposed_chest]
+damage_source: thrown_objects_only
+stomp_damage: false
+integration: pending
