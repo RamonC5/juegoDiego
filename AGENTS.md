@@ -29,3 +29,11 @@ Para diseñar o integrar recompensas, ropa, accesorios y su presentación, utili
 - Nombre: `crear-recompensas-super-diego`.
 - Entrada: `.agents/skills/crear-recompensas-super-diego/SKILL.md`.
 - Conservar IDs y guardados, verificar apariencia en el jugador real y mantener salida fija del vestuario.
+
+## Enemigos finales · ubicación y estado
+
+- Diseños de combate: `docs/jefes/<boss_id>.md`; [Nudor, el Roble Furioso](docs/jefes/nudor.md).
+- Arte, fichas, prompts y revisión: `art/characters/<boss_id>/`. Primer concepto: `art/characters/nudor/concept_v001.svg`, contenedor del PNG raster original incrustado sin redibujado. [Ficha de Nudor](art/characters/nudor/ficha.md).
+- Código de combate: `game/features/bosses/`. Texturas finales futuras: `game/assets/textures/characters/<boss_id>/`. Mantener autoría fuera de las exportaciones mediante `art/.gdignore`.
+- Jefes dañados exclusivamente mediante objetos lanzados durante la vulnerabilidad; nunca por pisotón, contacto u objeto sostenido.
+- Nudor es un concepto visual de dos poses, sin animaciones ni combate integrados. Requiere preparar margen y poses individuales. Previsto tras las tres aventuras del bosque; esta entrega no habilita el acceso.
