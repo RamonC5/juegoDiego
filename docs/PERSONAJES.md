@@ -144,3 +144,11 @@ Terrón y Moflete avanzan y frenan progresivamente, sincronizan su zancada con e
 Nueva [pose de agarre con ambas manos](../art/characters/diego/vine_hang_source_v001.png), con texto alternativo y parámetros en [su ficha](../art/characters/diego/ficha.md). `vine_hang` fija las manos al nudo mientras se balancea; `double_jump` reinicia la animación de impulso. El conjunto suma 49 poses fuente y 16 estados.
 
 
+
+## Enemigos finales · ubicación y estado
+
+- Diseños de combate: `docs/jefes/<boss_id>.md`; [Nudor, el Roble Furioso](jefes/nudor.md).
+- Arte, fichas, prompts y revisión: `art/characters/<boss_id>/`. Primer concepto: `art/characters/nudor/concept_v001.svg`, contenedor del PNG raster original incrustado sin redibujado. [Ficha de Nudor](../art/characters/nudor/ficha.md).
+- Código de combate: `game/features/bosses/`. Texturas finales futuras: `game/assets/textures/characters/<boss_id>/`. Mantener autoría fuera de las exportaciones mediante `art/.gdignore`.
+- Jefes dañados exclusivamente mediante objetos lanzados durante la vulnerabilidad; nunca por pisotón, contacto u objeto sostenido.
+- Nudor es un concepto visual de dos poses, sin animaciones ni combate integrados. Requiere preparar margen y poses individuales. Previsto tras las tres aventuras del bosque; esta entrega no habilita el acceso.
