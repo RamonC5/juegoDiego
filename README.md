@@ -1,5 +1,7 @@
 # Super Diego · Juego Diego
 
+**0.16.0 · Segunda fase de Nudor**: tras tres impactos, el jefe anuncia su transformación y combina barrido y manotazo con avisos completos antes de volver a abrir el pecho. Se mantiene el daño solo con lanzamientos, cinco impactos totales, piñas renovables y reintentos locales. El HUD y la ayuda de pausa distinguen las fases. [Diseño](docs/jefes/nudor.md) · [Validación](docs/pruebas/bosque-1-3-nudor.md).
+
 **0.15.0 · Bosque 1-3 y Nudor**: tercera aventura con tres llaves, tres faroles sin curación y cristales máximos opcionales. Tras completarla, el claro de Nudor enseña manotazo y barrido; solo recibe daño de objetos lanzados al pecho abierto. Se puede repetir sin rehacer las aventuras. El secreto de 1-3 y la revisión gráfica/dispositivos siguen pendientes. [Recorrido](docs/BOSQUE_1_3.md) · [Combate](docs/jefes/nudor.md) · [Pruebas y límites](docs/pruebas/bosque-1-3-nudor.md).
 
 **0.14.0 · Vuelos entre lianas**: ocho murciélagos Nóctilo repiten rutas fijas en los tres barrancos del nivel 2; Diego observa, trepa y salta para esquivarlos. No persiguen y no es obligatorio derrotarlos. [Dinámica y pruebas](docs/pruebas/vuelos-0.14.0.md).
