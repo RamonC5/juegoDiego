@@ -59,6 +59,7 @@ func _run() -> void:
 	check(arena.checkpoint_positions().is_empty() and arena.level_keys.is_empty(), "El claro no añade un cuarto farol ni otras tres llaves")
 	check(arena.pine_stations.size() == 2 and not main._keys_card.visible, "Dos fuentes renovables y HUD de jefe")
 	check(not boss.has_method("receive_stomp"), "Nudor no admite daño por pisotón")
+	check(boss.phase == 1 and boss.phase_two_health == 2, "El combate comienza con una fase de aprendizaje")
 	for view in [Vector2i(1280, 720), Vector2i(960, 540), Vector2i(1024, 768)]:
 		root.size = view
 		root.content_scale_size = view
@@ -196,8 +197,30 @@ func _run() -> void:
 			print("OBJETO ", arena.pine_stations[1].position, " estado ", arena.pine_stations[1].state, " HERO ", hero.position)
 			_finish()
 			return
+		if hit == 2:
+			check(boss.phase == 2 and boss.state == NudorBoss.State.PHASE_CHANGE, "Tres impactos activan la fase 2, sin daño de transición")
+			check(main._boss_label.text.contains("Fase 2"), "HUD accesible anuncia la segunda fase")
+			check(not boss.attack_bounds().has_area(), "La transformación no causa daños")
+			check(await wait_state(NudorBoss.State.SWEEP_WARNING), "Fase 2: primer aviso de barrido")
+			await step(2)
+			check(boss._attack_art.visible, "Se muestra la señal visual del barrido antes del daño")
+			check(await wait_state(NudorBoss.State.SWEEP), "Fase 2: primer barrido")
+			check(await wait_state(NudorBoss.State.SLAM_WARNING), "Fase 2: segundo aviso de manotazo")
+			check(await wait_state(NudorBoss.State.SLAM), "Fase 2: segundo manotazo")
+			check(await wait_state(NudorBoss.State.OPEN), "Fase 2: apertura solo después de ambos ataques")
+			check(boss.health == 2, "Ni los avisos ni el combo dañan a Nudor")
+		elif hit == 3:
+			check(boss.phase == 2, "La segunda fase continúa hasta la derrota")
+			check(await wait_state(NudorBoss.State.SLAM_WARNING), "El siguiente combo empieza por manotazo")
+			check(await wait_state(NudorBoss.State.SLAM), "Golpe después del aviso completo")
+			check(await wait_state(NudorBoss.State.SWEEP_WARNING), "Segundo aviso de barrido")
+			check(await wait_state(NudorBoss.State.SWEEP), "Segundo barrido")
+			check(await wait_state(NudorBoss.State.OPEN), "Nuevo punto débil abierto tras el combo")
 	check(arena.completed and wins == 1 and hero.celebrating, "Victoria única detiene daño y celebra")
 	check(progress.is_completed("world_01_boss"), "Victoria se guarda separada de la tercera aventura")
 	await step(100)
 	check(wins == 1, "La celebración no repite la victoria")
+	boss.reset_encounter()
+	check(boss.phase == 1 and boss.health == 5 and boss.state == NudorBoss.State.WAITING, "Reintentar restaura fase, salud y avisos")
+	check(not boss._combo_followup and not boss._attack_art.visible, "Reintentar cancela el combo y sus señales")
 	_finish()
