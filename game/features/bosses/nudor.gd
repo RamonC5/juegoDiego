@@ -4,14 +4,17 @@ extends StaticBody2D
 
 signal health_changed(remaining: int, maximum: int)
 signal state_changed(next: State)
+signal phase_changed(next: int)
 signal defeated
 
-enum State { WAITING, INTRO, SLAM_WARNING, SLAM, SWEEP_WARNING, SWEEP, OPEN, HURT, DEFEATED }
+enum State { WAITING, INTRO, SLAM_WARNING, SLAM, SWEEP_WARNING, SWEEP, OPEN, HURT, DEFEATED, PHASE_CHANGE }
 
 @export var maximum_health: int = 5
 @export var warning_seconds: float = 1.6
 @export var opening_seconds: float = 3.5
+@export var phase_two_health: int = 2
 var health: int = 5
+var phase: int = 1
 var state: State = State.WAITING
 var hero: DiegoPlayer
 var arena_left: float = 100.0
@@ -22,6 +25,7 @@ var slam_x: float = 0.0
 var sweep_x: float = 0.0
 var visual: NudorVisual
 var _attack_slam: bool = true
+var _combo_followup: bool = false
 var _hit_in_opening: bool = false
 var _victory_emitted: bool = false
 var _accepted_launches: Dictionary = {}
@@ -56,14 +60,17 @@ func _ready() -> void:
 
 func reset_encounter() -> void:
 	health = maximum_health
+	phase = 1
 	cycles = 0
 	_hit_in_opening = false
 	_victory_emitted = false
 	_accepted_launches.clear()
 	_attack_slam = true
+	_combo_followup = false
 	_attack_art.hide()
 	visual.reset_pose()
 	_enter(State.WAITING)
+	phase_changed.emit(phase)
 	health_changed.emit(health, maximum_health)
 
 
@@ -86,9 +93,18 @@ func _enter(next: State) -> void:
 
 
 func _begin_attack() -> void:
-	# Primero enseña ambos por separado; después alterna con los mismos avisos.
+	# En fase 2 combina los dos ataques; cada uno conserva un aviso completo.
 	_attack_slam = cycles % 2 == 0
+	_combo_followup = phase == 2
 	_enter(State.SLAM_WARNING if _attack_slam else State.SWEEP_WARNING)
+
+
+func _finish_attack() -> void:
+	if _combo_followup:
+		_combo_followup = false
+		_enter(State.SWEEP_WARNING if state == State.SLAM else State.SLAM_WARNING)
+	else:
+		_enter(State.OPEN)
 
 
 func receive_thrown_hit(object: ThrowableObject) -> void:
@@ -104,12 +120,19 @@ func receive_thrown_hit(object: ThrowableObject) -> void:
 	_accepted_launches[launch_id] = true
 	_hit_in_opening = true
 	health = maxi(0, health - 1)
+	var entered_second_phase: bool = health > 0 and phase == 1 and health <= phase_two_health
+	if entered_second_phase:
+		phase = 2
+		phase_changed.emit(phase)
 	health_changed.emit(health, maximum_health)
 	if health == 0:
 		_enter(State.DEFEATED)
 		if not _victory_emitted:
 			_victory_emitted = true
 			defeated.emit()
+	elif entered_second_phase:
+		# Una transición sin daño permite reconocer la nueva secuencia.
+		_enter(State.PHASE_CHANGE)
 	else:
 		_enter(State.HURT)
 
@@ -130,16 +153,20 @@ func _physics_process(delta: float) -> void:
 		State.INTRO:
 			if state_seconds >= 1.8:
 				_begin_attack()
+		State.PHASE_CHANGE:
+			if state_seconds >= 1.8:
+				cycles += 1
+				_begin_attack()
 		State.SLAM_WARNING, State.SWEEP_WARNING:
 			if state_seconds >= warning_seconds:
 				_enter(State.SLAM if state == State.SLAM_WARNING else State.SWEEP)
 		State.SLAM:
 			if state_seconds >= 0.48:
-				_enter(State.OPEN)
+				_finish_attack()
 		State.SWEEP:
 			sweep_x = move_toward(sweep_x, arena_left + 80.0, delta * 440.0)
 			if sweep_x <= arena_left + 80.0:
-				_enter(State.OPEN)
+				_finish_attack()
 		State.OPEN:
 			if state_seconds >= opening_seconds:
 				cycles += 1
@@ -148,20 +175,25 @@ func _physics_process(delta: float) -> void:
 			if state_seconds >= 1.0:
 				cycles += 1
 				_begin_attack()
-	visual.advance_pose(delta, state, state_seconds, warning_seconds)
+	visual.advance_pose(delta, state, state_seconds, warning_seconds, phase)
 	var bounds: Rect2 = attack_bounds()
-	_attack_art.visible = bounds.has_area()
-	if bounds.has_area():
-		var art_height: float = 18.0 if state == State.SLAM_WARNING else bounds.size.y
-		_attack_art.global_position = Vector2(bounds.get_center().x, global_position.y - art_height / 2.0)
-		_attack_art.scale = Vector2(bounds.size.x / _attack_art.texture.get_width(), art_height / _attack_art.texture.get_height())
-		_attack_art.modulate.a = 0.42 if state == State.SLAM_WARNING else 1.0
+	var art_bounds: Rect2 = bounds
+	if state == State.SWEEP_WARNING:
+		# También se muestra el punto de partida del barrido, sin zona dañina.
+		art_bounds = Rect2(global_position.x - 180.0, global_position.y - 18.0, 160.0, 18.0)
+	_attack_art.visible = art_bounds.has_area()
+	if art_bounds.has_area():
+		var warning: bool = state in [State.SLAM_WARNING, State.SWEEP_WARNING]
+		var art_height: float = 18.0 if warning else art_bounds.size.y
+		_attack_art.global_position = Vector2(art_bounds.get_center().x, global_position.y - art_height / 2.0)
+		_attack_art.scale = Vector2(art_bounds.size.x / _attack_art.texture.get_width(), art_height / _attack_art.texture.get_height())
+		_attack_art.modulate.a = 0.42 if warning else 1.0
 	# Aviso, entrada, recuperación y victoria nunca causan daño.
 	if state in [State.SLAM, State.SWEEP]:
 		var body := Rect2(hero.global_position - Vector2(20, 82), Vector2(40, 82))
 		if bounds.intersects(body):
 			hero.take_damage(Vector2(bounds.get_center().x, global_position.y))
-	if state not in [State.WAITING, State.INTRO, State.DEFEATED]:
+	if state not in [State.WAITING, State.INTRO, State.PHASE_CHANGE, State.DEFEATED]:
 		var trunk := Rect2(global_position + Vector2(-88, -260), Vector2(176, 260))
 		if trunk.has_point(hero.global_position - Vector2(0, 35)):
 			hero.take_damage(global_position)
