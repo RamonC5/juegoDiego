@@ -22,6 +22,10 @@ El shader existente descarta alfa inferior a 0,13. Con ese umbral, los límites 
 
 `capture_forest_level_03.gd` prepara vistas del recorrido, arena, avisos, apertura, barrido, pausa, móvil y selector. **Revisión gráfica pendiente**: el servidor de pantalla no quedó accesible para Godot. Headless no se presenta como captura ni prueba física.
 
+## Ampliación 0.16.0: segunda fase
+
+Se han añadido regresiones a `test_nudor.gd` para el umbral del tercer impacto, transición sin zona de daño, texto de fase accesible, aviso visible del barrido, secuencias barrido → manotazo y manotazo → barrido, apertura posterior a ambos ataques, y restauración de fase/avisos en un reinicio. La captura `capture_forest_level_03.gd` se incorpora a la CI para revisar el boss en Compatibility. **La ejecución de CI de esta ampliación se debe verificar por separado**; los conteos de pruebas observados para 0.15.0 no acreditan 0.16.0.
+
 ## Pendientes
 
 - Validar ubicación y actividad de la gruta antes de construirla. Ficha en `ampliacion`; secretos desactivados.
