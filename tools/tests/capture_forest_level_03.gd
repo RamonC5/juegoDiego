@@ -45,6 +45,18 @@ func _capture() -> void:
 	root.content_scale_size = root.size
 	await _frames(10)
 	_save("preview_nudor_mobile")
+	# Instantáneas diagnósticas del estado visual de fase 2; el combate físico
+	# y la transición real se verifican por separado en test_nudor.gd.
+	boss.health = 2
+	boss.phase = 2
+	boss.phase_changed.emit(2)
+	boss.health_changed.emit(2, boss.maximum_health)
+	boss._enter(NudorBoss.State.PHASE_CHANGE)
+	await _frames(24)
+	_save("preview_nudor_phase2_transition")
+	boss._enter(NudorBoss.State.SWEEP_WARNING)
+	await _frames(20)
+	_save("preview_nudor_phase2_sweep_warning")
 	main.queue_free()
 	await _frames(3)
 	var menu := ForestAdventureMenu.new()
