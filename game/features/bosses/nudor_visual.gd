@@ -36,7 +36,7 @@ func reset_pose() -> void:
 		closed.modulate.a = 1.0
 
 
-func advance_pose(delta: float, state: int, elapsed: float, warning: float) -> void:
+func advance_pose(delta: float, state: int, elapsed: float, warning: float, phase: int = 1) -> void:
 	var exposing: bool = state in [NudorBoss.State.OPEN, NudorBoss.State.HURT, NudorBoss.State.DEFEATED]
 	_opening = move_toward(_opening, 1.0 if exposing else 0.0, delta * 5.0)
 	opened.modulate.a = _opening
@@ -46,6 +46,8 @@ func advance_pose(delta: float, state: int, elapsed: float, warning: float) -> v
 		target = smoothstep(0.0, warning, elapsed)
 	elif state in [NudorBoss.State.SLAM, NudorBoss.State.SWEEP]:
 		target = -0.55
+	elif state == NudorBoss.State.PHASE_CHANGE:
+		target = sin(elapsed * TAU * 1.5) * (0.10 if reduced_motion else 0.35)
 	_pose = move_toward(_pose, target, delta * 3.5)
 	for actor in [closed, opened]:
 		actor.reduced_motion = reduced_motion
@@ -58,6 +60,12 @@ func advance_pose(delta: float, state: int, elapsed: float, warning: float) -> v
 		angles[3] += _pose * 0.17
 		actor._motion_material.set_shader_parameter("angles", angles)
 		actor.position.y += 60.14
+	# El cambio de fase tiene silueta, movimiento y texto de HUD, no solo color.
+	if state == NudorBoss.State.PHASE_CHANGE:
+		modulate = Color(1.0, 0.85, 0.70)
+		rotation = sin(elapsed * TAU * 1.5) * (0.008 if reduced_motion else 0.035)
+	else:
+		modulate = Color(1.0, 0.94, 0.84) if phase == 2 else Color.WHITE
 	if state == NudorBoss.State.HURT:
 		rotation = sin(minf(elapsed, 1.0) * PI) * 0.045
 	elif state == NudorBoss.State.DEFEATED:
