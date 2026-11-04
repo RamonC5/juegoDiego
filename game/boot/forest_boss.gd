@@ -19,7 +19,7 @@ func _ready() -> void:
 	_hud_title.text = "Nudor"
 	_hud_title.accessibility_name = "Nudor, el Roble Furioso. Jefe del Bosque Esmeralda"
 	_boss_label = Label.new()
-	_boss_label.text = "Nudor · %d / %d" % [arena.boss.health, arena.boss.maximum_health]
+	_boss_label.text = "Nudor"
 	_boss_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_boss_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_boss_label.add_theme_color_override("font_color", Color("fff2c9"))
@@ -33,20 +33,34 @@ func _ready() -> void:
 	_boss_bar.accessibility_name = "Resistencia de Nudor"
 	_boss_bar.accessibility_description = "Solo recibe objetos lanzados a la bellota cuando abre el pecho."
 	_ui.add_child(_boss_bar)
-	arena.boss.health_changed.connect(func(value: int, maximum: int):
-		_boss_label.text = "Nudor · %d / %d" % [value, maximum]
-		_boss_bar.value = value
-		_boss_bar.accessibility_description = "%d impactos restantes de %d. Solo recibe objetos lanzados cuando abre el pecho." % [value, maximum]
+	arena.boss.health_changed.connect(_update_boss_meter)
+	arena.boss.phase_changed.connect(func(_next: int):
+		_update_boss_meter(arena.boss.health, arena.boss.maximum_health)
 	)
+	_update_boss_meter(arena.boss.health, arena.boss.maximum_health)
 	_show_hint("NUDOR · Al levantar el brazo, aléjate de las raíces que marcan el manotazo. Salta sobre el barrido. Cuando abra el pecho, lanza una piña a la bellota; saltarle encima no le hace daño. Puedes lanzar en el aire. Las dos piñas se reponen.")
 	# El consejo completo también se lee en el área desplazable de pausa.
 	var instructions := Label.new()
-	instructions.text = "CÓMO VENCER A NUDOR\nAléjate de las raíces cuando levante el brazo. Salta por encima del barrido. Cuando abra el pecho, salta y lanza una piña a la bellota. Saltarle encima no le hace daño. Las dos piñas vuelven a su puesto si las pierdes. Necesitas cinco impactos; morir reinicia el combate sin repetir las aventuras."
+	instructions.text = "CÓMO VENCER A NUDOR\nAléjate de las raíces cuando levante el brazo. Salta por encima del barrido. Cuando abra el pecho, salta y lanza una piña a la bellota. Saltarle encima no le hace daño. Tras tres impactos comienza la fase 2: Nudor combina dos ataques anunciados antes de abrir el pecho. Espera a esquivar los dos. Las piñas reaparecen; morir reinicia el combate sin repetir las aventuras."
 	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var instructions_box: Node = _key_hint.get_parent()
 	instructions_box.add_child(instructions)
 	instructions_box.move_child(instructions, 0)
 	_layout_hud()
+
+
+
+func _update_boss_meter(remaining: int, maximum: int) -> void:
+	var arena: ForestBossStage = stage as ForestBossStage
+	var phase: int = arena.boss.phase
+	_boss_label.text = "Nudor · Fase %d · %d / %d" % [phase, remaining, maximum]
+	_boss_label.accessibility_description = "Fase %d de 2. Quedan %d impactos de %d." % [phase, remaining, maximum]
+	_boss_bar.max_value = maximum
+	_boss_bar.value = remaining
+	_boss_bar.accessibility_description = "%d impactos restantes. %s" % [
+		remaining,
+		"Dos ataques consecutivos con aviso antes de cada apertura." if phase == 2 else "Un ataque antes de cada apertura."
+	]
 
 
 func _process(delta: float) -> void:
