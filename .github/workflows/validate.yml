@@ -237,6 +237,12 @@ jobs:
           if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-level02-render.log; then
             exit 1
           fi
+          timeout 180s env LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility --audio-driver Dummy --path . \
+            --script tools/tests/capture_forest_level_03.gd 2>&1 | tee .godot-logs/forest-level03-nudor-render.log
+          if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' .godot-logs/forest-level03-nudor-render.log; then
+            exit 1
+          fi
 
       - name: Comprobar entrada y mapa de mundos
         shell: bash
