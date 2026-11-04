@@ -27,6 +27,6 @@ La ficha queda en `ampliacion`, con validación pendiente, según el [skill de d
 
 ## Claro de Nudor
 
-Exige completar las tres aventuras. El encuentro no añade faroles ni llaves: su entrada es el reintento local del combate. Morir reinicia salud, estado y piñas de Nudor sin repetir 1-3. La colección y el equipo se conservan. La victoria se guarda como `world_01_boss`, una vez por intento, sin abrir otros mundos.
+Exige completar las tres aventuras. El encuentro no añade faroles ni llaves: su entrada es el reintento local del combate. Morir reinicia salud, estado y piñas de Nudor sin repetir 1-3. La colección y el equipo se conservan. La victoria se guarda como `world_01_boss`, una vez por intento, sin abrir otros mundos. Desde 0.16.0, tras tres impactos Nudor pasa a una segunda fase: encadena barrido y manotazo, ambos anunciados, antes de abrir el pecho. Al reintentar vuelve a la primera fase.
 
 [Contrato de Nudor](jefes/nudor.md) · [Ficha](niveles/world_01_level_03.json) · [Pruebas y límites](pruebas/bosque-1-3-nudor.md).
