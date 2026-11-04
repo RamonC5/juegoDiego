@@ -15,6 +15,14 @@ Roble corpulento de corteza, raíces y musgo, rostro ceñudo, manos grandes y be
 
 Presentación de 1,8 s sin daño. Primero manotazo y después barrido; los ciclos alternan con los mismos avisos, sin acelerar ni solaparse. Forma, postura y movimiento comunican el peligro sin rótulos ni sonido obligatorio. Ayuda completa en pausa. Son parámetros iniciales implementados, con dificultad humana pendiente de medición.
 
+## Segunda fase del combate · 0.16.0
+
+Tras el tercer impacto (Nudor queda con **dos de cinco puntos**), se activa una transformación de 1,8 s, sin ataques ni daño de contacto del tronco. Las articulaciones se agitan y el HUD indica **Fase 2**, también mediante descripciones accesibles. No hay un nuevo requisito de llaves ni coleccionables.
+
+En la **fase 1**, cada ciclo consiste en un manotazo *o* un barrido, con aviso de 1,6 s y apertura de 3,5 s. En la **fase 2**, Nudor combina **ambos ataques antes de cada apertura**. Alterna el orden entre barrido → manotazo y manotazo → barrido; cada ataque mantiene su aviso de 1,6 s. El suelo muestra una señal visual para ambos avisos, pero solo los ataques activos causan daño. La bellota no puede recibir impactos durante la transformación ni entre los dos ataques. No se acelera el ritmo, no hay ataques simultáneos y los cinco impactos totales no cambian.
+
+Derrota, pausa y muerte conservan sus contratos: al reintentar se restaura **fase 1**, salud máxima, secuencia inicial, avisos y piñas. La transformación no se guarda por separado. La documentación del combate se consulta en pausa; ninguna señal depende solo del sonido o del color.
+
 ## Daño y munición
 
 Cinco impactos, uno por apertura. **Solo recibe daño de objetos lanzados válidos en la bellota durante la apertura**. Rechaza pisotones, contacto, objetos libres/sostenidos, tiros lentos o caducados y golpes a raíces. No tiene sensor `StompTarget`. Cada objeto lleva `launch_serial`: un lanzamiento ya aceptado no vuelve a dañar en otra ventana, pero recoger y lanzar el mismo objeto permite otro impacto.
