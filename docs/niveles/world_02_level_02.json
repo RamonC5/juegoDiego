@@ -1,0 +1,378 @@
+{
+  "schema_version": 2,
+  "tipo": "nivel",
+  "id": "world_02_level_02",
+  "nombre": "Costa de Coral 2-2 · Los muelles de la marea",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "AGENTS.md",
+      "revision": "cf72c46",
+      "observacion": "Tres llaves y faroles, secreto validado y colección intermedia."
+    },
+    {
+      "ruta": "Encargo de Costa de Coral 2-2",
+      "revision": "2026-11-06",
+      "observacion": "Segunda fase y aprobación del desvío bajo el muelle."
+    }
+  ],
+  "mundo_id": "world_02",
+  "categoria": "aventura",
+  "orden": 2,
+  "desbloqueo_requiere": [
+    "world_02_level_01"
+  ],
+  "dinamicas_nuevas_obligatorias": [
+    "elevadores_de_muelle"
+  ],
+  "segmentos": [
+    {
+      "id": "muelle_00",
+      "nombre": "La playa del astillero",
+      "principal": true,
+      "minutos_estimados": [
+        1,
+        1.25
+      ],
+      "dinamicas": [
+        "patrulla_de_goteron"
+      ],
+      "proposito": "Observar la patrulla en la playa y elegir entre saltar, lanzar o rodear."
+    },
+    {
+      "id": "muelle_01",
+      "nombre": "El elevador de ensayo",
+      "principal": true,
+      "minutos_estimados": [
+        1.1,
+        1.35
+      ],
+      "dinamicas": [
+        "elevadores_de_muelle"
+      ],
+      "proposito": "Ensayar con un elevador sobre suelo firme. La terraza alta guarda un cristal opcional."
+    },
+    {
+      "id": "muelle_02",
+      "nombre": "La llave del astillero",
+      "principal": true,
+      "minutos_estimados": [
+        1.4,
+        1.6
+      ],
+      "dinamicas": [
+        "elevadores_de_muelle"
+      ],
+      "proposito": "Subir al primer muelle alto, recoger la llave y bajar por la otra orilla."
+    },
+    {
+      "id": "muelle_03",
+      "nombre": "Las rocas de espuma",
+      "principal": true,
+      "minutos_estimados": [
+        1.1,
+        1.3
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Saltar por tres repisas con destinos visibles y suelo firme en ambas orillas."
+    },
+    {
+      "id": "muelle_04",
+      "nombre": "El canal del astillero",
+      "principal": true,
+      "minutos_estimados": [
+        1.05,
+        1.25
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Volver a usar una balsa tras activar el primer farol."
+    },
+    {
+      "id": "muelle_05",
+      "nombre": "Los bancos de arena",
+      "principal": true,
+      "minutos_estimados": [
+        1.05,
+        1.25
+      ],
+      "dinamicas": [
+        "saltos_plataformas"
+      ],
+      "proposito": "Elegir la arena o las terrazas patrulladas."
+    },
+    {
+      "id": "muelle_06",
+      "nombre": "Las pozas del arrecife",
+      "principal": true,
+      "minutos_estimados": [
+        1.05,
+        1.25
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Aplicar los saltos sobre repisas a distintas alturas."
+    },
+    {
+      "id": "muelle_07",
+      "nombre": "La llave del mirador",
+      "principal": true,
+      "minutos_estimados": [
+        1.4,
+        1.6
+      ],
+      "dinamicas": [
+        "elevadores_de_muelle"
+      ],
+      "proposito": "Subir al mirador por la cubierta móvil y recoger la segunda llave."
+    },
+    {
+      "id": "muelle_08",
+      "nombre": "El muelle de las conchas",
+      "principal": true,
+      "minutos_estimados": [
+        1,
+        1.2
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Pasar el segundo farol y cruzar la cubierta de madera por arriba."
+    },
+    {
+      "id": "muelle_09",
+      "nombre": "El canal del mirador",
+      "principal": true,
+      "minutos_estimados": [
+        1.05,
+        1.3
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Cruzar una orilla de vuelta accesible por la misma balsa."
+    },
+    {
+      "id": "muelle_10",
+      "nombre": "Los elevadores gemelos",
+      "principal": true,
+      "minutos_estimados": [
+        1.4,
+        1.6
+      ],
+      "dinamicas": [
+        "elevadores_de_muelle"
+      ],
+      "proposito": "Leer dos recorridos verticales y subir al muelle desde cualquiera de sus lados."
+    },
+    {
+      "id": "muelle_11",
+      "nombre": "Las islas de roca",
+      "principal": true,
+      "minutos_estimados": [
+        1.05,
+        1.3
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Alternar peldaños de roca y un descanso en la orilla."
+    },
+    {
+      "id": "muelle_12",
+      "nombre": "El paseo de los Goterones",
+      "principal": true,
+      "minutos_estimados": [
+        1.05,
+        1.25
+      ],
+      "dinamicas": [
+        "patrulla_de_goteron"
+      ],
+      "proposito": "Elegir entre la arena y las repisas elevadas tras el tercer farol."
+    },
+    {
+      "id": "muelle_13",
+      "nombre": "La llave del faro",
+      "principal": true,
+      "minutos_estimados": [
+        1.4,
+        1.65
+      ],
+      "dinamicas": [
+        "elevadores_de_muelle"
+      ],
+      "proposito": "Llegar a la tercera llave en la plataforma del faro."
+    },
+    {
+      "id": "muelle_14",
+      "nombre": "La bocana del faro",
+      "principal": true,
+      "minutos_estimados": [
+        1.1,
+        1.35
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Cruzar el canal final en balsa y desembarcar en arena."
+    },
+    {
+      "id": "muelle_15",
+      "nombre": "La puerta de la marea",
+      "principal": true,
+      "minutos_estimados": [
+        0.9,
+        1.1
+      ],
+      "dinamicas": [
+        "tres_llaves_puerta"
+      ],
+      "proposito": "Llegar a la salida o regresar por la ruta si falta una llave."
+    },
+    {
+      "id": "bajo_el_muelle",
+      "nombre": "Bajo el muelle",
+      "principal": false,
+      "minutos_estimados": [
+        0.6,
+        1.4
+      ],
+      "dinamicas": [
+        "saltos_plataformas"
+      ],
+      "proposito": "Saltar por tres repisas bajo el muelle para recoger hojas y llegar al corazón."
+    }
+  ],
+  "llaves": [
+    {
+      "ranura": 1,
+      "segmento_id": "muelle_02",
+      "obtencion": "Viajar en el elevador y saltar desde la cubierta hasta el muelle alto."
+    },
+    {
+      "ranura": 2,
+      "segmento_id": "muelle_07",
+      "obtencion": "Viajar en el elevador y saltar desde la cubierta hasta el muelle alto."
+    },
+    {
+      "ranura": 3,
+      "segmento_id": "muelle_13",
+      "obtencion": "Viajar en el elevador y saltar desde la cubierta hasta el muelle alto."
+    }
+  ],
+  "salida": {
+    "condicion": "tres_llaves",
+    "descripcion": "Puerta al final de la playa. Los elevadores y las balsas permiten regresar.",
+    "retorno_objetivos_pendientes": true
+  },
+  "puntos_control": [
+    {
+      "id": "farol_muelles_1",
+      "despues_de_segmento_id": "muelle_03",
+      "restaura_vidas": false
+    },
+    {
+      "id": "farol_muelles_2",
+      "despues_de_segmento_id": "muelle_07",
+      "restaura_vidas": false
+    },
+    {
+      "id": "farol_muelles_3",
+      "despues_de_segmento_id": "muelle_11",
+      "restaura_vidas": false
+    }
+  ],
+  "intervalo_maximo_faroles_minutos": 5.5,
+  "duracion": {
+    "minimo_primera_partida_minutos": 15,
+    "objetivo_minutos": [
+      18,
+      22
+    ],
+    "estado": "estimada",
+    "muestras": []
+  },
+  "persistencia": {
+    "al_morir": "Mantiene llaves, colección y corazón secreto del intento. Recupera el farol activo y rearma los ciclos posteriores.",
+    "al_cerrar": "Conserva colección, equipamiento y mejores resultados. El intento vuelve a empezar.",
+    "al_rejugar": "Las llaves y el corazón reaparecen. Las hojas y los cristales permanentes conservan las recogidas.",
+    "al_activar_punto_control": "Conserva las vidas actuales y su máximo."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Elevadores visibles con recorrido y cubierta, silueta de tótem y números de llave.",
+    "equivalencia_visual_sonora": "Las pistas escritas en pausa describen elevadores y desvío. Las acciones no dependen del sonido.",
+    "legibilidad_movil": "Selector adaptable con botones de 88 px y foco visible. Pendiente comprobar en dispositivo físico.",
+    "ajustes_control": "Táctil, teclado y mando con las opciones de salto, arrastre y reasignación existentes."
+  },
+  "validacion": {
+    "funcional": [
+      "Navegación física desde el inicio a la puerta, incluyendo elevadores en ambos sentidos, faroles sin curación y desvío bajo el muelle.",
+      "Bloqueo y desbloqueo con guardado v1, continuación tras 2-1 y persistencia de la victoria."
+    ],
+    "jugando": [
+      "La ruta automatizada tardó 304,8 segundos simulados con el combate aislado, los tres cristales y un cruce de ida y vuelta adicional. La primera partida con el público objetivo queda pendiente."
+    ],
+    "evidencias": [
+      "tools/tests/test_coral_level_02.gd",
+      "tools/tests/test_coral_level_01.gd"
+    ]
+  },
+  "zonas_secretas": [
+    {
+      "id": "bajo_el_muelle",
+      "segmento_id": "bajo_el_muelle",
+      "opcional": true,
+      "ubicacion": "Debajo del muelle de las conchas, después del segundo farol.",
+      "entrada": "Desde la playa, bajar por la abertura junto al borde izquierdo de la cubierta.",
+      "actividad": "Saltar por tres repisas bajo el muelle para recoger hojas y llegar al corazón.",
+      "recompensa": "Hojas permanentes y un corazón extra por intento.",
+      "salida": "Tres rocas permiten subir hasta la orilla derecha y volver a la ruta.",
+      "totem": {
+        "ubicacion": "A la izquierda de la abertura, frente a la primera repisa.",
+        "aspecto": "Conchas apiladas con espiral tallada y base de arenisca.",
+        "pista": "Silueta de conchas, resplandor suave y pista en pausa."
+      },
+      "validacion_usuario": {
+        "estado": "validada",
+        "fecha": "2026-11-06",
+        "decision": "Si me gusta",
+        "ubicacion_validada": "Debajo del muelle de las conchas, después del segundo farol.",
+        "actividad_validada": "Saltar por tres repisas bajo el muelle para recoger hojas y llegar al corazón."
+      }
+    }
+  ],
+  "coleccionables": [
+    {
+      "id": "cristal_muelles_1",
+      "dificultad": "intermedia",
+      "segmento_id": "muelle_01",
+      "opcional": true,
+      "obtencion": "Subir al elevador de ensayo y encadenar dos saltos a las terrazas.",
+      "recompensa": "Cuenta para la colección de cristales.",
+      "persistencia": "Permanente por ID de nivel, tipo y posición."
+    },
+    {
+      "id": "cristal_muelles_2",
+      "dificultad": "intermedia",
+      "segmento_id": "muelle_07",
+      "opcional": true,
+      "obtencion": "Tras recoger la llave del mirador, saltar por dos repisas por encima del muelle.",
+      "recompensa": "Cuenta para la colección de cristales.",
+      "persistencia": "Permanente por ID de nivel, tipo y posición."
+    },
+    {
+      "id": "cristal_muelles_3",
+      "dificultad": "intermedia",
+      "segmento_id": "muelle_13",
+      "opcional": true,
+      "obtencion": "Tomar el desvío superior al oeste de la llave del faro, por dos repisas.",
+      "recompensa": "Cuenta para la colección de cristales.",
+      "persistencia": "Permanente por ID de nivel, tipo y posición."
+    }
+  ]
+}

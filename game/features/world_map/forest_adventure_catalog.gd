@@ -9,9 +9,18 @@ const LEVELS: Array[Dictionary] = [
 	{"id": "world_01_boss", "name": "Nudor · El Roble Furioso", "scene": "res://game/boot/forest_boss.tscn", "requires": "world_01_level_03", "detail": "Esquiva sus ataques y lanza al pecho abierto"},
 ]
 
+const CORAL_LEVELS: Array[Dictionary] = [
+	{"id": "world_02_level_01", "name": "2–1 · La ruta de la marea", "scene": "res://game/boot/coral_level_01.tscn", "requires": "", "detail": "Balsas, terrazas de arena y Goterón"},
+	{"id": "world_02_level_02", "name": "2–2 · Los muelles de la marea", "scene": "res://game/boot/coral_level_02.tscn", "requires": "world_02_level_01", "detail": "Elevadores, muelles altos y canales"},
+]
+
+
+static func levels_for(world_id: String) -> Array[Dictionary]:
+	return CORAL_LEVELS if world_id == "world_02" else LEVELS
+
 
 static func scene_for(id: String, progress: LevelProgress) -> String:
-	for level in LEVELS:
+	for level in levels_for(id.left(8)):
 		if level.id == id:
 			if id == "world_01_boss":
 				for adventure in LEVELS.slice(0, 3):
@@ -23,7 +32,8 @@ static func scene_for(id: String, progress: LevelProgress) -> String:
 
 
 static func next_after(id: String, progress: LevelProgress) -> String:
-	for index in range(LEVELS.size() - 1):
-		if LEVELS[index].id == id:
-			return scene_for(LEVELS[index + 1].id, progress)
+	var levels := levels_for(id.left(8))
+	for index in range(levels.size() - 1):
+		if levels[index].id == id:
+			return scene_for(levels[index + 1].id, progress)
 	return ""

@@ -294,7 +294,7 @@ func _build_ui() -> void:
 	map_button.accessibility_description = "Salir del intento y volver al mapa. La colección y los mejores resultados se conservan; el recorrido comienza de nuevo al entrar."
 	map_button.tooltip_text = map_button.accessibility_description
 	buttons.add_child(map_button)
-	_next_level_button = _button("Jugar Bosque 1–2", _play_next_level)
+	_next_level_button = _button("Siguiente aventura", _play_next_level)
 	_next_level_button.hide()
 	buttons.add_child(_next_level_button)
 	var actions := GridContainer.new()
@@ -451,7 +451,11 @@ func _on_level_completed(level_id: String, result: Dictionary) -> void:
 	_result = result
 	_result["saved"] = progress.record_completion(level_id, result) == OK
 	_next_level_button.visible = not ForestAdventureCatalog.next_after(level_id, progress).is_empty()
-	_next_level_button.text = "Enfrentarse a Nudor" if level_definition.level_number == 3 else "Jugar Bosque 1–%d" % (level_definition.level_number + 1)
+	if _next_level_button.visible:
+		if level_definition.world_id == "world_02":
+			_next_level_button.text = "Jugar Costa de Coral 2–%d" % (level_definition.level_number + 1)
+		else:
+			_next_level_button.text = "Enfrentarse a Nudor" if level_definition.level_number == 3 else "Jugar Bosque 1–%d" % (level_definition.level_number + 1)
 	_show_hint("¡Aventura completada! Puedes volver a jugar para encontrar los tres cristales.")
 	get_tree().create_timer(1.6, false).timeout.connect(func():
 		_open_menu(_completion_text(), false)

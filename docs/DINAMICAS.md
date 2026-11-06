@@ -2,6 +2,10 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Costa de Coral 2-2
+
+Un elevador sobre arena permite ensayar antes de los muelles altos. Los muelles tienen un elevador a cada lado para que Diego pueda volver a por llaves pendientes. El tótem después del segundo farol señala tres repisas bajo la cubierta del muelle de las conchas. Allí hay hojas y un corazón extra por intento. Tres cristales de dificultad intermedia se encuentran en terrazas elevadas. [Ficha del nivel](niveles/world_02_level_02.json).
+
 ## Costa de Coral 2-1
 
 Cinco balsas enlazan orillas con una parada amplia para embarcar y volver a por llaves pendientes. El segundo farol precede al tótem de conchas que señala la gruta opcional aprobada. Diego pasa agachado, recoge hojas y una vida extra por intento y sale por peldaños de roca. El arrecife permite cruzar por arriba. [Ficha, duración y verificación](niveles/world_02_level_01.json).

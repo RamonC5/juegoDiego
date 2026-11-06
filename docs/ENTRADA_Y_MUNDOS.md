@@ -11,7 +11,7 @@ Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo co
 | ID | Nombre del avance visual | Acceso |
 | --- | --- | --- |
 | world_01 | Bosque Esmeralda | Selector: 1-1 disponible; completarlo abre el recorrido principal de 1-2, cuyo secreto está pendiente |
-| world_02 | Costa de Coral | Acceso directo a 2-1, La ruta de la marea |
+| world_02 | Costa de Coral | Selector con 2-1 disponible. Completarla abre 2-2, Los muelles de la marea |
 | world_03 | Ruinas del Sol | Bloqueado |
 | world_04 | Cumbres de Hielo | Bloqueado |
 | world_05 | Cuevas de Cristal | Bloqueado |
@@ -19,7 +19,7 @@ Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo co
 | world_07 | Islas del Cielo | Bloqueado |
 | world_08 | Volcán de Obsidiana | Bloqueado |
 
-Los seis nombres y ambientes pendientes son propuestas visuales editables basadas en el catálogo de llaves; no equivalen a niveles desarrollados ni fijan su futuro diseño. El bosque abre su selector de aventuras al tocarlo. `ForestAdventureCatalog` comprueba el resultado guardado de 1-1 antes de ofrecer 1-2. Los otros seis mundos muestran candado y texto BLOQUEADO; tocarlos conserva el mapa y comunica su estado. WorldCatalog valida también las rutas y rechaza IDs desconocidos. Costa de Coral abre 2-1 directamente desde el mapa.
+Los seis nombres y ambientes pendientes son propuestas visuales editables basadas en el catálogo de llaves; no equivalen a niveles desarrollados ni fijan su futuro diseño. El bosque abre su selector de aventuras al tocarlo. `ForestAdventureCatalog` comprueba el resultado guardado de 1-1 antes de ofrecer 1-2. Los otros seis mundos muestran candado y texto BLOQUEADO; tocarlos conserva el mapa y comunica su estado. WorldCatalog valida también las rutas y rechaza IDs desconocidos. Costa de Coral abre un selector con las dos fases. Tras completar 2-1 se puede continuar a 2-2 desde la victoria o acceder a ella desde el mapa.
 
 El menú de pausa del bosque incorpora «Mapa de mundos» y distribuye sus acciones en dos columnas. Salir termina el intento: volver al bosque inicia otro recorrido. La colección, ropa y mejores resultados mantienen los guardados anteriores. El entrenamiento conserva su acceso.
 
