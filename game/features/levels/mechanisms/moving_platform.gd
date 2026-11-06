@@ -5,6 +5,7 @@ extends AnimatableBody2D
 const TEXTURE: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/mechanisms/root_bridge_v001.png")
 
 var definition: MovingPlatformDefinition
+var is_ferry: bool = false
 var elapsed: float = 0.0
 var support: CollisionShape2D
 
@@ -62,6 +63,14 @@ func carries(hero: DiegoPlayer) -> bool:
 func _draw() -> void:
 	var size: Vector2 = TEXTURE.get_size()
 	var source := Rect2(size * Vector2(0.007, 0.26), size * Vector2(0.987, 0.52))
-	draw_texture_rect_region(TEXTURE, Rect2(-definition.width / 2.0 - 8.0, -8.0, definition.width + 16.0, 64.0), source)
+	var deck := Rect2(-definition.width / 2.0 - 8.0, -8.0, definition.width + 16.0, 64.0)
+	if is_ferry:
+		draw_colored_polygon(PackedVector2Array([Vector2(deck.position.x, 16),
+			Vector2(deck.end.x, 16), Vector2(deck.end.x - 24, 42),
+			Vector2(deck.position.x + 24, 42)]), Color("256576"))
+		draw_texture_rect_region(TEXTURE, Rect2(deck.position, Vector2(deck.size.x, 29)),
+			source, Color("f7c387"))
+	else:
+		draw_texture_rect_region(TEXTURE, deck, source)
 	# Marca de apoyo clara, además del movimiento y de los rótulos de los puestos.
 	draw_line(Vector2(-24, 7), Vector2(24, 7), Color("fff3cb"), 4.0, true)

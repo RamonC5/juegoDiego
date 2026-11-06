@@ -37,12 +37,12 @@ func _ready() -> void:
 	var background_layer := CanvasLayer.new()
 	background_layer.layer = -20
 	add_child(background_layer)
-	backdrop = ForestBackdrop.new()
+	backdrop = _create_backdrop()
 	background_layer.add_child(backdrop)
 	stage = _create_stage()
 	stage.DEFINITION = level_definition
 	stage.collection_progress = collection_progress
-	stage.name = "BosqueEsmeralda"
+	stage.name = level_definition.display_name.replace(" ", "")
 	add_child(stage)
 	player = PLAYER_SCENE.instantiate()
 	stage.add_child(player)
@@ -81,7 +81,7 @@ func _ready() -> void:
 	_layout_hud()
 	_update_counts(stage.leaves, stage.crystals)
 	_update_keys(0, KeyExitDoor.REQUIRED_KEYS)
-	_show_hint("BOSQUE %d · %s. Reúne tres llaves de ramas para abrir la salida. Pulsa a la izquierda para saltar y otra vez en el aire para el doble salto. Arrastra a la derecha para moverte. Puedes intercambiar los lados en pausa." % [level_definition.level_number, level_definition.subtitle])
+	_show_hint("%s · %s. Reúne tres llaves para abrir la salida. Pulsa a la izquierda para saltar y otra vez en el aire para el doble salto. Arrastra a la derecha para moverte. Puedes intercambiar los lados en pausa." % [_level_label(), level_definition.subtitle])
 
 
 func _process(delta: float) -> void:
@@ -117,6 +117,14 @@ func _process(delta: float) -> void:
 		if is_instance_valid(_last_held_object):
 			_show_hint("%s en las manos · Toque corto o %s para lanzar." % [
 				_last_held_object.definition.display_name, settings.key_label(&"grab_throw")])
+
+
+func _create_backdrop() -> ForestBackdrop:
+	return ForestBackdrop.new()
+
+
+func _level_label() -> String:
+	return "%s %s–%d" % [level_definition.display_name, int(level_definition.world_id.get_slice("_", 1)), level_definition.level_number]
 
 
 func _create_stage() -> ForestStage:
@@ -185,8 +193,8 @@ func _build_ui() -> void:
 	row.add_theme_constant_override("separation", 10)
 	column.add_child(row)
 	_hud_title = Label.new()
-	_hud_title.text = "1–%d" % level_definition.level_number
-	_hud_title.accessibility_name = "Bosque Esmeralda, nivel %d: %s" % [level_definition.level_number, level_definition.subtitle]
+	_hud_title.text = "%d–%d" % [int(level_definition.world_id.get_slice("_", 1)), level_definition.level_number]
+	_hud_title.accessibility_name = "%s · %s" % [_level_label(), level_definition.subtitle]
 	_hud_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_hud_title.add_theme_font_size_override("font_size", 23)
 	_hud_title.add_theme_color_override("font_color", Color("fff2c9"))
@@ -452,8 +460,8 @@ func _on_level_completed(level_id: String, result: Dictionary) -> void:
 
 func _completion_text() -> String:
 	var elapsed: int = int(_result.get("seconds", 0.0))
-	return "¡Bosque 1–%d completado!\nLlaves %d / 3 · Hojas %d / %d · Cristales %d / 3\nTiempo %d:%02d · %s" % [
-		level_definition.level_number,
+	return "¡%s completado!\nLlaves %d / 3 · Hojas %d / %d · Cristales %d / 3\nTiempo %d:%02d · %s" % [
+		_level_label(),
 		int(_result.get("keys", 0)), int(_result.get("leaves", 0)), stage.total_leaves, int(_result.get("crystals", 0)),
 		elapsed / 60, elapsed % 60,
 		"Resultado guardado. ¡Puedes rejugar!" if _result.get("saved", false) else "No se pudo guardar este resultado.",

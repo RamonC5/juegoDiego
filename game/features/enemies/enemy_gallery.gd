@@ -51,7 +51,7 @@ func _ready() -> void:
 	)
 	controls.add_child(reduce)
 	_status = Label.new()
-	_status.text = "Visor de animaciones · 5 diseños aún sin IA de nivel"
+	_status.text = "Visor de animaciones · 3 diseños aún sin IA de nivel"
 	controls.add_child(_status)
 	pause_button.grab_focus()
 

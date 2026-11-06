@@ -1,0 +1,11 @@
+# Recursos de Costa de Coral
+
+Imágenes generadas el 6 de noviembre de 2026 con image_gen integrado y fondo transparente solicitado. Recorte de márgenes, escala de juego y exportación a WebP para el APK. El fondo usa el recorte costero de la entrada. El enemigo usa el arte existente de Goterón.
+
+## Terreno
+
+Create one production game asset: a wide horizontally seamless side-view terrain tile for the 2D side scrolling game Super Diego, coastal coral reef sandbank. Wide landscape canvas. Orthographic side view cutaway. The whole tile width is a single uninterrupted absolutely level and flat walkable top edge of fine warm cream sand at exactly 25 percent of the canvas height, no protrusions, identical height at the left and right boundaries. Top 25 percent fully transparent. Below the edge, fill the whole canvas to bottom and side boundaries with warm textured stratified golden sand, porous beige sandstone and muted coral-pink sandstone flecks in the lower half. Soft painted 2D HD platformer raster materials, gentle top left light, strong visual top edge, small textured details, low contrast under the surface, legible at mobile size. Seamless horizontal wrap, no perspective, no islands, no floor elsewhere, no separate blocks or tiles, no characters, no props, no text, no UI, no outline, no transparency below the surface. The terrain continues beyond left, right and bottom of the canvas.
+
+## Tótem
+
+Create one isolated production 2D game sprite for Super Diego, a coastal wayfinding totem made of stacked worn cream and pink seashells on a short coral sandstone base. The central shell is broad fan shaped with a conspicuous carved spiral integrated into the physical shell, small pink coral branch and rounded turquoise sea glass inset, solid visual silhouette clearly recognizable at mobile size. Frontal orthographic side-scrolling camera, no perspective scene. Soft upper left sunlight, polished high resolution painted raster 2D platformer game art, tactile sandstone and shell ridges, cheerful adventure, sand-gold warm highlights. Center the full asset, keep at least 10 percent clear margins around it, no crop, actual transparent background, no ground, no ground shadow, no text, no icon or labels, no grid, no watermark.

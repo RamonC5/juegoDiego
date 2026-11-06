@@ -11,6 +11,8 @@ signal level_completed(level_id: String, result: Dictionary)
 var DEFINITION: ForestLevelDefinition = preload("res://game/data/worlds/world_01/level_01.tres")
 const PROPS: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_props_v001.png")
 
+var sand_texture: Texture2D
+var ferry_decks: bool = false
 var player: DiegoPlayer
 var collection_progress: CollectionProgress
 var fragments: Array[ForestFragment] = []
@@ -204,6 +206,7 @@ func _build_moving_platforms() -> void:
 		add_child(route)
 		var platform := ForestMovingPlatform.new()
 		platform.definition = definition
+		platform.is_ferry = ferry_decks
 		add_child(platform)
 		moving_platforms.append(platform)
 
@@ -332,6 +335,7 @@ func _add_platform(rect: Rect2, ground: bool, visible_art: bool = true) -> void:
 	platform.position = rect.position
 	platform.dimensions = rect.size
 	platform.is_ground = ground
+	platform.sand_texture = sand_texture
 	platform.visible = visible_art
 	platform.z_index = -1
 	add_child(platform)
@@ -480,9 +484,9 @@ func _on_key_collected(key: LevelKey) -> void:
 	exit_door.set_keys(collected_keys)
 	keys_changed.emit(collected_keys.size(), KeyExitDoor.REQUIRED_KEYS)
 	if exit_door.is_open:
-		hint_requested.emit("¡Tres llaves de ramas! La puerta del bosque está abierta. Entra para completar el nivel.")
+		hint_requested.emit("¡Tres llaves! La salida está abierta. Entra para completar el nivel.")
 	else:
-		hint_requested.emit("Llave de ramas %d recogida · %d / 3. Busca las otras llaves para abrir la puerta." % [key.slot + 1, collected_keys.size()])
+		hint_requested.emit("%s %d recogida · %d / 3. Busca las otras llaves para abrir la puerta." % [DEFINITION.key_definition.display_name, key.slot + 1, collected_keys.size()])
 
 
 func _marker(at: Vector2, size: Vector2, callback: Callable) -> void:
@@ -517,7 +521,7 @@ func _build_markers() -> void:
 func _on_collected(collectible: ForestCollectible) -> void:
 	if collectible.crystal:
 		crystals += 1
-		hint_requested.emit("Cristal del bosque %d / 3. ¡Sigue explorando!" % crystals)
+		hint_requested.emit("Cristal %d / 3. ¡Sigue explorando!" % crystals)
 	else:
 		leaves += 1
 	counts_changed.emit(leaves, crystals)
@@ -567,8 +571,12 @@ func _on_goal(body: Node2D) -> void:
 		"leaves": leaves, "crystals": crystals, "seconds": seconds,
 		"enemies": defeated_enemies, "total_leaves": total_leaves,
 		"keys": collected_keys.size(),
-		"secret_life": (is_instance_valid(secret_grove) and secret_grove.reward_taken) or (is_instance_valid(canopy_secret) and canopy_secret.reward_taken),
+		"secret_life": _secret_life_taken(),
 	})
+
+
+func _secret_life_taken() -> bool:
+	return (is_instance_valid(secret_grove) and secret_grove.reward_taken) or (is_instance_valid(canopy_secret) and canopy_secret.reward_taken)
 
 
 func _is_before_respawn(end_x: float) -> bool:
@@ -673,7 +681,7 @@ func _physics_process(delta: float) -> void:
 	for platform in moving_platforms:
 		if not _platform_hints_shown.has(platform.definition.platform_id) and platform.carries(player):
 			_platform_hints_shown.append(platform.definition.platform_id)
-			hint_requested.emit("¡El tronco te lleva! Suelta el arrastre para viajar. Salta cuando llegues a la repisa." if platform.definition.tutorial else "Deja que el tronco suba. Salta desde su borde hacia la repisa de la copa.")
+			hint_requested.emit(_moving_platform_hint(platform))
 	if _throw_hint_seconds > 0.0:
 		_throw_hint_seconds = maxf(0.0, _throw_hint_seconds - delta)
 		if is_zero_approx(_throw_hint_seconds) and is_instance_valid(_throw_hint_target) and _throw_hint_target.active:
@@ -702,6 +710,12 @@ func _physics_process(delta: float) -> void:
 			hint_requested.emit(hints[x])
 
 
+
+
+func _moving_platform_hint(platform: ForestMovingPlatform) -> String:
+	if platform.is_ferry:
+		return "Suelta el arrastre mientras cruzas el canal. Salta al alcanzar el otro muelle."
+	return "¡El tronco te lleva! Suelta el arrastre para viajar. Salta cuando llegues a la repisa." if platform.definition.tutorial else "Deja que el tronco suba. Salta desde su borde hacia la repisa de la copa."
 
 
 func _update_activity() -> void:

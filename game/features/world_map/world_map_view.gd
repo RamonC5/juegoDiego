@@ -19,7 +19,7 @@ func _ready() -> void:
 		var unlocked: bool = not WorldCatalog.scene_for(world.id).is_empty()
 		var button := Button.new()
 		button.name = world.id
-		button.accessibility_name = "%s. %s" % [world.name, "Disponible, entrar al nivel uno" if unlocked else "Bloqueado, próximamente"]
+		button.accessibility_name = "%s. %s" % [world.name, "Disponible, entrar" if unlocked else "Bloqueado, próximamente"]
 		button.accessibility_description = world.detail
 		button.tooltip_text = button.accessibility_name
 		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -32,7 +32,7 @@ func _ready() -> void:
 		add_child(button)
 		world_buttons.append(button)
 		var label := Label.new()
-		label.text = "%d · %s\n%s" % [index + 1, world.name, "ENTRAR AL BOSQUE" if unlocked else "BLOQUEADO"]
+		label.text = "%d · %s\n%s" % [index + 1, world.name, "ENTRAR" if unlocked else "BLOQUEADO"]
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_size_override("font_size", 19)

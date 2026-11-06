@@ -242,7 +242,7 @@ def enter_forest_from_map(prefix: str) -> str:
     match = None
     while time.monotonic() < deadline:
         collected += logs()
-        match = re.search(r"SUPER_DIEGO_MAP_READY worlds=8 unlocked=world_01 forest=([0-9.]+),([0-9.]+) locked=([0-9.]+),([0-9.]+)", collected)
+        match = re.search(r"SUPER_DIEGO_MAP_READY worlds=8 unlocked=world_01,world_02 forest=([0-9.]+),([0-9.]+) locked=([0-9.]+),([0-9.]+)", collected)
         if match:
             break
         time.sleep(1)

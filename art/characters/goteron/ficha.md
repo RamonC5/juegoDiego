@@ -26,15 +26,15 @@ La diferencia de identidad se apoya en forma, cara y postura; el acabado y la il
 
 **Pisotón:** La cabeza se pliega sobre la base y todo el gel se aplana en una única reacción legible.
 
-Estos gestos y patrones aún no son animaciones ni comportamiento ejecutable. Velocidad, tiempos, contacto lateral y rebote del jugador se ajustarán al implementar las mecánicas. Los sensores y colisiones serán independientes de la imagen.
+En Costa de Coral 2-1 se desliza a 58 px/s por trayectos delimitados, gira en los bordes y causa daño lateral. Diego puede esquivarlo, pisarlo o lanzarle un objeto. El cuello y la cola se deforman con fases distintas en la malla existente.
 
 ## Requisitos y estado técnico
 
-Se mantienen 2D, Android y Windows, ocho mundos, niveles rejugables y enemigos normales eliminables por pisotón. El personaje no tiene un mundo asignado; su identificador se conserva para reutilizarlo y mantener la rejugabilidad. La descripción completa de «opción A» sigue pendiente de incorporarse.
+Se mantienen 2D, Android y Windows, ocho mundos, niveles rejugables y enemigos normales eliminables por pisotón. Su primera aparición jugable está en `world_02`; conserva el identificador `goteron`. La descripción completa de «opción A» sigue pendiente de incorporarse.
 
 [concept_v004.png](concept_v004.png) es un PNG RGBA de **1254 × 1254 px** con fondo transparente y margen mínimo medido de **18 px**. Se entrega como concepto estático, con vista lateral orientada a la derecha.
 
-Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 × 256, con raíz [128, 224] por verificar. La preparación de sprites, las animaciones, `SpriteFrames`, la escena de enemigo y la integración jugable quedan pendientes.
+Se propone producir después `patrol`, `stomped` y `defeated` en celdas de 256 × 256, con raíz [128, 224] por verificar. Costa de Coral reutiliza el raster y la malla 2D, con un recorte ajustado al gel para alinear el piso y el pisotón. Las hojas de poses dibujadas siguen como propuesta.
 
 ## Archivos
 
@@ -50,8 +50,8 @@ Volver al [catálogo y comparación del reparto](../../../docs/PERSONAJES.md).
 
 El raster existente tiene animación por malla 2D con perfiles propios de anatomía. Ondula cuello y cola de gel con desfase; conserva su anatomía sin brazos. No hay hojas de fotogramas nuevas.
 
-La animación se revisa en `enemy_gallery.tscn`; su IA, combate y colocación en niveles siguen pendientes. Los sensores permanecen independientes del dibujo. [Contrato, visor y verificación](../../../docs/ANIMACION_ENEMIGOS.md).
+La animación se puede revisar en `enemy_gallery.tscn` y el combate en `coral_level_01.tscn`. Los sensores permanecen independientes del dibujo. [Contrato, visor y verificación](../../../docs/ANIMACION_ENEMIGOS.md).
 
 ### Revisión del movimiento · 0.7.2
 
-El rig conserva el PNG y la anatomía. La marcha sigue la distancia real, los apoyos alternan suelo y arco, las muñecas acompañan al brazo con desplazamientos menores y las rotaciones respetan la proporción del recorte en píxeles. Reposo, frenado, persecución y caída se mezclan sin reiniciar el ciclo; el aleteo conserva su frecuencia común. La suite `test_enemy_motion.gd` supera 198 comprobaciones. Integración jugable solo para Terrón y Moflete; los otros cinco mantienen su alcance de visor. Pruebas físicas Android/Windows pendientes.
+El rig conserva el PNG y la anatomía. La marcha sigue la distancia real, los apoyos alternan suelo y arco, las muñecas acompañan al brazo con desplazamientos menores y las rotaciones respetan la proporción del recorte en píxeles. Reposo, frenado, persecución y caída se mezclan sin reiniciar el ciclo; el aleteo conserva su frecuencia común. La suite `test_enemy_motion.gd` supera 198 comprobaciones. La revisión 0.7.2 se publicó cuando solo Terrón y Moflete tenían integración jugable. Pruebas físicas Android/Windows pendientes.

@@ -1,12 +1,12 @@
 # Personajes de Super Diego
 
-Catálogo del **protagonista Diego y los siete enemigos normales** de Juego Diego. Fecha de actualización: **17 de octubre de 2026**.
+Catálogo del **protagonista Diego y los siete enemigos normales** de Juego Diego. Fecha de actualización: **6 de noviembre de 2026**.
 
-El usuario valoró los seis conceptos anteriores y pidió diferenciar sus personalidades. Terrón, Moflete y Nóctilo tienen integración jugable; los otros cuatro conservan su estado de concepto. Se añade **Nóctilo**, un enemigo volador tipo murciélago, con diseño propuesto. Diego se ha creado a partir de la fotografía del usuario y tiene una primera integración jugable con animaciones y controles.
+El usuario valoró los seis conceptos anteriores y pidió diferenciar sus personalidades. Terrón, Moflete, Nóctilo y Goterón tienen integración jugable; los otros tres conservan su alcance de visor. Se añade **Nóctilo**, un enemigo volador tipo murciélago, con diseño propuesto. Diego se ha creado a partir de la fotografía del usuario y tiene una primera integración jugable con animaciones y controles.
 
 ## Animación del reparto · 0.5.3
 
-Los siete diseños tienen movimiento local del raster por malla 2D: brazos y manos donde existen, raíces y gel según su anatomía, ala plegada de Plumín y aleteo armónico de Nóctilo con flexión desfasada de las puntas. Terrón y Moflete lo reproducen en el bosque. Nóctilo vuela con rutas fijas en Bosque 1-2 desde 0.14.0; los otros cuatro tienen integración visual en el visor. No se han creado hojas nuevas. [Técnica, visor y pruebas](ANIMACION_ENEMIGOS.md).
+Los siete diseños tienen movimiento local del raster por malla 2D: brazos y manos donde existen, raíces y gel según su anatomía, ala plegada de Plumín y aleteo armónico de Nóctilo con flexión desfasada de las puntas. Terrón y Moflete lo reproducen en el bosque. Nóctilo vuela con rutas fijas en Bosque 1-2 desde 0.14.0; Goterón patrulla Costa de Coral 2-1; los otros tres tienen integración visual en el visor. No se han creado hojas nuevas. [Técnica, visor y pruebas](ANIMACION_ENEMIGOS.md).
 
 ## Ayudante del bosque · Luci (0.8.0)
 
@@ -69,6 +69,11 @@ Primero olfatea; después descubre que iba demasiado deprisa. Roedor erguido de 
 - [Metadatos](../art/characters/moflete/character.json), [prompts](../art/characters/moflete/prompts.md) y [revisión](../art/characters/moflete/qa.md).
 
 ## Goterón · despistado, bonachón, desequilibrado
+
+| Personaje | ID | Rol y mundos | Estado |
+| --- | --- | --- | --- |
+| [Goterón](../art/characters/goteron/ficha.md) | `goteron` | Enemigo normal terrestre; `world_02` | Patrulla jugable en Costa de Coral 2-1, animación de gel y derrota por pisotón o arrojadizo |
+
 
 Su cuerpo ya ha girado cuando se da cuenta de por dónde iba. Base de babosa larga y baja con un cuello blando que sube y se vence hacia delante. Cabeza redondeada caída hacia delante; base continua y cola pegada al suelo.
 

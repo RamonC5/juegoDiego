@@ -45,7 +45,7 @@ func _run() -> void:
 		check(not cells.has(world.cell), "Isla única en la ilustración")
 		ids.append(world.id)
 		cells.append(world.cell)
-		check(WorldCatalog.scene_for(world.id).is_empty() == (index != 0), "Solo el bosque ofrece una ruta jugable")
+		check(WorldCatalog.scene_for(world.id).is_empty() == (index >= 2), "Bosque Esmeralda y Costa de Coral ofrecen rutas jugables")
 	check(WorldCatalog.scene_for("desconocido").is_empty(), "Rechazar mundo desconocido")
 	var entrance: Control = load("res://game/boot/entrance.tscn").instantiate()
 	root.add_child(entrance)
@@ -136,7 +136,7 @@ func _run() -> void:
 	await tap(entrance.world_map.world_buttons[2])
 	check(current_scene == entrance and entrance.page == &"map", "Tocar una isla bloqueada no carga un nivel")
 	check(not entrance._loading, "Un mundo bloqueado no deja la pantalla cargando")
-	for index in range(1, 8):
+	for index in range(2, 8):
 		entrance._request_world(WorldCatalog.WORLDS[index].id)
 		check(current_scene == entrance, "El bloqueo se aplica a todos los mundos pendientes")
 	Input.action_press(&"jump")

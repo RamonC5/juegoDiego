@@ -1,0 +1,375 @@
+{
+  "schema_version": 2,
+  "tipo": "nivel",
+  "id": "world_02_level_01",
+  "nombre": "Costa de Coral 2-1 · La ruta de la marea",
+  "estado": "implementada",
+  "fuentes": [
+    {
+      "ruta": "AGENTS.md",
+      "revision": "f7d3e89",
+      "observacion": "Tres llaves, tres faroles y secreto con validación previa."
+    },
+    {
+      "ruta": "Encargo de Costa de Coral",
+      "revision": "2026-11-06",
+      "observacion": "Primera fase del Mundo 2 con un enemigo normal nuevo en los niveles."
+    }
+  ],
+  "mundo_id": "world_02",
+  "categoria": "aventura",
+  "orden": 1,
+  "desbloqueo_requiere": [],
+  "dinamicas_nuevas_obligatorias": [
+    "balsas_de_marea"
+  ],
+  "segmentos": [
+    {
+      "id": "costa_00",
+      "nombre": "La playa tranquila",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "patrulla_de_goteron"
+      ],
+      "proposito": "Reconocer el ritmo de Goterón y elegir entre esquivar, pisar o lanzar un objeto."
+    },
+    {
+      "id": "costa_01",
+      "nombre": "Las primeras rocas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Alternar los pasos por la playa y las terrazas opcionales."
+    },
+    {
+      "id": "costa_02",
+      "nombre": "El muelle de la espuma",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Embarcar durante la parada, viajar y saltar al muelle opuesto; admite volver."
+    },
+    {
+      "id": "costa_03",
+      "nombre": "La llave de la orilla",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Subir tres peldaños, recoger la llave y bajar por la ladera al camino principal."
+    },
+    {
+      "id": "costa_04",
+      "nombre": "Los charcos de coral",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Cruzar el hueco usando las rocas escalonadas con espacio para detenerse."
+    },
+    {
+      "id": "costa_05",
+      "nombre": "Las terrazas de arena",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Alternar los pasos por la playa y las terrazas opcionales."
+    },
+    {
+      "id": "costa_06",
+      "nombre": "El canal turquesa",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Embarcar durante la parada, viajar y saltar al muelle opuesto; admite volver."
+    },
+    {
+      "id": "costa_07",
+      "nombre": "La llave del arrecife",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Subir tres peldaños, recoger la llave y bajar por la ladera al camino principal."
+    },
+    {
+      "id": "costa_08",
+      "nombre": "El refugio de las conchas",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Subir al arrecife y saltar desde el extremo hasta la playa."
+    },
+    {
+      "id": "costa_09",
+      "nombre": "La ensenada profunda",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Embarcar durante la parada, viajar y saltar al muelle opuesto; admite volver."
+    },
+    {
+      "id": "costa_10",
+      "nombre": "Los peldaños de la marea",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Cruzar el hueco usando las rocas escalonadas con espacio para detenerse."
+    },
+    {
+      "id": "costa_11",
+      "nombre": "La isla de Goterón",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Alternar los pasos por la playa y las terrazas opcionales."
+    },
+    {
+      "id": "costa_12",
+      "nombre": "El paso de los dos muelles",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Embarcar durante la parada, viajar y saltar al muelle opuesto; admite volver."
+    },
+    {
+      "id": "costa_13",
+      "nombre": "La llave de la laguna",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "doble_salto"
+      ],
+      "proposito": "Subir tres peldaños, recoger la llave y bajar por la ladera al camino principal."
+    },
+    {
+      "id": "costa_14",
+      "nombre": "El último canal",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "balsas_de_marea"
+      ],
+      "proposito": "Embarcar durante la parada, viajar y saltar al muelle opuesto; admite volver."
+    },
+    {
+      "id": "costa_15",
+      "nombre": "La salida del arrecife",
+      "principal": true,
+      "minutos_estimados": [
+        1.125,
+        1.375
+      ],
+      "dinamicas": [
+        "patrulla_de_goteron"
+      ],
+      "proposito": "Reconocer el ritmo de Goterón y elegir entre esquivar, pisar o lanzar un objeto."
+    },
+    {
+      "id": "gruta_conchas",
+      "nombre": "Gruta de las conchas",
+      "principal": false,
+      "minutos_estimados": [
+        0.6,
+        1.4
+      ],
+      "dinamicas": [
+        "paso_agachado",
+        "doble_salto"
+      ],
+      "proposito": "Encontrar la vida opcional y regresar por un camino de rocas."
+    }
+  ],
+  "llaves": [
+    {
+      "ranura": 1,
+      "segmento_id": "costa_03",
+      "obtencion": "Al final de los tres peldaños de arena."
+    },
+    {
+      "ranura": 2,
+      "segmento_id": "costa_07",
+      "obtencion": "Al final de los tres peldaños de arena."
+    },
+    {
+      "ranura": 3,
+      "segmento_id": "costa_13",
+      "obtencion": "Al final de los tres peldaños de arena."
+    }
+  ],
+  "salida": {
+    "condicion": "tres_llaves",
+    "descripcion": "Puerta al final de la playa. Las balsas funcionan en ambos sentidos.",
+    "retorno_objetivos_pendientes": true
+  },
+  "puntos_control": [
+    {
+      "id": "farol_coral_1",
+      "despues_de_segmento_id": "costa_03",
+      "restaura_vidas": false
+    },
+    {
+      "id": "farol_coral_2",
+      "despues_de_segmento_id": "costa_07",
+      "restaura_vidas": false
+    },
+    {
+      "id": "farol_coral_3",
+      "despues_de_segmento_id": "costa_11",
+      "restaura_vidas": false
+    }
+  ],
+  "intervalo_maximo_faroles_minutos": 5.5,
+  "duracion": {
+    "minimo_primera_partida_minutos": 15,
+    "objetivo_minutos": [
+      18,
+      22
+    ],
+    "estado": "estimada",
+    "muestras": []
+  },
+  "zonas_secretas": [
+    {
+      "id": "gruta_conchas",
+      "segmento_id": "gruta_conchas",
+      "ubicacion": "Bajo el arrecife, después del segundo farol.",
+      "entrada": "Debajo del saliente junto al tótem, con 65 px libres para pasar agachado.",
+      "actividad": "Avanzar agachado bajo el techo de la entrada, bajar a la gruta y seguir las hojas hasta el corazón.",
+      "recompensa": "Hojas permanentes y una vida adicional por intento.",
+      "salida": "Saltar por los peldaños de roca al otro lado para volver a la playa.",
+      "opcional": true,
+      "totem": {
+        "ubicacion": "Sobre la playa, a la izquierda del paso bajo.",
+        "aspecto": "Conchas apiladas, espiral tallada y base de arenisca.",
+        "pista": "Silueta tallada, resplandor suave por proximidad y pista escrita en pausa."
+      },
+      "validacion_usuario": {
+        "estado": "validada",
+        "fecha": "2026-11-06",
+        "decision": "Me gusta",
+        "ubicacion_validada": "Bajo el arrecife, después del segundo farol.",
+        "actividad_validada": "Avanzar agachado bajo el techo de la entrada, bajar a la gruta y seguir las hojas hasta el corazón."
+      }
+    }
+  ],
+  "coleccionables": [
+    {
+      "id": "cristal_coral_1",
+      "dificultad": "inicial",
+      "segmento_id": "costa_03",
+      "obtencion": "Bajar a la terraza lateral desde la llave.",
+      "recompensa": "Cuenta para la colección de cristales.",
+      "persistencia": "Permanente por ID de nivel, tipo y posición.",
+      "opcional": true
+    },
+    {
+      "id": "cristal_coral_2",
+      "dificultad": "inicial",
+      "segmento_id": "costa_07",
+      "obtencion": "Bajar a la terraza lateral desde la llave.",
+      "recompensa": "Cuenta para la colección de cristales.",
+      "persistencia": "Permanente por ID de nivel, tipo y posición.",
+      "opcional": true
+    },
+    {
+      "id": "cristal_coral_3",
+      "dificultad": "inicial",
+      "segmento_id": "costa_13",
+      "obtencion": "Bajar a la terraza lateral desde la llave.",
+      "recompensa": "Cuenta para la colección de cristales.",
+      "persistencia": "Permanente por ID de nivel, tipo y posición.",
+      "opcional": true
+    }
+  ],
+  "persistencia": {
+    "al_morir": "Mantiene llaves, colección y premio de vida en el intento. Recupera el farol activo y el ciclo de las balsas posteriores.",
+    "al_cerrar": "Conserva colección, equipamiento y mejores resultados. El intento vuelve a empezar.",
+    "al_rejugar": "Las llaves reaparecen y la colección permanente conserva las recogidas."
+  },
+  "accesibilidad": {
+    "senales_no_solo_color": "Balsas en movimiento, forma del tótem, tres números de llave y etiquetas de mapa.",
+    "equivalencia_visual_sonora": "Las pistas escritas en pausa describen las balsas y la entrada baja. El sonido no es requisito.",
+    "legibilidad_movil": "Misma interfaz adaptable y controles táctiles del Bosque. La prueba física en móvil queda pendiente.",
+    "ajustes_control": "Táctil, teclado y mando con las opciones de salto, arrastre y reasignación existentes."
+  },
+  "validacion": {
+    "funcional": [
+      "Ruta completa con entradas físicas, cinco balsas, dos cruces de rocas, tres llaves y tres faroles sin recarga.",
+      "Patrulla, daño lateral y pisotón de Goterón; acceso, premio único y regreso desde la gruta."
+    ],
+    "jugando": [
+      "Ruta automatizada sin combate durante la navegación. En esa ruta se completó en 266 s. La duración de una primera partida con el público objetivo está pendiente."
+    ],
+    "evidencias": [
+      "tools/tests/test_coral_level_01.gd"
+    ]
+  }
+}

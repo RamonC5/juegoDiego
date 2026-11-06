@@ -45,10 +45,11 @@ static func get_profile(id: String) -> Dictionary:
 				joint("pie delantero", Vector2(0.56, 0.77), Vector4(0.60, 0.86, 0.16, 0.14), 0.16, 0.0, "foot"),
 			]
 		"goteron":
+			region = Rect2(0.028, 0.282, 0.956, 0.489)
 			frequency = 0.85
 			joints = [
-				joint("cuello de gel", Vector2(0.65, 0.64), Vector4(0.77, 0.45, 0.24, 0.22), 0.065, 0.0, "soft"),
-				joint("cola de gel", Vector2(0.35, 0.68), Vector4(0.19, 0.69, 0.20, 0.07), 0.08, 1.2, "soft"),
+				joint("cuello de gel", Vector2(0.651, 0.732), Vector4(0.776, 0.344, 0.251, 0.450), 0.065, 0.0, "soft"),
+				joint("cola de gel", Vector2(0.337, 0.814), Vector4(0.169, 0.834, 0.209, 0.143), 0.08, 1.2, "soft"),
 			]
 		"vainete":
 			frequency = 1.4

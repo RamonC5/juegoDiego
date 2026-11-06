@@ -5,6 +5,7 @@ extends StaticBody2D
 const TERRAIN: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_terrain_v001.png")
 var dimensions: Vector2 = Vector2(240, 64)
 var is_ground: bool = false
+var sand_texture: Texture2D
 
 
 func _ready() -> void:
@@ -22,6 +23,9 @@ func _ready() -> void:
 
 
 func _draw() -> void:
+	if sand_texture != null:
+		_draw_sand()
+		return
 	var image_size: Vector2 = TERRAIN.get_size()
 	# El musgo empieza al 35 % de la hoja. El recorte es un recurso, sin editar el PNG.
 	var source_y: float = image_size.y * 0.345
@@ -36,4 +40,18 @@ func _draw() -> void:
 		var width: float = minf(image_size.x * ratio, dimensions.x - x)
 		draw_texture_rect_region(TERRAIN, Rect2(x, -surface_offset, width, cap_height),
 			Rect2(0, source_y, width / ratio, cap_height / ratio))
+		x += width
+
+
+func _draw_sand() -> void:
+	var image_size: Vector2 = sand_texture.get_size()
+	var scale_factor: float = 0.6
+	var height: float = minf(dimensions.y, image_size.y * scale_factor)
+	if dimensions.y > height:
+		draw_rect(Rect2(0, height, dimensions.x, dimensions.y - height), Color("a47757"))
+	var x: float = 0.0
+	while x < dimensions.x:
+		var width: float = minf(dimensions.x - x, image_size.x * scale_factor)
+		draw_texture_rect_region(sand_texture, Rect2(x, 0, width, height),
+			Rect2(0, 0, width / scale_factor, height / scale_factor))
 		x += width

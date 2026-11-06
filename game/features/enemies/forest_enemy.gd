@@ -7,6 +7,7 @@ signal defeated(enemy: ForestEnemy, by_throw: bool)
 const SPRITES: Dictionary = {
 	"terron": preload("res://game/assets/textures/characters/terron/idle_v001.png"),
 	"moflete": preload("res://game/assets/textures/characters/moflete/idle_v001.png"),
+	"goteron": preload("res://game/assets/textures/characters/goteron/idle_v001.png"),
 	"noctilo": preload("res://game/assets/textures/characters/noctilo/idle_v001.png"),
 }
 
@@ -57,9 +58,12 @@ func _ready() -> void:
 	if kind == "noctilo":
 		_height = 74.0
 		_half_width = 27.0
+	if kind == "goteron":
+		_height = 43.0
+		_half_width = 48.0
 	var body := CollisionShape2D.new()
 	var rectangle := RectangleShape2D.new()
-	rectangle.size = Vector2(48 if kind == "moflete" else 104, _height)
+	rectangle.size = Vector2(_half_width * 2.0, _height)
 	body.shape = rectangle
 	body.position.y = -_height / 2.0
 	if kind == "noctilo":
@@ -78,14 +82,14 @@ func _ready() -> void:
 	_stomp.position.y = -_height
 	_stomp.collision_layer = 64
 	_stomp.collision_mask = 0
-	_stomp.half_width = 30.0 if kind == "moflete" else 54.0
+	_stomp.half_width = _half_width + (6.0 if kind == "moflete" else 2.0)
 	_stomp.top_tolerance = 16.0
 	if kind == "noctilo":
 		_stomp.position.y = -52.0
 		_stomp.half_width = 34.0
 	var sensor_shape := CollisionShape2D.new()
 	var top := RectangleShape2D.new()
-	top.size = Vector2(58 if kind == "moflete" else 110, 18)
+	top.size = Vector2(_stomp.half_width * 2.0 + (-2.0 if kind == "moflete" else 2.0), 18)
 	if kind == "noctilo":
 		top.size = Vector2(68, 18)
 	sensor_shape.shape = top
@@ -138,7 +142,7 @@ func _physics_process(delta: float) -> void:
 		var search_seconds: float = 3.5 if _last_seen_y > position.y + 32.0 else 1.3
 		if _lost_seconds > search_seconds or absf(position.x - _home.x) > 950.0:
 			behaviour = Behaviour.RETURN
-	var speed: float = 58.0 if kind == "moflete" else 43.0
+	var speed: float = 58.0 if kind == "moflete" or kind == "goteron" else 43.0
 	match behaviour:
 		Behaviour.NOTICE:
 			_notice_seconds = maxf(0.0, _notice_seconds - delta)
@@ -192,7 +196,7 @@ func _physics_process(delta: float) -> void:
 
 
 func can_see_player() -> bool:
-	if kind == "noctilo":
+	if kind == "noctilo" or kind == "goteron":
 		return false
 	if not is_instance_valid(player) or player.dead or player.celebrating:
 		return false

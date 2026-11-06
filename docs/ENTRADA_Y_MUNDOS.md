@@ -11,7 +11,7 @@ Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo co
 | ID | Nombre del avance visual | Acceso |
 | --- | --- | --- |
 | world_01 | Bosque Esmeralda | Selector: 1-1 disponible; completarlo abre el recorrido principal de 1-2, cuyo secreto está pendiente |
-| world_02 | Costa de Coral | Bloqueado |
+| world_02 | Costa de Coral | Acceso directo a 2-1, La ruta de la marea |
 | world_03 | Ruinas del Sol | Bloqueado |
 | world_04 | Cumbres de Hielo | Bloqueado |
 | world_05 | Cuevas de Cristal | Bloqueado |
@@ -19,13 +19,13 @@ Moflete persigue a Diego en el bosque; Nóctilo cruza cuevas, pantano y cielo co
 | world_07 | Islas del Cielo | Bloqueado |
 | world_08 | Volcán de Obsidiana | Bloqueado |
 
-Los siete nombres y ambientes pendientes son propuestas visuales editables basadas en el catálogo de llaves; no equivalen a niveles desarrollados ni fijan su futuro diseño. El bosque abre su selector de aventuras al tocarlo. `ForestAdventureCatalog` comprueba el resultado guardado de 1-1 antes de ofrecer 1-2. Los demás mundos muestran candado y texto BLOQUEADO; tocarlos conserva el mapa y comunica su estado. WorldCatalog valida también las rutas y rechaza IDs desconocidos. Completar el bosque no desbloquea los otros mundos todavía.
+Los seis nombres y ambientes pendientes son propuestas visuales editables basadas en el catálogo de llaves; no equivalen a niveles desarrollados ni fijan su futuro diseño. El bosque abre su selector de aventuras al tocarlo. `ForestAdventureCatalog` comprueba el resultado guardado de 1-1 antes de ofrecer 1-2. Los otros seis mundos muestran candado y texto BLOQUEADO; tocarlos conserva el mapa y comunica su estado. WorldCatalog valida también las rutas y rechaza IDs desconocidos. Costa de Coral abre 2-1 directamente desde el mapa.
 
 El menú de pausa del bosque incorpora «Mapa de mundos» y distribuye sus acciones en dos columnas. Salir termina el intento: volver al bosque inicia otro recorrido. La colección, ropa y mejores resultados mantienen los guardados anteriores. El entrenamiento conserva su acceso.
 
 Botones de al menos 52 px, foco contrastado, nombres accesibles, zona segura Android y navegación por toque, ratón, teclado y mando. El estado no depende del color ni del audio. El control «Movimiento reducido» congela la presentación y el pulso del mapa y guarda la preferencia sin borrar los demás ajustes. «Inicio» o Atrás/Escape vuelve del mapa a la entrada. El texto y los candados se dibujan como UI, separados de la ilustración.
 
-`test_entrance.gd` verifica el flujo real, los siete bloqueos, poses, movimiento reducido, foco, tamaños táctiles y retorno desde pausa. `capture_entrance.gd` produce vistas Compatibility de móvil y tablet. La prueba del APK navega con toques reales por entrada, mapa y una isla bloqueada antes de jugar al bosque. La validación en los dispositivos físicos del usuario sigue pendiente.
+`test_entrance.gd` verifica el flujo real, los seis bloqueos, poses, movimiento reducido, foco, tamaños táctiles y retorno desde pausa. `capture_entrance.gd` produce vistas Compatibility de móvil y tablet. La prueba del APK navega con toques reales por entrada, mapa y una isla bloqueada antes de jugar al bosque. La validación en los dispositivos físicos del usuario sigue pendiente.
 
 El mapa conserva su WebP original. Las escenas nuevas y la carrera se generan con image_gen integrada; el PNG de carrera se conserva intacto y se integra mediante recortes explícitos. [Prompts y procedencia](../art/entrance/prompts.md) · [Validación y límites](pruebas/entrada-0.11.0.md).
 

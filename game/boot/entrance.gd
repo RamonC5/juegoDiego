@@ -1,5 +1,5 @@
 extends Control
-## Entrada -> mapa -> bosque. El nivel no se carga hasta una selección válida.
+## Entrada -> mapa -> aventura. El nivel no se carga hasta una selección válida.
 
 var initial_page: StringName = &"intro"
 var page: StringName = &"intro"
@@ -147,7 +147,7 @@ func show_map() -> void:
 	_title.text = "Elige tu mundo"
 	_eyebrow.text = "LAS AVENTURAS DE DIEGO"
 	_subtitle.text = ""
-	_status.text = "Bosque Esmeralda disponible · Los otros siete mundos están bloqueados."
+	_status.text = "Bosque Esmeralda y Costa de Coral disponibles."
 	_layout()
 	world_map.world_buttons[0].grab_focus()
 	_log_map_ready.call_deferred()
@@ -161,7 +161,7 @@ func _log_intro_ready() -> void:
 func _log_map_ready() -> void:
 	var point: Vector2 = world_map.world_buttons[0].get_global_rect().get_center() / get_viewport_rect().size
 	var locked: Vector2 = world_map.world_buttons[2].get_global_rect().get_center() / get_viewport_rect().size
-	print("SUPER_DIEGO_MAP_READY worlds=8 unlocked=world_01 forest=%.4f,%.4f locked=%.4f,%.4f" % [point.x, point.y, locked.x, locked.y])
+	print("SUPER_DIEGO_MAP_READY worlds=8 unlocked=world_01,world_02 forest=%.4f,%.4f locked=%.4f,%.4f" % [point.x, point.y, locked.x, locked.y])
 
 
 func _toggle_motion() -> void:
@@ -236,7 +236,7 @@ func _request_world(world_id: String) -> void:
 		_status.text = "Mundo bloqueado · Esta aventura estará disponible más adelante."
 		return
 	_loading = true
-	_status.text = "Preparando Bosque Esmeralda…"
+	_status.text = "Preparando aventura…"
 	for button in world_map.world_buttons:
 		button.disabled = true
 	back_button.disabled = true
@@ -251,7 +251,7 @@ func _request_world(world_id: String) -> void:
 			button.disabled = false
 		back_button.disabled = false
 		motion_button.disabled = false
-		_status.text = "No se pudo abrir el bosque. Vuelve a intentarlo."
+		_status.text = "No se pudo abrir la aventura. Vuelve a intentarlo."
 
 
 func _unhandled_input(event: InputEvent) -> void:

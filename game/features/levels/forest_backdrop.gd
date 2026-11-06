@@ -3,6 +3,7 @@ extends Node2D
 ## Fondo en CanvasLayer: parallax limitado, sin cámaras 3D ni sacudidas.
 
 const BACKGROUND: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/forest_backdrop_v001.png")
+var background: Texture2D = BACKGROUND
 var camera_x: float = 640.0
 var _time: float = 0.0
 
@@ -14,16 +15,16 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var size: Vector2 = get_viewport_rect().size
-	var width: float = size.y * BACKGROUND.get_width() / BACKGROUND.get_height()
+	var width: float = size.y * background.get_width() / background.get_height()
 	var offset: float = fposmod(camera_x * 0.17, width * 2.0)
 	var start: int = int(floor((camera_x * 0.17) / width))
 	for index in range(-1, int(ceil(size.x / width)) + 3):
 		var x: float = index * width - fposmod(offset, width)
 		if (start + index) % 2 == 0:
-			draw_texture_rect(BACKGROUND, Rect2(x, 0, width + 1, size.y), false)
+			draw_texture_rect(background, Rect2(x, 0, width + 1, size.y), false)
 		else:
 			draw_set_transform(Vector2(x + width, 0), 0.0, Vector2(-1, 1))
-			draw_texture_rect(BACKGROUND, Rect2(0, 0, width + 1, size.y), false)
+			draw_texture_rect(background, Rect2(0, 0, width + 1, size.y), false)
 			draw_set_transform(Vector2.ZERO)
 	# Motas pequeñas de luz continua; no parpadean ni ocultan el recorrido.
 	for index in 26:

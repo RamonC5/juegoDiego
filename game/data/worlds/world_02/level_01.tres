@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1_level"]
+[ext_resource type="Resource" path="res://game/features/levels/keys/definitions/coral.tres" id="2_keys"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/moving_platform_definition.gd" id="3_ferry"]
+[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="4_music"]
+
+[sub_resource type="Resource" id="Ferry02"]
+script = ExtResource("3_ferry")
+platform_id = &"coral_balsa_02"
+display_name = "El muelle de la espuma"
+start_position = Vector2(10126, 615)
+end_position = Vector2(10764, 615)
+width = 240.0
+travel_seconds = 4.0
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Ferry06"]
+script = ExtResource("3_ferry")
+platform_id = &"coral_balsa_06"
+display_name = "El canal turquesa"
+start_position = Vector2(27086, 615)
+end_position = Vector2(27724, 615)
+width = 240.0
+travel_seconds = 4.0
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Ferry09"]
+script = ExtResource("3_ferry")
+platform_id = &"coral_balsa_09"
+display_name = "La ensenada profunda"
+start_position = Vector2(39686, 615)
+end_position = Vector2(40324, 615)
+width = 240.0
+travel_seconds = 4.0
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Ferry12"]
+script = ExtResource("3_ferry")
+platform_id = &"coral_balsa_12"
+display_name = "El paso de los dos muelles"
+start_position = Vector2(52286, 615)
+end_position = Vector2(52924, 615)
+width = 240.0
+travel_seconds = 4.0
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Ferry14"]
+script = ExtResource("3_ferry")
+platform_id = &"coral_balsa_14"
+display_name = "El último canal"
+start_position = Vector2(60686, 615)
+end_position = Vector2(61434, 615)
+width = 240.0
+travel_seconds = 4.0
+stop_seconds = 2.4
+
+[resource]
+script = ExtResource("1_level")
+level_id = "world_02_level_01"
+world_id = "world_02"
+display_name = "Costa de Coral"
+subtitle = "La ruta de la marea"
+music_stream = ExtResource("4_music")
+width = 67200.0
+goal = Vector2(66990, 600)
+checkpoint = Vector2(16940, 600)
+checkpoints = Array[Vector2]([Vector2(16940, 600), Vector2(33740, 600), Vector2(50540, 600)])
+ground_sections = Array[Rect2]([Rect2(0, 600, 4200, 520), Rect2(4200, 600, 4200, 520), Rect2(8400, 600, 1570, 520), Rect2(10920, 600, 1680, 520), Rect2(12600, 600, 4200, 520), Rect2(16800, 600, 1550, 520), Rect2(19050, 600, 1950, 520), Rect2(21000, 600, 4200, 520), Rect2(25200, 600, 1730, 520), Rect2(27880, 600, 1520, 520), Rect2(29400, 600, 4200, 520), Rect2(33600, 600, 972, 520), Rect2(35900, 600, 1900, 520), Rect2(37800, 600, 1730, 520), Rect2(40480, 600, 1520, 520), Rect2(42000, 600, 1550, 520), Rect2(44250, 600, 1950, 520), Rect2(46200, 600, 4200, 520), Rect2(50400, 600, 1730, 520), Rect2(53080, 600, 1520, 520), Rect2(54600, 600, 4200, 520), Rect2(58800, 600, 1730, 520), Rect2(61590, 600, 1410, 520), Rect2(63000, 600, 4200, 520)])
+raised_platforms = Array[Rect2]([Rect2(1670, 510, 250, 64), Rect2(2050, 470, 310, 72), Rect2(5580, 512, 300, 70), Rect2(5940, 415, 320, 72), Rect2(6320, 325, 350, 72), Rect2(6760, 455, 265, 74), Rect2(13980, 512, 300, 70), Rect2(14340, 415, 320, 72), Rect2(14720, 325, 350, 72), Rect2(15160, 455, 265, 74), Rect2(18420, 620, 155, 72), Rect2(18660, 557, 150, 75), Rect2(18880, 620, 130, 66), Rect2(22380, 512, 300, 70), Rect2(22740, 415, 320, 72), Rect2(23120, 325, 350, 72), Rect2(23560, 455, 265, 74), Rect2(30780, 512, 300, 70), Rect2(31140, 415, 320, 72), Rect2(31520, 325, 350, 72), Rect2(31960, 455, 265, 74), Rect2(43620, 620, 155, 72), Rect2(43860, 557, 150, 75), Rect2(44080, 620, 130, 66), Rect2(47580, 512, 300, 70), Rect2(47940, 415, 320, 72), Rect2(48320, 325, 350, 72), Rect2(48760, 455, 265, 74), Rect2(55980, 512, 300, 70), Rect2(56340, 415, 320, 72), Rect2(56720, 325, 350, 72), Rect2(57160, 455, 265, 74), Rect2(64670, 510, 250, 64), Rect2(65050, 470, 310, 72)])
+enemy_spawns = Array[Vector4]([Vector4(670, 600, 505, 840), Vector4(4870, 600, 4705, 5040), Vector4(6090, 415, 6030, 6170), Vector4(7630, 600, 7460, 7860), Vector4(9070, 600, 8905, 9240), Vector4(11830, 600, 11660, 12060), Vector4(13270, 600, 13105, 13440), Vector4(14490, 415, 14430, 14570), Vector4(16030, 600, 15860, 16260), Vector4(17470, 600, 17305, 17640), Vector4(20230, 600, 20060, 20460), Vector4(21670, 600, 21505, 21840), Vector4(22890, 415, 22830, 22970), Vector4(24430, 600, 24260, 24660), Vector4(25870, 600, 25705, 26040), Vector4(28630, 600, 28460, 28860), Vector4(30070, 600, 29905, 30240), Vector4(31290, 415, 31230, 31370), Vector4(32830, 600, 32660, 33060), Vector4(37030, 600, 36860, 37260), Vector4(38470, 600, 38305, 38640), Vector4(41230, 600, 41060, 41460), Vector4(42670, 600, 42505, 42840), Vector4(45430, 600, 45260, 45660), Vector4(46870, 600, 46705, 47040), Vector4(48090, 415, 48030, 48170), Vector4(49630, 600, 49460, 49860), Vector4(51070, 600, 50905, 51240), Vector4(53830, 600, 53660, 54060), Vector4(55270, 600, 55105, 55440), Vector4(56490, 415, 56430, 56570), Vector4(58030, 600, 57860, 58260), Vector4(59470, 600, 59305, 59640), Vector4(62230, 600, 62060, 62460), Vector4(63670, 600, 63505, 63840), Vector4(66430, 600, 66260, 66660)])
+enemy_kinds = Array[String](["goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron"])
+object_spawns = Array[Vector3]([Vector3(1020, 574, 4), Vector3(5220, 574, 1), Vector3(9420, 574, 4), Vector3(13620, 574, 1), Vector3(17820, 574, 4), Vector3(22020, 574, 1), Vector3(26220, 574, 4), Vector3(30420, 574, 1), Vector3(38820, 574, 1), Vector3(43020, 574, 4), Vector3(47220, 574, 1), Vector3(51420, 574, 4), Vector3(55620, 574, 1), Vector3(59820, 574, 4), Vector3(64020, 574, 1)])
+crystal_positions = Array[Vector2]([Vector2(15290, 409), Vector2(32090, 409), Vector2(57290, 409)])
+key_definition = ExtResource("2_keys")
+key_positions = Array[Vector2]([Vector2(14895, 279), Vector2(31695, 279), Vector2(56895, 279)])
+secret_grove = Vector2(34360, 600)
+region_starts = Array[Vector2]([Vector2(0, 600), Vector2(4200, 600), Vector2(8400, 600), Vector2(12600, 600), Vector2(16800, 600), Vector2(21000, 600), Vector2(25200, 600), Vector2(29400, 600), Vector2(33600, 600), Vector2(37800, 600), Vector2(42000, 600), Vector2(46200, 600), Vector2(50400, 600), Vector2(54600, 600), Vector2(58800, 600), Vector2(63000, 600)])
+region_names = Array[String](["La playa tranquila", "Las primeras rocas", "El muelle de la espuma", "La llave de la orilla", "Los charcos de coral", "Las terrazas de arena", "El canal turquesa", "La llave del arrecife", "El refugio de las conchas", "La ensenada profunda", "Los peldaños de la marea", "La isla de Goterón", "El paso de los dos muelles", "La llave de la laguna", "El último canal", "La salida del arrecife"])
+moving_platforms = Array[ExtResource("3_ferry")]([SubResource("Ferry02"), SubResource("Ferry06"), SubResource("Ferry09"), SubResource("Ferry12"), SubResource("Ferry14")])
+route_hints = {260: "Goterón patrulla la arena. Puedes esquivarlo, saltarle encima o lanzarle un objeto.", 9320: "Espera a que la balsa se acerque al borde. Salta encima y suelta el arrastre mientras cruza.", 17550: "Cruza el charco de roca en roca. Puedes usar el segundo salto antes de caer.", 34100: "Un tótem de conchas marca una entrada baja. Agáchate para pasar; las rocas del otro lado te devuelven a la playa.", 64450: "Las tres llaves de coral abren la salida. Puedes volver por los muelles si te falta alguna."}

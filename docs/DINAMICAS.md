@@ -2,6 +2,10 @@
 
 Diseño para un niño de 10 años: ocho mundos, cada uno con tres aventuras y un jefe posterior. Los niveles superados siguen disponibles. Cada aventura requiere tres llaves de su ambiente, recogidas automáticamente y sin ocupar las manos; hojas, cristales y secretos permanecen opcionales.
 
+## Costa de Coral 2-1
+
+Cinco balsas enlazan orillas con una parada amplia para embarcar y volver a por llaves pendientes. El segundo farol precede al tótem de conchas que señala la gruta opcional aprobada. Diego pasa agachado, recoge hojas y una vida extra por intento y sale por peldaños de roca. El arrecife permite cruzar por arriba. [Ficha, duración y verificación](niveles/world_02_level_01.json).
+
 ## Vuelos entre lianas de Bosque 1-2 · 0.14.0
 
 Ocho murciélagos Nóctilo siguen rutas fijas, sin persecución, en grupos de 2, 3 y 3. El primer vuelo se observa sobre suelo firme; después se combinan alturas con trepa y saltos. Se conserva la recuperación por barranco y farol. Es la segunda dinámica nueva junto a las setas; no exige derrotas ni cambia el secreto. [Ficha](dinamicas/vuelos_entre_lianas.json) · [Pruebas](pruebas/vuelos-0.14.0.md).

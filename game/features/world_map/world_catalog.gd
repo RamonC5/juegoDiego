@@ -3,9 +3,10 @@ extends RefCounted
 ## Avance visual de ocho mundos. Solo se publican rutas que existen y son jugables.
 
 const FOREST_SCENE := "res://game/boot/forest_adventures.tscn"
+const CORAL_SCENE := "res://game/boot/coral_level_01.tscn"
 const WORLDS: Array[Dictionary] = [
 	{"id": "world_01", "name": "Bosque Esmeralda", "cell": Vector2i(0, 0), "scene": FOREST_SCENE, "detail": "Árboles, puentes y lianas", "beat": "¡De rama en rama!", "pose": &"run"},
-	{"id": "world_02", "name": "Costa de Coral", "cell": Vector2i(1, 0), "scene": "", "detail": "Playas y arrecifes", "beat": "¡Un salto sobre las olas!", "pose": &"jump_up"},
+	{"id": "world_02", "name": "Costa de Coral", "cell": Vector2i(1, 0), "scene": CORAL_SCENE, "detail": "Playas y arrecifes", "beat": "¡Un salto sobre las olas!", "pose": &"jump_up"},
 	{"id": "world_03", "name": "Ruinas del Sol", "cell": Vector2i(2, 0), "scene": "", "detail": "Dunas y templos de arenisca", "beat": "¿Qué habrá en esa vasija?", "pose": &"carry_run"},
 	{"id": "world_04", "name": "Cumbres de Hielo", "cell": Vector2i(3, 0), "scene": "", "detail": "Montañas de nieve y hielo", "beat": "¡Uy, que resbala!", "pose": &"fall"},
 	{"id": "world_05", "name": "Cuevas de Cristal", "cell": Vector2i(3, 1), "scene": "", "detail": "Grutas y geodas de amatista", "beat": "¡Puntería de explorador!", "pose": &"throw"},

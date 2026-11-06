@@ -5,6 +5,7 @@ extends Node2D
 const TEXTURE: Texture2D = preload("res://game/assets/textures/environments/bosque_esmeralda/mechanisms/secret_totem_v001.png")
 const ANIMATION_RADIUS: float = 390.0
 
+var texture: Texture2D = TEXTURE
 var hero: DiegoPlayer
 var _phase: float = 0.0
 var _nearby: bool = false
@@ -33,7 +34,7 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	# La raíz queda a ras del suelo. El tronco no se estira ni oscila entero.
-	draw_texture_rect(TEXTURE, Rect2(-71, -190, 142, 203), false)
+	draw_texture_rect(texture, Rect2(-71, -190, 142, 203), false)
 	if _nearby:
 		# Las tallas y la hojarasca también señalan el acceso, sin destellos.
 		var pulse: float = 0.05 + 0.025 * sin(_phase * 1.5)
