@@ -1,0 +1,152 @@
+[gd_resource type="Resource" script_class="ForestLevelDefinition" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://game/features/levels/level_definition.gd" id="1_level"]
+[ext_resource type="Resource" path="res://game/features/levels/keys/definitions/coral.tres" id="2_keys"]
+[ext_resource type="Script" path="res://game/features/levels/mechanisms/moving_platform_definition.gd" id="3_platform"]
+[ext_resource type="AudioStream" path="res://game/assets/audio/music/bosque_esmeralda.ogg" id="4_music"]
+
+[sub_resource type="Resource" id="Platform01"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_01"
+display_name = "El elevador de ensayo"
+start_position = Vector2(4720, 584)
+end_position = Vector2(4720, 300)
+width = 240.0
+travel_seconds = 3.0
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform02"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_02"
+display_name = "Elevador oeste · La llave del astillero"
+start_position = Vector2(8126, 584)
+end_position = Vector2(8126, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform03"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_03"
+display_name = "Elevador este · La llave del astillero"
+start_position = Vector2(9274, 584)
+end_position = Vector2(9274, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform04"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_04"
+display_name = "El canal del astillero"
+start_position = Vector2(15486, 615)
+end_position = Vector2(16094, 615)
+width = 240.0
+travel_seconds = 3.8
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform05"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_05"
+display_name = "Elevador oeste · La llave del mirador"
+start_position = Vector2(25626, 584)
+end_position = Vector2(25626, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform06"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_06"
+display_name = "Elevador este · La llave del mirador"
+start_position = Vector2(26774, 584)
+end_position = Vector2(26774, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform07"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_07"
+display_name = "El canal del mirador"
+start_position = Vector2(32986, 615)
+end_position = Vector2(33594, 615)
+width = 240.0
+travel_seconds = 3.8
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform08"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_08"
+display_name = "Elevador oeste · Los elevadores gemelos"
+start_position = Vector2(36126, 584)
+end_position = Vector2(36126, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform09"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_09"
+display_name = "Elevador este · Los elevadores gemelos"
+start_position = Vector2(37274, 584)
+end_position = Vector2(37274, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform10"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_10"
+display_name = "Elevador oeste · La llave del faro"
+start_position = Vector2(46626, 584)
+end_position = Vector2(46626, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform11"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_11"
+display_name = "Elevador este · La llave del faro"
+start_position = Vector2(47774, 584)
+end_position = Vector2(47774, 245)
+width = 240.0
+travel_seconds = 3.2
+stop_seconds = 2.4
+
+[sub_resource type="Resource" id="Platform12"]
+script = ExtResource("3_platform")
+platform_id = &"coral_02_platform_12"
+display_name = "La bocana del faro"
+start_position = Vector2(50486, 615)
+end_position = Vector2(51204, 615)
+width = 240.0
+travel_seconds = 3.8
+stop_seconds = 2.4
+
+[resource]
+script = ExtResource("1_level")
+level_id = "world_02_level_02"
+world_id = "world_02"
+display_name = "Costa de Coral"
+subtitle = "Los muelles de la marea"
+level_number = 2
+music_stream = ExtResource("4_music")
+width = 56000.0
+goal = Vector2(55790, 600)
+checkpoints = Array[Vector2]([Vector2(14140, 600), Vector2(28140, 600), Vector2(42140, 600)])
+ground_sections = Array[Rect2]([Rect2(0, 600, 3500, 520), Rect2(3500, 600, 3500, 520), Rect2(7000, 600, 3500, 520), Rect2(10500, 600, 1250, 520), Rect2(12490, 600, 1510, 520), Rect2(14000, 600, 1330, 520), Rect2(16250, 600, 1250, 520), Rect2(17500, 600, 3500, 520), Rect2(21000, 600, 1250, 520), Rect2(22990, 600, 1510, 520), Rect2(24500, 600, 3500, 520), Rect2(28000, 600, 900, 520), Rect2(30415, 600, 1085, 520), Rect2(31500, 600, 1330, 520), Rect2(33750, 600, 1250, 520), Rect2(35000, 600, 3500, 520), Rect2(38500, 600, 1250, 520), Rect2(40490, 600, 1510, 520), Rect2(42000, 600, 3500, 520), Rect2(45500, 600, 3500, 520), Rect2(49000, 600, 1330, 520), Rect2(51360, 600, 1140, 520), Rect2(52500, 600, 3500, 520)])
+raised_platforms = Array[Rect2]([Rect2(1400, 510, 245, 60), Rect2(1740, 448, 300, 60), Rect2(4884, 265, 320, 58), Rect2(5290, 190, 262, 52), Rect2(11812, 630, 152, 64), Rect2(12024, 568, 166, 74), Rect2(12252, 615, 165, 65), Rect2(18520, 506, 266, 62), Rect2(18860, 414, 292, 66), Rect2(19240, 328, 350, 60), Rect2(19700, 465, 295, 70), Rect2(22312, 630, 152, 64), Rect2(22524, 568, 166, 74), Rect2(22752, 615, 165, 65), Rect2(26385, 110, 158, 45), Rect2(26580, 24, 208, 48), Rect2(39812, 630, 152, 64), Rect2(40024, 568, 166, 74), Rect2(40252, 615, 165, 65), Rect2(43020, 506, 266, 62), Rect2(43360, 414, 292, 66), Rect2(43740, 328, 350, 60), Rect2(44200, 465, 295, 70), Rect2(46910, 108, 185, 48), Rect2(46660, 30, 178, 44), Rect2(53900, 510, 245, 60), Rect2(54240, 448, 300, 60)])
+recovery_platforms = Array[Rect2]([Rect2(8290, 210, 820, 390), Rect2(25790, 210, 820, 390), Rect2(36290, 210, 820, 390), Rect2(46790, 210, 820, 390)])
+enemy_spawns = Array[Vector4]([Vector4(720, 600, 585, 875), Vector4(4220, 600, 4085, 4375), Vector4(6290, 600, 6160, 6450), Vector4(7720, 600, 7585, 7875), Vector4(11220, 600, 11085, 11375), Vector4(13290, 600, 13160, 13450), Vector4(14720, 600, 14585, 14875), Vector4(16790, 600, 16660, 16950), Vector4(19370, 328, 19310, 19510), Vector4(18220, 600, 18085, 18375), Vector4(20290, 600, 20160, 20450), Vector4(21720, 600, 21585, 21875), Vector4(25220, 600, 25085, 25375), Vector4(27290, 600, 27160, 27450), Vector4(32220, 600, 32085, 32375), Vector4(34290, 600, 34160, 34450), Vector4(35720, 600, 35585, 35875), Vector4(37790, 600, 37660, 37950), Vector4(39220, 600, 39085, 39375), Vector4(41290, 600, 41160, 41450), Vector4(43870, 328, 43810, 44010), Vector4(42720, 600, 42585, 42875), Vector4(46220, 600, 46085, 46375), Vector4(48290, 600, 48160, 48450), Vector4(49720, 600, 49585, 49875), Vector4(51790, 600, 51660, 51950), Vector4(53220, 600, 53085, 53375), Vector4(55290, 600, 55160, 55450)])
+enemy_kinds = Array[String](["goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron", "goteron"])
+object_spawns = Array[Vector3]([Vector3(485, 574, 1), Vector3(3985, 574, 4), Vector3(7485, 574, 1), Vector3(10985, 574, 4), Vector3(14485, 574, 1), Vector3(17985, 574, 4), Vector3(21485, 574, 1), Vector3(24985, 574, 4), Vector3(31985, 574, 4), Vector3(35485, 574, 1), Vector3(38985, 574, 4), Vector3(42485, 574, 1), Vector3(45985, 574, 4), Vector3(49485, 574, 1), Vector3(52985, 574, 4)])
+crystal_positions = Array[Vector2]([Vector2(5440, 141), Vector2(26690, -25), Vector2(46740, -19)])
+key_definition = ExtResource("2_keys")
+key_positions = Array[Vector2]([Vector2(8720, 163), Vector2(26220, 163), Vector2(47220, 163)])
+secret_grove = Vector2(28900, 600)
+region_starts = Array[Vector2]([Vector2(0, 600), Vector2(3500, 600), Vector2(7000, 600), Vector2(10500, 600), Vector2(14000, 600), Vector2(17500, 600), Vector2(21000, 600), Vector2(24500, 600), Vector2(28000, 600), Vector2(31500, 600), Vector2(35000, 600), Vector2(38500, 600), Vector2(42000, 600), Vector2(45500, 600), Vector2(49000, 600), Vector2(52500, 600)])
+region_names = Array[String](["La playa del astillero", "El elevador de ensayo", "La llave del astillero", "Las rocas de espuma", "El canal del astillero", "Los bancos de arena", "Las pozas del arrecife", "La llave del mirador", "El muelle de las conchas", "El canal del mirador", "Los elevadores gemelos", "Las islas de roca", "El paseo de los Goterones", "La llave del faro", "La bocana del faro", "La puerta de la marea"])
+moving_platforms = Array[ExtResource("3_platform")]([SubResource("Platform01"), SubResource("Platform02"), SubResource("Platform03"), SubResource("Platform04"), SubResource("Platform05"), SubResource("Platform06"), SubResource("Platform07"), SubResource("Platform08"), SubResource("Platform09"), SubResource("Platform10"), SubResource("Platform11"), SubResource("Platform12")])
+route_hints = {390: "Los Goterones patrullan el astillero. Salta encima, usa un objeto o pasa por las repisas.", 4350: "Prueba el elevador sobre suelo firme. Cuando baje, salta a la cubierta y deja de moverte.", 7850: "El elevador te deja cerca del muelle alto. Salta al muelle al llegar arriba.", 11440: "En las pozas, salta de roca en roca. Puedes usar el segundo salto antes de caer.", 14990: "Las balsas paran a ambos lados. Podrás cruzar de vuelta si te falta una llave.", 28640: "El tótem de conchas señala un camino bajo el muelle. Baja por las repisas o salta a la cubierta para seguir por arriba.", 35650: "Hay un elevador a cada lado del muelle. Puedes usar cualquiera al volver.", 53550: "Las tres llaves de los muelles abren la puerta. Los cristales son opcionales."}

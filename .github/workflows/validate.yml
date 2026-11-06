@@ -179,7 +179,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for suite in test_collection_rewards test_reward_presentation test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_bat_flights test_secret_grove test_forest_route test_forest_level_02 test_canopy_secret test_forest_level_03 test_nudor test_coral_level_01; do
+          for suite in test_collection_rewards test_reward_presentation test_forest_expansion test_gameplay_polish test_audio_respawn test_checkpoint_recovery test_real_recovery test_breakable_targets test_lianas_dianas test_bat_flights test_secret_grove test_forest_route test_forest_level_02 test_canopy_secret test_forest_level_03 test_nudor test_coral_level_01 test_coral_level_02; do
             timeout 180s "$GODOT_BIN" --headless --fixed-fps 60 --path . \
               --script "tools/tests/$suite.gd" 2>&1 | tee ".godot-logs/$suite.log"
             if grep -Eq '(^|[[:space:]])(SCRIPT ERROR|ERROR|Parse Error):' ".godot-logs/$suite.log"; then
@@ -193,7 +193,7 @@ jobs:
           python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py --actual \
             docs/niveles/world_01_level_02.json docs/dinamicas/setas_elasticas.json docs/dinamicas/vuelos_entre_lianas.json
           python3 .agents/skills/crear-dinamicas-salto-heroes/scripts/validar_dinamicas.py --actual \
-            docs/niveles/world_01_level_03.json docs/niveles/world_02_level_01.json
+            docs/niveles/world_01_level_03.json docs/niveles/world_02_level_01.json docs/niveles/world_02_level_02.json
 
       - name: Comprobar dianas y puentes de raíces
         shell: bash

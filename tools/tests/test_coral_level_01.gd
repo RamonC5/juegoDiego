@@ -12,8 +12,14 @@ func _run() -> void:
 	await step(4)
 	entrance.world_map.world_buttons[1].pressed.emit()
 	await step(8)
+	var adventures := current_scene as ForestAdventureMenu
+	if not check(adventures != null and adventures.world_id == "world_02", "El mapa abre el selector de Costa de Coral"):
+		quit(1)
+		return
+	adventures.level_buttons[0].pressed.emit()
+	await step(8)
 	main = current_scene as Node2D
-	if not check(main != null and main.stage is CoralStage, "El mapa abre Costa de Coral"):
+	if not check(main != null and main.stage is CoralStage, "El selector abre Costa de Coral 2-1"):
 		quit(1)
 		return
 	hero = main.player
@@ -65,10 +71,19 @@ func _run() -> void:
 	check(not stage._secret_life_taken() and hero.health == 2, "La gruta es opcional")
 	check(await _move_to(stage.DEFINITION.goal.x - 20) and stage.completed, "Las tres llaves permiten completar el nivel")
 	check(LevelProgress.new(storage).is_completed("world_02_level_01"), "La victoria se guarda por ID")
+	await step(110)
+	check(main._next_level_button.is_visible_in_tree() and "2–2" in main._next_level_button.text,
+		"El menú de victoria de 2-1 ofrece continuar a 2-2")
 	print("COSTA 2-1: %.1f segundos de ruta automática sin combate." % stage.seconds)
+	main._next_level_button.pressed.emit()
+	await step(8)
+	main = current_scene as Node2D
+	if not check(main != null and main.stage.DEFINITION.level_id == "world_02_level_02", "Continuar abre Costa de Coral 2-2"):
+		quit(1)
+		return
 	main.queue_free()
 	await step(3)
-	main = load(WorldCatalog.CORAL_SCENE).instantiate()
+	main = load("res://game/boot/coral_level_01.tscn").instantiate()
 	main.collection_progress = CollectionProgress.new(storage + ".collection")
 	root.add_child(main)
 	hero = main.player

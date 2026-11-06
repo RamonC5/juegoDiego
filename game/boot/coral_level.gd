@@ -21,7 +21,11 @@ func _create_backdrop() -> ForestBackdrop:
 func _build_ui() -> void:
 	super._build_ui()
 	var guide := Label.new()
-	guide.text = "LA RUTA DE LA MAREA\nLas balsas paran en ambos muelles. Salta a la cubierta y suelta el movimiento para cruzar. Reúne tres llaves en las terrazas de arena. Si ves un tótem de conchas, prueba a agacharte cerca de él."
+	guide.text = level_definition.subtitle.to_upper() + "\n"
+	if level_definition.level_number == 1:
+		guide.text += "Las balsas paran en ambos muelles. Salta a la cubierta y suelta el movimiento para cruzar. Reúne tres llaves en las terrazas de arena. Si ves un tótem de conchas, prueba a agacharte cerca de él."
+	else:
+		guide.text += "Salta al elevador cuando baje y suelta el movimiento mientras sube. Salta al muelle al llegar arriba. El tótem de conchas marca un desvío bajo el muelle. Reúne las tres llaves para abrir la salida."
 	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var guide_box: Node = _key_hint.get_parent()
 	guide_box.add_child(guide)

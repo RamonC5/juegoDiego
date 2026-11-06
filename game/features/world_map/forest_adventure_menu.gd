@@ -2,6 +2,8 @@ class_name ForestAdventureMenu
 extends Control
 ## Selección táctil, teclado y mando; solo carga el nivel tras elegirlo.
 
+@export var world_id: String = "world_01"
+
 var progress: LevelProgress
 var level_buttons: Array[Button] = []
 var status: Label
@@ -44,7 +46,7 @@ func _ready() -> void:
 	column.add_theme_constant_override("separation", 14)
 	_panel.add_child(column)
 	var title := Label.new()
-	title.text = "Bosque Esmeralda"
+	title.text = WorldCatalog.name_for(world_id)
 	title.add_theme_font_size_override("font_size", 32)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(title)
@@ -58,11 +60,11 @@ func _ready() -> void:
 	entries.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	entries.add_theme_constant_override("separation", 12)
 	scroll.add_child(entries)
-	for level in ForestAdventureCatalog.LEVELS:
+	for level in ForestAdventureCatalog.levels_for(world_id):
 		var available: bool = not ForestAdventureCatalog.scene_for(level.id, progress).is_empty()
 		var state: String = "Completado · Rejugar" if progress.is_completed(level.id) else "Disponible"
 		if not available:
-			state = "Bloqueado · Completa las tres aventuras" if level.id == "world_01_boss" else "Bloqueado · Completa Bosque 1–%s" % level.requires.right(1)
+			state = "Bloqueado · Completa las tres aventuras" if level.id == "world_01_boss" else "Bloqueado · Completa %s" % _adventure_number(level.requires)
 		var button := Button.new()
 		button.text = "%s\n%s\n%s" % [level.name, level.detail, state]
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -110,12 +112,16 @@ func _log_ready() -> void:
 	print("SUPER_DIEGO_LEVELS_READY first=%.4f,%.4f" % [point.x, point.y])
 
 
+func _adventure_number(id: String) -> String:
+	return "%d–%d" % [int(id.get_slice("_", 1)), int(id.get_slice("_", 3))]
+
+
 func _request_level(id: String) -> void:
 	if _loading:
 		return
 	var target: String = ForestAdventureCatalog.scene_for(id, progress)
 	if target.is_empty():
-		status.text = "Completa la aventura anterior; Nudor requiere las tres aventuras del bosque."
+		status.text = "Nudor requiere las tres aventuras del bosque." if id == "world_01_boss" else "Completa la aventura anterior."
 		return
 	_loading = true
 	status.text = "Preparando aventura…"
